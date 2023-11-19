@@ -1,0 +1,17 @@
+.footer-wrapper {
+  display: grid;
+  grid-template-columns: 20px 20px;
+  gap: 10px;
+
+  .text-area {
+    font-size: 12px;
+
+    &.a {
+      color: #ff0000;
+    }
+
+    &.b {
+      color: #0000ff;
+    }
+  }
+}
