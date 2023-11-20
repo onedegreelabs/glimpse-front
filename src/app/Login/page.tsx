@@ -1,0 +1,18 @@
+import styles from './page.module.scss';
+export default function Login() {
+  return (
+    <div className={styles['login-wrapper']}>
+      <div className={styles['title-area']}>Sign Up</div>
+      <div className={styles['button-linkedIn']}>
+        <div className={styles['text-area']}>in Sign up with LinkedIn</div>
+      </div>
+      <div className={styles['button-email']}>
+        <div className={styles['text-area']}>Sign up with email</div>
+      </div>
+      <div className={styles['footer-area']}>
+        <div className={styles['left-area']}>Already a member?</div>
+        <div className={styles['right-area']}>Sign in</div>
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,75 @@
+.login-wrapper {
+  display: grid;
+  grid-template-rows: 50px 50px 50px 50px;
+  gap: 20px;
+  padding: 124px 70px 48px;
+
+  .title-area {
+    font-size: 28px;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .button-linkedIn {
+    display: flex;
+    background-color: #0076E2;
+    border-radius: 3px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+
+    &:hover {
+      font-size: 20px;
+    }
+
+    .text-area {
+      color: #fff;
+      font-weight: 600;
+
+    }
+  }
+
+  .button-email {
+    display: flex;
+    border: 2px solid #000;
+    border-radius: 3px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    &:hover {
+      font-size: 20px;
+    }
+
+    .text-area {
+      font-weight: 600;
+
+    }
+  }
+
+  .footer-area {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    text-align: center;
+
+    margin-top: 50px;
+
+    .left-area {
+      cursor: pointer;
+      
+      &:hover {
+        font-size: 18px;
+      }
+    }
+
+    .right-area {
+      cursor: pointer;
+      font-weight: 600;
+
+      &:hover {
+        font-size: 18px;
+      }
+    }
+  }
+}
