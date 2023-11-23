@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from './page.module.scss';
 export default function Login() {
   return (
@@ -7,7 +8,9 @@ export default function Login() {
         <div className={styles['text-area']}>in Sign up with LinkedIn</div>
       </div>
       <div className={styles['button-email']}>
-        <div className={styles['text-area']}>Sign up with email</div>
+        <Link href="/SignUp" className={styles['text-area']}>
+          Sign up with email
+        </Link>
       </div>
       <div className={styles['footer-area']}>
         <div className={styles['left-area']}>Already a member?</div>
