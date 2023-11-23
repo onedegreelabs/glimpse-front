@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from './page.module.scss';
 export default function SignUp() {
   return (
@@ -20,7 +21,9 @@ export default function SignUp() {
       </div>
       <div className={styles['footer-area']}>
         <div className={styles['left-area']}>Already a member?</div>
-        <div className={styles['right-area']}>Sign in</div>
+        <Link href="/Signin" className={styles['right-area']}>
+          Sign in
+        </Link>
       </div>
     </div>
   );
