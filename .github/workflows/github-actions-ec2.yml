@@ -1,32 +1,11 @@
-name: Push-to-EC2
-
+name: test
 on:
   push:
-    branches:
-      - dev
-
+    branches: [dev]
 jobs:
-  deploy:
-    name: Deploy to EC2 on master branch push
-    runs-on: ubuntu-latest
-
+  staging: 
+    name: deploy to staging 
+    runs-on: ubuntu-latest 
     steps:
-      - name: Checkout the files
-        uses: actions/checkout@v3
-
-      - name: Deploy to Server 1
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: ${{ secrets.TARGET_DIR }}
-
-      - name: Executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_DNS }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            cd glimpse-front/
+      - name: Checkout
+        uses: actions/checkout@v3 #체크아웃 받기
