@@ -1,6 +1,5 @@
 name: Push-to-EC2
 
-# Trigger deployment only on push to main branch
 on:
   push:
     branches:
@@ -25,7 +24,9 @@ jobs:
 
       - name: Executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
-        script: |
-          git switch dev
-          git pull
-          npm run build
+        with:
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd glimpse-front/
