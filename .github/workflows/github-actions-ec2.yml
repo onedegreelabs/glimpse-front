@@ -30,7 +30,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            sudo git clone https://github.com/onedegreelabs/glimpse-front.git
-            sudo git switch dev
-            sudo git pull
-            sudo npm run build
+            git clone https://github.com/onedegreelabs/glimpse-front.git
+            git switch dev
+            git pull
+            npm run build
