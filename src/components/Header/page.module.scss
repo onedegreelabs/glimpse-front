@@ -1,0 +1,12 @@
+.header-wrapper {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  height: 76px;
+  background: #f3f3f3;
+
+  .text-area {
+    font-size: 12px;
+    text-align: center;
+  }
+}
