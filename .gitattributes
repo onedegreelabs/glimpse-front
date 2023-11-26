@@ -1,0 +1,2 @@
+# git add 할 시 LF를 유지하도록 설정
+* text eol=lf
