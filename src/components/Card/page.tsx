@@ -1,8 +1,8 @@
 import styles from './page.module.scss';
 
 interface CardProps {
-  width?: string | number;
   height?: string | number;
+  width?: string | number;
   children?: React.ReactNode;
 }
 
@@ -11,8 +11,8 @@ export default function Card({width, height, children}: CardProps) {
     <div
       className={styles['card-wrapper']}
       style={{
-        ...(width && {width: `${width}px`}),
         ...(height && {height: `${height}px`}),
+        ...(width && {width: `${width}px`}),
       }}
     >
       {children}
