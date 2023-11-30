@@ -6,6 +6,7 @@ interface ButtonProps {
   text: string;
   width?: string | number;
   height?: string | number;
+  clickEvent: any;
 }
 export default function Button({
   color,
@@ -13,6 +14,7 @@ export default function Button({
   text,
   width,
   height,
+  clickEvent,
 }: ButtonProps) {
   return (
     <div
@@ -23,6 +25,7 @@ export default function Button({
         ...(color && {color: `#${color}`}),
         ...(bgColor && {backgroundColor: `#${bgColor}`}),
       }}
+      onClick={() => clickEvent()}
     >
       <div className={styles['text-area']}>{text}</div>
     </div>
