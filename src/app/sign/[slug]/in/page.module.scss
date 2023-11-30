@@ -1,30 +1,4 @@
 .signin-wrapper {
-  display: grid;
-  grid-template-rows: 56px 415px;
-  gap: 24px;
-  justify-content: center;
-
-  .signin-header {
-    display: grid;
-    align-items: center;
-    justify-content: center;
-
-    .logo-area {
-      display: grid;
-      align-items: center;
-      width: 113px;
-      height: 56px;
-      background-color: #7E51FD;
-      border-radius: 30px;
-
-      .text-area {
-        text-align: center;
-        font-size: 12px;
-        color: #fff;
-      }
-    }
-  }
-
   .card-wrapper {
     display: grid;
     grid-template-rows: 32px 16px 256px;
@@ -43,7 +17,7 @@
 
     .card-body {
       display: grid;
-      grid-template-rows: 44px 44px 16px 44px 44px;
+      grid-template-rows: 44px 16px 44px 16px 44px 44px;
       gap: 16px;
 
       .email-input {
@@ -55,6 +29,17 @@
 
         &::placeholder {
           color: #d9d9d9;
+        }
+      }
+
+      .invalid-text {
+        text-align: start;
+        font-size: 12px;
+        color: #ff0000;
+        visibility: hidden;
+
+        &.show {
+          visibility: visible;
         }
       }
 
