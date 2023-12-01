@@ -4,17 +4,18 @@ import Button from '@/components/button/page';
 import {useRouter} from 'next/navigation';
 import {useState} from 'react';
 import clsx from 'clsx';
+import {sendMailWithCode} from '@/app/network/api';
 export default function SignIn() {
   const router = useRouter();
 
   const [mailAddress, setMailAddress] = useState<string>('');
   const [isInvalidMail, setIsInvalidMail] = useState<Boolean>(false);
 
-  const onClickEmailButton = function () {
+  const onClickEmailButton = async function () {
     const emailRegex =
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
     if (emailRegex.test(mailAddress)) {
-      // 백엔드 인증코드 발송 api 실행
+      await sendMailWithCode(mailAddress);
       router.push('/sign/up');
     } else {
       setIsInvalidMail(true);
