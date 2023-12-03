@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Env from '../../config/env.json';
+import Env from '../config/env.json';
 
 const connection = function () {
   const serverConnection = axios.create({

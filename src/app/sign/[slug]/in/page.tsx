@@ -4,7 +4,7 @@ import Button from '@/components/button/page';
 import {useRouter} from 'next/navigation';
 import {useState} from 'react';
 import clsx from 'clsx';
-import {sendMailWithCode} from '@/app/network/api';
+import {sendMailWithCode} from '@/network/api';
 export default function SignIn() {
   const router = useRouter();
 
