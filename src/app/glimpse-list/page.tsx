@@ -5,6 +5,7 @@ import styles from './page.module.scss';
 import {useState} from 'react';
 import List from './components/List/page';
 import Grid from './components/Grid/page';
+import Compact from './components/Compact/page';
 
 // NOTE: 아이콘 + 텍스트는 추후 공통컴포넌트로 대체
 // NOTE: select box 추구 공통컴포넌트로 대체
@@ -161,7 +162,7 @@ export default function Glimpselist() {
         <section className={styles['glimpse-area']}>
           {toggleView === 'list' && <List />}
           {toggleView === 'grid' && <Grid />}
-          {toggleView === 'compact' && <div>compact</div>}
+          {toggleView === 'compact' && <Compact />}
         </section>
       </section>
     </div>
