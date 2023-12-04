@@ -1,0 +1,18 @@
+.custom-input-wrapper {
+  display: grid;
+  grid-template-rows: 24px 48px;
+  gap: 10px;
+
+  .name-area {
+    font-size: 16px;
+    font-weight: 400;
+    text-align: left;
+  }
+
+  .input-area {
+    padding: 0 16px;
+    background: #F4F3F6;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,39 @@
+.event-create-wrapper {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 568px;
+
+  .preview-area {
+    background: blanchedalmond;
+    width: 100%;
+    height: 100%;
+  }
+
+  .create-area {
+    margin: 40px;
+
+    display: grid;
+    grid-template-rows: 54px minmax(0, 1fr) 84px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    .header-area {
+      display: grid;
+      grid-template-rows: 30px 16px;
+      gap: 8px;
+
+      .title-text {
+        font-size: 24px;
+        font-weight: 600;
+      }
+
+      .sub-title-text {
+        font-size: 14px;
+        font-weight: 500;
+        color: #8B8B8B;
+      }
+    }
+  }
+}
