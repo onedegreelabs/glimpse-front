@@ -2,7 +2,63 @@
   background: #ffe4c4;
 }
 
-body {
-  margin: 0;
+* {
   padding: 0;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+}
+
+body:lang(ko) {
+  word-break: keep-all;
+}
+
+html,
+body,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+button,
+input,
+ul,
+li,
+label,
+section,
+textarea,
+select {
+  word-break: keep-all;
+  word-wrap: break-word;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  background-color: transparent;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  background-color: transparent;
 }
