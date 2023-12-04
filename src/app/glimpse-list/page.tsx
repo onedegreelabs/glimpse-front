@@ -2,16 +2,26 @@
 
 import Link from 'next/link';
 import styles from './page.module.scss';
-import glimpseMock from './mock';
-import Card from '@/components/Card/page';
-import Avatar from '@/app/glimpse-list/components/Avatar/page';
-import Image from 'next/image';
-import Chip from '@/components/Chip/page';
+import {useState} from 'react';
+import List from './components/List/page';
 
 // NOTE: 아이콘 + 텍스트는 추후 공통컴포넌트로 대체
 // NOTE: select box 추구 공통컴포넌트로 대체
 
+const ViewTypes = {
+  LIST: 'list',
+  GIRD: 'grid',
+  COMPACT: 'compact',
+} as const;
+
+export type ViewType = (typeof ViewTypes)[keyof typeof ViewTypes];
+
 export default function Glimpselist() {
+  const [toggleView, setToggleVIew] = useState<ViewType>('list');
+
+  const onChangeView = (viewType: ViewType) => {
+    setToggleVIew(viewType);
+  };
   return (
     <div className={styles['glimpse-list-wrapper']}>
       <section className={styles['header-content-area']}>
@@ -84,9 +94,9 @@ export default function Glimpselist() {
             <img src="/assets/glimpse-list/search-icon.svg" alt="검색 아이콘" />
           </div>
           <div className={styles['grid-icon-wrapper']}>
-            <div>1</div>
-            <div>2</div>
-            <div>2</div>
+            <button onClick={() => onChangeView('list')}>1</button>
+            <button onClick={() => onChangeView('grid')}>2</button>
+            <button onClick={() => onChangeView('compact')}>3</button>
           </div>
         </section>
         <div className={styles['divider']} />
@@ -148,60 +158,9 @@ export default function Glimpselist() {
           </select>
         </section>
         <section className={styles['glimpse-area']}>
-          {glimpseMock.glimpses.map(data => (
-            <Card key={data.id}>
-              <div className={styles['glimpse-card-wrapper']}>
-                <div className={styles['card-header']}>
-                  <img src="/assets/glimpse-list/bookmark-icon.svg" />
-                </div>
-                <div className={styles['profile-wrapper']}>
-                  <div>
-                    <div className={styles['event-info-with-icon-wrapper']}>
-                      <Image
-                        className={styles['icon']}
-                        src="/assets/glimpse-list/location-icon.svg"
-                        alt="위치 아이콘"
-                        width={24}
-                        height={24}
-                      />
-                      <span>Seoul, Korea</span>
-                    </div>
-                    <p className={styles['profile-name']}>{data.name}</p>
-                    <div className={styles['position-wrapper']}>
-                      {data.position.map((d: string, index: number) => (
-                        <Chip
-                          key={index}
-                          label={d}
-                          backgroundColor={index === 0 ? '#C1AEF6' : '#F3F3F3'}
-                          borderRadius={4}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <Avatar
-                    src="/assets/glimpse-list/avatar-img.png"
-                    alt="프로필이미지"
-                    height={70}
-                    width={70}
-                  />
-                </div>
-                <div>
-                  <p>{data.text}</p>
-                </div>
-                <div className={styles['hobby-wrapper']}>
-                  {data.hobby.map((d: string, index: number) => (
-                    <Chip
-                      key={`hobby-${index}`}
-                      label={`#${d}`}
-                      backgroundColor="#F3F3F3"
-                      borderRadius={30}
-                    />
-                  ))}
-                </div>
-                <div></div>
-              </div>
-            </Card>
-          ))}
+          {toggleView === 'list' && <List />}
+          {toggleView === 'grid' && <div>grid</div>}
+          {toggleView === 'compact' && <div>compact</div>}
         </section>
       </section>
     </div>
