@@ -1,7 +1,15 @@
+'use client';
+
 import Link from 'next/link';
 import styles from './page.module.scss';
 import glimpseMock from './mock';
 import Card from '@/components/Card/page';
+import Avatar from '@/app/glimpse-list/components/Avatar/page';
+import Image from 'next/image';
+import Chip from '@/components/Chip/page';
+
+// NOTE: 아이콘 + 텍스트는 추후 공통컴포넌트로 대체
+// NOTE: select box 추구 공통컴포넌트로 대체
 
 export default function Glimpselist() {
   return (
@@ -149,36 +157,46 @@ export default function Glimpselist() {
                 <div className={styles['profile-wrapper']}>
                   <div>
                     <div className={styles['event-info-with-icon-wrapper']}>
-                      <img
+                      <Image
                         className={styles['icon']}
                         src="/assets/glimpse-list/location-icon.svg"
                         alt="위치 아이콘"
+                        width={24}
+                        height={24}
                       />
                       <span>Seoul, Korea</span>
                     </div>
                     <p className={styles['profile-name']}>{data.name}</p>
-                    <ul>
+                    <div className={styles['position-wrapper']}>
                       {data.position.map((d: string, index: number) => (
-                        <li key={index}>{d}</li>
+                        <Chip
+                          key={index}
+                          label={d}
+                          backgroundColor={index === 0 ? '#C1AEF6' : '#F3F3F3'}
+                          borderRadius={4}
+                        />
                       ))}
-                    </ul>
+                    </div>
                   </div>
-                  <div className={styles['avatar-image']}>
-                    <img
-                      src="/assets/glimpse-list/glimpse-avatar.png"
-                      alt="프로필이미지"
-                    />
-                  </div>
+                  <Avatar
+                    src="/assets/glimpse-list/avatar-img.png"
+                    alt="프로필이미지"
+                    height={70}
+                    width={70}
+                  />
                 </div>
                 <div>
                   <p>{data.text}</p>
                 </div>
-                <div>
-                  <ul className={styles['hobby-ul']}>
-                    {data.hobby.map((d: string, index: number) => (
-                      <li key={`hobby${index}`}>{`#${d}`}</li>
-                    ))}
-                  </ul>
+                <div className={styles['hobby-wrapper']}>
+                  {data.hobby.map((d: string, index: number) => (
+                    <Chip
+                      key={`hobby-${index}`}
+                      label={`#${d}`}
+                      backgroundColor="#F3F3F3"
+                      borderRadius={30}
+                    />
+                  ))}
                 </div>
                 <div></div>
               </div>

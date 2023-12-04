@@ -145,38 +145,19 @@
             font-weight: 400;
           }
 
-          .avatar-image {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-
-            img {
-              width: 100%;
-              border-radius: 50%;
-            }
+          .position-wrapper {
+            display: flex;
+            gap: 10px;
           }
         }
       }
 
-      ul {
+      .hobby-wrapper {
         display: flex;
-        list-style-type: none;
-        gap: 8px;
-        margin: 0px;
-        padding: 0px;
-
-        li {
-          padding: 6px 10px;
-          background-color: #c1aef6;
-          border-radius: 4px;
-          flex-shrink: 0;
-        }
-      }
-
-      .hobby-ul {
         overflow-x: auto;
         white-space: nowrap;
         scrollbar-width: none;
+        gap: 10px;
         -ms-overflow-style: none;
       }
       .hobby-ul::-webkit-scrollbar {
@@ -188,9 +169,5 @@
   .event-info-with-icon-wrapper {
     display: flex;
     align-items: center;
-  }
-
-  p {
-    margin: 0px;
   }
 }
