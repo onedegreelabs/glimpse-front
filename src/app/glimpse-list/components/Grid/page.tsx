@@ -20,8 +20,8 @@ export default function Grid() {
               <Avatar
                 src="/assets/glimpse-list/avatar-img.png"
                 alt="프로필이미지"
-                height={70}
-                width={70}
+                height={40}
+                width={40}
               />
               <p className={styles['profile-name']}>{data.name}</p>
             </div>
@@ -35,7 +35,18 @@ export default function Grid() {
                 />
               ))}
             </div>
-            <div></div>
+            <div className={styles['link-wrapper']}>
+              {data.link.map((_, index: number) => (
+                <div
+                  key={`link_${index}`}
+                  style={{
+                    width: '32px',
+                    height: '32px',
+                    backgroundColor: '#F3F3F3',
+                  }}
+                />
+              ))}
+            </div>
           </div>
         </Card>
       ))}

@@ -21,7 +21,8 @@
       gap: 10px;
 
       .profile-name {
-        font-size: 22px;
+        max-width: 98px;
+        font-size: 12px;
         font-weight: 400;
       }
     }
@@ -29,6 +30,11 @@
     .position-wrapper {
       display: flex;
       gap: 8px;
+    }
+
+    .link-wrapper {
+      display: flex;
+      gap: 10px;
     }
   }
 }

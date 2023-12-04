@@ -58,7 +58,18 @@ export default function List() {
                 />
               ))}
             </div>
-            <div></div>
+            <div className={styles['link-wrapper']}>
+              {data.link.map((_, index: number) => (
+                <div
+                  key={`link_${index}`}
+                  style={{
+                    width: '32px',
+                    height: '32px',
+                    backgroundColor: '#F3F3F3',
+                  }}
+                />
+              ))}
+            </div>
           </div>
         </Card>
       ))}
