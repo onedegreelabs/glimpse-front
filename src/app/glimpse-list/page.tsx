@@ -6,6 +6,7 @@ import {useState} from 'react';
 import List from './components/List/page';
 import Grid from './components/Grid/page';
 import Compact from './components/Compact/page';
+import CoverPhoto from './components/CoverPhoto/page';
 
 // NOTE: 아이콘 + 텍스트는 추후 공통컴포넌트로 대체
 // NOTE: select box 추구 공통컴포넌트로 대체
@@ -27,14 +28,16 @@ export default function Glimpselist() {
   return (
     <div className={styles['glimpse-list-wrapper']}>
       <section className={styles['header-content-area']}>
-        <div className={styles['event-thumbnail-wrapper']}>
-          <img
-            className={styles['event-thumbnail']}
-            src="/assets/glimpse-list/temp-glimpse-list-img.jpg"
-            alt="이벤트 썸네일"
-          />
-        </div>
+        <CoverPhoto />
         <section className={styles['event-info-area']}>
+          <div className={styles['event-page-link-wrapper']}>
+            <Link
+              className={styles['page-link']}
+              href={'https://www.saasstudygroup.xyz/'}
+            >
+              https://www.saasstudygroup.xyz/
+            </Link>
+          </div>
           <div className={styles['event-info-top-wrapper']}>
             <div className={styles['event-date-wrapper']}>
               <div className={styles['event-info-with-icon-wrapper']}>
@@ -77,16 +80,6 @@ export default function Glimpselist() {
               Lorem Ipsum.
             </span>
           </div>
-          <div className={styles['event-bottom-area']}>
-            <div className={styles['event-page-link-wrapper']}>
-              <Link
-                className={styles['page-link']}
-                href={'https://www.saasstudygroup.xyz/'}
-              >
-                https://www.saasstudygroup.xyz/
-              </Link>
-            </div>
-          </div>
         </section>
       </section>
       <section className={styles['body-content-area']}>
@@ -107,6 +100,8 @@ export default function Glimpselist() {
             <option value="all" disabled hidden>
               all
             </option>
+            <option value="host">host</option>
+            <option value="speaker">speaker</option>
           </select>
           <select
             className={styles['filtering']}
