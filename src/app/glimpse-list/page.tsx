@@ -2,11 +2,14 @@
 
 import Link from 'next/link';
 import styles from './page.module.scss';
-import {useState} from 'react';
+import {usePathname, useRouter} from 'next/navigation';
+import {useSearchParams} from 'next/navigation';
+import {useEffect, useState} from 'react';
 import List from './components/List/page';
 import Grid from './components/Grid/page';
 import Compact from './components/Compact/page';
 import CoverPhoto from './components/CoverPhoto/page';
+import {Glimpse, dummyGlimpses} from './mock/glimpses';
 
 // NOTE: 아이콘 + 텍스트는 추후 공통컴포넌트로 대체
 // NOTE: select box 추구 공통컴포넌트로 대체
@@ -20,11 +23,34 @@ const ViewTypes = {
 export type ViewType = (typeof ViewTypes)[keyof typeof ViewTypes];
 
 export default function Glimpselist() {
-  const [toggleView, setToggleVIew] = useState<ViewType>('list');
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-  const onChangeView = (viewType: ViewType) => {
+  const [glimpses, setGlimpses] = useState<Glimpse[]>([]);
+  const [toggleView, setToggleVIew] = useState<ViewType>('list');
+  const [searchWord, setSerachWord] = useState('');
+
+  const onChangeView = (viewType: ViewType): void => {
     setToggleVIew(viewType);
   };
+
+  // TODO: API 연결 필요
+  const onSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const keyword = e.target.value;
+    const filtered = dummyGlimpses.filter(data => data.name.includes(keyword));
+    // eslint-disable-next-line node/no-unsupported-features/node-builtins
+    const params = new URLSearchParams(searchParams);
+    setGlimpses(filtered);
+    setSerachWord(keyword);
+    params.set('search', keyword);
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+
+  useEffect(() => {
+    setGlimpses(dummyGlimpses);
+  }, []);
+
   return (
     <div className={styles['glimpse-list-wrapper']}>
       <section className={styles['header-content-area']}>
@@ -85,7 +111,12 @@ export default function Glimpselist() {
       <section className={styles['body-content-area']}>
         <section className={styles['search-area']}>
           <div className={styles['search-wrapper']}>
-            <input type="text" placeholder="search..." />
+            <input
+              type="text"
+              placeholder="search..."
+              onChange={onSearch}
+              value={searchWord}
+            />
             <img src="/assets/glimpse-list/search-icon.svg" alt="검색 아이콘" />
           </div>
           <div className={styles['grid-icon-wrapper']}>
@@ -155,9 +186,9 @@ export default function Glimpselist() {
           </select>
         </section>
         <section className={styles['glimpse-area']}>
-          {toggleView === 'list' && <List />}
-          {toggleView === 'grid' && <Grid />}
-          {toggleView === 'compact' && <Compact />}
+          {toggleView === 'list' && <List glimpses={glimpses} />}
+          {toggleView === 'grid' && <Grid glimpses={glimpses} />}
+          {toggleView === 'compact' && <Compact glimpses={glimpses} />}
         </section>
       </section>
     </div>

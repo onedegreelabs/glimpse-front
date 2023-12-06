@@ -1,14 +1,18 @@
-import glimpseMock from '../../mock/';
 import Avatar from '@/app/glimpse-list/components/Avatar/page';
 import Image from 'next/image';
 import Chip from '@/components/Chip/page';
 import styles from './page.module.scss';
 import Card from '@/components/Card/page';
+import {Glimpse} from '../../mock/glimpses';
 
-export default function Compact() {
+interface CompactProps {
+  glimpses: Glimpse[];
+}
+
+export default function Compact({glimpses}: CompactProps) {
   return (
     <>
-      {glimpseMock.glimpses.map(data => (
+      {glimpses.map(data => (
         <Card key={data.id}>
           <div className={styles['glimpse-compact-wrapper']}>
             <div className={styles['left-wrapper']}>

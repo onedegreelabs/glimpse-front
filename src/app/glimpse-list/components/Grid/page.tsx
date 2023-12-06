@@ -1,16 +1,20 @@
-import glimpseMock from '../../mock/';
 import Avatar from '@/app/glimpse-list/components/Avatar/page';
 import Image from 'next/image';
 import Chip from '@/components/Chip/page';
 import styles from './page.module.scss';
 import Card from '@/components/Card/page';
+import {Glimpse} from '../../mock/glimpses';
 
 // NOTE: list props로 변경하기
 
-export default function Grid() {
+interface GridProps {
+  glimpses: Glimpse[];
+}
+
+export default function Grid({glimpses}: GridProps) {
   return (
     <div className={styles['glimpse-grid-container']}>
-      {glimpseMock.glimpses.map((data, index) => (
+      {glimpses.map((data, index) => (
         <Card key={index}>
           <div className={styles['glimpse-grid-wrapper']}>
             <div className={styles['card-header']}>
