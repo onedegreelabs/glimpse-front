@@ -1,5 +1,5 @@
 'use client';
-import {SetStateAction, useEffect, useState} from 'react';
+import {useState} from 'react';
 import styles from './page.module.scss';
 import CustomInput from '@/components/custom-input/page';
 import CustomRadio from '@/components/custom-radio/page';
