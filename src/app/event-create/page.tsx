@@ -2,11 +2,17 @@
 import {SetStateAction, useEffect, useState} from 'react';
 import styles from './page.module.scss';
 import CustomInput from '@/components/custom-input/page';
+import CustomRadio from '@/components/custom-radio/page';
 export default function EventCreate() {
   const [eventTitle, setEventTitle] = useState('');
   const handleEventTitle = function (title: string) {
     setEventTitle(title);
   };
+  const radioItems = [
+    {text: 'Virtual', value: '0'},
+    {text: 'In-person', value: '1'},
+    {text: 'Both', value: '2'},
+  ];
   return (
     <div className={styles['event-create-wrapper']}>
       <div className={styles['preview-area']}></div>
@@ -25,6 +31,14 @@ export default function EventCreate() {
             handleValue={handleEventTitle}
             placeHolder="Title"
           />
+          <div className={styles['event-type-radio']}>
+            <CustomRadio
+              name="Event Title *"
+              value={eventTitle}
+              items={radioItems}
+              handleValue={handleEventTitle}
+            />
+          </div>
         </div>
       </div>
     </div>

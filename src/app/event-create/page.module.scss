@@ -35,5 +35,15 @@
         color: #8B8B8B;
       }
     }
+
+    .body-area {
+      display: grid;
+      grid-template-rows: 82px 60px;
+      gap: 20px;
+
+      .event-type-radio {
+        width: 360px;
+      }
+    }
   }
 }

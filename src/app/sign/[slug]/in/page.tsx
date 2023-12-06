@@ -1,4 +1,4 @@
-import Card from '@/components/card/page';
+import Card from '@/components/Card/page';
 import styles from './page.module.scss';
 import Button from '@/components/button/page';
 import {useRouter} from 'next/navigation';
