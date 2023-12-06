@@ -16,7 +16,7 @@ export default function SignIn() {
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
     if (emailRegex.test(mailAddress)) {
       await sendMailWithCode(mailAddress);
-      router.push('/sign/up');
+      router.push(`/sign/up?mailAddress=${mailAddress}`);
     } else {
       setIsInvalidMail(true);
     }

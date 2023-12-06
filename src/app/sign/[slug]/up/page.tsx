@@ -5,8 +5,15 @@ import Card from '@/components/Card/page';
 import styles from './page.module.scss';
 import {useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
+import getQueryString from '@/utils/getQueryString';
+import _ from 'lodash';
+import {verifyEmailCode} from '@/network/api';
 
 export default function SignUp() {
+  const url = window.location.href;
+  const query = getQueryString(url);
+  const mailAddress = _.get(query, 'mailAddress');
+
   const [digitList, setDigitList] = useState<string[]>([]);
   const handleDigitList = function (index: number, num: string) {
     const copyArr: string[] = [...digitList];
@@ -28,12 +35,11 @@ export default function SignUp() {
   };
 
   useEffect(() => {
-    console.log(digitList);
     let digitNum = '';
     for (let i = 0; i < 6; i++) {
       digitNum += digitList[i];
       if (digitNum.length === 6) {
-        handleAPI(Number(digitNum));
+        handleAPI(digitNum);
       } else {
         console.log('입력x');
       }
@@ -43,17 +49,19 @@ export default function SignUp() {
   const testnum = 123456;
 
   const [isInvalidDigit, setIsInvalidDigit] = useState<Boolean>(false);
-  const handleAPI = function (num: number) {
-    if (num === testnum) {
-      alert('인증 완료!');
-    } else {
-      setIsInvalidDigit(true);
-      for (let i = 0; i < 6; i++) {
-        refArr[i].current.value = '';
-      }
-      setDigitList([]);
-      ref1.current.focus();
-    }
+  const handleAPI = async function (num: string) {
+    const response = await verifyEmailCode(mailAddress, num);
+    console.log(response);
+    // if (num === testnum) {
+    //   alert('인증 완료!');
+    // } else {
+    //   setIsInvalidDigit(true);
+    //   for (let i = 0; i < 6; i++) {
+    //     refArr[i].current.value = '';
+    //   }
+    //   setDigitList([]);
+    //   ref1.current.focus();
+    // }
   };
 
   const onPaste = function () {
@@ -61,12 +69,9 @@ export default function SignUp() {
       .readText()
       .then(text => {
         alert('복사된 내용:' + text);
-        // 여기서 text를 이용하여 필요한 작업을 수행할 수 있습니다.
-        // 예를 들어, 가져온 텍스트를 변수에 할당하거나 화면에 표시할 수 있습니다.
       })
       .catch(err => {
         alert('Failed to read text from clipboard:' + err);
-        // 클립보드에서 텍스트를 읽어오는 데 실패한 경우 처리할 내용을 여기에 추가할 수 있습니다.
       });
   };
 
