@@ -89,15 +89,6 @@
       white-space: nowrap;
       scrollbar-width: none;
       -ms-overflow-style: none;
-
-      .filtering {
-        padding: 3px 8px;
-        border: 1px #dedede solid;
-        border-radius: 4px;
-      }
-      .filtering:not(:last-child) {
-        margin-right: 10px;
-      }
     }
 
     .filtering-area::-webkit-scrollbar {

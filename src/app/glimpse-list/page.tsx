@@ -4,16 +4,44 @@ import Link from 'next/link';
 import styles from './page.module.scss';
 import {usePathname, useRouter} from 'next/navigation';
 import {useSearchParams} from 'next/navigation';
-import {useEffect, useState} from 'react';
+import {ChangeEvent, useEffect, useState} from 'react';
 import List from './components/List/page';
 import Grid from './components/Grid/page';
 import Compact from './components/Compact/page';
 import CoverPhoto from './components/CoverPhoto/page';
 import {Glimpse, dummyGlimpses} from './mock/glimpses';
 import IconText from '@/components/IconText/page';
+import SelectBox from '@/components/SelectBox/page';
 
-// NOTE: 아이콘 + 텍스트는 추후 공통컴포넌트로 대체
-// NOTE: select box 추구 공통컴포넌트로 대체
+const ALL = [
+  {value: 'all', name: 'all'},
+  {value: 'host', name: 'host'},
+  {value: 'speaker', name: 'speaker'},
+];
+
+const INDUSTRY = [
+  {value: '프론트엔드', name: '프론트엔드'},
+  {value: '백엔드', name: '백엔드'},
+  {value: '디자인', name: '디자인'},
+  {value: '앱', name: '앱'},
+];
+
+const HOBBY = [
+  {value: '수영', name: '수영'},
+  {value: '등산', name: '등산'},
+  {value: '노래', name: '노래'},
+];
+
+const INTEREST = [
+  {value: '개발', name: '개발'},
+  {value: '여행', name: '여행'},
+];
+
+const FAVORITE = [
+  {value: '과일', name: '과일'},
+  {value: '빵', name: '빵'},
+  {value: '게임', name: '게임'},
+];
 
 const ViewTypes = {
   LIST: 'list',
@@ -47,6 +75,8 @@ export default function Glimpselist() {
     params.set('search', keyword);
     router.replace(`${pathname}?${params.toString()}`);
   };
+
+  //
 
   useEffect(() => {
     setGlimpses(dummyGlimpses);
@@ -127,63 +157,54 @@ export default function Glimpselist() {
         </section>
         <div className={styles['divider']} />
         <section className={styles['filtering-area']}>
-          <select className={styles['filtering']} name="all" defaultValue="all">
-            <option value="all" disabled hidden>
-              all
-            </option>
-            <option value="host">host</option>
-            <option value="speaker">speaker</option>
-          </select>
-          <select
-            className={styles['filtering']}
+          <SelectBox
+            name="all"
+            defaultValue="all"
+            options={ALL}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              console.log(e.target.value)
+            }
+          />
+          <SelectBox
             name="industry"
             defaultValue="industry"
-          >
-            <option value="industry" disabled hidden>
-              industry
-            </option>
-            <option value="front-end">프론트엔드</option>
-            <option value="back-end">백엔드</option>
-            <option value="design">디자인</option>
-            <option value="app">앱개발</option>
-          </select>
-          <select
-            className={styles['filtering']}
+            options={INDUSTRY}
+            hidden
+            hiddenOption={{value: 'industry', name: 'industry'}}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              console.log(e.target.value)
+            }
+          />
+          <SelectBox
             name="hobby"
             defaultValue="hobby"
-          >
-            <option value="hobby" disabled hidden>
-              hobby
-            </option>
-            <option value="swimming">수영</option>
-            <option value="song">노래</option>
-            <option value="hiking">등산</option>
-            <option value="run">달리기</option>
-          </select>
-          <select
-            className={styles['filtering']}
-            name="interest"
-            defaultValue="interest"
-          >
-            <option value="interest" disabled hidden>
-              interest
-            </option>
-            <option value="programming">개발</option>
-            <option value="networking">네트워킹</option>
-            <option value="travel">여행</option>
-          </select>
-          <select
-            className={styles['filtering']}
-            name="favorite"
-            defaultValue="favorite"
-          >
-            <option value="favorite" disabled hidden>
-              favorite
-            </option>
-            <option value="bread">빵</option>
-            <option value="fruit">과일</option>
-            <option value="idol">아이돌</option>
-          </select>
+            options={HOBBY}
+            hidden
+            hiddenOption={{value: 'hobby', name: 'hobby'}}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              console.log(e.target.value)
+            }
+          />
+          <SelectBox
+            name={'interest'}
+            defaultValue={'interest'}
+            options={INTEREST}
+            hidden
+            hiddenOption={{value: 'interest', name: 'interest'}}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              console.log(e.target.value)
+            }
+          />
+          <SelectBox
+            name={'favorite'}
+            defaultValue={'favorite'}
+            options={FAVORITE}
+            hidden
+            hiddenOption={{value: 'favorite', name: 'favorite'}}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              console.log(e.target.value)
+            }
+          />
         </section>
         <section className={styles['glimpse-area']}>
           {toggleView === 'list' && <List glimpses={glimpses} />}
