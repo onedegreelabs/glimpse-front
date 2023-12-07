@@ -1,0 +1,11 @@
+.icon-text-wrapper {
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 100%;
+  }
+  span {
+    white-space: nowrap;
+  }
+}

@@ -10,6 +10,7 @@ import Grid from './components/Grid/page';
 import Compact from './components/Compact/page';
 import CoverPhoto from './components/CoverPhoto/page';
 import {Glimpse, dummyGlimpses} from './mock/glimpses';
+import IconText from '@/components/IconText/page';
 
 // NOTE: 아이콘 + 텍스트는 추후 공통컴포넌트로 대체
 // NOTE: select box 추구 공통컴포넌트로 대체
@@ -66,33 +67,32 @@ export default function Glimpselist() {
           </div>
           <div className={styles['event-info-top-wrapper']}>
             <div className={styles['event-date-wrapper']}>
-              <div className={styles['event-info-with-icon-wrapper']}>
-                <img
-                  className={styles['icon']}
-                  src="/assets/glimpse-list/calendar-icon.svg"
-                  alt="달력 아이콘"
-                />
-                <span>2023/12/13</span>
-              </div>
-              <div className={styles['event-info-with-icon-wrapper']}>
-                <img
-                  className={styles['icon']}
-                  src="/assets/glimpse-list/clock-icon.svg"
-                  alt="시계 아이콘"
-                />
-                <span>8:00 PM (EST)</span>
-              </div>
-            </div>
-            <div className={styles['event-info-with-icon-wrapper']}>
-              <img
-                className={styles['icon']}
-                src="/assets/glimpse-list/location-icon.svg"
-                alt="위치 아이콘"
+              <IconText
+                src={'/assets/glimpse-list/calendar-icon.svg'}
+                alt={'달력 아이콘'}
+                width={24}
+                height={24}
+                text={'2023/12/13'}
               />
-              <span>Seoul, Korea</span>
+              <IconText
+                src={'/assets/glimpse-list/clock-icon.svg'}
+                alt={'시계 아이콘'}
+                width={24}
+                height={24}
+                text={'8:00 PM (EST)'}
+              />
+            </div>
+            <div>
+              <IconText
+                src={'/assets/glimpse-list/location-icon.svg'}
+                alt={'위치 아이콘'}
+                width={24}
+                height={24}
+                text={'Seoul, Korea'}
+              />
             </div>
           </div>
-          <div className={styles['event-middle-area']}>
+          <div className={styles['event-content-area']}>
             <span>
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industrys standard dummy text
