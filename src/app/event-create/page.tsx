@@ -4,6 +4,7 @@ import styles from './page.module.scss';
 import CustomInput from '@/components/custom-input/page';
 import CustomRadio from '@/components/custom-radio/page';
 import DatePicker from '@/components/date-picker/page';
+import clsx from 'clsx';
 export default function EventCreate() {
   const [eventTitle, setEventTitle] = useState('');
   const handleEventTitle = function (title: string) {
@@ -15,9 +16,8 @@ export default function EventCreate() {
     {text: 'Both', value: '2'},
   ];
   const eventVisibilityItems = [
-    {text: 'Virtual', value: '0'},
-    {text: 'In-person', value: '1'},
-    {text: 'Both', value: '2'},
+    {text: 'Public', value: '0'},
+    {text: 'Private', value: '1'},
   ];
   const [eventLocation, seteventLocation] = useState('');
   const handleEventLocation = function (title: string) {
@@ -65,7 +65,7 @@ export default function EventCreate() {
               handleValue={handleEventTitle}
             />
           </div>
-          <div className={styles['event-type-radio']}>
+          <div className={styles['event-visibility-radio']}>
             <CustomRadio
               name="Event Visibility *"
               value={eventTitle}
@@ -104,6 +104,16 @@ export default function EventCreate() {
             handleValue={handleEventTitle}
             placeHolder="Tag"
           />
+        </div>
+        <div className={styles['footer-area']}>
+          <div className={clsx(styles['button-area'], styles['save-button'])}>
+            <div className={styles['text-area']}>Save Draft</div>
+          </div>
+          <div
+            className={clsx(styles['button-area'], styles['publish-button'])}
+          >
+            <div className={styles['text-area']}>Publish & Share</div>
+          </div>
         </div>
       </div>
     </div>
