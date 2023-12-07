@@ -1,0 +1,50 @@
+.date-picker-wrapper {
+  display: grid;
+  grid-template-rows: 24px 92px 18px;
+  gap: 12px;
+
+  .name-area {
+    display: flex;
+    align-items: center;
+    .text-area {
+      text-align: left;
+      font-size: 16px;
+      font-weight: 400;
+    }
+  }
+  
+  .pick-area {
+    display: grid;
+    grid-template-rows: repeat(2, 40px);
+    gap: 12px;
+    justify-content: left;
+
+    .start-date{
+      display: flex;
+      align-items: center;
+      .text-area{
+        font-size: 16px;
+        font-weight: 400;
+        color: #565656;
+      }
+    }
+
+    .end-date{
+      display: flex;
+      align-items: center;
+      .text-area{
+        font-size: 16px;
+        font-weight: 400;
+        color: #565656;
+      }
+    }
+  }
+
+  .gmt-area {
+    margin-top: -4px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 400;
+    color: #565656;
+  }
+}
