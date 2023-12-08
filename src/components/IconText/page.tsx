@@ -7,6 +7,7 @@ interface IcontextProps {
   width: number;
   height: number;
   text: string;
+  textWeight?: number;
 }
 
 export default function IconText({
@@ -15,6 +16,7 @@ export default function IconText({
   width,
   height,
   text,
+  textWeight,
 }: IcontextProps) {
   return (
     <div className={styles['icon-text-wrapper']}>
@@ -27,7 +29,7 @@ export default function IconText({
           height={height}
         />
       </div>
-      <span>{text}</span>
+      <span style={{...(textWeight && {fontWeight: textWeight})}}>{text}</span>
     </div>
   );
 }

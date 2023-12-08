@@ -4,6 +4,7 @@ import Chip from '@/components/Chip/page';
 import styles from './page.module.scss';
 import Card from '@/components/Card/page';
 import {Glimpse} from '../../mock/glimpses';
+import IconText from '@/components/IconText/page';
 
 interface ListProps {
   glimpses: Glimpse[];
@@ -20,16 +21,13 @@ export default function List({glimpses}: ListProps) {
             </div>
             <div className={styles['profile-wrapper']}>
               <div>
-                <div className={styles['event-info-with-icon-wrapper']}>
-                  <Image
-                    className={styles['icon']}
-                    src="/assets/glimpse-list/location-icon.svg"
-                    alt="위치 아이콘"
-                    width={24}
-                    height={24}
-                  />
-                  <span>Seoul, Korea</span>
-                </div>
+                <IconText
+                  src={'/assets/glimpse-list/location-icon.svg'}
+                  alt={'위치 아이콘'}
+                  width={24}
+                  height={24}
+                  text={'Seoul, Korea'}
+                />
                 <p className={styles['profile-name']}>{data.name}</p>
                 <div className={styles['position-wrapper']}>
                   {data.position.map((d: string, index: number) => (

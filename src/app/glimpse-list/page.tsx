@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import styles from './page.module.scss';
+import clsx from 'clsx';
 import {usePathname, useRouter} from 'next/navigation';
 import {useSearchParams} from 'next/navigation';
-import {ChangeEvent, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import List from './components/List/page';
 import Grid from './components/Grid/page';
 import Compact from './components/Compact/page';
@@ -58,6 +59,7 @@ export default function Glimpselist() {
 
   const [glimpses, setGlimpses] = useState<Glimpse[]>([]);
   const [toggleView, setToggleVIew] = useState<ViewType>('list');
+  const [openMore, setOpenMore] = useState(false);
   const [searchWord, setSerachWord] = useState('');
 
   const onChangeView = (viewType: ViewType): void => {
@@ -75,8 +77,10 @@ export default function Glimpselist() {
     params.set('search', keyword);
     router.replace(`${pathname}?${params.toString()}`);
   };
-
-  //
+  // TODO: transition 효과가 제대로 작동하지 않음
+  const onClickMore = () => {
+    setOpenMore(!openMore);
+  };
 
   useEffect(() => {
     setGlimpses(dummyGlimpses);
@@ -123,7 +127,12 @@ export default function Glimpselist() {
             </div>
           </div>
           <div className={styles['event-content-area']}>
-            <span>
+            <p
+              className={clsx({
+                [styles['close']]: !openMore,
+                [styles['open']]: openMore,
+              })}
+            >
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industrys standard dummy text
               ever since the 1500s, when an unknown printer took a galley of
@@ -134,7 +143,23 @@ export default function Glimpselist() {
               containing Lorem Ipsum passages, and more recently with desktop
               publishing software like Aldus PageMaker including versions of
               Lorem Ipsum.
-            </span>
+            </p>
+          </div>
+          <div className={styles['more-button-wrapper']}>
+            <button onClick={onClickMore}>
+              <IconText
+                src={
+                  openMore
+                    ? '/assets/glimpse-list/caret-up.svg'
+                    : '/assets/glimpse-list/caret-down.svg'
+                }
+                alt={'이벤트 설명 펼침 아이콘'}
+                width={24}
+                height={24}
+                text={'More'}
+                textWeight={600}
+              />
+            </button>
           </div>
         </section>
       </section>
