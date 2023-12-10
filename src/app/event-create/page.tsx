@@ -1,5 +1,5 @@
 'use client';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import styles from './page.module.scss';
 import CustomInput from '@/components/custom-input/page';
 import CustomRadio from '@/components/custom-radio/page';
@@ -10,15 +10,23 @@ export default function EventCreate() {
   const handleEventTitle = function (title: string) {
     setEventTitle(title);
   };
+  const [eventType, setEventType] = useState(0);
   const eventTypeItems = [
-    {text: 'Virtual', value: '0'},
-    {text: 'In-person', value: '1'},
-    {text: 'Both', value: '2'},
+    {text: 'Virtual', value: 0},
+    {text: 'In-person', value: 1},
+    {text: 'Both', value: 2},
   ];
+  const handleEventType = function (type: number) {
+    setEventType(type);
+  };
+  const [eventVisibility, setEventVisibility] = useState(0);
   const eventVisibilityItems = [
-    {text: 'Public', value: '0'},
-    {text: 'Private', value: '1'},
+    {text: 'Public', value: 0},
+    {text: 'Private', value: 1},
   ];
+  const handleEventVisibility = function (type: number) {
+    setEventVisibility(type);
+  };
   const [eventLocation, seteventLocation] = useState('');
   const handleEventLocation = function (title: string) {
     seteventLocation(title);
@@ -39,6 +47,20 @@ export default function EventCreate() {
   const handleEventTag = function (title: string) {
     setEventTag(title);
   };
+
+  const [previewMode, setPreviewMode] = useState<string>('mobile');
+  const onHandlePreviewMode = function (mode: string) {
+    setPreviewMode(mode);
+  };
+
+  const [previewStyle, setPreviewStyle] = useState<string>('');
+  useEffect(() => {
+    if (previewMode === 'mobile') {
+      const styleString = 'hi';
+      setPreviewStyle(styleString);
+    }
+  }, [previewMode]);
+
   return (
     <div className={styles['event-create-wrapper']}>
       <div className={styles['preview-area']}></div>
@@ -60,48 +82,48 @@ export default function EventCreate() {
           <div className={styles['event-type-radio']}>
             <CustomRadio
               name="Event Type *"
-              value={eventTitle}
+              value={eventType}
               items={eventTypeItems}
-              handleValue={handleEventTitle}
+              handleValue={handleEventType}
             />
           </div>
           <div className={styles['event-visibility-radio']}>
             <CustomRadio
               name="Event Visibility *"
-              value={eventTitle}
+              value={eventVisibility}
               items={eventVisibilityItems}
-              handleValue={handleEventTitle}
+              handleValue={handleEventVisibility}
             />
           </div>
           <DatePicker />
           <CustomInput
             name="Event Location"
             value={eventLocation}
-            handleValue={handleEventTitle}
+            handleValue={handleEventLocation}
             placeHolder="Offline location or virtual link"
           />
           <CustomInput
             name="External Event Link"
             value={eventExternalLink}
-            handleValue={handleEventTitle}
+            handleValue={handleEventExternalLink}
             placeHolder="http://"
           />
           <CustomInput
             name="Event handle"
             value={eventHandle}
-            handleValue={handleEventTitle}
+            handleValue={handleEventHandle}
             placeHolder="e.g., unique identifier or name"
           />
           <CustomInput
             name="Event Description"
             value={eventDescription}
-            handleValue={handleEventTitle}
+            handleValue={handleEventDescription}
             placeHolder="Add a description of your event"
           />
           <CustomInput
             name="Event Tag"
             value={eventTag}
-            handleValue={handleEventTitle}
+            handleValue={handleEventTag}
             placeHolder="Tag"
           />
         </div>

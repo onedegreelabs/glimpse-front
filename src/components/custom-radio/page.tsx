@@ -1,13 +1,13 @@
 import styles from './page.module.scss';
 interface Item {
   text: string;
-  value: string;
+  value: number;
 }
 interface CustomRadioProps {
   name: string;
   items: Item[];
-  value: string;
-  handleValue: (value: string) => void;
+  value: number;
+  handleValue: (value: number) => void;
 }
 export default function CustomRadio({
   name,

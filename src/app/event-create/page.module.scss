@@ -1,6 +1,8 @@
 .event-create-wrapper {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 568px;
+  height: 100%;
+  overflow: auto;
 
   .preview-area {
     background: blanchedalmond;
@@ -39,7 +41,7 @@
     .body-area {
       display: grid;
       grid-template-rows: 82px 60px 60px 154px;
-      gap: 20px;
+      gap: 32px;
       margin: 0 40px 40px;
 
       .event-type-radio {
@@ -66,6 +68,7 @@
         height: 52px;
         border-radius: 4px;
         width: 264px;
+        margin: 0 auto;
         cursor: pointer;
 
         &:hover {
@@ -90,5 +93,12 @@
         }
       }
     }
+  }
+}
+
+@media (max-width: 1024px) {
+  .event-create-wrapper {
+    display: grid;
+    grid-template-columns: 0 minmax(0, 1fr)
   }
 }
