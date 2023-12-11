@@ -14,8 +14,21 @@
     padding: 16px;
 
     &.mobile {
+      display: grid;
+      grid-template-rows: 42px 82px 180px 140px 10px 100px 64px;
       margin: 0 auto;
       width: 390px;
+
+      .profile-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: 48px 32px;
+        gap: 20px;
+
+        .view-mode-area {
+          justify-content: end;
+        }
+      }
     }
 
     .header-area {
@@ -223,7 +236,7 @@
 
     .profile-header {
       display: grid;
-      grid-template-columns: 400px 116px;
+      grid-template-columns: minmax(0, 400px) 116px;
       justify-content: space-between;
       padding: 0 16px;
 
@@ -266,6 +279,7 @@
 
     .filter-area {
       display: flex;
+      flex-wrap: wrap;
       gap: 10px;
       padding: 0 16px;
       
@@ -389,6 +403,6 @@
 @media (max-width: 1024px) {
   .event-create-wrapper {
     display: grid;
-    grid-template-columns: 0 minmax(0, 1fr)
+    grid-template-columns: 0 minmax(0, 1fr);
   }
 }
