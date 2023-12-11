@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 import styles from './page.module.scss';
 import CustomInput from '@/components/custom-input/page';
 import CustomRadio from '@/components/custom-radio/page';
-import DatePicker from '@/components/date-picker/page';
+import CustomDatePicker from '@/components/date-picker/page';
 import clsx from 'clsx';
 import Image from 'next/image';
 export default function EventCreate() {
@@ -51,6 +51,10 @@ export default function EventCreate() {
   const handleEventVisibility = function (type: number) {
     setEventVisibility(type);
   };
+
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+
   const [eventLocation, seteventLocation] = useState('');
   const handleEventLocation = function (title: string) {
     seteventLocation(title);
@@ -263,7 +267,12 @@ export default function EventCreate() {
               handleValue={handleEventVisibility}
             />
           </div>
-          <DatePicker />
+          <CustomDatePicker
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+          />
           <CustomInput
             name="Event Location"
             value={eventLocation}
