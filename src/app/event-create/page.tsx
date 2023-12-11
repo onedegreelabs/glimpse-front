@@ -5,25 +5,49 @@ import CustomInput from '@/components/custom-input/page';
 import CustomRadio from '@/components/custom-radio/page';
 import DatePicker from '@/components/date-picker/page';
 import clsx from 'clsx';
+import Image from 'next/image';
 export default function EventCreate() {
   const [eventTitle, setEventTitle] = useState('');
   const handleEventTitle = function (title: string) {
     setEventTitle(title);
   };
+
   const [eventType, setEventType] = useState(0);
   const eventTypeItems = [
     {text: 'Virtual', value: 0},
     {text: 'In-person', value: 1},
     {text: 'Both', value: 2},
   ];
+  const [eventTypeText, setEventTypeText] = useState('Virtual');
+  useEffect(() => {
+    const getTextFromValue = function (valueToFind: number) {
+      const foundItem = eventTypeItems.find(item => item.value === valueToFind);
+      return foundItem ? foundItem.text : 'Not found';
+    };
+    const text = getTextFromValue(eventType);
+    setEventTypeText(text);
+  }, [eventType]);
   const handleEventType = function (type: number) {
     setEventType(type);
   };
+
   const [eventVisibility, setEventVisibility] = useState(0);
   const eventVisibilityItems = [
     {text: 'Public', value: 0},
     {text: 'Private', value: 1},
   ];
+  const [eventVisibilityText, seteventVisibilityText] = useState('Public');
+  useEffect(() => {
+    const getTextFromValue = function (valueToFind: number) {
+      const foundItem = eventVisibilityItems.find(
+        item => item.value === valueToFind
+      );
+      return foundItem ? foundItem.text : 'Not found';
+    };
+    const text = getTextFromValue(eventVisibility);
+    seteventVisibilityText(text);
+  }, [eventVisibility]);
+
   const handleEventVisibility = function (type: number) {
     setEventVisibility(type);
   };
@@ -48,22 +72,166 @@ export default function EventCreate() {
     setEventTag(title);
   };
 
-  const [previewMode, setPreviewMode] = useState<string>('mobile');
+  const [previewMode, setPreviewMode] = useState<string>('desktop');
   const onHandlePreviewMode = function (mode: string) {
     setPreviewMode(mode);
   };
 
-  const [previewStyle, setPreviewStyle] = useState<string>('');
-  useEffect(() => {
-    if (previewMode === 'mobile') {
-      const styleString = 'hi';
-      setPreviewStyle(styleString);
-    }
-  }, [previewMode]);
-
   return (
     <div className={styles['event-create-wrapper']}>
-      <div className={styles['preview-area']}></div>
+      <div className={clsx(styles['preview-area'], styles[previewMode])}>
+        <div className={styles['header-area']}>
+          <div className={styles['url-area']}>
+            <div className={styles['text-area']}>
+              https://glimpse.com/event/perfect
+            </div>
+          </div>
+          <div className={styles['button-area']}>
+            <div
+              className={clsx(styles['preview-button'], styles['left'], {
+                [styles['active']]: previewMode === 'mobile',
+              })}
+              onClick={() => {
+                onHandlePreviewMode('mobile');
+              }}
+            >
+              <Image
+                alt="icon"
+                src={
+                  previewMode === 'desktop'
+                    ? '/icons/phone_inactive.png'
+                    : '/icons/phone_active.png'
+                }
+                width={20}
+                height={20}
+              />
+            </div>
+            <div
+              className={clsx(styles['preview-button'], styles['right'], {
+                [styles['active']]: previewMode === 'desktop',
+              })}
+              onClick={() => {
+                onHandlePreviewMode('desktop');
+              }}
+            >
+              <Image
+                alt="icon"
+                src={
+                  previewMode === 'mobile'
+                    ? '/icons/desktop_inactive.png'
+                    : '/icons/desktop_active.png'
+                }
+                width={20}
+                height={20}
+              />
+            </div>
+            <div className={styles['']}></div>
+            <div className={styles['']}></div>
+          </div>
+        </div>
+
+        <div className={styles['preview-header']}>
+          <div className={styles['text-area']}>Hi, James 👋</div>
+          <div className={styles['icon-wrapper']}>
+            <div className={styles['icon-area']}>
+              <Image
+                alt="icon"
+                src="/icons/notification.png"
+                width={24}
+                height={24}
+              />
+            </div>
+            <div className={styles['icon-area']}>
+              <Image alt="icon" src="/icons/menu.png" width={24} height={24} />
+            </div>
+          </div>
+        </div>
+
+        <div className={styles['event-info-header']}>
+          <div className={styles['header-area']}>
+            <div className={styles['radio-items']}>
+              <div className={styles['item-area']}>
+                <div className={styles['text-area']}>{eventTypeText}</div>
+              </div>
+              <div className={styles['item-area']}>
+                <div className={styles['text-area']}>{eventVisibilityText}</div>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles['event-title-area']}>
+            {eventTitle.length ? eventTitle : 'eventTitle'}
+          </div>
+
+          <div className={styles['view-area']}>
+            <div className={styles['view-item']}>
+              <div className={styles['text-area']}>total view 0</div>
+            </div>
+            <div className={styles['view-item']}>
+              <div className={styles['text-area']}>total view 0</div>
+            </div>
+            <div className={styles['view-item']}>
+              <div className={styles['text-area']}>total view 0</div>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles['main-content-container']}>
+          <div className={styles['time-location-wrapper']}>
+            <div className={styles['item-area']}>
+              <div className={styles['icon-area']}>
+                <Image
+                  alt="icon"
+                  src="/icons/calendar.png"
+                  width={16}
+                  height={16}
+                />
+              </div>
+              <div className={styles['text-area']}>00/00/0000</div>
+            </div>
+            <div className={styles['item-area']}>
+              <div className={styles['icon-area']}>
+                <Image
+                  alt="icon"
+                  src="/icons/clock.png"
+                  width={16}
+                  height={16}
+                />
+              </div>
+              <div className={styles['text-area']}>12:00</div>
+            </div>
+            <div className={styles['item-area']}>
+              <div className={styles['icon-area']}>
+                <Image
+                  alt="icon"
+                  src="/icons/location.png"
+                  width={16}
+                  height={16}
+                />
+              </div>
+              <div className={styles['text-area']}>Location</div>
+            </div>
+          </div>
+          <div className={styles['event-description-wrapper']}>
+            {eventDescription.length ? eventDescription : 'eventDescription'}
+          </div>
+          <div className={styles['extenral-event-link-wrapper']}>
+            <div className={styles['text-area']}>
+              {eventExternalLink.length
+                ? eventExternalLink
+                : 'eventExternalLink'}
+            </div>
+            <div className={styles['icon-area']}>
+              <Image
+                alt="icon"
+                src="/icons/caretRight.png"
+                width={16}
+                height={16}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className={styles['create-area']}>
         <div className={styles['header-area']}>
