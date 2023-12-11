@@ -81,6 +81,8 @@ export default function EventCreate() {
     setPreviewMode(mode);
   };
 
+  const [profileViewMode, setProfileViewMode] = useState(0);
+
   return (
     <div className={styles['event-create-wrapper']}>
       <div className={clsx(styles['preview-area'], styles[previewMode])}>
@@ -234,6 +236,107 @@ export default function EventCreate() {
               />
             </div>
           </div>
+        </div>
+
+        <div className={styles['border-line']} />
+
+        <div className={styles['profile-header']}>
+          <div className={styles['search-area']}>
+            <div className={styles['icon-wrapper']}>
+              <Image
+                alt="icon"
+                src="/icons/search.png"
+                width={24}
+                height={24}
+              />
+            </div>
+            <div className={styles['text-area']}>Search</div>
+          </div>
+          <div className={styles['view-mode-area']}>
+            <div
+              className={styles['icon-wrapper']}
+              onClick={() => {
+                setProfileViewMode(0);
+              }}
+            >
+              <Image
+                alt="icon"
+                src={
+                  profileViewMode === 0
+                    ? '/icons/union_ver1_active.png'
+                    : '/icons/union_ver1_inactive.png'
+                }
+                width={24}
+                height={24}
+              />
+            </div>
+            <div
+              className={styles['icon-wrapper']}
+              onClick={() => {
+                setProfileViewMode(1);
+              }}
+            >
+              <Image
+                alt="icon"
+                src={
+                  profileViewMode === 1
+                    ? '/icons/union_ver2_active.png'
+                    : '/icons/union_ver2_inactive.png'
+                }
+                width={24}
+                height={24}
+              />
+            </div>
+            <div
+              className={styles['icon-wrapper']}
+              onClick={() => {
+                setProfileViewMode(2);
+              }}
+            >
+              <Image
+                alt="icon"
+                src={
+                  profileViewMode === 2
+                    ? '/icons/union_ver3_active.png'
+                    : '/icons/union_ver3_inactive.png'
+                }
+                width={24}
+                height={24}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className={styles['filter-area']}>
+          <div className={clsx(styles['item-area'], styles['active'])}>
+            <div className={styles['text-area']}>all</div>
+            <div className={styles['icon-wrapper']}>
+              <Image
+                alt="icon"
+                src="/icons/arrowDown_active.png"
+                width={24}
+                height={24}
+              />
+            </div>
+          </div>
+
+          {['industry', 'hobby', 'interest', 'favorite', 'bookmarks'].map(
+            (v, i) => {
+              return (
+                <div className={styles['item-area']} key={`item-${i}`}>
+                  <div className={styles['text-area']}>{v}</div>
+                  <div className={styles['icon-wrapper']}>
+                    <Image
+                      alt="icon"
+                      src="/icons/arrowDown_inactive.png"
+                      width={24}
+                      height={24}
+                    />
+                  </div>
+                </div>
+              );
+            }
+          )}
         </div>
       </div>
 
