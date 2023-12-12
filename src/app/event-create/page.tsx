@@ -85,10 +85,10 @@ export default function EventCreate() {
     setPreviewMode(mode);
   };
 
-  const [imgFile, setImgFile] = useState();
-  const [imgUrl, setImgUrl] = useState();
-  const handleImageUpload = (event: {target: {files: any[]}}) => {
-    const selectedFile = event.target.files[0];
+  const [imgFile, setImgFile] = useState<File | undefined>();
+  const [imgUrl, setImgUrl] = useState<string | ArrayBuffer | null>();
+  const handleImageUpload = (event: {target: {files: FileList | null}}) => {
+    const selectedFile = event.target.files?.[0];
 
     if (selectedFile) {
       if (selectedFile.type.startsWith('image/')) {
@@ -447,7 +447,7 @@ export default function EventCreate() {
                     </div>
                   </div>
                   <div className={styles['tmp-classname']}>
-                    Hi, I'm Panseung. I developed here. Glimpse!
+                    Hi, I am Panseung. I developed here. Glimpse!
                   </div>
                   <div className={styles['tag-info']}>
                     <div className={styles['tag-item']}>#puppylove</div>
