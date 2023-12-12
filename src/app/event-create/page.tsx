@@ -52,8 +52,11 @@ export default function EventCreate() {
     setEventVisibility(type);
   };
 
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const day = new Date();
+  const nextDay = new Date();
+  nextDay.setDate(day.getDate() + 1);
+  const [startDate, setStartDate] = useState<Date | null>(day);
+  const [endDate, setEndDate] = useState<Date | null>(nextDay);
 
   const [eventLocation, seteventLocation] = useState('');
   const handleEventLocation = function (title: string) {
@@ -81,6 +84,29 @@ export default function EventCreate() {
     setPreviewMode(mode);
   };
 
+  const [imgFile, setImgFile] = useState();
+  const [imgUrl, setImgUrl] = useState();
+  const handleImageUpload = (event: {target: {files: any[]}}) => {
+    const selectedFile = event.target.files[0];
+
+    if (selectedFile) {
+      if (selectedFile.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        reader.onload = () => {
+          setImgUrl(reader.result);
+        };
+        setImgFile(selectedFile);
+      } else {
+        alert('이미지 파일을 선택해주세요.');
+      }
+    }
+  };
+
+  useEffect(() => {
+    console.log(imgUrl);
+  }, [imgUrl]);
+
   const [profileViewMode, setProfileViewMode] = useState(0);
 
   return (
@@ -89,7 +115,9 @@ export default function EventCreate() {
         <div className={styles['header-area']}>
           <div className={styles['url-area']}>
             <div className={styles['text-area']}>
-              https://glimpse.com/event/perfect
+              {eventHandle.length
+                ? eventHandle
+                : 'https://glimpse.com/event/perfect'}
             </div>
           </div>
           <div className={styles['button-area']}>
@@ -153,7 +181,10 @@ export default function EventCreate() {
           </div>
         </div>
 
-        <div className={styles['event-info-header']}>
+        <div
+          className={styles['event-info-header']}
+          style={imgUrl ? {backgroundImage: `url(${imgUrl})`} : {}}
+        >
           <div className={styles['header-area']}>
             <div className={styles['radio-items']}>
               <div className={styles['item-area']}>
@@ -406,6 +437,30 @@ export default function EventCreate() {
             handleValue={handleEventTag}
             placeHolder="Tag"
           />
+          <div className={styles['bg-file-area']}>
+            <div className={styles['text-area']}>Event Cover Image</div>
+            <div
+              className={styles['file-area']}
+              style={imgUrl ? {backgroundImage: `url(${imgUrl})`} : {}}
+            >
+              <label htmlFor="fileUpload" className={styles['label-button']}>
+                <Image
+                  alt="icon"
+                  src="/icons/fileUpload.png"
+                  width={20}
+                  height={20}
+                />
+                {imgUrl ? 'reset' : 'Add Cover'}
+              </label>
+              <input
+                style={{display: 'none'}}
+                type="file"
+                name="fileUpload"
+                id="fileUpload"
+                onChange={handleImageUpload}
+              ></input>
+            </div>
+          </div>
         </div>
         <div className={styles['footer-area']}>
           <div className={clsx(styles['button-area'], styles['save-button'])}>

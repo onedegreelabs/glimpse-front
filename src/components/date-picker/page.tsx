@@ -18,22 +18,22 @@ export default function CustomDatePicker({
     <div className={styles['date-picker-wrapper']}>
       <div className={styles['name-area']}>Event Date*</div>
       <div className={styles['pick-area']}>
-        <div className={styles['start-date']}>
+        <div className={styles['date-area']}>
           <div className={styles['text-area']}>Start</div>
           <DatePicker
             showTimeSelect
             selected={startDate}
             onChange={d => setStartDate(d)}
-            dateFormat="MMMM d, yyyy h:mm aa"
+            dateFormat="yyyy/MM/dd h:mm aa"
           />
         </div>
-        <div className={styles['end-date']}>
+        <div className={styles['date-area']}>
           <div className={styles['text-area']}>End</div>
           <DatePicker
             showTimeSelect
-            selected={startDate}
-            onChange={d => setStartDate(d)}
-            dateFormat="MMMM d, yyyy h:mm aa"
+            selected={endDate}
+            onChange={d => setEndDate(d)}
+            dateFormat="yyyy/MM/dd h:mm aa"
           />
         </div>
       </div>

@@ -145,7 +145,10 @@
 
       .event-title-area {
         font-size: 28px;
-        font-weight: 400;
+        font-weight: 400;        
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .view-area {
@@ -200,7 +203,10 @@
       }
       .event-description-wrapper {
         font-size: 16px;
-        color: #969696;
+        color: #969696;        
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .extenral-event-link-wrapper {
@@ -354,6 +360,45 @@
 
       .event-visibility-radio {
         width: 218px;
+      }
+
+      .bg-file-area {
+        display: grid;
+        grid-template-rows: 24px 172px;
+        gap: 12px;
+        justify-content: start;
+        align-items: center;
+
+        .text-area {
+          text-align: left;
+          font-size: 16px;
+        }
+
+        .file-area {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 172px;
+          width: 306px;
+          border: 2px dashed #D9D9D9;
+
+          .label-button {
+            display: grid;
+            grid-template-columns: 16px 72px;
+            gap: 8px;
+            justify-content: center;
+            align-items: center;
+            width: 128px;
+            height: 40px;
+            padding: 0 16px;
+            border-radius: 4px;
+            background-color: #8E8E8E;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+          }
+        }
       }
     }
 
