@@ -6,6 +6,7 @@ import CustomRadio from '@/components/custom-radio/page';
 import CustomDatePicker from '@/components/date-picker/page';
 import clsx from 'clsx';
 import Image from 'next/image';
+import Card from '@/components/Card/page';
 export default function EventCreate() {
   const [eventTitle, setEventTitle] = useState('');
   const handleEventTitle = function (title: string) {
@@ -183,7 +184,15 @@ export default function EventCreate() {
 
         <div
           className={styles['event-info-header']}
-          style={imgUrl ? {backgroundImage: `url(${imgUrl})`} : {}}
+          style={
+            imgUrl
+              ? {
+                  backgroundImage: `url(${imgUrl})`,
+                  backgroundSize: 'cover',
+                  backgroundRepeat: 'no-repeat',
+                }
+              : {}
+          }
         >
           <div className={styles['header-area']}>
             <div className={styles['radio-items']}>
@@ -246,7 +255,9 @@ export default function EventCreate() {
                   height={16}
                 />
               </div>
-              <div className={styles['text-area']}>Location</div>
+              <div className={styles['text-area']}>
+                {eventLocation.length ? eventLocation : 'Location'}
+              </div>
             </div>
           </div>
           <div className={styles['event-description-wrapper']}>
@@ -369,6 +380,111 @@ export default function EventCreate() {
             }
           )}
         </div>
+
+        <div className={styles['profile-card-wrapper']}>
+          {[0, 0, 0, 0, 0, 0].map((v, i) => {
+            return (
+              <Card key={`card_${i}`}>
+                <div className={styles['profile-card']}>
+                  <div className={styles['card-header']}>
+                    <div className={styles['icon-wrapper']}>
+                      <Image
+                        alt="icon"
+                        src="/icons/bookmark.png"
+                        width={24}
+                        height={24}
+                      />
+                    </div>
+                    <div
+                      className={clsx(
+                        styles['icon-wrapper'],
+                        styles['circle-bg']
+                      )}
+                    >
+                      <Image
+                        alt="icon"
+                        src="/icons/comment.png"
+                        width={24}
+                        height={24}
+                      />
+                    </div>
+                  </div>
+                  <div className={styles['main-info']}>
+                    <div className={styles['info-content']}>
+                      <div className={styles['info-location']}>
+                        <div className={styles['icon-wrapper']}>
+                          <Image
+                            alt="icon"
+                            src="/icons/location.png"
+                            width={16}
+                            height={16}
+                          />
+                        </div>
+                        <div className={styles['text-area']}>
+                          San Fancisco, USA
+                        </div>
+                      </div>
+                      <div className={styles['info-name']}>Panseung</div>
+                      <div className={styles['info-position']}>
+                        <div
+                          className={clsx(
+                            styles['position-tag'],
+                            styles['active']
+                          )}
+                        >
+                          Product
+                        </div>
+                        <div className={styles['position-tag']}>CPO</div>
+                      </div>
+                    </div>
+                    <div className={styles['profile-image']}>
+                      <Image
+                        alt="icon"
+                        src="/icons/profile_image.png"
+                        width={64}
+                        height={64}
+                      />
+                    </div>
+                  </div>
+                  <div className={styles['tmp-classname']}>
+                    Hi, I'm Panseung. I developed here. Glimpse!
+                  </div>
+                  <div className={styles['tag-info']}>
+                    <div className={styles['tag-item']}>#puppylove</div>
+                    <div className={styles['tag-item']}>#coding</div>
+                    <div className={styles['tag-item']}>#k-pop</div>
+                  </div>
+                  <div className={styles['sns-channel']}>
+                    <div className={styles['icon-wrapper']}>
+                      <Image
+                        alt="icon"
+                        src="/icons/github_icon.png"
+                        width={32}
+                        height={32}
+                      />
+                    </div>
+                    <div className={styles['icon-wrapper']}>
+                      <Image
+                        alt="icon"
+                        src="/icons/instagram_icon.png"
+                        width={32}
+                        height={32}
+                      />
+                    </div>
+                    <div className={styles['icon-wrapper']}>
+                      <Image
+                        alt="icon"
+                        src="/icons/link_icon.png"
+                        width={32}
+                        height={32}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            );
+          })}
+        </div>
       </div>
 
       <div className={styles['create-area']}>
@@ -441,7 +557,15 @@ export default function EventCreate() {
             <div className={styles['text-area']}>Event Cover Image</div>
             <div
               className={styles['file-area']}
-              style={imgUrl ? {backgroundImage: `url(${imgUrl})`} : {}}
+              style={
+                imgUrl
+                  ? {
+                      backgroundImage: `url(${imgUrl})`,
+                      backgroundSize: 'cover',
+                      backgroundRepeat: 'no-repeat',
+                    }
+                  : {}
+              }
             >
               <label htmlFor="fileUpload" className={styles['label-button']}>
                 <Image
