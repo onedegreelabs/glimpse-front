@@ -69,10 +69,6 @@ export default function EventCreate() {
     }
   };
 
-  useEffect(() => {
-    console.log(startDate);
-  }, [startDate]);
-
   const [eventLocation, seteventLocation] = useState('');
   const handleEventLocation = function (title: string) {
     seteventLocation(title);
@@ -123,7 +119,6 @@ export default function EventCreate() {
   const [profileViewMode, setProfileViewMode] = useState(0);
 
   const onCreateEvent = async function () {
-    console.log('here!');
     const params = {
       organizationId: 1,
       title: eventTitle,
@@ -138,7 +133,6 @@ export default function EventCreate() {
       tags: eventTag,
     };
     const response = await createEvent(params);
-    console.log(response);
   };
 
   return (
