@@ -7,6 +7,7 @@ import CustomDatePicker from '@/components/date-picker/page';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Card from '@/components/Card/page';
+import {createEvent} from '@/network/api';
 export default function EventCreate() {
   const [eventTitle, setEventTitle] = useState('');
   const handleEventTitle = function (title: string) {
@@ -59,6 +60,15 @@ export default function EventCreate() {
   const [startDate, setStartDate] = useState<Date | null>(day);
   const [endDate, setEndDate] = useState<Date | null>(nextDay);
 
+  const convertDateFormat = function (date: Date | null) {
+    if (date) {
+      const formattedDate = date.toISOString().slice(0, 19).replace(' ', 'T');
+      return formattedDate;
+    } else {
+      return '';
+    }
+  };
+
   const [eventLocation, seteventLocation] = useState('');
   const handleEventLocation = function (title: string) {
     seteventLocation(title);
@@ -75,9 +85,11 @@ export default function EventCreate() {
   const handleEventDescription = function (title: string) {
     setEventDescription(title);
   };
-  const [eventTag, setEventTag] = useState('');
-  const handleEventTag = function (title: string) {
-    setEventTag(title);
+  const [eventTag, setEventTag] = useState<string[]>([]);
+  const addEventTag = function (tag: string) {
+    const tmpArr = [...eventTag];
+    tmpArr.push(tag);
+    setEventTag(tmpArr);
   };
 
   const [previewMode, setPreviewMode] = useState<string>('desktop');
@@ -104,11 +116,24 @@ export default function EventCreate() {
     }
   };
 
-  useEffect(() => {
-    console.log(imgUrl);
-  }, [imgUrl]);
-
   const [profileViewMode, setProfileViewMode] = useState(0);
+
+  const onCreateEvent = async function () {
+    const params = {
+      organizationId: 1,
+      title: eventTitle,
+      type: String(eventType),
+      visibility: String(eventVisibility),
+      startDate: convertDateFormat(startDate),
+      endDate: convertDateFormat(endDate),
+      location: eventLocation,
+      link: eventExternalLink,
+      handle: eventHandle,
+      description: eventDescription,
+      tags: eventTag,
+    };
+    const response = await createEvent(params);
+  };
 
   return (
     <div className={styles['event-create-wrapper']}>
@@ -549,8 +574,8 @@ export default function EventCreate() {
           />
           <CustomInput
             name="Event Tag"
-            value={eventTag}
-            handleValue={handleEventTag}
+            valueArr={eventTag}
+            handleValue={addEventTag}
             placeHolder="Tag"
           />
           <div className={styles['bg-file-area']}>
@@ -592,6 +617,9 @@ export default function EventCreate() {
           </div>
           <div
             className={clsx(styles['button-area'], styles['publish-button'])}
+            onClick={() => {
+              onCreateEvent();
+            }}
           >
             <div className={styles['text-area']}>Publish & Share</div>
           </div>

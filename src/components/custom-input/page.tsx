@@ -1,7 +1,8 @@
 import styles from './page.module.scss';
 interface CustomInputProps {
   name: string;
-  value: string;
+  value?: string;
+  valueArr?: string[];
   handleValue: (value: string) => void;
   placeHolder: string;
 }
