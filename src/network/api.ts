@@ -7,7 +7,7 @@ export const sendMailWithCode = async (email: string) => {
 };
 
 export const verifyEmailCode = async (email: string, code: string) => {
-  return await axiosInstance.post('auth/email/', {
+  return await axiosInstance.post('auth/', {
     email,
     code,
   });

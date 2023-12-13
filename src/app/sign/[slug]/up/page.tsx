@@ -8,8 +8,15 @@ import clsx from 'clsx';
 import getQueryString from '@/utils/getQueryString';
 import _ from 'lodash';
 import {verifyEmailCode} from '@/network/api';
+import {useRouter} from 'next/navigation';
+import isTokenValid from '@/utils/isTokenValid';
 
 export default function SignUp() {
+  const router = useRouter();
+
+  if (isTokenValid()) {
+    router.push('/glimpse-list');
+  }
   const url = window.location.href;
   const query = getQueryString(url);
   const mailAddress = _.get(query, 'mailAddress');
@@ -41,7 +48,7 @@ export default function SignUp() {
       if (digitNum.length === 6) {
         handleAPI(digitNum);
       } else {
-        console.log('입력x');
+        // 밑에 빨간 글씨 경고 띄우는 코드
       }
     }
   }, [digitList]);
@@ -51,17 +58,16 @@ export default function SignUp() {
   const [isInvalidDigit, setIsInvalidDigit] = useState<Boolean>(false);
   const handleAPI = async function (num: string) {
     const response = await verifyEmailCode(mailAddress, num);
-    console.log(response);
-    // if (num === testnum) {
-    //   alert('인증 완료!');
-    // } else {
-    //   setIsInvalidDigit(true);
-    //   for (let i = 0; i < 6; i++) {
-    //     refArr[i].current.value = '';
-    //   }
-    //   setDigitList([]);
-    //   ref1.current.focus();
-    // }
+    if (response.status === 200) {
+      const tokens = response.data.tokens;
+      const accessToken = _.get(tokens, 'accessToken');
+      const newRfTokenId = _.get(tokens, 'newRfTokenId');
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('newRfTokenId', newRfTokenId);
+      router.push('/glimpse-list');
+    } else {
+      alert('로그인에 실패하였습니다.');
+    }
   };
 
   const onPaste = function () {
