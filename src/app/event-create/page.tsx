@@ -159,7 +159,7 @@ export default function EventCreate() {
                 alt="icon"
                 src={
                   previewMode === 'desktop'
-                    ? '/icons/phone_inactive.png'
+                    ? '/icons/phone_inactive.svg'
                     : '/icons/phone_active.svg'
                 }
                 width={20}
@@ -178,8 +178,8 @@ export default function EventCreate() {
                 alt="icon"
                 src={
                   previewMode === 'mobile'
-                    ? '/icons/desktop_inactive.png'
-                    : '/icons/desktop_active.png'
+                    ? '/icons/desktop_inactive.svg'
+                    : '/icons/desktop_active.svg'
                 }
                 width={20}
                 height={20}
@@ -196,13 +196,13 @@ export default function EventCreate() {
             <div className={styles['icon-area']}>
               <Image
                 alt="icon"
-                src="/icons/notification.png"
+                src="/icons/notification.svg"
                 width={24}
                 height={24}
               />
             </div>
             <div className={styles['icon-area']}>
-              <Image alt="icon" src="/icons/menu.png" width={24} height={24} />
+              <Image alt="icon" src="/icons/menu.svg" width={24} height={24} />
             </div>
           </div>
         </div>
@@ -253,7 +253,7 @@ export default function EventCreate() {
               <div className={styles['icon-area']}>
                 <Image
                   alt="icon"
-                  src="/icons/calendar.png"
+                  src="/icons/calendar.svg"
                   width={16}
                   height={16}
                 />
@@ -264,7 +264,7 @@ export default function EventCreate() {
               <div className={styles['icon-area']}>
                 <Image
                   alt="icon"
-                  src="/icons/clock.png"
+                  src="/icons/clock.svg"
                   width={16}
                   height={16}
                 />
@@ -275,7 +275,7 @@ export default function EventCreate() {
               <div className={styles['icon-area']}>
                 <Image
                   alt="icon"
-                  src="/icons/location.png"
+                  src="/icons/location.svg"
                   width={16}
                   height={16}
                 />
@@ -297,7 +297,7 @@ export default function EventCreate() {
             <div className={styles['icon-area']}>
               <Image
                 alt="icon"
-                src="/icons/caretRight.png"
+                src="/icons/caretRight.svg"
                 width={16}
                 height={16}
               />
@@ -312,7 +312,7 @@ export default function EventCreate() {
             <div className={styles['icon-wrapper']}>
               <Image
                 alt="icon"
-                src="/icons/search.png"
+                src="/icons/search.svg"
                 width={24}
                 height={24}
               />
@@ -330,8 +330,8 @@ export default function EventCreate() {
                 alt="icon"
                 src={
                   profileViewMode === 0
-                    ? '/icons/union_ver1_active.png'
-                    : '/icons/union_ver1_inactive.png'
+                    ? '/icons/union_ver1_active.svg'
+                    : '/icons/union_ver1_inactive.svg'
                 }
                 width={24}
                 height={24}
@@ -347,8 +347,8 @@ export default function EventCreate() {
                 alt="icon"
                 src={
                   profileViewMode === 1
-                    ? '/icons/union_ver2_active.png'
-                    : '/icons/union_ver2_inactive.png'
+                    ? '/icons/union_ver2_active.svg'
+                    : '/icons/union_ver2_inactive.svg'
                 }
                 width={24}
                 height={24}
@@ -364,8 +364,8 @@ export default function EventCreate() {
                 alt="icon"
                 src={
                   profileViewMode === 2
-                    ? '/icons/union_ver3_active.png'
-                    : '/icons/union_ver3_inactive.png'
+                    ? '/icons/union_ver3_active.svg'
+                    : '/icons/union_ver3_inactive.svg'
                 }
                 width={24}
                 height={24}
@@ -380,7 +380,7 @@ export default function EventCreate() {
             <div className={styles['icon-wrapper']}>
               <Image
                 alt="icon"
-                src="/icons/arrowDown_active.png"
+                src="/icons/arrowDown_active.svg"
                 width={24}
                 height={24}
               />
@@ -395,7 +395,7 @@ export default function EventCreate() {
                   <div className={styles['icon-wrapper']}>
                     <Image
                       alt="icon"
-                      src="/icons/arrowDown_inactive.png"
+                      src="/icons/arrowDown_inactive.svg"
                       width={24}
                       height={24}
                     />
@@ -415,7 +415,7 @@ export default function EventCreate() {
                     <div className={styles['icon-wrapper']}>
                       <Image
                         alt="icon"
-                        src="/icons/bookmark.png"
+                        src="/icons/bookmark.svg"
                         width={24}
                         height={24}
                       />
@@ -428,7 +428,7 @@ export default function EventCreate() {
                     >
                       <Image
                         alt="icon"
-                        src="/icons/comment.png"
+                        src="/icons/comment.svg"
                         width={24}
                         height={24}
                       />
@@ -440,7 +440,7 @@ export default function EventCreate() {
                         <div className={styles['icon-wrapper']}>
                           <Image
                             alt="icon"
-                            src="/icons/location.png"
+                            src="/icons/location.svg"
                             width={16}
                             height={16}
                           />
@@ -465,7 +465,7 @@ export default function EventCreate() {
                     <div className={styles['profile-image']}>
                       <Image
                         alt="icon"
-                        src="/icons/profile_image.png"
+                        src="/icons/profile_image.jpg"
                         width={64}
                         height={64}
                       />
@@ -483,7 +483,7 @@ export default function EventCreate() {
                     <div className={styles['icon-wrapper']}>
                       <Image
                         alt="icon"
-                        src="/icons/github_icon.png"
+                        src="/icons/github_icon.jpg"
                         width={32}
                         height={32}
                       />
@@ -491,7 +491,7 @@ export default function EventCreate() {
                     <div className={styles['icon-wrapper']}>
                       <Image
                         alt="icon"
-                        src="/icons/instagram_icon.png"
+                        src="/icons/instagram_icon.svg"
                         width={32}
                         height={32}
                       />
@@ -499,7 +499,7 @@ export default function EventCreate() {
                     <div className={styles['icon-wrapper']}>
                       <Image
                         alt="icon"
-                        src="/icons/link_icon.png"
+                        src="/icons/link_icon.svg"
                         width={32}
                         height={32}
                       />
@@ -595,7 +595,7 @@ export default function EventCreate() {
               <label htmlFor="fileUpload" className={styles['label-button']}>
                 <Image
                   alt="icon"
-                  src="/icons/fileUpload.png"
+                  src="/icons/fileUpload.svg"
                   width={20}
                   height={20}
                 />
