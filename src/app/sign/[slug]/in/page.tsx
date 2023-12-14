@@ -5,7 +5,11 @@ import Button from '@/components/button/page';
 import {useRouter} from 'next/navigation';
 import {useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
-import {sendMailWithCode} from '@/network/api';
+import {
+  loginWithGoogle,
+  loginWithLinkedin,
+  sendMailWithCode,
+} from '@/network/api';
 import isTokenValid from '@/utils/isTokenValid';
 export default function SignIn() {
   const router = useRouter();
@@ -25,6 +29,14 @@ export default function SignIn() {
     } else {
       setIsInvalidMail(true);
     }
+  };
+
+  const onClickGoogleButton = async function () {
+    await loginWithGoogle();
+  };
+
+  const onClickLinkedinButton = async function () {
+    await loginWithLinkedin();
   };
 
   const mailInputRef = useRef<HTMLInputElement | null>(null);
@@ -88,13 +100,13 @@ export default function SignIn() {
               color="ffffff"
               bgColor="000000"
               text="Sign in with apple"
-              clickEvent={null}
+              clickEvent={onClickLinkedinButton}
             />
             <Button
               color="ffffff"
               bgColor="0094FF"
               text="Sign in with google"
-              clickEvent={null}
+              clickEvent={onClickGoogleButton}
             />
           </div>
         </div>

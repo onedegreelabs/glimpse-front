@@ -13,6 +13,14 @@ export const verifyEmailCode = async (email: string, code: string) => {
   });
 };
 
+export const loginWithGoogle = async () => {
+  return await axiosInstance.get('auth/google');
+};
+
+export const loginWithLinkedin = async () => {
+  return await axiosInstance.get('auth/linkedin');
+};
+
 interface CreateEventType {
   organizationId: number;
   title: string;
