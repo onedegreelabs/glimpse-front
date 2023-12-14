@@ -29,6 +29,11 @@
           justify-content: end;
         }
       }
+
+      .profile-card-wrapper {
+        display: flex;
+        flex-direction: column;
+      }
     }
 
     .header-area {
@@ -329,11 +334,6 @@
       grid-auto-flow: row;
       padding: 0 16px;
 
-      &.mobile {
-        display: flex;
-        flex-direction: column;
-      }
-
       .profile-card {
         display: grid;
         grid-template-rows: 40px 92px 52px 24px minmax(0, 1fr); 
@@ -459,11 +459,11 @@
 
   .create-area {
     display: grid;
-    grid-template-rows: 54px minmax(0, 1fr) 84px;
+    grid-template-rows: 54px minmax(0, 1300px) 84px;
     grid-template-columns: minmax(0, 1fr);
     gap: 32px;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     padding-top: 40px;
     text-align: center;
     background-color: #fff;
