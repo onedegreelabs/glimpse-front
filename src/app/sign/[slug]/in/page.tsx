@@ -14,9 +14,11 @@ import {
 import isTokenValid from '@/utils/isTokenValid';
 export default function SignIn() {
   const router = useRouter();
-  if (isTokenValid()) {
-    router.push('/glimpse-list');
-  }
+  useEffect(() => {
+    if (isTokenValid()) {
+      router.push('/glimpse-list');
+    }
+  }, []);
 
   const [mailAddress, setMailAddress] = useState<string>('');
   const [isInvalidMail, setIsInvalidMail] = useState<Boolean>(false);

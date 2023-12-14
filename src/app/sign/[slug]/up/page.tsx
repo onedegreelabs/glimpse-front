@@ -14,9 +14,12 @@ import isTokenValid from '@/utils/isTokenValid';
 export default function SignUp() {
   const router = useRouter();
 
-  if (isTokenValid()) {
-    router.push('/glimpse-list');
-  }
+  useEffect(() => {
+    if (isTokenValid()) {
+      router.push('/glimpse-list');
+    }
+  }, []);
+
   const url = window.location.href;
   const query = getQueryString(url);
   const mailAddress = _.get(query, 'mailAddress');
