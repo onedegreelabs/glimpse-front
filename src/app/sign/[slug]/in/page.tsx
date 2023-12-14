@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Card from '@/components/Card/page';
 import styles from './page.module.scss';
 import Button from '@/components/button/page';
 import {useRouter} from 'next/navigation';
-import {useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
 import {sendMailWithCode} from '@/network/api';
 import isTokenValid from '@/utils/isTokenValid';
@@ -26,13 +27,31 @@ export default function SignIn() {
     }
   };
 
-  const mailButton = document.getElementById('mail-button');
-  mailButton?.addEventListener('keydown', e => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      onClickEmailButton();
+  const mailInputRef = useRef<HTMLInputElement | null>(null);
+  const isRendered = useRef(false);
+  useEffect(() => {
+    if (!isRendered.current) {
+      isRendered.current = true;
+    } else {
+      if (mailInputRef.current) {
+        const mailButton = mailInputRef.current;
+        const handleKeyDown = function (e: {
+          key: string;
+          preventDefault: () => void;
+        }) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            onClickEmailButton();
+          }
+        };
+        mailButton.addEventListener('keydown', handleKeyDown);
+        return () => {
+          mailButton.removeEventListener('keydown', handleKeyDown);
+        };
+      }
     }
-  });
+  }, [mailAddress]);
+
   return (
     <div className={styles['signin-wrapper']}>
       <Card width={334} height={448}>
@@ -45,7 +64,7 @@ export default function SignIn() {
             <input
               className={styles['email-input']}
               placeholder="email address"
-              id="mail-button"
+              ref={mailInputRef}
               onChange={e => {
                 setMailAddress(e.target.value);
                 setIsInvalidMail(false);
