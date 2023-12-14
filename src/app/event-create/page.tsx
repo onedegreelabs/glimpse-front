@@ -406,7 +406,11 @@ export default function EventCreate() {
           )}
         </div>
 
-        <div className={styles['profile-card-wrapper']}>
+        <div
+          className={clsx(styles['profile-card-wrapper'], {
+            [styles['mobile']]: previewMode === 'mobile',
+          })}
+        >
           {[0, 0, 0, 0, 0, 0].map((v, i) => {
             return (
               <Card key={`card_${i}`}>

@@ -329,6 +329,11 @@
       grid-auto-flow: row;
       padding: 0 16px;
 
+      &.mobile {
+        display: flex;
+        flex-direction: column;
+      }
+
       .profile-card {
         display: grid;
         grid-template-rows: 40px 92px 52px 24px minmax(0, 1fr); 
