@@ -160,7 +160,7 @@ export default function EventCreate() {
                 src={
                   previewMode === 'desktop'
                     ? '/icons/phone_inactive.png'
-                    : '/icons/phone_active.png'
+                    : '/icons/phone_active.svg'
                 }
                 width={20}
                 height={20}
