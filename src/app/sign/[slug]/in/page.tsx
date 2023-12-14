@@ -1,3 +1,4 @@
+'use client';
 /* eslint-disable react-hooks/exhaustive-deps */
 import Card from '@/components/Card/page';
 import styles from './page.module.scss';
@@ -62,6 +63,7 @@ export default function SignIn() {
         };
       }
     }
+    return;
   }, [mailAddress]);
 
   return (
