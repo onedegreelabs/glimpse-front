@@ -4,6 +4,8 @@ import {
   socialAuthInstance,
   tokenValidInstance,
 } from './headers';
+import {IProfile} from '@/types/profileType';
+import {CreateEventType} from '@/types/eventCreate';
 
 export const sendMailWithCode = async (email: string) => {
   return await axiosInstance().post('mails/code', {
@@ -23,19 +25,6 @@ export const loginWithLinkedin = async () => {
   return await axiosInstance().get('auth/linkedin');
 };
 
-interface CreateEventType {
-  organizationId: number;
-  title: string;
-  type: string;
-  visibility: string;
-  startDate: string;
-  endDate: string;
-  location: string;
-  link: string;
-  handle: string;
-  description: string;
-  tags: string[];
-}
 export const createEvent = async (params: CreateEventType) => {
   const {
     organizationId,
@@ -63,4 +52,12 @@ export const createEvent = async (params: CreateEventType) => {
     description,
     tags,
   });
+};
+
+// profile api
+export const profileApi = {
+  getUserMe: async (): Promise<IProfile> => {
+    const res = await tokenValidInstance().get('/users/me');
+    return res.data;
+  },
 };
