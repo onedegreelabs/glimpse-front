@@ -3,6 +3,11 @@
   border: 1px #dedede solid;
   border-radius: 4px;
 }
+.filtering:focus {
+  border: 1px solid red;
+  outline: none;
+}
+
 .filtering:not(:last-child) {
   margin-right: 10px;
 }
