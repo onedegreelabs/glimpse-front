@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
@@ -10,6 +11,7 @@ import _ from 'lodash';
 import {verifyEmailCode} from '@/network/api';
 import {useRouter} from 'next/navigation';
 import isTokenValid from '@/utils/isTokenValid';
+import Image from 'next/image';
 
 export default function SignUp() {
   const router = useRouter();
@@ -56,8 +58,6 @@ export default function SignUp() {
     }
   }, [digitList]);
 
-  const testnum = 123456;
-
   const [isInvalidDigit, setIsInvalidDigit] = useState<Boolean>(false);
   const handleAPI = async function (num: string) {
     const response = await verifyEmailCode(mailAddress, num);
@@ -77,7 +77,19 @@ export default function SignUp() {
     navigator.clipboard
       .readText()
       .then(text => {
-        alert('복사된 내용:' + text);
+        if (text.length === 6) {
+          const textArr = [
+            text[0],
+            text[1],
+            text[2],
+            text[3],
+            text[4],
+            text[5],
+          ];
+          setDigitList(textArr);
+        } else {
+          alert('올바른 형식의 인증 번호가 아닙니다.');
+        }
       })
       .catch(err => {
         alert('Failed to read text from clipboard:' + err);
@@ -120,7 +132,15 @@ export default function SignUp() {
             The authentication number is incorrect.
           </div>
           <div className={styles['card-bottom']}>
-            <div onClick={onPaste}>paset code</div>
+            <div className={styles['paste-code']} onClick={onPaste}>
+              <Image
+                alt="icon"
+                src="/icons/clipboard.svg"
+                width={20}
+                height={20}
+              />
+              paste code
+            </div>
             <div onClick={onResend}>resend code</div>
           </div>
         </div>

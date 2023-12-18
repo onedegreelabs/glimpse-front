@@ -12,6 +12,7 @@ import {
   sendMailWithCode,
 } from '@/network/api';
 import isTokenValid from '@/utils/isTokenValid';
+import Image from 'next/image';
 export default function SignIn() {
   const router = useRouter();
   useEffect(() => {
@@ -70,7 +71,7 @@ export default function SignIn() {
 
   return (
     <div className={styles['signin-wrapper']}>
-      <Card width={334} height={448}>
+      <Card width={334} height={508}>
         <div className={styles['card-wrapper']}>
           <div className={styles['card-title']}>Welcome to glimpse!</div>
           <div className={styles['card-sub-title']}>
@@ -78,7 +79,9 @@ export default function SignIn() {
           </div>
           <div className={styles['card-body']}>
             <input
-              className={styles['email-input']}
+              className={clsx(styles['email-input'], {
+                [styles['invalid-mail']]: isInvalidMail,
+              })}
               placeholder="email address"
               ref={mailInputRef}
               onChange={e => {
@@ -91,7 +94,13 @@ export default function SignIn() {
                 [styles['show']]: isInvalidMail,
               })}
             >
-              email is not valid
+              <Image
+                alt="icon"
+                src="/icons/warning_icon.svg"
+                width={16}
+                height={16}
+              />
+              <div className={styles['text-area']}>email is not valid</div>
             </div>
             <Button
               color="ffffff"
@@ -105,13 +114,40 @@ export default function SignIn() {
               bgColor="000000"
               text="Sign in with apple"
               clickEvent={onClickLinkedinButton}
-            />
+            >
+              <Image
+                alt="icon"
+                src="/icons/apple_icon.svg"
+                width={20}
+                height={20}
+              />
+            </Button>
             <Button
               color="ffffff"
               bgColor="0094FF"
               text="Sign in with google"
               clickEvent={onClickGoogleButton}
-            />
+            >
+              <Image
+                alt="icon"
+                src="/icons/google_icon.svg"
+                width={20}
+                height={20}
+              />
+            </Button>
+            <Button
+              color="ffffff"
+              bgColor="0177B5"
+              text="Sign in with linkedIn"
+              clickEvent={onClickGoogleButton}
+            >
+              <Image
+                alt="icon"
+                src="/icons/linkedIn_icon.svg"
+                width={20}
+                height={20}
+              />
+            </Button>
           </div>
         </div>
       </Card>

@@ -6,6 +6,7 @@ interface ButtonProps {
   text: string;
   width?: string | number;
   height?: string | number;
+  children?: React.ReactNode;
   clickEvent: any;
 }
 export default function Button({
@@ -14,6 +15,7 @@ export default function Button({
   text,
   width,
   height,
+  children,
   clickEvent,
 }: ButtonProps) {
   return (
@@ -27,6 +29,7 @@ export default function Button({
       }}
       onClick={() => clickEvent()}
     >
+      {children}
       <div className={styles['text-area']}>{text}</div>
     </div>
   );

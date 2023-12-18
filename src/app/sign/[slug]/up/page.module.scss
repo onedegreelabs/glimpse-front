@@ -1,7 +1,7 @@
 .signup-wrapper {
   .card-wrapper {
     display: grid;
-    grid-template-rows: 32px 16px 40px 16px;
+    grid-template-rows: 32px 16px 40px 28px;
     gap: 16px;
     justify-content: center;
     text-align: center;
@@ -39,8 +39,25 @@
     }
 
     .card-bottom {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(2, 108px);
+      grid-template-rows: 28px;
       justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 500;
+
+      .paste-code {
+        display: grid;
+        grid-template-columns: 20px minmax(0, 1fr);
+        gap: 4px;
+        align-items: center;
+        justify-content: center;
+        background-color: #F3F3F3;
+        height: 28px;
+        padding: 0 10px;
+        border-radius: 4px;
+      }
 
       * {
         cursor: pointer;
