@@ -1,16 +1,15 @@
-import Avatar from '@/app/glimpse-list/components/Avatar/page';
-import Image from 'next/image';
+import Avatar from '@/app/glimpse-list/Avatar';
 import Chip from '@/components/Chip/page';
-import styles from './page.module.scss';
+import styles from './boxView.module.scss';
 import Card from '@/components/Card/page';
-import {Glimpse} from '../../mock/glimpses';
+import {Glimpse} from './mock/glimpses';
 import IconText from '@/components/IconText/page';
 
-interface ListProps {
+interface BoxProps {
   glimpses: Glimpse[];
 }
 
-export default function List({glimpses}: ListProps) {
+export default function BoxView({glimpses}: BoxProps) {
   return (
     <>
       {glimpses.map(data => (

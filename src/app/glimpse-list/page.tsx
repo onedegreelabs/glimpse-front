@@ -7,15 +7,15 @@ import clsx from 'clsx';
 import {usePathname, useRouter} from 'next/navigation';
 import {useSearchParams} from 'next/navigation';
 import {useEffect, useState} from 'react';
-import List from './components/List/page';
-import Grid from './components/Grid/page';
-import Compact from './components/Compact/page';
 import CoverPhoto from './components/CoverPhoto/page';
 import {Glimpse, dummyGlimpses} from './mock/glimpses';
 import IconText from '@/components/IconText/page';
 import SelectBox from '@/components/SelectBox/page';
+import BoxView from './BoxView';
+import GridView from './GridView';
+import ListView from './ListView';
 
-const ALL = [
+const PERSON_TYPE = [
   {value: 'all', name: 'all'},
   {value: 'host', name: 'host'},
   {value: 'speaker', name: 'speaker'},
@@ -225,9 +225,9 @@ export default function Glimpselist() {
         <div className={styles['divider']} />
         <section className={styles['filtering-area']}>
           <SelectBox
-            name="all"
+            name="personType"
             defaultValue="all"
-            options={ALL}
+            options={PERSON_TYPE}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
               console.log(e.target.value)
             }
@@ -274,9 +274,9 @@ export default function Glimpselist() {
           />
         </section>
         <section className={styles['glimpse-area']}>
-          {toggleView === 'box' && <List glimpses={glimpses} />}
-          {toggleView === 'grid' && <Grid glimpses={glimpses} />}
-          {toggleView === 'list' && <Compact glimpses={glimpses} />}
+          {toggleView === 'box' && <BoxView glimpses={glimpses} />}
+          {toggleView === 'grid' && <GridView glimpses={glimpses} />}
+          {toggleView === 'list' && <ListView glimpses={glimpses} />}
         </section>
       </section>
     </div>
