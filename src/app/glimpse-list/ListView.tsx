@@ -1,15 +1,14 @@
-import Avatar from '@/app/glimpse-list/components/Avatar/page';
-import Image from 'next/image';
+import Avatar from '@/app/glimpse-list/Avatar';
 import Chip from '@/components/Chip/page';
-import styles from './page.module.scss';
+import styles from './listView.module.scss';
 import Card from '@/components/Card/page';
-import {Glimpse} from '../../mock/glimpses';
+import {Glimpse} from './mock/glimpses';
 
-interface CompactProps {
+interface ListViewProps {
   glimpses: Glimpse[];
 }
 
-export default function Compact({glimpses}: CompactProps) {
+export default function ListView({glimpses}: ListViewProps) {
   return (
     <>
       {glimpses.map(data => (

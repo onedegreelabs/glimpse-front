@@ -1,20 +1,21 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import styles from './page.module.scss';
 import clsx from 'clsx';
 import {usePathname, useRouter} from 'next/navigation';
 import {useSearchParams} from 'next/navigation';
 import {useEffect, useState} from 'react';
-import List from './components/List/page';
-import Grid from './components/Grid/page';
-import Compact from './components/Compact/page';
 import CoverPhoto from './components/CoverPhoto/page';
 import {Glimpse, dummyGlimpses} from './mock/glimpses';
 import IconText from '@/components/IconText/page';
 import SelectBox from '@/components/SelectBox/page';
+import BoxView from './BoxView';
+import GridView from './GridView';
+import ListView from './ListView';
 
-const ALL = [
+const PERSON_TYPE = [
   {value: 'all', name: 'all'},
   {value: 'host', name: 'host'},
   {value: 'speaker', name: 'speaker'},
@@ -45,9 +46,9 @@ const FAVORITE = [
 ];
 
 const ViewTypes = {
-  LIST: 'list',
+  BOX: 'box',
   GIRD: 'grid',
-  COMPACT: 'compact',
+  LIST: 'list',
 } as const;
 
 export type ViewType = (typeof ViewTypes)[keyof typeof ViewTypes];
@@ -58,28 +59,40 @@ export default function Glimpselist() {
   const router = useRouter();
 
   const [glimpses, setGlimpses] = useState<Glimpse[]>([]);
-  const [toggleView, setToggleVIew] = useState<ViewType>('list');
+  const [toggleView, setToggleVIew] = useState<ViewType>('box');
   const [openMore, setOpenMore] = useState(false);
   const [searchWord, setSerachWord] = useState('');
+  const [filters, setFilters] = useState({
+    personType: 'all',
+    industry: '',
+    hobby: '',
+    interest: '',
+    favorite: '',
+  });
 
   const onChangeView = (viewType: ViewType): void => {
     setToggleVIew(viewType);
   };
 
   // TODO: API 연결 필요
+  // TODO: URL 쿼리스트링 연결 필요
   const onSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const keyword = e.target.value;
     const filtered = dummyGlimpses.filter(data => data.name.includes(keyword));
-    // eslint-disable-next-line node/no-unsupported-features/node-builtins
-    const params = new URLSearchParams(searchParams);
     setGlimpses(filtered);
     setSerachWord(keyword);
-    params.set('search', keyword);
-    router.replace(`${pathname}?${params.toString()}`);
+    // searchParams.set('search', keyword);
+    // router.replace(`${pathname}?${params.toString()}`);
   };
+
   // TODO: transition 효과가 제대로 작동하지 않음
   const onClickMore = () => {
     setOpenMore(!openMore);
+  };
+
+  // TODO: URL 쿼리스트링 연결 필요
+  const handleFilterChange = (filterType: string, value: string) => {
+    setFilters(prevFilters => ({...prevFilters, [filterType]: value}));
   };
 
   useEffect(() => {
@@ -165,76 +178,122 @@ export default function Glimpselist() {
       </section>
       <section className={styles['body-content-area']}>
         <section className={styles['search-area']}>
-          <div className={styles['search-wrapper']}>
-            <input
-              type="text"
-              placeholder="search..."
-              onChange={onSearch}
-              value={searchWord}
-            />
-            <img src="/assets/glimpse-list/search-icon.svg" alt="검색 아이콘" />
-          </div>
-          <div className={styles['grid-icon-wrapper']}>
-            <button onClick={() => onChangeView('list')}>1</button>
-            <button onClick={() => onChangeView('grid')}>2</button>
-            <button onClick={() => onChangeView('compact')}>3</button>
+          <p className={styles['list-title']}>Participant List</p>
+          <div className={styles['list-setting']}>
+            <div className={styles['search-wrapper']}>
+              <input
+                type="text"
+                placeholder="search..."
+                onChange={onSearch}
+                value={searchWord}
+              />
+              <Image
+                src="/assets/glimpse-list/search-icon.svg"
+                alt="검색 아이콘"
+                width={24}
+                height={24}
+              />
+            </div>
+            <div className={styles['grid-icon-wrapper']}>
+              <button onClick={() => onChangeView('box')}>
+                <Image
+                  src={
+                    toggleView === ViewTypes.BOX
+                      ? '/assets/glimpse-list/dark-box.svg'
+                      : '/assets/glimpse-list/light-box.svg'
+                  }
+                  alt="박스뷰"
+                  width={22}
+                  height={22}
+                />
+              </button>
+              <button onClick={() => onChangeView('grid')}>
+                <Image
+                  src={
+                    toggleView === ViewTypes.GIRD
+                      ? '/assets/glimpse-list/dark-grid.svg'
+                      : '/assets/glimpse-list/light-grid.svg'
+                  }
+                  alt="그리드뷰"
+                  width={22}
+                  height={22}
+                />
+              </button>
+              <button onClick={() => onChangeView('list')}>
+                <Image
+                  src={
+                    toggleView === ViewTypes.LIST
+                      ? '/assets/glimpse-list/dark-list.svg'
+                      : '/assets/glimpse-list/light-list.svg'
+                  }
+                  alt="리스트뷰"
+                  width={22}
+                  height={22}
+                />
+              </button>
+            </div>
           </div>
         </section>
         <div className={styles['divider']} />
         <section className={styles['filtering-area']}>
           <SelectBox
-            name="all"
+            name="personType"
             defaultValue="all"
-            options={ALL}
+            options={PERSON_TYPE}
+            value={filters.personType}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              console.log(e.target.value)
+              handleFilterChange('personType', e.target.value)
             }
           />
           <SelectBox
             name="industry"
             defaultValue="industry"
             options={INDUSTRY}
+            value={filters.industry}
             hidden
             hiddenOption={{value: 'industry', name: 'industry'}}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              console.log(e.target.value)
+              handleFilterChange('industry', e.target.value)
             }
           />
           <SelectBox
             name="hobby"
             defaultValue="hobby"
             options={HOBBY}
+            value={filters.hobby}
             hidden
             hiddenOption={{value: 'hobby', name: 'hobby'}}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              console.log(e.target.value)
+              handleFilterChange('hobby', e.target.value)
             }
           />
           <SelectBox
             name={'interest'}
             defaultValue={'interest'}
             options={INTEREST}
+            value={filters.interest}
             hidden
             hiddenOption={{value: 'interest', name: 'interest'}}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              console.log(e.target.value)
+              handleFilterChange('interest', e.target.value)
             }
           />
           <SelectBox
             name={'favorite'}
             defaultValue={'favorite'}
             options={FAVORITE}
+            value={filters.favorite}
             hidden
             hiddenOption={{value: 'favorite', name: 'favorite'}}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              console.log(e.target.value)
+              handleFilterChange('favorite', e.target.value)
             }
           />
         </section>
         <section className={styles['glimpse-area']}>
-          {toggleView === 'list' && <List glimpses={glimpses} />}
-          {toggleView === 'grid' && <Grid glimpses={glimpses} />}
-          {toggleView === 'compact' && <Compact glimpses={glimpses} />}
+          {toggleView === 'box' && <BoxView glimpses={glimpses} />}
+          {toggleView === 'grid' && <GridView glimpses={glimpses} />}
+          {toggleView === 'list' && <ListView glimpses={glimpses} />}
         </section>
       </section>
     </div>

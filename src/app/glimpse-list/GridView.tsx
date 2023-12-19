@@ -1,17 +1,16 @@
-import Avatar from '@/app/glimpse-list/components/Avatar/page';
-import Image from 'next/image';
+import Avatar from '@/app/glimpse-list/Avatar';
 import Chip from '@/components/Chip/page';
-import styles from './page.module.scss';
+import styles from './gridView.module.scss';
 import Card from '@/components/Card/page';
-import {Glimpse} from '../../mock/glimpses';
+import {Glimpse} from './mock/glimpses';
 
 // NOTE: list props로 변경하기
 
-interface GridProps {
+interface GridViewProps {
   glimpses: Glimpse[];
 }
 
-export default function Grid({glimpses}: GridProps) {
+export default function GridView({glimpses}: GridViewProps) {
   return (
     <div className={styles['glimpse-grid-container']}>
       {glimpses.map((data, index) => (
