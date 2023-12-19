@@ -32,17 +32,12 @@ export default function SignUp() {
     copyArr[index] = num;
     setDigitList(copyArr);
   };
-  const ref1 = useRef<any>(null);
-  const ref2 = useRef<any>(null);
-  const ref3 = useRef<any>(null);
-  const ref4 = useRef<any>(null);
-  const ref5 = useRef<any>(null);
-  const ref6 = useRef<any>(null);
-  const refArr = [ref1, ref2, ref3, ref4, ref5, ref6];
+
+  const refArr = useRef<(HTMLInputElement | null)[]>(Array(6).fill(null));
 
   const handleInputChange = (index: number, value: string) => {
     if (value.length === 1 && index < 5) {
-      refArr[index + 1].current.focus();
+      refArr.current[index + 1]?.focus();
     }
   };
 
@@ -52,8 +47,6 @@ export default function SignUp() {
       digitNum += digitList[i];
       if (digitNum.length === 6) {
         handleAPI(digitNum);
-      } else {
-        // 밑에 빨간 글씨 경고 띄우는 코드
       }
     }
   }, [digitList]);
@@ -78,6 +71,9 @@ export default function SignUp() {
       .readText()
       .then(text => {
         if (text.length === 6) {
+          refArr.current.forEach((v, i) => {
+            if (v) v.value = text[i];
+          });
           const textArr = [
             text[0],
             text[1],
@@ -108,21 +104,19 @@ export default function SignUp() {
             Enter the six-digit code you sent to your email
           </div>
           <div className={styles['digit-area']}>
-            {refArr.map((v, index) => {
-              return (
-                <input
-                  className={styles['input-box']}
-                  maxLength={1}
-                  key={index}
-                  ref={refArr[index]}
-                  onChange={e => {
-                    handleInputChange(index, e.target.value);
-                    handleDigitList(index, e.target.value);
-                    setIsInvalidDigit(false);
-                  }}
-                ></input>
-              );
-            })}
+            {Array.from({length: 6}, (_, index) => (
+              <input
+                className={styles['input-box']}
+                maxLength={1}
+                key={index}
+                ref={el => (refArr.current[index] = el)}
+                onChange={e => {
+                  handleInputChange(index, e.target.value);
+                  handleDigitList(index, e.target.value);
+                  setIsInvalidDigit(false);
+                }}
+              ></input>
+            ))}
           </div>
           <div
             className={clsx(styles['invalid-check'], {
