@@ -21,7 +21,7 @@ export default function GridView({glimpses}: GridViewProps) {
             </div>
             <div className={styles['profile-wrapper']}>
               <Avatar
-                src="/assets/glimpse-list/avatar-img.png"
+                src="/assets/glimpse-list/temp-glimpse-list-img.jpg"
                 alt="프로필이미지"
                 height={40}
                 width={40}

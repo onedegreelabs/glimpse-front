@@ -40,7 +40,7 @@ export default function BoxView({glimpses}: BoxProps) {
                 </div>
               </div>
               <Avatar
-                src="/assets/glimpse-list/avatar-img.png"
+                src="/assets/glimpse-list/temp-glimpse-list-img.jpg"
                 alt="프로필이미지"
                 height={70}
                 width={70}
