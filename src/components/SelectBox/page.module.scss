@@ -3,9 +3,14 @@
   border: 1px #dedede solid;
   border-radius: 4px;
 }
-.filtering:focus {
-  border: 1px solid red;
+.selected-filter {
+  border: 1px solid #7e51fd;
+  background: #fff;
   outline: none;
+  color: #7e51fd;
+  option {
+    color: black;
+  }
 }
 
 .filtering:not(:last-child) {

@@ -62,25 +62,37 @@ export default function Glimpselist() {
   const [toggleView, setToggleVIew] = useState<ViewType>('box');
   const [openMore, setOpenMore] = useState(false);
   const [searchWord, setSerachWord] = useState('');
+  const [filters, setFilters] = useState({
+    personType: 'all',
+    industry: '',
+    hobby: '',
+    interest: '',
+    favorite: '',
+  });
 
   const onChangeView = (viewType: ViewType): void => {
     setToggleVIew(viewType);
   };
 
   // TODO: API 연결 필요
+  // TODO: URL 쿼리스트링 연결 필요
   const onSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const keyword = e.target.value;
     const filtered = dummyGlimpses.filter(data => data.name.includes(keyword));
-    // eslint-disable-next-line node/no-unsupported-features/node-builtins
-    const params = new URLSearchParams(searchParams);
     setGlimpses(filtered);
     setSerachWord(keyword);
-    params.set('search', keyword);
-    router.replace(`${pathname}?${params.toString()}`);
+    // searchParams.set('search', keyword);
+    // router.replace(`${pathname}?${params.toString()}`);
   };
+
   // TODO: transition 효과가 제대로 작동하지 않음
   const onClickMore = () => {
     setOpenMore(!openMore);
+  };
+
+  // TODO: URL 쿼리스트링 연결 필요
+  const handleFilterChange = (filterType: string, value: string) => {
+    setFilters(prevFilters => ({...prevFilters, [filterType]: value}));
   };
 
   useEffect(() => {
@@ -228,48 +240,53 @@ export default function Glimpselist() {
             name="personType"
             defaultValue="all"
             options={PERSON_TYPE}
+            value={filters.personType}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              console.log(e.target.value)
+              handleFilterChange('personType', e.target.value)
             }
           />
           <SelectBox
             name="industry"
             defaultValue="industry"
             options={INDUSTRY}
+            value={filters.industry}
             hidden
             hiddenOption={{value: 'industry', name: 'industry'}}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              console.log(e.target.value)
+              handleFilterChange('industry', e.target.value)
             }
           />
           <SelectBox
             name="hobby"
             defaultValue="hobby"
             options={HOBBY}
+            value={filters.hobby}
             hidden
             hiddenOption={{value: 'hobby', name: 'hobby'}}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              console.log(e.target.value)
+              handleFilterChange('hobby', e.target.value)
             }
           />
           <SelectBox
             name={'interest'}
             defaultValue={'interest'}
             options={INTEREST}
+            value={filters.interest}
             hidden
             hiddenOption={{value: 'interest', name: 'interest'}}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              console.log(e.target.value)
+              handleFilterChange('interest', e.target.value)
             }
           />
           <SelectBox
             name={'favorite'}
             defaultValue={'favorite'}
             options={FAVORITE}
+            value={filters.favorite}
             hidden
             hiddenOption={{value: 'favorite', name: 'favorite'}}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              console.log(e.target.value)
+              handleFilterChange('favorite', e.target.value)
             }
           />
         </section>
