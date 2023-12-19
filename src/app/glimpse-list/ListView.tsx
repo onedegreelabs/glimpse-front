@@ -17,7 +17,7 @@ export default function ListView({glimpses}: ListViewProps) {
             <div className={styles['left-wrapper']}>
               <div className={styles['profile-wrapper']}>
                 <Avatar
-                  src="/assets/glimpse-list/avatar-img.png"
+                  src="/assets/glimpse-list/temp-glimpse-list-img.jpg"
                   alt="프로필이미지"
                   height={50}
                   width={50}
