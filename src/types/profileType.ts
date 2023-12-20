@@ -14,8 +14,8 @@ export interface IProfile {
 
 export interface IProfileCard {
   id: number;
-  type: 'INTROTITLE' | 'ABOUTME' | 'LINK' | 'HASHTAG';
-  content: string | null;
+  type: 'INTROTITLE' | 'INTROCAREE' | 'ABOUTME' | 'LINK' | 'HASHTAG';
+  content: string[] | null;
   isVisible: boolean;
   color: string;
 }
@@ -29,4 +29,21 @@ export interface IProfileData {
   location: string;
   department: string;
   cards: IProfileCard[];
+}
+
+export interface IProfileSection {
+  height: number;
+  width: number;
+  placeholder: string;
+}
+
+export interface ISection {
+  title: string;
+  sectionProp: IProfileSection[];
+}
+
+export interface ICombinedDataItem {
+  title: string;
+  content: IProfileCard[];
+  cards: IProfileSection[];
 }

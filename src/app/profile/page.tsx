@@ -1,26 +1,87 @@
 'use client';
 
-import Card from '@/components/Card/page';
 import CircleImage from './components/CircleImage/page';
 import styles from './page.module.scss';
 import Image from 'next/image';
 import {useRouter} from 'next/navigation';
 import {profileApi} from '@/network/api';
-import {IProfile} from '@/types/profileType';
+import {ICombinedDataItem, IProfile, IProfileCard} from '@/types/profileType';
 import {useState, useEffect} from 'react';
 import IconText from '@/components/IconText/page';
 import FloatingButton from './components/FloatingButton/page';
+import CardSection from './CardSection';
+import {section} from './const/profile';
 
 export default function Profile() {
   const router = useRouter();
   const [profile, setProfile] = useState<IProfile>();
+  const [combinedData, setCombinedData] = useState<ICombinedDataItem[]>([]);
 
   const goToBack = () => {
     router.back();
   };
 
+  // NOTE: 이게 좋은 것인지 모르겠다.
+  // 데이터 형태는 어떻게 주는 것이 좋은 것일까?
+  // 화면용 card 데이터로 전처리
+  const rebuildCard = (cards: IProfileCard[]): IProfileCard[][] => {
+    const itroContent = cards.slice(0, 2);
+    const aboutContent = [cards[2]];
+    const linkContent = [cards[3]];
+    const hashTagContent = [cards[4]];
+
+    const rebuild = [itroContent, aboutContent, linkContent, hashTagContent];
+
+    return rebuild;
+  };
+  const combineDataWithCard = (card: IProfileCard[]) => {
+    const rebuildCards = rebuildCard(card);
+    const combinedData = section.map((section, index) => {
+      const newSection = {...section, content: rebuildCards[index]};
+      return newSection;
+    });
+    setCombinedData(combinedData);
+  };
+
+  const getContentIndex = (title: string, id: number): number => {
+    if (title === 'Intro') {
+      return id - 1;
+    } else {
+      return 0;
+    }
+  };
+
+  const updateCardContent = (
+    oldContents: IProfileCard[],
+    id: number,
+    content: string
+  ): IProfileCard[] => {
+    const newContents = oldContents.map(oldContent => {
+      if (oldContent.id === id) {
+        return {...oldContent, content: [content]};
+      }
+      return oldContent;
+    });
+
+    return newContents;
+  };
+
+  const updateCard = (title: string, id: number, updatedContent: string) => {
+    // const index = getContentIndex(title, id);
+    const updatedCombineData = combinedData.map(data => {
+      const oldContents = data.content;
+      const updatedCards = updateCardContent(oldContents, id, updatedContent);
+      return {...data, content: [...updatedCards]};
+    });
+    console.log('updatedCombineData', updatedCombineData);
+    setCombinedData(updatedCombineData);
+  };
+
   useEffect(() => {
-    profileApi.getUserMe().then(res => setProfile(res));
+    profileApi.getUserMe().then(res => {
+      setProfile(res);
+      combineDataWithCard(res.cards);
+    });
   }, []);
 
   return (
@@ -84,59 +145,13 @@ export default function Profile() {
           />
         </div>
       </section>
-      <section className={styles['intro-section']}>
-        <div className={styles['title']}>
-          <span>Intro</span>
-        </div>
-        <div className={styles['content-wrapper']}>
-          <Card height={168} width={168}>
-            <div className={styles['content']}>
-              <textarea placeholder="add title..." />
-            </div>
-          </Card>
-          <Card height={168} width={168}>
-            <div className={styles['content']}>
-              <textarea placeholder="add title..." />
-            </div>
-          </Card>
-        </div>
-      </section>
-      <section className={styles['about-me-section']}>
-        <div className={styles['title']}>
-          <span>About me</span>
-        </div>
-        <div className={styles['content-wrapper']}>
-          <Card height={168} width={358}>
-            <div className={styles['content']}>
-              <textarea placeholder="Write down what you want to say..." />
-            </div>
-          </Card>
-        </div>
-      </section>
-      <section className={styles['connect-section']}>
-        <div className={styles['title']}>
-          <span>Connect</span>
-        </div>
-        <div className={styles['content-wrapper']}>
-          <Card height={64} width={358}>
-            <div className={styles['link-content']}>
-              <div />
-              <input placeholder="link add..." />
-            </div>
-          </Card>
-        </div>
-      </section>
-      <section className={styles['hashtag-section']}>
-        <div className={styles['title']}>
-          <span> Hashtag of interest </span>
-        </div>
-        <div className={styles['content-wrapper']}>
-          <Card height={358} width={358}>
-            <div className={styles['content']}>
-              <textarea placeholder="Add your interests..." />
-            </div>
-          </Card>
-        </div>
+      <section className={styles['profile-card-section']}>
+        {combinedData.length > 0 && (
+          <CardSection
+            cardSectionItems={combinedData}
+            updateCard={updateCard}
+          />
+        )}
       </section>
       <FloatingButton />
     </div>
