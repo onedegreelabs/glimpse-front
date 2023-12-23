@@ -40,7 +40,7 @@
 
     .card-bottom {
       display: grid;
-      grid-template-columns: repeat(2, 108px);
+      grid-template-columns: 108px auto;
       grid-template-rows: 28px;
       justify-content: space-between;
       align-items: center;
@@ -57,6 +57,16 @@
         height: 28px;
         padding: 0 10px;
         border-radius: 4px;
+      }
+
+      .resend-code {
+        text-align: right;
+      }
+
+      .resend-timer {
+        text-align: right;
+        color: #666666;
+        cursor: default;
       }
 
       * {

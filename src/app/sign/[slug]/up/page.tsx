@@ -8,7 +8,7 @@ import {useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
 import getQueryString from '@/utils/getQueryString';
 import _ from 'lodash';
-import {verifyEmailCode} from '@/network/api';
+import {verifyEmailCode, sendMailWithCode} from '@/network/api';
 import {useRouter} from 'next/navigation';
 import isTokenValid from '@/utils/isTokenValid';
 import Image from 'next/image';
@@ -92,9 +92,37 @@ export default function SignUp() {
       });
   };
 
-  const onResend = function () {
-    alert('인증문자 다시 보내기');
+  const resendTimerRef = useRef<HTMLDivElement>(null);
+  const [isTimerActive, setIsTimerActive] = useState(false);
+
+  const onResend = async function () {
+    await sendMailWithCode(mailAddress);
+    setIsTimerActive(true);
   };
+
+  useEffect(() => {
+    if (isTimerActive) {
+      const resendTimerElement = resendTimerRef.current;
+      if (resendTimerElement) {
+        let seconds = 60;
+        resendTimerElement.innerText = `resend code in ${seconds}s`;
+
+        const countDown = setInterval(() => {
+          seconds--;
+          resendTimerElement.innerText = `resend code in ${seconds}s`;
+
+          if (seconds < 0) {
+            clearInterval(countDown);
+            setIsTimerActive(false);
+          }
+        }, 1000);
+
+        return () => clearInterval(countDown);
+      }
+    }
+    return;
+  }, [isTimerActive]);
+
   return (
     <div className={styles['signup-wrapper']}>
       <Card width={334} height={296}>
@@ -135,7 +163,16 @@ export default function SignUp() {
               />
               paste code
             </div>
-            <div onClick={onResend}>resend code</div>
+            {isTimerActive ? (
+              <div
+                className={styles['resend-timer']}
+                ref={resendTimerRef}
+              ></div>
+            ) : (
+              <div className={styles['resend-code']} onClick={onResend}>
+                resend code
+              </div>
+            )}
           </div>
         </div>
       </Card>
