@@ -1,26 +1,22 @@
 'use client';
-/* eslint-disable react-hooks/exhaustive-deps */
 import Card from '@/components/Card/page';
 import styles from './page.module.scss';
 import Button from '@/components/button/page';
 import {useRouter} from 'next/navigation';
 import {useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
-import {
-  loginWithGoogle,
-  loginWithLinkedin,
-  sendMailWithCode,
-} from '@/network/api';
+import {loginWithLinkedin, sendMailWithCode} from '@/network/api';
 import isTokenValid from '@/utils/isTokenValid';
 import Image from 'next/image';
+import {signIn} from 'next-auth/react';
+
 export default function SignIn() {
   const router = useRouter();
   useEffect(() => {
     if (isTokenValid()) {
-      router.push('/glimpse-list');
+      router.replace('/glimpse-list');
     }
   }, []);
-
   const [mailAddress, setMailAddress] = useState<string>('');
   const [isInvalidMail, setIsInvalidMail] = useState<Boolean>(false);
 
@@ -36,7 +32,7 @@ export default function SignIn() {
   };
 
   const onClickGoogleButton = async function () {
-    await loginWithGoogle();
+    await signIn('google');
   };
 
   const onClickLinkedinButton = async function () {
@@ -139,7 +135,7 @@ export default function SignIn() {
               color="ffffff"
               bgColor="0177B5"
               text="Sign in with linkedIn"
-              clickEvent={onClickGoogleButton}
+              clickEvent={onClickLinkedinButton}
             >
               <Image
                 alt="icon"

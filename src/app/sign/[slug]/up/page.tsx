@@ -18,7 +18,7 @@ export default function SignUp() {
 
   useEffect(() => {
     if (isTokenValid()) {
-      router.push('/glimpse-list');
+      router.replace('/glimpse-list');
     }
   }, []);
 
