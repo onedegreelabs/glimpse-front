@@ -1,5 +1,5 @@
 'use client';
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import styles from './page.module.scss';
 import CustomInput from '@/components/custom-input/page';
 import CustomRadio from '@/components/custom-radio/page';
@@ -8,10 +8,12 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import Card from '@/components/Card/page';
 import {createEvent} from '@/network/api';
+import CustomTextarea from '@/components/custom-textarea/page';
+
 export default function EventCreate() {
-  const [eventTitle, setEventTitle] = useState('');
-  const handleEventTitle = function (title: string) {
-    setEventTitle(title);
+  const [eventName, setEventName] = useState('');
+  const handleEventTitle = function (name: string) {
+    setEventName(name);
   };
 
   const [eventType, setEventType] = useState(0);
@@ -60,6 +62,26 @@ export default function EventCreate() {
   const [startDate, setStartDate] = useState<Date | null>(day);
   const [endDate, setEndDate] = useState<Date | null>(nextDay);
 
+  const [startDateForRender, setStartDateForRender] = useState<string>('');
+  const [timeForRender, setTimeForRender] = useState('');
+
+  useEffect(() => {
+    if (startDate) {
+      const year = startDate.getFullYear();
+      const month = startDate.getMonth() + 1;
+      const day = startDate.getDate();
+      const formattedDate = `${month}/${day}/${year}`;
+      setStartDateForRender(formattedDate);
+
+      const hours = startDate.getHours();
+      const minutes = startDate.getMinutes();
+      const formattedTime = `${hours}:${
+        minutes < 10 ? '0' + minutes : minutes
+      }`;
+      setTimeForRender(formattedTime);
+    }
+  }, [startDate]);
+
   const convertDateFormat = function (date: Date | null) {
     if (date) {
       const formattedDate = date.toISOString().slice(0, 19).replace(' ', 'T');
@@ -70,20 +92,20 @@ export default function EventCreate() {
   };
 
   const [eventLocation, seteventLocation] = useState('');
-  const handleEventLocation = function (title: string) {
-    seteventLocation(title);
+  const handleEventLocation = function (location: string) {
+    seteventLocation(location);
   };
   const [eventExternalLink, setEventExternalLink] = useState('');
-  const handleEventExternalLink = function (title: string) {
-    setEventExternalLink(title);
+  const handleEventExternalLink = function (link: string) {
+    setEventExternalLink(link);
   };
   const [eventHandle, setEventHandle] = useState('');
-  const handleEventHandle = function (title: string) {
-    setEventHandle(title);
+  const handleEventHandle = function (handle: string) {
+    setEventHandle(handle);
   };
   const [eventDescription, setEventDescription] = useState('');
-  const handleEventDescription = function (title: string) {
-    setEventDescription(title);
+  const handleEventDescription = function (description: string) {
+    setEventDescription(description);
   };
   const [eventTag, setEventTag] = useState<string[]>([]);
   const addEventTag = function (tag: string) {
@@ -97,7 +119,7 @@ export default function EventCreate() {
     setPreviewMode(mode);
   };
 
-  const [imgFile, setImgFile] = useState<File | undefined>();
+  const [, setImgFile] = useState<File | undefined>();
   const [imgUrl, setImgUrl] = useState<string | ArrayBuffer | null>();
   const handleImageUpload = (event: {target: {files: FileList | null}}) => {
     const selectedFile = event.target.files?.[0];
@@ -121,7 +143,7 @@ export default function EventCreate() {
   const onCreateEvent = async function () {
     const params = {
       organizationId: 1,
-      title: eventTitle,
+      title: eventName,
       type: String(eventType),
       visibility: String(eventVisibility),
       startDate: convertDateFormat(startDate),
@@ -132,8 +154,23 @@ export default function EventCreate() {
       description: eventDescription,
       tags: eventTag,
     };
-    const response = await createEvent(params);
+
+    await createEvent(params);
+    // const response = await createEvent(params);
   };
+
+  const descriptionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (descriptionRef.current) {
+      const textareaElement = descriptionRef.current.querySelector('textarea');
+      if (textareaElement !== null) {
+        const heightValue = textareaElement.scrollHeight;
+        textareaElement.style.height = heightValue + 'px';
+        descriptionRef.current.style.height = heightValue + 20 + 'px';
+      }
+    }
+  }, [eventDescription]);
 
   return (
     <div className={styles['event-create-wrapper']}>
@@ -230,8 +267,8 @@ export default function EventCreate() {
             </div>
           </div>
 
-          <div className={styles['event-title-area']}>
-            {eventTitle.length ? eventTitle : 'eventTitle'}
+          <div className={styles['event-name-area']}>
+            {eventName.length ? eventName : 'eventName'}
           </div>
 
           <div className={styles['view-area']}>
@@ -258,7 +295,7 @@ export default function EventCreate() {
                   height={16}
                 />
               </div>
-              <div className={styles['text-area']}>00/00/0000</div>
+              <div className={styles['text-area']}>{startDateForRender}</div>
             </div>
             <div className={styles['item-area']}>
               <div className={styles['icon-area']}>
@@ -269,7 +306,7 @@ export default function EventCreate() {
                   height={16}
                 />
               </div>
-              <div className={styles['text-area']}>12:00</div>
+              <div className={styles['text-area']}>{timeForRender}</div>
             </div>
             <div className={styles['item-area']}>
               <div className={styles['icon-area']}>
@@ -411,7 +448,7 @@ export default function EventCreate() {
             [styles['mobile']]: previewMode === 'mobile',
           })}
         >
-          {[0, 0, 0, 0, 0, 0].map((v, i) => {
+          {[...Array(previewMode === 'mobile' ? 2 : 6)].map((v, i) => {
             return (
               <Card key={`card_${i}`}>
                 <div className={styles['profile-card']}>
@@ -525,10 +562,10 @@ export default function EventCreate() {
         </div>
         <div className={styles['body-area']}>
           <CustomInput
-            name="Event Title *"
-            value={eventTitle}
+            name="Event Name *"
+            value={eventName}
             handleValue={handleEventTitle}
-            placeHolder="Title"
+            placeHolder="Name"
           />
           <div className={styles['event-type-radio']}>
             <CustomRadio
@@ -570,12 +607,14 @@ export default function EventCreate() {
             handleValue={handleEventHandle}
             placeHolder="e.g., unique identifier or name"
           />
-          <CustomInput
-            name="Event Description"
-            value={eventDescription}
-            handleValue={handleEventDescription}
-            placeHolder="Add a description of your event"
-          />
+          <div ref={descriptionRef}>
+            <CustomTextarea
+              name="Event Description"
+              value={eventDescription}
+              handleValue={handleEventDescription}
+              placeHolder="Add a description of your event"
+            />
+          </div>
           <CustomInput
             name="Event Tag"
             valueArr={eventTag}
@@ -614,18 +653,18 @@ export default function EventCreate() {
               ></input>
             </div>
           </div>
-        </div>
-        <div className={styles['footer-area']}>
-          <div className={clsx(styles['button-area'], styles['save-button'])}>
-            <div className={styles['text-area']}>Save Draft</div>
-          </div>
-          <div
-            className={clsx(styles['button-area'], styles['publish-button'])}
-            onClick={() => {
-              onCreateEvent();
-            }}
-          >
-            <div className={styles['text-area']}>Publish & Share</div>
+          <div className={styles['footer-area']}>
+            <div className={clsx(styles['button-area'], styles['save-button'])}>
+              <div className={styles['text-area']}>Save Draft</div>
+            </div>
+            <div
+              className={clsx(styles['button-area'], styles['publish-button'])}
+              onClick={() => {
+                onCreateEvent();
+              }}
+            >
+              <div className={styles['text-area']}>Publish & Share</div>
+            </div>
           </div>
         </div>
       </div>

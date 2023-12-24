@@ -7,7 +7,7 @@
 
   .preview-area {
     display: grid;
-    grid-template-rows: 42px 82px 180px 140px 10px 48px 64px;
+    grid-template-rows: 42px 82px 180px minmax(140px, auto) 10px 48px 64px;
     gap: 20px;
     background-color: #fff;
     border-radius: 16px;
@@ -16,9 +16,24 @@
 
     &.mobile {
       display: grid;
-      grid-template-rows: 42px 82px 180px 140px 10px 100px 64px;
+      grid-template-rows: 42px 82px 180px 200px 10px 100px 64px;
       margin: 0 auto;
       width: 390px;
+
+      .main-content-container {
+        display: grid;
+        grid-template-columns: 116px minmax(72px 1fr);
+        gap: 8px;
+
+        .time-location-wrapper {
+          gap: 4px;
+
+          .item-area:nth-child(3) {
+            grid-row: 2;
+            grid-column: 1 / 4;
+          }
+        }
+      }
 
       .profile-header {
         display: grid;
@@ -149,7 +164,7 @@
         }
       }
 
-      .event-title-area {
+      .event-name-area {
         font-size: 28px;
         font-weight: 400;
         white-space: nowrap;
@@ -180,13 +195,13 @@
 
     .main-content-container {
       display: grid;
-      grid-template-rows: 24px 24px 28px;
+      grid-template-rows: 24px minmax(24px auto) 28px;
       gap: 16px;
       padding: 16px;
 
       .time-location-wrapper {
         display: grid;
-        grid-template-columns: 116px 72px 120px;
+        grid-template-columns: 116px 72px auto;
         gap: 8px;
 
         .item-area {
@@ -203,7 +218,6 @@
           .text-area {
             font-size: 16px;
             font-weight: 400;
-            color: #969696;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -213,10 +227,7 @@
 
       .event-description-wrapper {
         font-size: 16px;
-        color: #969696;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        word-break: break-all;
       }
 
       .extenral-event-link-wrapper {
@@ -457,7 +468,7 @@
 
   .create-area {
     display: grid;
-    grid-template-rows: 54px minmax(0, 1300px) 84px;
+    grid-template-rows: 54px minmax(0, auto);
     grid-template-columns: minmax(0, 1fr);
     gap: 32px;
     justify-content: center;
@@ -486,7 +497,7 @@
 
     .body-area {
       display: grid;
-      grid-template-rows: 82px 60px 60px 154px;
+      grid-template-rows: 82px 60px 60px 154px 82px 82px 82px minmax(0, auto);
       gap: 32px;
       margin: 0 20px 40px;
 
@@ -515,7 +526,7 @@
           justify-content: center;
           align-items: center;
           height: 172px;
-          width: 306px;
+          width: 320px;
           border: 2px dashed #D9D9D9;
 
           .label-button {
@@ -536,45 +547,44 @@
           }
         }
       }
-    }
 
-    .footer-area {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: minmax(0, 1fr);
-      justify-content: space-between;
-      gap: 8px;
-      padding: 16px;
+      .footer-area {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: minmax(0, 1fr);
+        justify-content: space-between;
+        gap: 8px;
 
-      .button-area {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 52px;
-        border-radius: 4px;
-        width: 100%;
-        margin: 0 auto;
-        cursor: pointer;
+        .button-area {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 52px;
+          border-radius: 4px;
+          width: 100%;
+          margin: 0 auto;
+          cursor: pointer;
 
-        &:hover {
-          .text-area {
-            font-size: 18px;
+          &:hover {
+            .text-area {
+              font-size: 18px;
+            }
           }
-        }
 
-        &.save-button {
-          border: 1px solid #C1C1C1;
-        }
+          &.save-button {
+            border: 1px solid #C1C1C1;
+          }
 
-        &.publish-button {
-          background: #7E51FD;
-          color: #fff;
-        }
+          &.publish-button {
+            background: #7E51FD;
+            color: #fff;
+          }
 
-        .text-area {
-          text-align: center;
-          font-size: 16px;
-          font-weight: 600;
+          .text-area {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+          }
         }
       }
     }
@@ -609,7 +619,13 @@
     grid-template-columns: minmax(0, 1fr);
 
     .preview-area {
-      display: none;
+      &.mobile {
+        display: none;
+      }
+
+      &.desktop {
+        display: none;
+      }
     }
   }
 }
