@@ -108,10 +108,30 @@ export default function EventCreate() {
     setEventDescription(description);
   };
   const [eventTag, setEventTag] = useState<string[]>([]);
-  const addEventTag = function (tag: string) {
-    const tmpArr = [...eventTag];
-    tmpArr.push(tag);
-    setEventTag(tmpArr);
+  const eventTagRef = useRef<HTMLDivElement>(null);
+  const onHandleEventTag = function (e: React.KeyboardEvent<HTMLInputElement>) {
+    const inputValue = (e.currentTarget as HTMLInputElement).value;
+    const tagsArray = inputValue
+      .split(',')
+      .map(tag => tag.trim())
+      .filter(e => e);
+    setEventTag(prev => [...prev, ...tagsArray]);
+
+    if (eventTagRef.current) {
+      const eventTagInputElement = eventTagRef.current.querySelector('input');
+      if (eventTagInputElement) {
+        eventTagInputElement.value = '';
+      }
+    }
+  };
+
+  const onDeleteEventTag = function (idx: number) {
+    const copyEventTag = [...eventTag];
+    const deletedEventTag = copyEventTag.filter((v, i) => {
+      return i !== idx;
+    });
+
+    setEventTag(deletedEventTag);
   };
 
   const [previewMode, setPreviewMode] = useState<string>('desktop');
@@ -141,6 +161,7 @@ export default function EventCreate() {
   const [profileViewMode, setProfileViewMode] = useState(0);
 
   const onCreateEvent = async function () {
+    alert('백엔드 api 개발중');
     const params = {
       organizationId: 1,
       title: eventName,
@@ -154,8 +175,8 @@ export default function EventCreate() {
       description: eventDescription,
       tags: eventTag,
     };
-
-    await createEvent(params);
+    console.log(params);
+    // await createEvent(params);
     // const response = await createEvent(params);
   };
 
@@ -490,7 +511,9 @@ export default function EventCreate() {
                           San Fancisco, USA
                         </div>
                       </div>
-                      <div className={styles['info-name']}>Panseung</div>
+                      <div className={styles['info-name']}>{`sample user${
+                        i + 1
+                      }`}</div>
                       <div className={styles['info-position']}>
                         <div
                           className={clsx(
@@ -513,7 +536,7 @@ export default function EventCreate() {
                     </div>
                   </div>
                   <div className={styles['tmp-classname']}>
-                    Hi, I am Panseung. I developed here. Glimpse!
+                    {`Hi, I am sample user${i + 1}. Glimpse!`}
                   </div>
                   <div className={styles['tag-info']}>
                     <div className={styles['tag-item']}>#puppylove</div>
@@ -615,12 +638,35 @@ export default function EventCreate() {
               placeHolder="Add a description of your event"
             />
           </div>
-          <CustomInput
-            name="Event Tag"
-            valueArr={eventTag}
-            handleValue={addEventTag}
-            placeHolder="Tag"
-          />
+          <div ref={eventTagRef}>
+            <CustomInput
+              name="Event Tag"
+              valueArr={eventTag}
+              placeHolder="Tag"
+              handleEnter={e => {
+                onHandleEventTag(e);
+              }}
+            />
+          </div>
+          {eventTag.length > 0 && (
+            <div className={styles['event-tag-items']}>
+              {eventTag.map((v, i) => {
+                return (
+                  <div className={styles['tag-item']} key={`tag_${i}`}>
+                    <div className={styles['text-area']}>{v}</div>
+                    <div
+                      className={styles['btn-area']}
+                      onClick={() => {
+                        onDeleteEventTag(i);
+                      }}
+                    >
+                      x
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
           <div className={styles['bg-file-area']}>
             <div className={styles['text-area']}>Event Cover Image</div>
             <div
