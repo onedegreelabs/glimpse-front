@@ -15,17 +15,25 @@
     "posttest": "npm run lint"
   },
   "dependencies": {
+    "axios": "^1.6.2",
+    "clsx": "^2.0.0",
+    "lodash": "^4.17.21",
+    "next": "14.0.1",
+    "next-auth": "^4.24.5",
     "react": "^18",
+    "react-datepicker": "^4.24.0",
     "react-dom": "^18",
-    "next": "14.0.1"
+    "sass": "^1.69.5"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@types/lodash": "^4.14.202",
     "@types/node": "^20",
     "@types/react": "^18",
+    "@types/react-datepicker": "^4.19.4",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.0.1",
-    "gts": "^5.2.0"
+    "gts": "^5.2.0",
+    "typescript": "^5"
   }
 }

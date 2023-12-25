@@ -1,0 +1,77 @@
+.signup-wrapper {
+  .card-wrapper {
+    display: grid;
+    grid-template-rows: 32px 16px 40px 28px;
+    gap: 16px;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+
+    .card-title {
+      font-size: 24px;
+    }
+
+    .card-sub-title {
+      font-size: 12px;
+    }
+
+    .digit-area {
+      display: grid;
+      grid-template-columns: repeat(6, 40px);
+      gap: 10px;
+
+      .input-box {
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
+        text-align: center;
+      }
+    }
+
+    .invalid-check {
+      text-align: start;
+      font-size: 12px;
+      color: #ff0000;
+      visibility: hidden;
+
+      &.show {
+        visibility: visible;
+      }
+    }
+
+    .card-bottom {
+      display: grid;
+      grid-template-columns: 108px auto;
+      grid-template-rows: 28px;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 500;
+
+      .paste-code {
+        display: grid;
+        grid-template-columns: 20px minmax(0, 1fr);
+        gap: 4px;
+        align-items: center;
+        justify-content: center;
+        background-color: #F3F3F3;
+        height: 28px;
+        padding: 0 10px;
+        border-radius: 4px;
+      }
+
+      .resend-code {
+        text-align: right;
+      }
+
+      .resend-timer {
+        text-align: right;
+        color: #666666;
+        cursor: default;
+      }
+
+      * {
+        cursor: pointer;
+      }
+    }
+  }
+}

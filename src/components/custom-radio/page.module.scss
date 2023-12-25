@@ -1,0 +1,59 @@
+.custom-radio-wrapper {
+  display: grid;
+  grid-template-rows: repeat(2, 24px);
+  gap: 12px;
+
+  .name-area {
+    font-size: 16px;
+    font-weight: 400;
+    text-align: left;
+  }
+
+  .radio-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .item-wrapper {
+      display: flex;
+      gap: 5px;
+
+      .radio-btn {
+        width: 24px;
+        height: 24px;
+        -webkit-appearance: none; /* 브라우저 기본 스타일링 제거 */
+        -moz-appearance: none;
+        appearance: none;
+        border: 2px solid #C2C2C2;
+        border-radius: 50%;
+        cursor: pointer;
+        position: relative;
+  
+        &:checked {
+          border: 2px solid #000; /* 선택된 경우의 원 색상 변경 */
+  
+          &::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px; /* 체크된 동그라미의 너비 */
+            height: 12px; /* 체크된 동그라미의 높이 */
+            background-color: #000; /* 체크된 동그라미의 색상 */
+            border-radius: 50%; /* 동그라미 모양 */
+          }
+        }
+      }
+  
+      .label-area {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+      }
+    }
+    
+  }
+}

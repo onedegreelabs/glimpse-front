@@ -1,0 +1,13 @@
+.header-wrapper {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  background: #fff;
+
+  .text-area {
+    font-size: 12px;
+    text-align: center;
+    font-weight: 500;
+  }
+}
