@@ -7,7 +7,7 @@ import {usePathname} from 'next/navigation';
 
 export default function Sign() {
   const pathname = usePathname();
-  const pathSegments: string[] = pathname.split('/').filter(Boolean);
+  const pathSegments: string[] = pathname?.split('/').filter(Boolean) || [];
   const page: string = pathSegments[1];
 
   return (
