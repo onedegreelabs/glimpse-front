@@ -5,82 +5,124 @@ import styles from './page.module.scss';
 import Image from 'next/image';
 import {useRouter} from 'next/navigation';
 import {profileApi} from '@/network/api';
-import {ICombinedDataItem, IProfile, IProfileCard} from '@/types/profileType';
-import {useState, useEffect} from 'react';
+import {IProfile, IProfileCard, IProfileUpdate} from '@/types/profileType';
+import {useState, useEffect, ChangeEvent} from 'react';
 import IconText from '@/components/IconText/page';
 import FloatingButton from './components/FloatingButton/page';
-import CardSection from './CardSection';
-import {section} from './const/profile';
+import Card from '@/components/Card/page';
+import SaveButton from './SaveButton';
 
 export default function Profile() {
   const router = useRouter();
-  const [profile, setProfile] = useState<IProfile>();
-  const [combinedData, setCombinedData] = useState<ICombinedDataItem[]>([]);
+  const [profile, setProfile] = useState<IProfile>({
+    id: 0,
+    firstName: '',
+    lastName: '',
+    displayName: '',
+    profileImageUrl: '',
+    introSnippet: '',
+    department: '',
+    location: '',
+    belong: '',
+    viewCount: 0,
+    cards: [],
+  });
+  const [introTitle, setIntroTitle] = useState<IProfileCard>({
+    id: 0,
+    type: 'INTROTITLE',
+    content: [],
+    isVisible: true,
+    color: '#FFFFFF',
+  });
+  const [introCareer, setIntroCareer] = useState<IProfileCard>({
+    id: 0,
+    type: 'INTROCAREE',
+    content: [],
+    isVisible: true,
+    color: '#FFFFFF',
+  });
+  const [aboutMe, setAboutMe] = useState<IProfileCard>({
+    id: 0,
+    type: 'ABOUTME',
+    content: [],
+    isVisible: true,
+    color: '#FFFFFF',
+  });
+  const [connects, setConnects] = useState<IProfileCard>({
+    id: 0,
+    type: 'LINK',
+    content: [],
+    isVisible: true,
+    color: '#FFFFFF',
+  });
+  const [hashTags, setHashTags] = useState<IProfileCard>({
+    id: 0,
+    type: 'HASHTAG',
+    content: [],
+    isVisible: true,
+    color: '#FFFFFF',
+  });
+  const [isSaving, setIsSaving] = useState(false);
 
   const goToBack = () => {
     router.back();
   };
 
-  // NOTE: 이게 좋은 것인지 모르겠다.
-  // 데이터 형태는 어떻게 주는 것이 좋은 것일까?
-  // 화면용 card 데이터로 전처리
-  const rebuildCard = (cards: IProfileCard[]): IProfileCard[][] => {
-    const itroContent = cards.slice(0, 2);
-    const aboutContent = [cards[2]];
-    const linkContent = [cards[3]];
-    const hashTagContent = [cards[4]];
-
-    const rebuild = [itroContent, aboutContent, linkContent, hashTagContent];
-
-    return rebuild;
-  };
-  const combineDataWithCard = (card: IProfileCard[]) => {
-    const rebuildCards = rebuildCard(card);
-    const combinedData = section.map((section, index) => {
-      const newSection = {...section, content: rebuildCards[index]};
-      return newSection;
-    });
-    setCombinedData(combinedData);
+  const getCardsByType = (cards: IProfileCard[]) => {
+    setIntroTitle(cards[0]);
+    setIntroCareer(cards[1]);
+    setAboutMe(cards[2]);
+    setConnects(cards[3]);
+    setHashTags(cards[4]);
   };
 
-  const getContentIndex = (title: string, id: number): number => {
-    if (title === 'Intro') {
-      return id - 1;
-    } else {
-      return 0;
-    }
+  const changeBelong = (e: ChangeEvent<HTMLInputElement>) => {
+    const newBelong = e.target.value;
+    setProfile({...profile, belong: newBelong});
   };
 
-  const updateCardContent = (
-    oldContents: IProfileCard[],
-    id: number,
-    content: string
-  ): IProfileCard[] => {
-    const newContents = oldContents.map(oldContent => {
-      if (oldContent.id === id) {
-        return {...oldContent, content: [content]};
-      }
-      return oldContent;
-    });
-
-    return newContents;
+  const changeItroTitleContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const newContent = e.target.value;
+    setIntroTitle({...introTitle, content: [newContent]});
   };
 
-  const updateCard = (title: string, id: number, updatedContent: string) => {
-    // const index = getContentIndex(title, id);
-    const updatedCombineData = combinedData.map(data => {
-      const oldContents = data.content;
-      const updatedCards = updateCardContent(oldContents, id, updatedContent);
-      return {...data, content: [...updatedCards]};
-    });
-    console.log('updatedCombineData', updatedCombineData);
-    setCombinedData(updatedCombineData);
+  const changeItroCareerContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const newContent = e.target.value;
+    setIntroCareer({...introTitle, content: [newContent]});
+  };
+
+  const changeAboutMeContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const newContent = e.target.value;
+    setAboutMe({...introTitle, content: [newContent]});
+  };
+
+  const changeConnectContent = (e: ChangeEvent<HTMLInputElement>) => {
+    const prevConnect = connects.content === null ? [] : [...connects.content];
+    const newConnect = e.target.value;
+
+    setAboutMe({...introTitle, content: [...prevConnect, newConnect]});
+  };
+
+  const handleSave = () => {
+    console.log('save click');
+    const {cards, ...rest} = profile;
+    const updateCards = [introTitle, introCareer, aboutMe, connects, hashTags];
+    const updateProfile: IProfileUpdate = {
+      profileImage: profile.profileImageUrl,
+      data: {
+        ...rest,
+        cards: updateCards,
+      },
+    };
+    console.log('updateProfile', updateProfile);
+    setIsSaving(true);
+    profileApi.updateUserMe(updateProfile).then(() => setIsSaving(false));
   };
 
   useEffect(() => {
     profileApi.getUserMe().then(res => {
       setProfile(res);
-      combineDataWithCard(res.cards);
+      getCardsByType(res.cards);
     });
   }, []);
 
@@ -99,7 +141,11 @@ export default function Profile() {
           </button>
           <div className={styles['profile-image']}>
             <Image
-              src={profile?.profileImageUrl || '/assets/profile/profile.png'}
+              src={
+                profile.profileImageUrl === null
+                  ? '/assets/profile/temp-glimpse-list-img.jpg'
+                  : profile.profileImageUrl
+              }
               alt="프로필사진"
               width={120}
               height={120}
@@ -125,35 +171,125 @@ export default function Profile() {
         <div className={styles['profile-info-wrapper']}>
           <p
             className={styles['name']}
-          >{`${profile?.lastName} ${profile?.firstName}`}</p>
-          <p>{profile?.introSnippet}</p>
+          >{`${profile.lastName} ${profile.firstName}`}</p>
+          <p>{profile.introSnippet}</p>
           <div className={styles['company-wrapper']}>
-            <p>{profile?.department}</p>
-            {profile?.belong && (
-              <>
-                <p className={styles['divider']}>|</p>
-                <p>{profile.belong}</p>
-              </>
-            )}
+            <p>{profile.department}</p>
+            <>
+              <p className={styles['divider']}>|</p>
+              <input
+                className={styles['company-name']}
+                placeholder="company"
+                value={profile.belong}
+                onChange={changeBelong}
+                maxLength={20}
+              />
+            </>
           </div>
           <IconText
             src="/assets/glimpse-list/location-icon.svg"
             alt="위치아이콘"
             width={24}
             height={24}
-            text={profile?.location || ''}
+            text={profile.location || ''}
           />
         </div>
       </section>
-      <section className={styles['profile-card-section']}>
-        {combinedData.length > 0 && (
-          <CardSection
-            cardSectionItems={combinedData}
-            updateCard={updateCard}
-          />
-        )}
+      <section className={styles['content-section']}>
+        <div className={styles['title']}>
+          <span>Intro</span>
+        </div>
+        <div className={styles['content-wrapper']}>
+          <Card height={168} width={168}>
+            <div className={styles['content']}>
+              <textarea
+                placeholder="add title..."
+                value={introTitle.content?.[0] || ''}
+                onChange={changeItroTitleContent}
+              />
+            </div>
+          </Card>
+          <Card height={168} width={168}>
+            <div className={styles['content']}>
+              <textarea
+                placeholder="add title..."
+                value={introCareer.content?.[0] || ''}
+                onChange={changeItroCareerContent}
+              />
+            </div>
+          </Card>
+        </div>
+      </section>
+      <section className={styles['content-section']}>
+        <div className={styles['title']}>
+          <span>About me</span>
+        </div>
+        <div className={styles['content-wrapper']}>
+          <Card height={168} width={358}>
+            <div className={styles['content']}>
+              <textarea
+                placeholder="Write down what you want to say..."
+                value={aboutMe.content?.[0] || ''}
+                onChange={changeAboutMeContent}
+              />
+            </div>
+          </Card>
+        </div>
+      </section>
+      <section className={styles['content-section']}>
+        <div className={styles['title']}>
+          <span>Connect</span>
+        </div>
+        <div className={styles['content-wrapper']}>
+          {connects.content === null ? (
+            <Card height={64} width={358}>
+              <div className={styles['link-content']}>
+                <div />
+                <input
+                  placeholder="link add..."
+                  value={''}
+                  onChange={changeConnectContent}
+                />
+              </div>
+            </Card>
+          ) : (
+            connects.content?.map((text, index) => (
+              <Card height={64} width={358} key={`conent-${index}`}>
+                <div className={styles['link-content']}>
+                  <div />
+                  <input
+                    placeholder="link add..."
+                    value={text}
+                    onChange={changeConnectContent}
+                  />
+                </div>
+              </Card>
+            ))
+          )}
+        </div>
+      </section>
+      <section className={styles['content-section']}>
+        <div className={styles['title']}>
+          <span> Hashtag of interest </span>
+        </div>
+        <div className={styles['content-wrapper']}>
+          <Card height={358} width={358}>
+            <div className={styles['content']}>
+              {hashTags.content === null ? (
+                <textarea placeholder="Add your interests..." />
+              ) : (
+                hashTags.content?.map((tag, index) => (
+                  <div key={`hashTag-${index}`}>{tag}</div>
+                ))
+              )}
+            </div>
+          </Card>
+        </div>
       </section>
       <FloatingButton />
+      <div className={styles['save-button-wrapper']}>
+        <SaveButton isSaving={isSaving} onSave={handleSave} />
+      </div>
     </div>
   );
 }

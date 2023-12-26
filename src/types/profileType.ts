@@ -22,13 +22,7 @@ export interface IProfileCard {
 
 export interface IProfileUpdate {
   profileImage: string;
-  data: IProfileData;
-}
-
-export interface IProfileData {
-  location: string;
-  department: string;
-  cards: IProfileCard[];
+  data: IProfile;
 }
 
 export interface IProfileSection {

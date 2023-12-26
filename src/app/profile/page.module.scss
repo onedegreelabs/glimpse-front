@@ -48,13 +48,76 @@
           font-weight: 600;
           line-height: 16px;
         }
+
+        .company-name {
+          padding: 4px 10px;
+          border-radius: 4px;
+          border: 1px solid #d9d9d9;
+          background: #fff;
+        }
       }
     }
   }
 
-  .profile-card-section {
+  .content-section {
     display: flex;
     flex-direction: column;
-    gap: 28px;
+    gap: 16px;
+
+    .content-wrapper {
+      display: flex;
+      gap: 22px;
+    }
+  }
+
+  .title {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%;
+  }
+
+  .content {
+    padding: 24px 20px;
+    cursor: pointer;
+    display: flex;
+    height: 100%;
+
+    textarea {
+      width: 100%;
+    }
+  }
+
+  .link-content {
+    padding: 16px;
+    display: flex;
+    gap: 24px;
+
+    div {
+      background-color: gray;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+    }
+
+    input {
+      width: 100%;
+    }
+  }
+
+  textarea::placeholder,
+  input::placeholder {
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+  }
+
+  .save-button-wrapper {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translate(-50%);
   }
 }
