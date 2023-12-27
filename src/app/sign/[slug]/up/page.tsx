@@ -55,11 +55,11 @@ export default function SignUp() {
   const handleAPI = async function (num: string) {
     const response = await verifyEmailCode(mailAddress, num);
     if (response.status === 200) {
-      const tokens = response.data.tokens;
+      const tokens = response.data;
       const accessToken = _.get(tokens, 'accessToken');
-      const newRfTokenId = _.get(tokens, 'newRfTokenId');
+      const refreshToken = _.get(tokens, 'refreshToken');
       localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('newRfTokenId', newRfTokenId);
+      localStorage.setItem('refreshToken', refreshToken);
       router.push('/glimpse-list');
     } else {
       alert('로그인에 실패하였습니다.');
