@@ -61,14 +61,13 @@ export const profileApi = {
     return res.data;
   },
   updateUserMe: async (updateUser: IProfileUpdate): Promise<void> => {
-    await tokenValidInstance().patch(
-      '/users/me',
-      {...updateUser},
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }
-    );
+    const formData = new FormData();
+    formData.append('profileImage', updateUser.profileImage);
+    formData.append('data', JSON.stringify(updateUser.data));
+    await tokenValidInstance().patch('/users/me', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
   },
 };

@@ -14,15 +14,20 @@ export interface IProfile {
 
 export interface IProfileCard {
   id: number;
-  type: 'INTROTITLE' | 'INTROCAREE' | 'ABOUTME' | 'LINK' | 'HASHTAG';
-  content: string[] | null;
+  type: 'INTROTITLE' | 'INTROCAREER' | 'ABOUTME' | 'LINK' | 'HASHTAG';
+  content: string[] | string | null;
   isVisible: boolean;
   color: string;
 }
 
+type updateProfile = Omit<
+  IProfile,
+  'firstName' | 'lastName' | 'profileImageUrl' | 'viewCount'
+>;
+
 export interface IProfileUpdate {
   profileImage: string;
-  data: IProfile;
+  data: updateProfile;
 }
 
 export interface IProfileSection {
