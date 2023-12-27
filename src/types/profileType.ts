@@ -46,3 +46,8 @@ export interface ICombinedDataItem {
   content: IProfileCard[];
   cards: IProfileSection[];
 }
+
+export interface ILinkImg {
+  alt: string;
+  src: string;
+}

@@ -25,3 +25,30 @@ export const section = [
     cards: [{height: 358, width: 358, placeholder: 'Add your interests...'}],
   },
 ];
+
+export const linkImg = [
+  {
+    alt: 'github',
+    src: '/assets/favicon/github.svg',
+  },
+  {
+    alt: 'facebook',
+    src: '/assets/favicon/facebook.jpg',
+  },
+  {
+    alt: 'dribble',
+    src: '/assets/favicon/dribble.jpg',
+  },
+  {
+    alt: 'instagram',
+    src: '/assets/favicon/instagram.svg',
+  },
+  {
+    alt: 'linkedin',
+    src: '/assets/favicon/linkedin.jpg',
+  },
+  {
+    alt: 'medium',
+    src: '/assets/favicon/medium.jpg',
+  },
+];

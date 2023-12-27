@@ -2,7 +2,13 @@ import Image from 'next/image';
 import styles from './page.module.scss';
 import {useState} from 'react';
 
-export default function FloatingButton() {
+interface FloatingButtonProps {
+  onClickShowAddInput: (taget: 'LINK' | 'HASHTAG') => void;
+}
+
+export default function FloatingButton({
+  onClickShowAddInput,
+}: FloatingButtonProps) {
   const [isShowOptions, setIsShowOptions] = useState(false);
 
   const onClick = () => {
@@ -11,14 +17,6 @@ export default function FloatingButton() {
 
   const addTextClick = () => {
     console.log('add text');
-  };
-
-  const addLinkClick = () => {
-    console.log('add link');
-  };
-
-  const addHashTagClick = () => {
-    console.log('add hashtag');
   };
 
   return (
@@ -53,7 +51,10 @@ export default function FloatingButton() {
                 </div>
               </li>
               <li>
-                <div className={styles['option-button']} onClick={addLinkClick}>
+                <div
+                  className={styles['option-button']}
+                  onClick={() => onClickShowAddInput('LINK')}
+                >
                   <Image
                     src="/assets/profile/attach.svg"
                     alt="링크추가"
@@ -65,7 +66,7 @@ export default function FloatingButton() {
               <li>
                 <div
                   className={styles['option-button']}
-                  onClick={addHashTagClick}
+                  onClick={() => onClickShowAddInput('HASHTAG')}
                 >
                   <Image
                     src="/assets/profile/hashtag-solid.svg"

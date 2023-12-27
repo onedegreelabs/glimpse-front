@@ -5,12 +5,20 @@ import styles from './page.module.scss';
 import Image from 'next/image';
 import {useRouter} from 'next/navigation';
 import {profileApi} from '@/network/api';
-import {IProfile, IProfileCard, IProfileUpdate} from '@/types/profileType';
+import {
+  ILinkImg,
+  IProfile,
+  IProfileCard,
+  IProfileUpdate,
+} from '@/types/profileType';
 import {useState, useEffect, ChangeEvent} from 'react';
 import IconText from '@/components/IconText/page';
 import FloatingButton from './components/FloatingButton/page';
 import Card from '@/components/Card/page';
 import SaveButton from './SaveButton';
+import AddInput from './components/AddInput/AddInput';
+import clsx from 'clsx';
+import {linkImg} from './const/profile';
 
 export default function Profile() {
   const router = useRouter();
@@ -30,21 +38,21 @@ export default function Profile() {
   const [introTitle, setIntroTitle] = useState<IProfileCard>({
     id: 0,
     type: 'INTROTITLE',
-    content: [],
+    content: '',
     isVisible: true,
     color: '#FFFFFF',
   });
   const [introCareer, setIntroCareer] = useState<IProfileCard>({
     id: 0,
-    type: 'INTROCAREE',
-    content: [],
+    type: 'INTROCAREER',
+    content: '',
     isVisible: true,
     color: '#FFFFFF',
   });
   const [aboutMe, setAboutMe] = useState<IProfileCard>({
     id: 0,
     type: 'ABOUTME',
-    content: [],
+    content: '',
     isVisible: true,
     color: '#FFFFFF',
   });
@@ -63,17 +71,31 @@ export default function Profile() {
     color: '#FFFFFF',
   });
   const [isSaving, setIsSaving] = useState(false);
+  const [isShowAddInput, setIsShowAddInput] = useState(false);
+  const [addTarget, setAddTarget] = useState('LINK');
 
   const goToBack = () => {
     router.back();
   };
 
   const getCardsByType = (cards: IProfileCard[]) => {
-    setIntroTitle(cards[0]);
-    setIntroCareer(cards[1]);
-    setAboutMe(cards[2]);
-    setConnects(cards[3]);
-    setHashTags(cards[4]);
+    for (let i = 0; i < cards.length; i++) {
+      if (cards[i].type === 'INTROTITLE') setIntroTitle(cards[i]);
+      if (cards[i].type === 'INTROCAREER') setIntroCareer(cards[i]);
+      if (cards[i].type === 'ABOUTME') setAboutMe(cards[i]);
+      if (cards[i].type === 'LINK') setConnects(cards[i]);
+      if (cards[i].type === 'HASHTAG') setHashTags(cards[i]);
+    }
+  };
+
+  const getConnectImg = (connectUrl: string): ILinkImg => {
+    const filteredLinkImg = linkImg.filter(link =>
+      connectUrl.includes(link.alt)
+    );
+
+    return filteredLinkImg.length === 0
+      ? {alt: 'link', src: '/icons/link_icon.svg'}
+      : filteredLinkImg[0];
   };
 
   const changeBelong = (e: ChangeEvent<HTMLInputElement>) => {
@@ -83,29 +105,28 @@ export default function Profile() {
 
   const changeItroTitleContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const newContent = e.target.value;
-    setIntroTitle({...introTitle, content: [newContent]});
+    setIntroTitle({...introTitle, content: newContent});
   };
 
   const changeItroCareerContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const newContent = e.target.value;
-    setIntroCareer({...introTitle, content: [newContent]});
+    setIntroCareer({...introCareer, content: newContent});
   };
 
   const changeAboutMeContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const newContent = e.target.value;
-    setAboutMe({...introTitle, content: [newContent]});
+    setAboutMe({...aboutMe, content: newContent});
   };
 
-  const changeConnectContent = (e: ChangeEvent<HTMLInputElement>) => {
+  const changeConnectContent = (content: string) => {
     const prevConnect = connects.content === null ? [] : [...connects.content];
-    const newConnect = e.target.value;
+    const newConnect = content;
 
-    setAboutMe({...introTitle, content: [...prevConnect, newConnect]});
+    setConnects({...connects, content: [...prevConnect, newConnect]});
   };
 
   const handleSave = () => {
-    console.log('save click');
-    const {cards, ...rest} = profile;
+    const {firstName, lastName, profileImageUrl, viewCount, ...rest} = profile;
     const updateCards = [introTitle, introCareer, aboutMe, connects, hashTags];
     const updateProfile: IProfileUpdate = {
       profileImage: profile.profileImageUrl,
@@ -114,9 +135,22 @@ export default function Profile() {
         cards: updateCards,
       },
     };
-    console.log('updateProfile', updateProfile);
     setIsSaving(true);
     profileApi.updateUserMe(updateProfile).then(() => setIsSaving(false));
+  };
+
+  const onClickShowAddInput = (target: 'LINK' | 'HASHTAG') => {
+    setIsShowAddInput(true);
+    setAddTarget(target);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const onClickAddContent = (value: string) => {
+    const content = value;
+    if (addTarget === 'LINK') {
+      changeConnectContent(content);
+      setIsShowAddInput(false);
+    }
   };
 
   useEffect(() => {
@@ -124,7 +158,7 @@ export default function Profile() {
       setProfile(res);
       getCardsByType(res.cards);
     });
-  }, []);
+  }, [isSaving]);
 
   return (
     <div className={styles['profile-container']}>
@@ -174,17 +208,15 @@ export default function Profile() {
           >{`${profile.lastName} ${profile.firstName}`}</p>
           <p>{profile.introSnippet}</p>
           <div className={styles['company-wrapper']}>
-            <p>{profile.department}</p>
-            <>
-              <p className={styles['divider']}>|</p>
-              <input
-                className={styles['company-name']}
-                placeholder="company"
-                value={profile.belong}
-                onChange={changeBelong}
-                maxLength={20}
-              />
-            </>
+            <p className={styles['company-department']}>{profile.department}</p>
+            <p className={styles['divider']}>|</p>
+            <input
+              className={styles['company-name']}
+              placeholder="company"
+              value={profile.belong}
+              onChange={changeBelong}
+              maxLength={20}
+            />
           </div>
           <IconText
             src="/assets/glimpse-list/location-icon.svg"
@@ -204,7 +236,7 @@ export default function Profile() {
             <div className={styles['content']}>
               <textarea
                 placeholder="add title..."
-                value={introTitle.content?.[0] || ''}
+                value={introTitle.content || ''}
                 onChange={changeItroTitleContent}
               />
             </div>
@@ -213,7 +245,7 @@ export default function Profile() {
             <div className={styles['content']}>
               <textarea
                 placeholder="add title..."
-                value={introCareer.content?.[0] || ''}
+                value={introCareer.content || ''}
                 onChange={changeItroCareerContent}
               />
             </div>
@@ -229,7 +261,7 @@ export default function Profile() {
             <div className={styles['content']}>
               <textarea
                 placeholder="Write down what you want to say..."
-                value={aboutMe.content?.[0] || ''}
+                value={aboutMe.content || ''}
                 onChange={changeAboutMeContent}
               />
             </div>
@@ -240,31 +272,39 @@ export default function Profile() {
         <div className={styles['title']}>
           <span>Connect</span>
         </div>
-        <div className={styles['content-wrapper']}>
+        <div
+          className={clsx(
+            styles['content-wrapper'],
+            styles['link-content-wrapper']
+          )}
+        >
           {connects.content === null ? (
-            <Card height={64} width={358}>
+            <Card height={64} width={340}>
               <div className={styles['link-content']}>
                 <div />
-                <input
-                  placeholder="link add..."
-                  value={''}
-                  onChange={changeConnectContent}
-                />
+                <button onClick={() => onClickShowAddInput('LINK')}>
+                  link add...
+                </button>
               </div>
             </Card>
           ) : (
-            connects.content?.map((text, index) => (
-              <Card height={64} width={358} key={`conent-${index}`}>
-                <div className={styles['link-content']}>
-                  <div />
-                  <input
-                    placeholder="link add..."
-                    value={text}
-                    onChange={changeConnectContent}
-                  />
-                </div>
-              </Card>
-            ))
+            Array.isArray(connects.content) &&
+            connects.content.map((connect, index) => {
+              const connectImg = getConnectImg(connect);
+              return (
+                <Card height={64} width={340} key={`conent-${index}`}>
+                  <div className={styles['link-content']}>
+                    <Image
+                      src={connectImg.src}
+                      alt={connectImg.alt}
+                      width={32}
+                      height={32}
+                    />
+                    <span>{connect}</span>
+                  </div>
+                </Card>
+              );
+            })
           )}
         </div>
       </section>
@@ -273,12 +313,13 @@ export default function Profile() {
           <span> Hashtag of interest </span>
         </div>
         <div className={styles['content-wrapper']}>
-          <Card height={358} width={358}>
+          <Card height={358} width={340}>
             <div className={styles['content']}>
               {hashTags.content === null ? (
                 <textarea placeholder="Add your interests..." />
               ) : (
-                hashTags.content?.map((tag, index) => (
+                Array.isArray(hashTags.content) &&
+                hashTags.content.map((tag, index) => (
                   <div key={`hashTag-${index}`}>{tag}</div>
                 ))
               )}
@@ -286,10 +327,11 @@ export default function Profile() {
           </Card>
         </div>
       </section>
-      <FloatingButton />
+      <FloatingButton onClickShowAddInput={onClickShowAddInput} />
       <div className={styles['save-button-wrapper']}>
         <SaveButton isSaving={isSaving} onSave={handleSave} />
       </div>
+      {isShowAddInput && <AddInput onClickAddContent={onClickAddContent} />}
     </div>
   );
 }
