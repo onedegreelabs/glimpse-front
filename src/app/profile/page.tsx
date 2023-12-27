@@ -147,6 +147,10 @@ export default function Profile() {
 
   const onClickAddContent = (value: string) => {
     const content = value;
+    if (content === '') {
+      alert('추가 할 내용을 입력해주세요✍️');
+      return;
+    }
     if (addTarget === 'LINK') {
       changeConnectContent(content);
       setIsShowAddInput(false);
@@ -331,7 +335,12 @@ export default function Profile() {
       <div className={styles['save-button-wrapper']}>
         <SaveButton isSaving={isSaving} onSave={handleSave} />
       </div>
-      {isShowAddInput && <AddInput onClickAddContent={onClickAddContent} />}
+      {isShowAddInput && (
+        <AddInput
+          onClickAddContent={onClickAddContent}
+          setIsShowAddInput={setIsShowAddInput}
+        />
+      )}
     </div>
   );
 }
