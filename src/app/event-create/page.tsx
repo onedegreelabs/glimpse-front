@@ -169,8 +169,8 @@ export default function EventCreate() {
     const params = {
       organizationId: 1,
       title: eventName,
-      type: eventTypeText,
-      visibility: eventVisibilityText,
+      type: eventTypeText || '',
+      visibility: eventVisibilityText || '',
       startDate: convertDateFormat(startDate),
       endDate: convertDateFormat(endDate),
       location: eventLocation,
