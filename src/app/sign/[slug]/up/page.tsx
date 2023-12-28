@@ -23,8 +23,13 @@ export default function SignUp() {
   }, []);
 
   const url = window.location.href;
-  const query = getQueryString(url);
-  const mailAddress = _.get(query, 'mailAddress');
+  const [mailAddress, setMailAddress] = useState('');
+  useEffect(() => {
+    if (url) {
+      const query = getQueryString(url);
+      setMailAddress(_.get(query, 'mailAddress'));
+    }
+  }, [url]);
 
   const [digitList, setDigitList] = useState<string[]>([]);
   const handleDigitList = function (index: number, num: string) {
@@ -96,8 +101,8 @@ export default function SignUp() {
   const [isTimerActive, setIsTimerActive] = useState(false);
 
   const onResend = async function () {
-    await sendMailWithCode(mailAddress);
     setIsTimerActive(true);
+    await sendMailWithCode(mailAddress);
   };
 
   useEffect(() => {
