@@ -1,4 +1,9 @@
-import {axiosInstance, basicAuthInstance, socialAuthInstance} from './headers';
+import {
+  axiosInstance,
+  basicAuthInstance,
+  socialAuthInstance,
+  tokenValidInstance,
+} from './headers';
 
 export const sendMailWithCode = async (email: string) => {
   return await axiosInstance().post('mails/code', {
@@ -45,7 +50,7 @@ export const createEvent = async (params: CreateEventType) => {
     description,
     tags,
   } = params;
-  return await axiosInstance().post('events', {
+  return await tokenValidInstance().post('events', {
     organizationId,
     title,
     type,
