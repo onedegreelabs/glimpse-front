@@ -11,7 +11,7 @@ import {
   IProfileCard,
   IProfileUpdate,
 } from '@/types/profileType';
-import {useState, useEffect, ChangeEvent} from 'react';
+import {useState, useEffect, ChangeEvent, useRef, useCallback} from 'react';
 import IconText from '@/components/IconText/page';
 import FloatingButton from './components/FloatingButton/page';
 import Card from '@/components/Card/page';
@@ -21,7 +21,9 @@ import clsx from 'clsx';
 import {linkImg} from './const/profile';
 import Chip from '@/components/Chip/page';
 
+const DEFAULT_IMG_URL = '/assets/profile/temp-glimpse-list-img.jpg';
 export default function Profile() {
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
   const [profile, setProfile] = useState<IProfile>({
     id: 0,
@@ -74,6 +76,8 @@ export default function Profile() {
   const [isSaving, setIsSaving] = useState(false);
   const [isShowAddInput, setIsShowAddInput] = useState(false);
   const [addTarget, setAddTarget] = useState('LINK');
+  const [preViewImgUrl, setPreViewImgUrl] = useState<string>(DEFAULT_IMG_URL);
+  const [imgUrl, setImgUrl] = useState<string>(DEFAULT_IMG_URL);
 
   const goToBack = () => {
     router.back();
@@ -133,11 +137,25 @@ export default function Profile() {
     setHashTags({...hashTags, content: [...prevHashTags, newHashTag]});
   };
 
+  const handleImageUpload = (e: any) => {
+    if (!e.target.files) return;
+    const selectedFile = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(selectedFile);
+    reader.onload = e => {
+      if (e.type === 'load') {
+        setPreViewImgUrl(reader.result as string);
+        setImgUrl(selectedFile.name);
+      }
+    };
+  };
+
   const handleSave = () => {
     const {firstName, lastName, profileImageUrl, viewCount, ...rest} = profile;
     const updateCards = [introTitle, introCareer, aboutMe, connects, hashTags];
     const updateProfile: IProfileUpdate = {
-      profileImage: profile.profileImageUrl,
+      profileImage:
+        imgUrl !== DEFAULT_IMG_URL ? imgUrl : profile.profileImageUrl,
       data: {
         ...rest,
         cards: updateCards,
@@ -167,6 +185,7 @@ export default function Profile() {
       changeHashTagContent(content);
       setIsShowAddInput(false);
     }
+    document.body.style.overflow = 'unset';
   };
 
   const onDeleteHashTag = (index: number) => {
@@ -178,6 +197,23 @@ export default function Profile() {
     }
     setHashTags({...hashTags, content: filteredHashTags});
   };
+
+  const onUploadImage = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!e.target.files) {
+        return;
+      }
+      handleImageUpload(e);
+    },
+    []
+  );
+
+  const onUploadImageButtonClick = useCallback(() => {
+    if (!inputRef.current) {
+      return;
+    }
+    inputRef.current.click();
+  }, []);
 
   useEffect(() => {
     profileApi.getUserMe().then(res => {
@@ -202,8 +238,9 @@ export default function Profile() {
           <div className={styles['profile-image']}>
             <Image
               src={
-                profile.profileImageUrl === null
-                  ? '/assets/profile/temp-glimpse-list-img.jpg'
+                profile.profileImageUrl === null ||
+                preViewImgUrl !== DEFAULT_IMG_URL
+                  ? `${preViewImgUrl}`
                   : profile.profileImageUrl
               }
               alt="프로필사진"
@@ -216,6 +253,14 @@ export default function Profile() {
               width={20}
               height={20}
               isAbsolute={true}
+              onClick={onUploadImageButtonClick}
+            />
+            <input
+              style={{display: 'none'}}
+              type="file"
+              accept="image/*"
+              ref={inputRef}
+              onChange={onUploadImage}
             />
           </div>
           <button>
@@ -352,15 +397,19 @@ export default function Profile() {
                   Add your interests...
                 </button>
               ) : (
-                Array.isArray(hashTags.content) &&
-                hashTags.content.map((tag, index) => (
-                  <Chip
-                    key={`hashTag-${index}`}
-                    label={tag}
-                    backgroundColor={'#D9D9D9'}
-                    onDelete={() => onDeleteHashTag(index)}
-                  />
-                ))
+                <div className={styles['hashtag-content']}>
+                  {Array.isArray(hashTags.content) &&
+                    hashTags.content.map((tag, index) => (
+                      <Chip
+                        key={`hashTag-${index}`}
+                        label={tag}
+                        height={24}
+                        backgroundColor={'#D9D9D9'}
+                        borderRadius={4}
+                        onDelete={() => onDeleteHashTag(index)}
+                      />
+                    ))}
+                </div>
               )}
             </div>
           </Card>

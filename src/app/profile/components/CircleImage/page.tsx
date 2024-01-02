@@ -8,6 +8,7 @@ interface CircleImageProps {
   width: number;
   height: number;
   isAbsolute: boolean;
+  onClick?: () => void;
 }
 export default function CircleImage({
   src,
@@ -15,14 +16,16 @@ export default function CircleImage({
   width,
   height,
   isAbsolute,
+  onClick,
 }: CircleImageProps) {
   return (
-    <div
+    <button
+      onClick={onClick}
       className={clsx(styles['circle-image'], {
         [styles['absolute-circle-image']]: isAbsolute,
       })}
     >
-      <Image src={src} alt={alt} width={width} height={height} />
-    </div>
+      <Image src={src} alt={alt} width={width} height={height}></Image>
+    </button>
   );
 }

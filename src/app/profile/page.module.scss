@@ -116,6 +116,13 @@
     display: flex;
   }
 
+  .hashtag-content {
+    height: 294px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
   textarea::placeholder,
   input::placeholder {
     font-family: Inter;
