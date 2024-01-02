@@ -105,22 +105,15 @@
     gap: 24px;
     align-items: center;
 
-    div {
-      background-color: gray;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-    }
-
-    button {
-      width: 100%;
-      text-align: left;
-    }
-
     span {
       display: inline-block;
       max-width: 270px;
     }
+  }
+
+  .input-type-button {
+    width: 100%;
+    display: flex;
   }
 
   textarea::placeholder,

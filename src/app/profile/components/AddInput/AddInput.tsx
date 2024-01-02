@@ -1,10 +1,12 @@
 import {Dispatch, SetStateAction, useRef, useState} from 'react';
 import styles from './addInput.module.scss';
 interface AddInputProps {
+  currentTarget: string;
   onClickAddContent: (value: string) => void;
   setIsShowAddInput: Dispatch<SetStateAction<boolean>>;
 }
 export default function AddInput({
+  currentTarget,
   onClickAddContent,
   setIsShowAddInput,
 }: AddInputProps) {
@@ -37,7 +39,11 @@ export default function AddInput({
         <div className={styles['popup']}>
           <div className={styles['content-wrapper']}>
             <input
-              placeholder="link add..."
+              placeholder={
+                currentTarget === 'LINK'
+                  ? 'link add...'
+                  : 'Add your interests...'
+              }
               value={inputValue}
               onChange={handleInputChange}
             />

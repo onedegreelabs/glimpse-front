@@ -19,6 +19,7 @@ import SaveButton from './SaveButton';
 import AddInput from './components/AddInput/AddInput';
 import clsx from 'clsx';
 import {linkImg} from './const/profile';
+import Chip from '@/components/Chip/page';
 
 export default function Profile() {
   const router = useRouter();
@@ -125,6 +126,13 @@ export default function Profile() {
     setConnects({...connects, content: [...prevConnect, newConnect]});
   };
 
+  const changeHashTagContent = (content: string) => {
+    const prevHashTags = hashTags.content === null ? [] : [...hashTags.content];
+    const newHashTag = content;
+
+    setHashTags({...hashTags, content: [...prevHashTags, newHashTag]});
+  };
+
   const handleSave = () => {
     const {firstName, lastName, profileImageUrl, viewCount, ...rest} = profile;
     const updateCards = [introTitle, introCareer, aboutMe, connects, hashTags];
@@ -155,6 +163,20 @@ export default function Profile() {
       changeConnectContent(content);
       setIsShowAddInput(false);
     }
+    if (addTarget === 'HASHTAG') {
+      changeHashTagContent(content);
+      setIsShowAddInput(false);
+    }
+  };
+
+  const onDeleteHashTag = (index: number) => {
+    let filteredHashTags: string[] = [];
+    if (Array.isArray(hashTags.content)) {
+      filteredHashTags = hashTags.content?.filter(
+        (_, i: number) => index !== i
+      );
+    }
+    setHashTags({...hashTags, content: filteredHashTags});
   };
 
   useEffect(() => {
@@ -286,7 +308,10 @@ export default function Profile() {
             <Card height={64} width={340}>
               <div className={styles['link-content']}>
                 <div />
-                <button onClick={() => onClickShowAddInput('LINK')}>
+                <button
+                  className={styles['input-type-button']}
+                  onClick={() => onClickShowAddInput('LINK')}
+                >
                   link add...
                 </button>
               </div>
@@ -320,11 +345,21 @@ export default function Profile() {
           <Card height={358} width={340}>
             <div className={styles['content']}>
               {hashTags.content === null ? (
-                <textarea placeholder="Add your interests..." />
+                <button
+                  className={styles['input-type-button']}
+                  onClick={() => onClickShowAddInput('HASHTAG')}
+                >
+                  Add your interests...
+                </button>
               ) : (
                 Array.isArray(hashTags.content) &&
                 hashTags.content.map((tag, index) => (
-                  <div key={`hashTag-${index}`}>{tag}</div>
+                  <Chip
+                    key={`hashTag-${index}`}
+                    label={tag}
+                    backgroundColor={'#D9D9D9'}
+                    onDelete={() => onDeleteHashTag(index)}
+                  />
                 ))
               )}
             </div>
@@ -337,6 +372,7 @@ export default function Profile() {
       </div>
       {isShowAddInput && (
         <AddInput
+          currentTarget={addTarget}
           onClickAddContent={onClickAddContent}
           setIsShowAddInput={setIsShowAddInput}
         />
