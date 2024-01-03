@@ -14,6 +14,7 @@ import SelectBox from '@/components/SelectBox/page';
 import BoxView from './BoxView';
 import GridView from './GridView';
 import ListView from './ListView';
+import Container from '@/components/Container/Container';
 
 const PERSON_TYPE = [
   {value: 'all', name: 'all'},
@@ -100,202 +101,204 @@ export default function Glimpselist() {
   }, []);
 
   return (
-    <div className={styles['glimpse-list-wrapper']}>
-      <section className={styles['header-content-area']}>
-        <CoverPhoto />
-        <section className={styles['event-info-area']}>
-          <div className={styles['event-page-link-wrapper']}>
-            <Link
-              className={styles['page-link']}
-              href={'https://www.saasstudygroup.xyz/'}
-            >
-              https://www.saasstudygroup.xyz/
-            </Link>
-          </div>
-          <div className={styles['event-info-top-wrapper']}>
-            <div className={styles['event-date-wrapper']}>
-              <IconText
-                src={'/assets/glimpse-list/calendar-icon.svg'}
-                alt={'달력 아이콘'}
-                width={24}
-                height={24}
-                text={'2023/12/13'}
-              />
-              <IconText
-                src={'/assets/glimpse-list/clock-icon.svg'}
-                alt={'시계 아이콘'}
-                width={24}
-                height={24}
-                text={'8:00 PM (EST)'}
-              />
+    <Container>
+      <div className={styles['glimpse-list-wrapper']}>
+        <section className={styles['header-content-area']}>
+          <CoverPhoto />
+          <section className={styles['event-info-area']}>
+            <div className={styles['event-page-link-wrapper']}>
+              <Link
+                className={styles['page-link']}
+                href={'https://www.saasstudygroup.xyz/'}
+              >
+                https://www.saasstudygroup.xyz/
+              </Link>
             </div>
-            <div>
-              <IconText
-                src={'/assets/glimpse-list/location-icon.svg'}
-                alt={'위치 아이콘'}
-                width={24}
-                height={24}
-                text={'Seoul, Korea'}
-              />
-            </div>
-          </div>
-          <div className={styles['event-content-area']}>
-            <p
-              className={clsx({
-                [styles['close']]: !openMore,
-                [styles['open']]: openMore,
-              })}
-            >
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industrys standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </p>
-          </div>
-          <div className={styles['more-button-wrapper']}>
-            <button onClick={onClickMore}>
-              <IconText
-                src={
-                  openMore
-                    ? '/assets/glimpse-list/caret-up.svg'
-                    : '/assets/glimpse-list/caret-down.svg'
-                }
-                alt={'이벤트 설명 펼침 아이콘'}
-                width={24}
-                height={24}
-                text={'More'}
-                textWeight={600}
-              />
-            </button>
-          </div>
-        </section>
-      </section>
-      <section className={styles['body-content-area']}>
-        <section className={styles['search-area']}>
-          <p className={styles['list-title']}>Participant List</p>
-          <div className={styles['list-setting']}>
-            <div className={styles['search-wrapper']}>
-              <input
-                type="text"
-                placeholder="search..."
-                onChange={onSearch}
-                value={searchWord}
-              />
-              <Image
-                src="/assets/glimpse-list/search-icon.svg"
-                alt="검색 아이콘"
-                width={24}
-                height={24}
-              />
-            </div>
-            <div className={styles['grid-icon-wrapper']}>
-              <button onClick={() => onChangeView('box')}>
-                <Image
-                  src={
-                    toggleView === ViewTypes.BOX
-                      ? '/assets/glimpse-list/dark-box.svg'
-                      : '/assets/glimpse-list/light-box.svg'
-                  }
-                  alt="박스뷰"
-                  width={22}
-                  height={22}
+            <div className={styles['event-info-top-wrapper']}>
+              <div className={styles['event-date-wrapper']}>
+                <IconText
+                  src={'/assets/glimpse-list/calendar-icon.svg'}
+                  alt={'달력 아이콘'}
+                  width={24}
+                  height={24}
+                  text={'2023/12/13'}
                 />
-              </button>
-              <button onClick={() => onChangeView('grid')}>
-                <Image
-                  src={
-                    toggleView === ViewTypes.GIRD
-                      ? '/assets/glimpse-list/dark-grid.svg'
-                      : '/assets/glimpse-list/light-grid.svg'
-                  }
-                  alt="그리드뷰"
-                  width={22}
-                  height={22}
+                <IconText
+                  src={'/assets/glimpse-list/clock-icon.svg'}
+                  alt={'시계 아이콘'}
+                  width={24}
+                  height={24}
+                  text={'8:00 PM (EST)'}
                 />
-              </button>
-              <button onClick={() => onChangeView('list')}>
-                <Image
+              </div>
+              <div>
+                <IconText
+                  src={'/assets/glimpse-list/location-icon.svg'}
+                  alt={'위치 아이콘'}
+                  width={24}
+                  height={24}
+                  text={'Seoul, Korea'}
+                />
+              </div>
+            </div>
+            <div className={styles['event-content-area']}>
+              <p
+                className={clsx({
+                  [styles['close']]: !openMore,
+                  [styles['open']]: openMore,
+                })}
+              >
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industrys standard dummy text
+                ever since the 1500s, when an unknown printer took a galley of
+                type and scrambled it to make a type specimen book. It has
+                survived not only five centuries, but also the leap into
+                electronic typesetting, remaining essentially unchanged. It was
+                popularised in the 1960s with the release of Letraset sheets
+                containing Lorem Ipsum passages, and more recently with desktop
+                publishing software like Aldus PageMaker including versions of
+                Lorem Ipsum.
+              </p>
+            </div>
+            <div className={styles['more-button-wrapper']}>
+              <button onClick={onClickMore}>
+                <IconText
                   src={
-                    toggleView === ViewTypes.LIST
-                      ? '/assets/glimpse-list/dark-list.svg'
-                      : '/assets/glimpse-list/light-list.svg'
+                    openMore
+                      ? '/assets/glimpse-list/caret-up.svg'
+                      : '/assets/glimpse-list/caret-down.svg'
                   }
-                  alt="리스트뷰"
-                  width={22}
-                  height={22}
+                  alt={'이벤트 설명 펼침 아이콘'}
+                  width={24}
+                  height={24}
+                  text={'More'}
+                  textWeight={600}
                 />
               </button>
             </div>
-          </div>
+          </section>
         </section>
-        <div className={styles['divider']} />
-        <section className={styles['filtering-area']}>
-          <SelectBox
-            name="personType"
-            defaultValue="all"
-            options={PERSON_TYPE}
-            value={filters.personType}
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              handleFilterChange('personType', e.target.value)
-            }
-          />
-          <SelectBox
-            name="industry"
-            defaultValue="industry"
-            options={INDUSTRY}
-            value={filters.industry}
-            hidden
-            hiddenOption={{value: 'industry', name: 'industry'}}
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              handleFilterChange('industry', e.target.value)
-            }
-          />
-          <SelectBox
-            name="hobby"
-            defaultValue="hobby"
-            options={HOBBY}
-            value={filters.hobby}
-            hidden
-            hiddenOption={{value: 'hobby', name: 'hobby'}}
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              handleFilterChange('hobby', e.target.value)
-            }
-          />
-          <SelectBox
-            name={'interest'}
-            defaultValue={'interest'}
-            options={INTEREST}
-            value={filters.interest}
-            hidden
-            hiddenOption={{value: 'interest', name: 'interest'}}
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              handleFilterChange('interest', e.target.value)
-            }
-          />
-          <SelectBox
-            name={'favorite'}
-            defaultValue={'favorite'}
-            options={FAVORITE}
-            value={filters.favorite}
-            hidden
-            hiddenOption={{value: 'favorite', name: 'favorite'}}
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              handleFilterChange('favorite', e.target.value)
-            }
-          />
+        <section className={styles['body-content-area']}>
+          <section className={styles['search-area']}>
+            <p className={styles['list-title']}>Participant List</p>
+            <div className={styles['list-setting']}>
+              <div className={styles['search-wrapper']}>
+                <input
+                  type="text"
+                  placeholder="search..."
+                  onChange={onSearch}
+                  value={searchWord}
+                />
+                <Image
+                  src="/assets/glimpse-list/search-icon.svg"
+                  alt="검색 아이콘"
+                  width={24}
+                  height={24}
+                />
+              </div>
+              <div className={styles['grid-icon-wrapper']}>
+                <button onClick={() => onChangeView('box')}>
+                  <Image
+                    src={
+                      toggleView === ViewTypes.BOX
+                        ? '/assets/glimpse-list/dark-box.svg'
+                        : '/assets/glimpse-list/light-box.svg'
+                    }
+                    alt="박스뷰"
+                    width={22}
+                    height={22}
+                  />
+                </button>
+                <button onClick={() => onChangeView('grid')}>
+                  <Image
+                    src={
+                      toggleView === ViewTypes.GIRD
+                        ? '/assets/glimpse-list/dark-grid.svg'
+                        : '/assets/glimpse-list/light-grid.svg'
+                    }
+                    alt="그리드뷰"
+                    width={22}
+                    height={22}
+                  />
+                </button>
+                <button onClick={() => onChangeView('list')}>
+                  <Image
+                    src={
+                      toggleView === ViewTypes.LIST
+                        ? '/assets/glimpse-list/dark-list.svg'
+                        : '/assets/glimpse-list/light-list.svg'
+                    }
+                    alt="리스트뷰"
+                    width={22}
+                    height={22}
+                  />
+                </button>
+              </div>
+            </div>
+          </section>
+          <div className={styles['divider']} />
+          <section className={styles['filtering-area']}>
+            <SelectBox
+              name="personType"
+              defaultValue="all"
+              options={PERSON_TYPE}
+              value={filters.personType}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                handleFilterChange('personType', e.target.value)
+              }
+            />
+            <SelectBox
+              name="industry"
+              defaultValue="industry"
+              options={INDUSTRY}
+              value={filters.industry}
+              hidden
+              hiddenOption={{value: 'industry', name: 'industry'}}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                handleFilterChange('industry', e.target.value)
+              }
+            />
+            <SelectBox
+              name="hobby"
+              defaultValue="hobby"
+              options={HOBBY}
+              value={filters.hobby}
+              hidden
+              hiddenOption={{value: 'hobby', name: 'hobby'}}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                handleFilterChange('hobby', e.target.value)
+              }
+            />
+            <SelectBox
+              name={'interest'}
+              defaultValue={'interest'}
+              options={INTEREST}
+              value={filters.interest}
+              hidden
+              hiddenOption={{value: 'interest', name: 'interest'}}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                handleFilterChange('interest', e.target.value)
+              }
+            />
+            <SelectBox
+              name={'favorite'}
+              defaultValue={'favorite'}
+              options={FAVORITE}
+              value={filters.favorite}
+              hidden
+              hiddenOption={{value: 'favorite', name: 'favorite'}}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                handleFilterChange('favorite', e.target.value)
+              }
+            />
+          </section>
+          <section className={styles['glimpse-area']}>
+            {toggleView === 'box' && <BoxView glimpses={glimpses} />}
+            {toggleView === 'grid' && <GridView glimpses={glimpses} />}
+            {toggleView === 'list' && <ListView glimpses={glimpses} />}
+          </section>
         </section>
-        <section className={styles['glimpse-area']}>
-          {toggleView === 'box' && <BoxView glimpses={glimpses} />}
-          {toggleView === 'grid' && <GridView glimpses={glimpses} />}
-          {toggleView === 'list' && <ListView glimpses={glimpses} />}
-        </section>
-      </section>
-    </div>
+      </div>
+    </Container>
   );
 }
