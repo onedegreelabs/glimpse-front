@@ -21,8 +21,8 @@ export default NextAuth({
       const token = _.get(response, 'data') || {};
 
       const accessToken = _.get(token, 'accessToken');
-      const refreshToken = _.get(token, 'refreshToken');
-      return `/loading?at=${accessToken}&rt=${refreshToken}`;
+      const newRfTokenId = _.get(token, 'refreshToken');
+      return `/loading?at=${accessToken}&rt=${newRfTokenId}`;
     },
   },
 });

@@ -1,11 +1,4 @@
-import {
-  axiosInstance,
-  basicAuthInstance,
-  socialAuthInstance,
-  tokenValidInstance,
-} from './headers';
-import {IProfile, IProfileUpdate} from '@/types/profileType';
-import {CreateEventType} from '@/types/eventCreate';
+import {axiosInstance, basicAuthInstance, socialAuthInstance} from './headers';
 
 export const sendMailWithCode = async (email: string) => {
   return await axiosInstance().post('mails/code', {
@@ -25,6 +18,19 @@ export const loginWithLinkedin = async () => {
   return await axiosInstance().get('auth/linkedin');
 };
 
+interface CreateEventType {
+  organizationId: number;
+  title: string;
+  type: string;
+  visibility: string;
+  startDate: string;
+  endDate: string;
+  location: string;
+  link: string;
+  handle: string;
+  description: string;
+  tags: string[];
+}
 export const createEvent = async (params: CreateEventType) => {
   const {
     organizationId,
@@ -39,7 +45,7 @@ export const createEvent = async (params: CreateEventType) => {
     description,
     tags,
   } = params;
-  return await tokenValidInstance().post('events', {
+  return await axiosInstance().post('events', {
     organizationId,
     title,
     type,
@@ -52,22 +58,4 @@ export const createEvent = async (params: CreateEventType) => {
     description,
     tags,
   });
-};
-
-// profile api
-export const profileApi = {
-  getUserMe: async (): Promise<IProfile> => {
-    const res = await tokenValidInstance().get('/users/me');
-    return res.data;
-  },
-  updateUserMe: async (updateUser: IProfileUpdate): Promise<void> => {
-    const formData = new FormData();
-    formData.append('profileImage', updateUser.profileImage);
-    formData.append('data', JSON.stringify(updateUser.data));
-    await tokenValidInstance().patch('/users/me', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-  },
 };

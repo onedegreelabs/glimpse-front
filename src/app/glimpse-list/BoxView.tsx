@@ -33,7 +33,6 @@ export default function BoxView({glimpses}: BoxProps) {
                     <Chip
                       key={index}
                       label={d}
-                      height={28}
                       backgroundColor={index === 0 ? '#C1AEF6' : '#F3F3F3'}
                       borderRadius={4}
                     />
@@ -55,7 +54,6 @@ export default function BoxView({glimpses}: BoxProps) {
                 <Chip
                   key={`hobby-${index}`}
                   label={`#${d}`}
-                  height={24}
                   backgroundColor="#F3F3F3"
                   borderRadius={30}
                 />

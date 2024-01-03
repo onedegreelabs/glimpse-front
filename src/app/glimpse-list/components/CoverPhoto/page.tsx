@@ -12,15 +12,9 @@ export default function CoverPhoto() {
       <div className={styles['event-info-wrapper']}>
         <div className={styles['info-header']}>
           <div className={styles['info-type']}>
-            <Chip
-              label="virtual"
-              height={28}
-              backgroundColor="#7E51FD"
-              borderRadius={4}
-            />
+            <Chip label="virtual" backgroundColor="#7E51FD" borderRadius={4} />
             <Chip
               label="Private"
-              height={28}
               backgroundColor="#ffffff4d"
               borderRadius={4}
               isOutline
@@ -34,7 +28,6 @@ export default function CoverPhoto() {
         <div className={styles['info-bottom']}>
           <Chip
             label="total view 179"
-            height={24}
             backgroundColor="#ffffff4d"
             borderRadius={4}
             isOutline
