@@ -23,13 +23,8 @@ export default function SignUp() {
   }, []);
 
   const url = window.location.href;
-  const [mailAddress, setMailAddress] = useState('');
-  useEffect(() => {
-    if (url) {
-      const query = getQueryString(url);
-      setMailAddress(_.get(query, 'mailAddress'));
-    }
-  }, [url]);
+  const query = getQueryString(url);
+  const mailAddress = _.get(query, 'mailAddress');
 
   const [digitList, setDigitList] = useState<string[]>([]);
   const handleDigitList = function (index: number, num: string) {
@@ -60,11 +55,11 @@ export default function SignUp() {
   const handleAPI = async function (num: string) {
     const response = await verifyEmailCode(mailAddress, num);
     if (response.status === 200) {
-      const tokens = response.data;
+      const tokens = response.data.tokens;
       const accessToken = _.get(tokens, 'accessToken');
-      const refreshToken = _.get(tokens, 'refreshToken');
+      const newRfTokenId = _.get(tokens, 'newRfTokenId');
       localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('newRfTokenId', newRfTokenId);
       router.push('/glimpse-list');
     } else {
       alert('로그인에 실패하였습니다.');
@@ -101,8 +96,8 @@ export default function SignUp() {
   const [isTimerActive, setIsTimerActive] = useState(false);
 
   const onResend = async function () {
-    setIsTimerActive(true);
     await sendMailWithCode(mailAddress);
+    setIsTimerActive(true);
   };
 
   useEffect(() => {
