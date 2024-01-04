@@ -26,7 +26,7 @@ type updateProfile = Omit<
 >;
 
 export interface IProfileUpdate {
-  profileImage: string;
+  profileImage?: File;
   data: updateProfile;
 }
 
