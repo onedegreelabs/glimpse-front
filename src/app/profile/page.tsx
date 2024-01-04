@@ -77,7 +77,7 @@ export default function Profile() {
   const [isShowAddInput, setIsShowAddInput] = useState(false);
   const [addTarget, setAddTarget] = useState('LINK');
   const [preViewImgUrl, setPreViewImgUrl] = useState<string>(DEFAULT_IMG_URL);
-  const [imgUrl, setImgUrl] = useState<string>(DEFAULT_IMG_URL);
+  const [imgUrl, setImgUrl] = useState<File>();
 
   const goToBack = () => {
     router.back();
@@ -145,7 +145,7 @@ export default function Profile() {
     reader.onload = e => {
       if (e.type === 'load') {
         setPreViewImgUrl(reader.result as string);
-        setImgUrl(selectedFile.name);
+        setImgUrl(selectedFile);
       }
     };
   };
@@ -154,8 +154,7 @@ export default function Profile() {
     const {firstName, lastName, profileImageUrl, viewCount, ...rest} = profile;
     const updateCards = [introTitle, introCareer, aboutMe, connects, hashTags];
     const updateProfile: IProfileUpdate = {
-      profileImage:
-        imgUrl !== DEFAULT_IMG_URL ? imgUrl : profile.profileImageUrl,
+      profileImage: imgUrl,
       data: {
         ...rest,
         cards: updateCards,
