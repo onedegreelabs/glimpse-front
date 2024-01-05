@@ -1,4 +1,4 @@
-export interface IProfile {
+export interface GetProfileResponseDto {
   id: number;
   firstName: string;
   lastName: string;
@@ -21,7 +21,7 @@ export interface IProfileCard {
 }
 
 type updateProfile = Omit<
-  IProfile,
+  GetProfileResponseDto,
   'firstName' | 'lastName' | 'profileImageUrl' | 'viewCount'
 >;
 

@@ -4,7 +4,7 @@ import {
   socialAuthInstance,
   tokenValidInstance,
 } from './headers';
-import {IProfile, IProfileUpdate} from '@/types/profileType';
+import {GetProfileResponseDto, IProfileUpdate} from '@/types/profileType';
 import {CreateEventType} from '@/types/eventCreate';
 
 export const sendMailWithCode = async (email: string) => {
@@ -48,13 +48,13 @@ export const createEvent = async (
 
 // profile api
 export const profileApi = {
-  getUserMe: async (): Promise<IProfile> => {
+  getUserMe: async (): Promise<GetProfileResponseDto> => {
     const res = await tokenValidInstance().get('/users/me');
     return res.data;
   },
   updateUserMe: async (updateUser: IProfileUpdate): Promise<void> => {
     const formData = new FormData();
-    formData.append('profileImage', updateUser.profileImage);
+    formData.append('profileImage', updateUser.profileImage as Blob);
     formData.append('data', JSON.stringify(updateUser.data));
     await tokenValidInstance().patch('/users/me', formData, {
       headers: {

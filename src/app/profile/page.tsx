@@ -6,8 +6,8 @@ import Image from 'next/image';
 import {useRouter} from 'next/navigation';
 import {profileApi} from '@/network/api';
 import {
+  GetProfileResponseDto,
   ILinkImg,
-  IProfile,
   IProfileCard,
   IProfileUpdate,
 } from '@/types/profileType';
@@ -26,7 +26,7 @@ const DEFAULT_IMG_URL = '/assets/profile/temp-glimpse-list-img.jpg';
 export default function Profile() {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
-  const [profile, setProfile] = useState<IProfile>({
+  const [profile, setProfile] = useState<GetProfileResponseDto>({
     id: 0,
     firstName: '',
     lastName: '',
@@ -312,7 +312,7 @@ export default function Profile() {
             <span>Intro</span>
           </div>
           <div className={styles['content-wrapper']}>
-            <Card height={168} width={168}>
+            <Card height={168}>
               <div className={styles['content']}>
                 <textarea
                   placeholder="add title..."
@@ -321,7 +321,7 @@ export default function Profile() {
                 />
               </div>
             </Card>
-            <Card height={168} width={168}>
+            <Card height={168}>
               <div className={styles['content']}>
                 <textarea
                   placeholder="add title..."
@@ -337,7 +337,7 @@ export default function Profile() {
             <span>About me</span>
           </div>
           <div className={styles['content-wrapper']}>
-            <Card height={168} width={358}>
+            <Card height={168}>
               <div className={styles['content']}>
                 <textarea
                   placeholder="Write down what you want to say..."
@@ -359,7 +359,7 @@ export default function Profile() {
             )}
           >
             {connects.content === null ? (
-              <Card height={64} width={340}>
+              <Card height={64}>
                 <div className={styles['link-content']}>
                   <div />
                   <button
@@ -375,7 +375,7 @@ export default function Profile() {
               connects.content.map((connect, index) => {
                 const connectImg = getConnectImg(connect);
                 return (
-                  <Card height={64} width={340} key={`conent-${index}`}>
+                  <Card height={64} key={`conent-${index}`}>
                     <div className={styles['link-content']}>
                       <Image
                         src={connectImg.src}
@@ -396,7 +396,7 @@ export default function Profile() {
             <span> Hashtag of interest </span>
           </div>
           <div className={styles['content-wrapper']}>
-            <Card height={358} width={340}>
+            <Card height={358}>
               <div className={styles['content']}>
                 {hashTags.content === null ? (
                   <button
