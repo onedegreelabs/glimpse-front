@@ -7,7 +7,6 @@ import {useRouter} from 'next/navigation';
 import {profileApi} from '@/network/api';
 import {
   GetProfileResponseDto,
-  ILinkImg,
   IProfileCard,
   IProfileUpdate,
 } from '@/types/profileType';
@@ -18,9 +17,9 @@ import Card from '@/components/Card/page';
 import SaveButton from './SaveButton';
 import AddInput from './components/AddInput/AddInput';
 import clsx from 'clsx';
-import {linkImg} from './const/profile';
 import Chip from '@/components/Chip/page';
 import Container from '@/components/Container/Container';
+import getConnectImg from '@/utils/getConnectImg';
 
 const DEFAULT_IMG_URL = '/assets/profile/temp-glimpse-list-img.jpg';
 export default function Profile() {
@@ -82,26 +81,6 @@ export default function Profile() {
 
   const goToBack = () => {
     router.back();
-  };
-
-  const getCardsByType = (cards: IProfileCard[]) => {
-    for (let i = 0; i < cards.length; i++) {
-      if (cards[i].type === 'INTROTITLE') setIntroTitle(cards[i]);
-      if (cards[i].type === 'INTROCAREER') setIntroCareer(cards[i]);
-      if (cards[i].type === 'ABOUTME') setAboutMe(cards[i]);
-      if (cards[i].type === 'LINK') setConnects(cards[i]);
-      if (cards[i].type === 'HASHTAG') setHashTags(cards[i]);
-    }
-  };
-
-  const getConnectImg = (connectUrl: string): ILinkImg => {
-    const filteredLinkImg = linkImg.filter(link =>
-      connectUrl.includes(link.alt)
-    );
-
-    return filteredLinkImg.length === 0
-      ? {alt: 'link', src: '/icons/link_icon.svg'}
-      : filteredLinkImg[0];
   };
 
   const changeBelong = (e: ChangeEvent<HTMLInputElement>) => {
@@ -224,7 +203,15 @@ export default function Profile() {
   useEffect(() => {
     profileApi.getUserMe().then(res => {
       setProfile(res);
-      getCardsByType(res.cards);
+      //  getCardsByType(res.cards);
+
+      for (let i = 0; i < res.cards.length; i++) {
+        if (res.cards[i].type === 'INTROTITLE') setIntroTitle(res.cards[i]);
+        if (res.cards[i].type === 'INTROCAREER') setIntroCareer(res.cards[i]);
+        if (res.cards[i].type === 'ABOUTME') setAboutMe(res.cards[i]);
+        if (res.cards[i].type === 'LINK') setConnects(res.cards[i]);
+        if (res.cards[i].type === 'HASHTAG') setHashTags(res.cards[i]);
+      }
     });
   }, [isSaving]);
 

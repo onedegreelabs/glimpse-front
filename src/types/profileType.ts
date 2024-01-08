@@ -20,11 +20,6 @@ export interface IProfileCard {
   color: string;
 }
 
-type updateProfile = Omit<
-  GetProfileResponseDto,
-  'firstName' | 'lastName' | 'profileImageUrl' | 'viewCount'
->;
-
 export interface IProfileUpdate {
   profileImage?: File;
   data: updateProfile;
@@ -51,3 +46,10 @@ export interface ILinkImg {
   alt: string;
   src: string;
 }
+
+type updateProfile = Omit<
+  GetProfileResponseDto,
+  'firstName' | 'lastName' | 'profileImageUrl' | 'viewCount'
+>;
+
+export type profile = Omit<GetProfileResponseDto, 'cards'>;

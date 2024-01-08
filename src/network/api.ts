@@ -62,4 +62,8 @@ export const profileApi = {
       },
     });
   },
+  getUserOther: async (id: number): Promise<GetProfileResponseDto> => {
+    const res = await tokenValidInstance().get(`/users/other/${id}`);
+    return res.data;
+  },
 };
