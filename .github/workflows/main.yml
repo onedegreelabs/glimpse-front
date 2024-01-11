@@ -16,7 +16,6 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > /home/runner/.ssh/id_rsa
           chmod 600 /home/runner/.ssh/id_rsa
           ssh-keyscan -t rsa 172.31.1.74 >> /home/runner/.ssh/known_hosts
-        shell: /usr/bin/bash -e {0}
 
       - name: Kill existing node processes on port 3000
         run: |
