@@ -41,21 +41,21 @@ export default function Profile() {
   const [introTitle, setIntroTitle] = useState<IProfileCard>({
     id: 0,
     type: 'INTROTITLE',
-    content: '',
+    content: [],
     isVisible: true,
     color: '#FFFFFF',
   });
   const [introCareer, setIntroCareer] = useState<IProfileCard>({
     id: 0,
     type: 'INTROCAREER',
-    content: '',
+    content: [],
     isVisible: true,
     color: '#FFFFFF',
   });
   const [aboutMe, setAboutMe] = useState<IProfileCard>({
     id: 0,
     type: 'ABOUTME',
-    content: '',
+    content: [],
     isVisible: true,
     color: '#FFFFFF',
   });
@@ -110,17 +110,23 @@ export default function Profile() {
 
   const changeItroTitleContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const newContent = e.target.value;
-    setIntroTitle({...introTitle, content: newContent});
+    setIntroTitle({
+      ...introTitle,
+      content: [newContent],
+    });
   };
 
   const changeItroCareerContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const newContent = e.target.value;
-    setIntroCareer({...introCareer, content: newContent});
+    setIntroCareer({
+      ...introCareer,
+      content: [newContent],
+    });
   };
 
   const changeAboutMeContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const newContent = e.target.value;
-    setAboutMe({...aboutMe, content: newContent});
+    setAboutMe({...aboutMe, content: [newContent]});
   };
 
   const changeConnectContent = (content: string) => {
@@ -306,7 +312,7 @@ export default function Profile() {
             <div className={styles['content']}>
               <textarea
                 placeholder="add title..."
-                value={introTitle.content || ''}
+                value={introTitle.content}
                 onChange={changeItroTitleContent}
               />
             </div>
@@ -315,7 +321,7 @@ export default function Profile() {
             <div className={styles['content']}>
               <textarea
                 placeholder="add title..."
-                value={introCareer.content || ''}
+                value={introCareer.content}
                 onChange={changeItroCareerContent}
               />
             </div>
@@ -331,7 +337,7 @@ export default function Profile() {
             <div className={styles['content']}>
               <textarea
                 placeholder="Write down what you want to say..."
-                value={aboutMe.content || ''}
+                value={aboutMe.content[0]}
                 onChange={changeAboutMeContent}
               />
             </div>
@@ -348,7 +354,7 @@ export default function Profile() {
             styles['link-content-wrapper']
           )}
         >
-          {connects.content === null ? (
+          {connects.content.length === 0 ? (
             <Card height={64} width={340}>
               <div className={styles['link-content']}>
                 <div />
