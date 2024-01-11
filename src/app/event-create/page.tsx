@@ -142,7 +142,7 @@ export default function EventCreate() {
 
   const [, setImgFile] = useState<File | undefined>();
   const [imgUrl, setImgUrl] = useState<string | ArrayBuffer | null>();
-  console.log('imgFile', imgFile);
+
   const handleImageUpload = (event: {target: {files: FileList | null}}) => {
     const selectedFile = event.target.files?.[0];
     console.log('selectedFile', selectedFile);
