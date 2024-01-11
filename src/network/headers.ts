@@ -38,7 +38,7 @@ export const socialAuthInstance = function (socialToken: string) {
 export const tokenValidInstance = function () {
   const token = localStorage.getItem('accessToken');
   const serverConnection = axios.create({
-    baseURL: Env['glimpse-dev'],
+    baseURL: Env['glimpse-rsvp'],
     headers: {
       Authorization: `Bearer ${token}`,
     },

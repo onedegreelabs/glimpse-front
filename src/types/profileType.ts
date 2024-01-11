@@ -15,7 +15,7 @@ export interface IProfile {
 export interface IProfileCard {
   id: number;
   type: 'INTROTITLE' | 'INTROCAREER' | 'ABOUTME' | 'LINK' | 'HASHTAG';
-  content: string[] | string | null;
+  content: string[];
   isVisible: boolean;
   color: string;
 }
