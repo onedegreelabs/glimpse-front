@@ -12,9 +12,10 @@ jobs:
     steps:
       - name: Configure SSH Key
         run: |
+          mkdir -p /home/ubuntu/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > /home/ubuntu/.ssh/id_rsa
           chmod 600 /home/ubuntu/.ssh/id_rsa
-          ssh-keyscan -t rsa 172.31.1.74 >> /home/ubuntu/.ssh/known_hosts
+          ssh-keyscan -t rsa your-ec2-instance-ip >> /home/ubuntu/.ssh/known_hosts
 
       - name: Kill existing node processes on port 3000
         run: |
