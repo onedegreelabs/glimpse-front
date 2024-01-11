@@ -9,6 +9,7 @@ import Image from 'next/image';
 import Card from '@/components/Card/page';
 import {createEvent} from '@/network/api';
 import CustomTextarea from '@/components/custom-textarea/page';
+import _ from 'lodash';
 
 export default function EventCreate() {
   const [eventName, setEventName] = useState('');
@@ -141,8 +142,10 @@ export default function EventCreate() {
 
   const [, setImgFile] = useState<File | undefined>();
   const [imgUrl, setImgUrl] = useState<string | ArrayBuffer | null>();
+  console.log('imgFile', imgFile);
   const handleImageUpload = (event: {target: {files: FileList | null}}) => {
     const selectedFile = event.target.files?.[0];
+    console.log('selectedFile', selectedFile);
 
     if (selectedFile) {
       if (selectedFile.type.startsWith('image/')) {
@@ -161,12 +164,15 @@ export default function EventCreate() {
   const [profileViewMode, setProfileViewMode] = useState(0);
 
   const onCreateEvent = async function () {
-    alert('백엔드 api 개발중');
+    const eventTypeText = _.find(eventTypeItems, {value: eventType})?.text;
+    const eventVisibilityText = _.find(eventVisibilityItems, {
+      value: eventVisibility,
+    })?.text;
     const params = {
       organizationId: 1,
       title: eventName,
-      type: String(eventType),
-      visibility: String(eventVisibility),
+      type: eventTypeText,
+      visibility: eventVisibilityText,
       startDate: convertDateFormat(startDate),
       endDate: convertDateFormat(endDate),
       location: eventLocation,
@@ -175,9 +181,10 @@ export default function EventCreate() {
       description: eventDescription,
       tags: eventTag,
     };
-    console.log(params);
     // await createEvent(params);
-    // const response = await createEvent(params);
+    console.log(params);
+    const response = await createEvent(params);
+    console.log(response);
   };
 
   const descriptionRef = useRef<HTMLDivElement>(null);

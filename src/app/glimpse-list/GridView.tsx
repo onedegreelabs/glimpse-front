@@ -33,6 +33,7 @@ export default function GridView({glimpses}: GridViewProps) {
                 <Chip
                   key={index}
                   label={d}
+                  height={28}
                   backgroundColor={index === 0 ? '#C1AEF6' : '#F3F3F3'}
                   borderRadius={4}
                 />

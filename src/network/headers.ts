@@ -34,3 +34,14 @@ export const socialAuthInstance = function (socialToken: string) {
   });
   return serverConnection;
 };
+
+export const tokenValidInstance = function () {
+  const token = localStorage.getItem('accessToken');
+  const serverConnection = axios.create({
+    baseURL: Env['glimpse-rsvp'],
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return serverConnection;
+};
