@@ -10,8 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Configure SSH Key
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -t rsa 172.31.1.74 >> ~/.ssh/ubuntu
+
       - name: Checkout repository
-        uses: actions/checkout@v2
+        # uses: actions/checkout@v2
 
       - name: Kill existing node processes on port 3000
         run: |
