@@ -14,10 +14,7 @@ jobs:
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -t rsa 172.31.1.74 >> ~/.ssh/ubuntu
-
-      - name: Checkout repository
-        # uses: actions/checkout@v2
+          ssh-keyscan -t rsa 172.31.1.74 >> ~/.ssh/known_hosts
 
       - name: Kill existing node processes on port 3000
         run: |
@@ -26,7 +23,7 @@ jobs:
       - name: Change directory and update main branch
         run: |
           cd glimpse-front/
-          git switch main
+          git checkout main
           git pull
 
       - name: Configure git credentials
@@ -35,6 +32,7 @@ jobs:
           git config --global user.name "${{ secrets.GIT_USERNAME }}"
           git config --global credential.helper store <<< "https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_TOKEN }}@github.com"
 
+      # Uncomment the following lines if npm commands are necessary
       # - name: Install dependencies
       #   run: npm install
 
@@ -43,7 +41,7 @@ jobs:
 
       - name: Start application in the background
         run: |
-          nohup npm run start &
+          nohup npm run start > /dev/null 2>&1 &
 
       - name: Wait for the application to start
         run: sleep 10
