@@ -38,6 +38,7 @@ export default function FloatingButton({
               alt="추가버튼"
               width={40}
               height={40}
+              
             />
             <ul className={styles['options']}>
               <li>
