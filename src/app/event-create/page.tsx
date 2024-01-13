@@ -140,12 +140,11 @@ export default function EventCreate() {
     setPreviewMode(mode);
   };
 
-  const [, setImgFile] = useState<File | undefined>();
+  const [imgFile, setImgFile] = useState<File | undefined>();
   const [imgUrl, setImgUrl] = useState<string | ArrayBuffer | null>();
 
   const handleImageUpload = (event: {target: {files: FileList | null}}) => {
     const selectedFile = event.target.files?.[0];
-    console.log('selectedFile', selectedFile);
 
     if (selectedFile) {
       if (selectedFile.type.startsWith('image/')) {
@@ -171,8 +170,8 @@ export default function EventCreate() {
     const params = {
       organizationId: 1,
       title: eventName,
-      type: eventTypeText || '',
-      visibility: eventVisibilityText || '',
+      type: eventTypeText?.toUpperCase() || '',
+      visibility: eventVisibilityText?.toUpperCase() || '',
       startDate: convertDateFormat(startDate),
       endDate: convertDateFormat(endDate),
       location: eventLocation,
@@ -181,10 +180,7 @@ export default function EventCreate() {
       description: eventDescription,
       tags: eventTag,
     };
-    // await createEvent(params);
-    console.log(params);
-    const response = await createEvent(params);
-    console.log(response);
+    await createEvent(imgFile, params);
   };
 
   const descriptionRef = useRef<HTMLDivElement>(null);

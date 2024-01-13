@@ -25,33 +25,25 @@ export const loginWithLinkedin = async () => {
   return await axiosInstance().get('auth/linkedin');
 };
 
-export const createEvent = async (params: CreateEventType) => {
-  const {
-    organizationId,
-    title,
-    type,
-    visibility,
-    startDate,
-    endDate,
-    location,
-    link,
-    handle,
-    description,
-    tags,
-  } = params;
-  return await tokenValidInstance().post('events', {
-    organizationId,
-    title,
-    type,
-    visibility,
-    startDate,
-    endDate,
-    location,
-    link,
-    handle,
-    description,
-    tags,
-  });
+export const createEvent = async (
+  imgFile: File | undefined,
+  params: CreateEventType
+) => {
+  const {organizationId} = params;
+  const formData = new FormData();
+  if (imgFile) {
+    formData.append('eventCoverImage', imgFile);
+  }
+  formData.append('data', JSON.stringify(params));
+  return await tokenValidInstance().post(
+    `organizations/${organizationId}/events`,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  );
 };
 
 // profile api
