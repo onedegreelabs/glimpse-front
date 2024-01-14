@@ -1,13 +1,12 @@
 'use client';
 
-import CircleImage from './components/CircleImage/page';
+import CircleImage from './CircleImage';
 import styles from './page.module.scss';
 import Image from 'next/image';
 import {useRouter} from 'next/navigation';
 import {profileApi} from '@/network/api';
 import {
-  ILinkImg,
-  IProfile,
+  GetProfileResponseDto,
   IProfileCard,
   IProfileUpdate,
 } from '@/types/profileType';
@@ -18,14 +17,15 @@ import Card from '@/components/Card/page';
 import SaveButton from './SaveButton';
 import AddInput from './components/AddInput/AddInput';
 import clsx from 'clsx';
-import {linkImg} from './const/profile';
 import Chip from '@/components/Chip/page';
+import Container from '@/components/Container/Container';
+import getConnectImg from '@/utils/getConnectImg';
 
 const DEFAULT_IMG_URL = '/assets/profile/temp-glimpse-list-img.jpg';
 export default function Profile() {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
-  const [profile, setProfile] = useState<IProfile>({
+  const [profile, setProfile] = useState<GetProfileResponseDto>({
     id: 0,
     firstName: '',
     lastName: '',
@@ -81,26 +81,6 @@ export default function Profile() {
 
   const goToBack = () => {
     router.back();
-  };
-
-  const getCardsByType = (cards: IProfileCard[]) => {
-    for (let i = 0; i < cards.length; i++) {
-      if (cards[i].type === 'INTROTITLE') setIntroTitle(cards[i]);
-      if (cards[i].type === 'INTROCAREER') setIntroCareer(cards[i]);
-      if (cards[i].type === 'ABOUTME') setAboutMe(cards[i]);
-      if (cards[i].type === 'LINK') setConnects(cards[i]);
-      if (cards[i].type === 'HASHTAG') setHashTags(cards[i]);
-    }
-  };
-
-  const getConnectImg = (connectUrl: string): ILinkImg => {
-    const filteredLinkImg = linkImg.filter(link =>
-      connectUrl.includes(link.alt)
-    );
-
-    return filteredLinkImg.length === 0
-      ? {alt: 'link', src: '/icons/link_icon.svg'}
-      : filteredLinkImg[0];
   };
 
   const changeBelong = (e: ChangeEvent<HTMLInputElement>) => {
@@ -223,214 +203,226 @@ export default function Profile() {
   useEffect(() => {
     profileApi.getUserMe().then(res => {
       setProfile(res);
-      getCardsByType(res.cards);
+      //  getCardsByType(res.cards);
+
+      for (let i = 0; i < res.cards.length; i++) {
+        if (res.cards[i].type === 'INTROTITLE') setIntroTitle(res.cards[i]);
+        if (res.cards[i].type === 'INTROCAREER') setIntroCareer(res.cards[i]);
+        if (res.cards[i].type === 'ABOUTME') setAboutMe(res.cards[i]);
+        if (res.cards[i].type === 'LINK') setConnects(res.cards[i]);
+        if (res.cards[i].type === 'HASHTAG') setHashTags(res.cards[i]);
+      }
     });
   }, [isSaving]);
 
   return (
-    <div className={styles['profile-container']}>
-      <section className={styles['profile-section']}>
-        <div className={styles['profile-image-wrapper']}>
-          <button onClick={goToBack}>
-            <CircleImage
-              src="/assets/profile/caret-left.svg"
-              alt="뒤로가기"
-              width={32}
-              height={32}
-              isAbsolute={false}
-            />
-          </button>
-          <div className={styles['profile-image']}>
-            <Image
-              src={
-                profile.profileImageUrl === null ||
-                preViewImgUrl !== DEFAULT_IMG_URL
-                  ? `${preViewImgUrl}`
-                  : profile.profileImageUrl
-              }
-              alt="프로필사진"
-              width={120}
-              height={120}
-            />
-            <CircleImage
-              src="/assets/profile/image.svg"
-              alt="프로필이미지 업로드"
-              width={20}
-              height={20}
-              isAbsolute={true}
-              onClick={onUploadImageButtonClick}
-            />
-            <input
-              style={{display: 'none'}}
-              type="file"
-              accept="image/*"
-              ref={inputRef}
-              onChange={onUploadImage}
+    <Container>
+      <div className={styles['profile-container']}>
+        <section className={styles['profile-section']}>
+          <div className={styles['profile-image-wrapper']}>
+            <button onClick={goToBack}>
+              <CircleImage
+                src="/assets/profile/caret-left.svg"
+                alt="뒤로가기"
+                width={32}
+                height={32}
+                isAbsolute={false}
+              />
+            </button>
+            <div className={styles['profile-image']}>
+              <Image
+                src={
+                  profile.profileImageUrl === null ||
+                  preViewImgUrl !== DEFAULT_IMG_URL
+                    ? `${preViewImgUrl}`
+                    : profile.profileImageUrl
+                }
+                alt="프로필사진"
+                width={120}
+                height={120}
+              />
+              <CircleImage
+                src="/assets/profile/image.svg"
+                alt="프로필이미지 업로드"
+                width={20}
+                height={20}
+                isAbsolute={true}
+                onClick={onUploadImageButtonClick}
+              />
+              <input
+                style={{display: 'none'}}
+                type="file"
+                accept="image/*"
+                ref={inputRef}
+                onChange={onUploadImage}
+              />
+            </div>
+            <button>
+              <CircleImage
+                src="/assets/profile/share-box.svg"
+                alt="공유버튼"
+                width={20}
+                height={20}
+                isAbsolute={false}
+              />
+            </button>
+          </div>
+          <div className={styles['profile-info-wrapper']}>
+            <p
+              className={styles['name']}
+            >{`${profile.lastName} ${profile.firstName}`}</p>
+            <p>{profile.introSnippet}</p>
+            <div className={styles['company-wrapper']}>
+              <p className={styles['company-department']}>
+                {profile.department}
+              </p>
+              <p className={styles['divider']}>|</p>
+              <input
+                className={styles['company-name']}
+                placeholder="company"
+                value={profile.belong}
+                onChange={changeBelong}
+                maxLength={20}
+              />
+            </div>
+            <IconText
+              src="/assets/glimpse-list/location-icon.svg"
+              alt="위치아이콘"
+              width={24}
+              height={24}
+              text={profile.location || ''}
             />
           </div>
-          <button>
-            <CircleImage
-              src="/assets/profile/share-box.svg"
-              alt="공유버튼"
-              width={20}
-              height={20}
-              isAbsolute={false}
-            />
-          </button>
-        </div>
-        <div className={styles['profile-info-wrapper']}>
-          <p
-            className={styles['name']}
-          >{`${profile.lastName} ${profile.firstName}`}</p>
-          <p>{profile.introSnippet}</p>
-          <div className={styles['company-wrapper']}>
-            <p className={styles['company-department']}>{profile.department}</p>
-            <p className={styles['divider']}>|</p>
-            <input
-              className={styles['company-name']}
-              placeholder="company"
-              value={profile.belong}
-              onChange={changeBelong}
-              maxLength={20}
-            />
+        </section>
+        <section className={styles['content-section']}>
+          <div className={styles['title']}>
+            <span>Intro</span>
           </div>
-          <IconText
-            src="/assets/glimpse-list/location-icon.svg"
-            alt="위치아이콘"
-            width={24}
-            height={24}
-            text={profile.location || ''}
-          />
-        </div>
-      </section>
-      <section className={styles['content-section']}>
-        <div className={styles['title']}>
-          <span>Intro</span>
-        </div>
-        <div className={styles['content-wrapper']}>
-          <Card height={168} width={168}>
-            <div className={styles['content']}>
-              <textarea
-                placeholder="add title..."
-                value={introTitle.content}
-                onChange={changeItroTitleContent}
-              />
-            </div>
-          </Card>
-          <Card height={168} width={168}>
-            <div className={styles['content']}>
-              <textarea
-                placeholder="add title..."
-                value={introCareer.content}
-                onChange={changeItroCareerContent}
-              />
-            </div>
-          </Card>
-        </div>
-      </section>
-      <section className={styles['content-section']}>
-        <div className={styles['title']}>
-          <span>About me</span>
-        </div>
-        <div className={styles['content-wrapper']}>
-          <Card height={168} width={358}>
-            <div className={styles['content']}>
-              <textarea
-                placeholder="Write down what you want to say..."
-                value={aboutMe.content[0]}
-                onChange={changeAboutMeContent}
-              />
-            </div>
-          </Card>
-        </div>
-      </section>
-      <section className={styles['content-section']}>
-        <div className={styles['title']}>
-          <span>Connect</span>
-        </div>
-        <div
-          className={clsx(
-            styles['content-wrapper'],
-            styles['link-content-wrapper']
-          )}
-        >
-          {connects.content.length === 0 ? (
-            <Card height={64} width={340}>
-              <div className={styles['link-content']}>
-                <div />
-                <button
-                  className={styles['input-type-button']}
-                  onClick={() => onClickShowAddInput('LINK')}
-                >
-                  link add...
-                </button>
+          <div className={styles['content-wrapper']}>
+            <Card height={168}>
+              <div className={styles['content']}>
+                <textarea
+                  placeholder="add title..."
+                  value={introTitle.content || ''}
+                  onChange={changeItroTitleContent}
+                />
               </div>
             </Card>
-          ) : (
-            Array.isArray(connects.content) &&
-            connects.content.map((connect, index) => {
-              const connectImg = getConnectImg(connect);
-              return (
-                <Card height={64} width={340} key={`conent-${index}`}>
-                  <div className={styles['link-content']}>
-                    <Image
-                      src={connectImg.src}
-                      alt={connectImg.alt}
-                      width={32}
-                      height={32}
-                    />
-                    <span>{connect}</span>
-                  </div>
-                </Card>
-              );
-            })
-          )}
-        </div>
-      </section>
-      <section className={styles['content-section']}>
-        <div className={styles['title']}>
-          <span> Hashtag of interest </span>
-        </div>
-        <div className={styles['content-wrapper']}>
-          <Card height={358} width={340}>
-            <div className={styles['content']}>
-              {hashTags.content === null ? (
-                <button
-                  className={styles['input-type-button']}
-                  onClick={() => onClickShowAddInput('HASHTAG')}
-                >
-                  Add your interests...
-                </button>
-              ) : (
-                <div className={styles['hashtag-content']}>
-                  {Array.isArray(hashTags.content) &&
-                    hashTags.content.map((tag, index) => (
-                      <Chip
-                        key={`hashTag-${index}`}
-                        label={tag}
-                        height={24}
-                        backgroundColor={'#D9D9D9'}
-                        borderRadius={4}
-                        onDelete={() => onDeleteHashTag(index)}
-                      />
-                    ))}
+            <Card height={168}>
+              <div className={styles['content']}>
+                <textarea
+                  placeholder="add title..."
+                  value={introCareer.content || ''}
+                  onChange={changeItroCareerContent}
+                />
+              </div>
+            </Card>
+          </div>
+        </section>
+        <section className={styles['content-section']}>
+          <div className={styles['title']}>
+            <span>About me</span>
+          </div>
+          <div className={styles['content-wrapper']}>
+            <Card height={168}>
+              <div className={styles['content']}>
+                <textarea
+                  placeholder="Write down what you want to say..."
+                  value={aboutMe.content || ''}
+                  onChange={changeAboutMeContent}
+                />
+              </div>
+            </Card>
+          </div>
+        </section>
+        <section className={styles['content-section']}>
+          <div className={styles['title']}>
+            <span>Connect</span>
+          </div>
+          <div
+            className={clsx(
+              styles['content-wrapper'],
+              styles['link-content-wrapper']
+            )}
+          >
+            {connects.content.length === 0 ? (
+              <Card height={64}>
+                <div className={styles['link-content']}>
+                  <div />
+                  <button
+                    className={styles['input-type-button']}
+                    onClick={() => onClickShowAddInput('LINK')}
+                  >
+                    link add...
+                  </button>
                 </div>
-              )}
-            </div>
-          </Card>
+              </Card>
+            ) : (
+              Array.isArray(connects.content) &&
+              connects.content.map((connect, index) => {
+                const connectImg = getConnectImg(connect);
+                return (
+                  <Card height={64} key={`conent-${index}`}>
+                    <div className={styles['link-content']}>
+                      <Image
+                        src={connectImg.src}
+                        alt={connectImg.alt}
+                        width={32}
+                        height={32}
+                      />
+                      <span>{connect}</span>
+                    </div>
+                  </Card>
+                );
+              })
+            )}
+          </div>
+        </section>
+        <section className={styles['content-section']}>
+          <div className={styles['title']}>
+            <span> Hashtag of interest </span>
+          </div>
+          <div className={styles['content-wrapper']}>
+            <Card height={358}>
+              <div className={styles['content']}>
+                {hashTags.content === null ? (
+                  <button
+                    className={styles['input-type-button']}
+                    onClick={() => onClickShowAddInput('HASHTAG')}
+                  >
+                    Add your interests...
+                  </button>
+                ) : (
+                  <div className={styles['hashtag-content']}>
+                    {Array.isArray(hashTags.content) &&
+                      hashTags.content.map((tag, index) => (
+                        <Chip
+                          key={`hashTag-${index}`}
+                          label={tag}
+                          height={24}
+                          backgroundColor={'#D9D9D9'}
+                          borderRadius={4}
+                          onDelete={() => onDeleteHashTag(index)}
+                        />
+                      ))}
+                  </div>
+                )}
+              </div>
+            </Card>
+          </div>
+        </section>
+        <FloatingButton onClickShowAddInput={onClickShowAddInput} />
+        <div className={styles['save-button-wrapper']}>
+          <SaveButton isSaving={isSaving} onSave={handleSave} />
         </div>
-      </section>
-      <FloatingButton onClickShowAddInput={onClickShowAddInput} />
-      <div className={styles['save-button-wrapper']}>
-        <SaveButton isSaving={isSaving} onSave={handleSave} />
+        {isShowAddInput && (
+          <AddInput
+            currentTarget={addTarget}
+            onClickAddContent={onClickAddContent}
+            setIsShowAddInput={setIsShowAddInput}
+          />
+        )}
       </div>
-      {isShowAddInput && (
-        <AddInput
-          currentTarget={addTarget}
-          onClickAddContent={onClickAddContent}
-          setIsShowAddInput={setIsShowAddInput}
-        />
-      )}
-    </div>
+    </Container>
   );
 }

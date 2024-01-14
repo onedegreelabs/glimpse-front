@@ -1,4 +1,4 @@
-export interface IProfile {
+export interface GetProfileResponseDto {
   id: number;
   firstName: string;
   lastName: string;
@@ -19,11 +19,6 @@ export interface IProfileCard {
   isVisible: boolean;
   color: string;
 }
-
-type updateProfile = Omit<
-  IProfile,
-  'firstName' | 'lastName' | 'profileImageUrl' | 'viewCount'
->;
 
 export interface IProfileUpdate {
   profileImage?: File;
@@ -51,3 +46,10 @@ export interface ILinkImg {
   alt: string;
   src: string;
 }
+
+type updateProfile = Omit<
+  GetProfileResponseDto,
+  'firstName' | 'lastName' | 'profileImageUrl' | 'viewCount'
+>;
+
+export type profile = Omit<GetProfileResponseDto, 'cards'>;

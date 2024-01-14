@@ -12,7 +12,7 @@ export default function Card({width, height, children}: CardProps) {
       className={styles['card-wrapper']}
       style={{
         ...(height && {height: `${height}px`}),
-        ...(width && {width: `${width}px`}),
+        ...(width ? {width: `${width}px`} : {width: '100%'}),
       }}
     >
       {children}
