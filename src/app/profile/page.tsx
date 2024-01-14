@@ -1,6 +1,6 @@
 'use client';
 
-import CircleImage from './components/CircleImage/page';
+import CircleImage from './CircleImage';
 import styles from './page.module.scss';
 import Image from 'next/image';
 import {useRouter} from 'next/navigation';

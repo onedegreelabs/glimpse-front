@@ -1,4 +1,4 @@
-import CircleImage from '@/app/profile/components/CircleImage/page';
+import CircleImage from '@/app/profile/CircleImage';
 import styles from './userProfile.module.scss';
 import {useRouter} from 'next/navigation';
 import Image from 'next/image';
