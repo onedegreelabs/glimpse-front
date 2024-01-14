@@ -345,7 +345,7 @@ export default function Profile() {
               styles['link-content-wrapper']
             )}
           >
-            {connects.content === null ? (
+            {connects.content.length === 0 ? (
               <Card height={64}>
                 <div className={styles['link-content']}>
                   <div />

@@ -29,7 +29,11 @@ export default function UserProfile({profile}: UserProfileProps) {
         </button>
         <div className={styles['profile-image']}>
           <Image
-            src={profile.profileImageUrl}
+            src={
+              profile.profileImageUrl === null
+                ? '/assets/profile/temp-glipse-list-img.jpg'
+                : profile.profileImageUrl
+            }
             alt="프로필사진"
             width={120}
             height={120}
@@ -46,9 +50,11 @@ export default function UserProfile({profile}: UserProfileProps) {
         </button>
       </div>
       <div className={styles['profile-info-wrapper']}>
-        <p
-          className={styles['name']}
-        >{`${profile.lastName} ${profile.firstName}`}</p>
+        <p className={styles['name']}>{`${
+          profile.displayName !== null
+            ? profile.displayName
+            : `${profile.firstName} ${profile.lastName}`
+        }`}</p>
         <p>{profile.introSnippet}</p>
         <div className={styles['company-wrapper']}>
           <p className={styles['company-department']}>{profile.department}</p>

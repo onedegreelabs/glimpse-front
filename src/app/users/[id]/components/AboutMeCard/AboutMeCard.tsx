@@ -13,7 +13,7 @@ export default function AboutMeCard({cards}: AboutMeCardProps) {
   const [aboutMe, setAboutMe] = useState<IProfileCard>({
     id: 0,
     type: 'ABOUTME',
-    content: '',
+    content: [],
     isVisible: true,
     color: '#FFFFFF',
   });
@@ -25,7 +25,7 @@ export default function AboutMeCard({cards}: AboutMeCardProps) {
 
   return (
     <>
-      {aboutMe && aboutMe.content !== '' && (
+      {aboutMe && aboutMe.content.length > 0 && (
         <>
           <div className={styles['title']}>
             <span>About me</span>

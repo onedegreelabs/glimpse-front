@@ -13,14 +13,14 @@ export default function IntroCard({cards}: IntroCardProps) {
   const [introTitle, setIntroTitle] = useState<IProfileCard>({
     id: 0,
     type: 'INTROTITLE',
-    content: '',
+    content: [],
     isVisible: true,
     color: '#FFFFFF',
   });
   const [introCareer, setIntroCareer] = useState<IProfileCard>({
     id: 0,
     type: 'INTROCAREER',
-    content: '',
+    content: [],
     isVisible: true,
     color: '#FFFFFF',
   });
@@ -38,14 +38,14 @@ export default function IntroCard({cards}: IntroCardProps) {
         <span>Intro</span>
       </div>
       <div className={styles['content-wrapper']}>
-        {introTitle && (
+        {introTitle && introTitle.content.length > 0 && (
           <Card height={168}>
             <div className={styles['content']}>
-              <p>{introTitle.content || ''}</p>
+              <p>{introTitle.content}</p>
             </div>
           </Card>
         )}
-        {introCareer && (
+        {introCareer && introCareer.content.length > 0 && (
           <Card height={168}>
             <div className={styles['content']}>
               <p>{introCareer.content}</p>
