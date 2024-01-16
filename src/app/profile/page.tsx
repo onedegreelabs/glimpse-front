@@ -12,7 +12,7 @@ import {
 } from '@/types/profileType';
 import {useState, useEffect, ChangeEvent, useRef, useCallback} from 'react';
 import IconText from '@/components/IconText/page';
-import FloatingButton from './components/FloatingButton/page';
+import FloatingButton from './FloatingButton';
 import Card from '@/components/Card/page';
 import SaveButton from './SaveButton';
 import AddInput from './components/AddInput/AddInput';
