@@ -21,8 +21,10 @@ export default function HashTagCard({cards}: HashTagCardProps) {
   });
 
   useEffect(() => {
-    const hashTagCard = getCardsByType(cards, HASHTAG);
-    setHashTags(hashTagCard[0]);
+    if (cards !== undefined) {
+      const hashTagCard = getCardsByType(cards, HASHTAG);
+      setHashTags(hashTagCard[0]);
+    }
   }, [cards]);
 
   return (
@@ -34,9 +36,9 @@ export default function HashTagCard({cards}: HashTagCardProps) {
             <div className={styles['title']}>
               <span> Hashtag of interest </span>
             </div>
-            <div className={styles['content-wrapper']}>
+            <div>
               <Card height={358}>
-                <div className={styles['content']}>
+                <div className={styles['content-wrapper']}>
                   <div className={styles['hashtag-content']}>
                     {Array.isArray(hashTags.content) &&
                       hashTags.content.map((tag, index) => (

@@ -268,9 +268,11 @@ export default function Profile() {
             </button>
           </div>
           <div className={styles['profile-info-wrapper']}>
-            <p
-              className={styles['name']}
-            >{`${profile.lastName} ${profile.firstName}`}</p>
+            <p className={styles['name']}>{`${
+              profile.displayName !== null
+                ? profile.displayName
+                : `${profile.firstName} ${profile.lastName}`
+            }`}</p>
             <p>{profile.introSnippet}</p>
             <div className={styles['company-wrapper']}>
               <p className={styles['company-department']}>
@@ -385,7 +387,7 @@ export default function Profile() {
           <div className={styles['content-wrapper']}>
             <Card height={358}>
               <div className={styles['content']}>
-                {hashTags.content === null ? (
+                {hashTags.content.length === 0 ? (
                   <button
                     className={styles['input-type-button']}
                     onClick={() => onClickShowAddInput('HASHTAG')}

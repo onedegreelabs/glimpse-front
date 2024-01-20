@@ -26,10 +26,12 @@ export default function IntroCard({cards}: IntroCardProps) {
   });
 
   useEffect(() => {
-    const introTitleCard = getCardsByType(cards, INTROTITLE);
-    const introCareerCard = getCardsByType(cards, INTROCAREER);
-    setIntroTitle(introTitleCard[0]);
-    setIntroCareer(introCareerCard[0]);
+    if (cards !== undefined) {
+      const introTitleCard = getCardsByType(cards, INTROTITLE);
+      const introCareerCard = getCardsByType(cards, INTROCAREER);
+      setIntroTitle(introTitleCard[0]);
+      setIntroCareer(introCareerCard[0]);
+    }
   }, [cards]);
 
   return (

@@ -49,8 +49,8 @@ export const createEvent = async (
 // profile api
 export const profileApi = {
   getUserMe: async (): Promise<GetProfileResponseDto> => {
-    const res = await tokenValidInstance().get('/users/me');
-    return res.data;
+    const res = await tokenValidInstance().get('users/me');
+    return res.data.data;
   },
   updateUserMe: async (updateUser: IProfileUpdate): Promise<void> => {
     const formData = new FormData();
@@ -64,6 +64,6 @@ export const profileApi = {
   },
   getUserOther: async (id: number): Promise<GetProfileResponseDto> => {
     const res = await tokenValidInstance().get(`/users/other/${id}`);
-    return res.data;
+    return res.data.data;
   },
 };

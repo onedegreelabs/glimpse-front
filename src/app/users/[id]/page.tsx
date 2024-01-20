@@ -9,6 +9,7 @@ import UserProfile from './components/UserProfile/UserProfile';
 import IntroCard from './components/IntroCard/IntroCard';
 import AboutMeCard from './components/AboutMeCard/AboutMeCard';
 import ConnectCard from './components/ConnectCard/ConnectCard';
+import HashTagCard from './components/HashTagCard/HashTagCard';
 
 export default function Users({params}: {params: {id: string}}) {
   const [profileCards, setProfileCards] = useState<IProfileCard[]>([]);
@@ -48,7 +49,9 @@ export default function Users({params}: {params: {id: string}}) {
         <section className={styles['content-section']}>
           <ConnectCard cards={profileCards} />
         </section>
-        <section className={styles['content-section']}></section>
+        <section className={styles['content-section']}>
+          <HashTagCard cards={profileCards} />
+        </section>
       </div>
     </Container>
   );
