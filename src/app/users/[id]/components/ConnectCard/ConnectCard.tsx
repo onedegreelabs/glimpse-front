@@ -22,8 +22,10 @@ export default function ConnectCard({cards}: ConnectCardProps) {
   });
 
   useEffect(() => {
-    const connectCard = getCardsByType(cards, LINK);
-    setConnects(connectCard[0]);
+    if (cards !== undefined) {
+      const connectCard = getCardsByType(cards, LINK);
+      setConnects(connectCard[0]);
+    }
   }, [cards]);
 
   return (
@@ -35,12 +37,7 @@ export default function ConnectCard({cards}: ConnectCardProps) {
             <div className={styles['title']}>
               <span>Connect</span>
             </div>
-            <div
-              className={clsx(
-                styles['content-wrapper'],
-                styles['link-content-wrapper']
-              )}
-            >
+            <div className={clsx(styles['link-content-wrapper'])}>
               {Array.isArray(connects.content) &&
                 connects.content.map((connect, index) => {
                   const connectImg = getConnectImg(connect);

@@ -19,8 +19,10 @@ export default function AboutMeCard({cards}: AboutMeCardProps) {
   });
 
   useEffect(() => {
-    const aboutMeCard = getCardsByType(cards, ABOUTME);
-    setAboutMe(aboutMeCard[0]);
+    if (cards !== undefined) {
+      const aboutMeCard = getCardsByType(cards, ABOUTME);
+      setAboutMe(aboutMeCard[0]);
+    }
   }, [cards]);
 
   return (
