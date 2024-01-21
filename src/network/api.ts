@@ -67,3 +67,14 @@ export const profileApi = {
     return res.data.data;
   },
 };
+
+export const glimpseList = {
+  getEventList: async (eventId: number) => {
+    const res = await axiosInstance().get(`events/${eventId}`);
+    return res;
+  },
+  getEventUserList: async (eventId: number) => {
+    const res = await axiosInstance().get(`events/${eventId}/members`);
+    return res;
+  },
+};

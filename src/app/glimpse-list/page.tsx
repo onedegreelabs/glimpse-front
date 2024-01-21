@@ -15,6 +15,9 @@ import BoxView from './BoxView';
 import GridView from './GridView';
 import ListView from './ListView';
 import Container from '@/components/Container/Container';
+import getQueryString from '@/utils/getQueryString';
+import _ from 'lodash';
+import {glimpseList} from '@/network/api';
 
 const PERSON_TYPE = [
   {value: 'all', name: 'all'},
@@ -55,9 +58,41 @@ const ViewTypes = {
 export type ViewType = (typeof ViewTypes)[keyof typeof ViewTypes];
 
 export default function Glimpselist() {
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
+
+  const eventId = Number(searchParams?.get('eventId'));
+  console.log('eventId: ', eventId);
+
+  const getEventData = async (id: number) => {
+    const res = await glimpseList.getEventList(id);
+    if (res?.data?.data) {
+      // console.log('eventDataList!');
+      // console.log(res.data.data);
+    }
+    return res?.data?.data;
+  };
+  const getEventUserData = async (id: number) => {
+    const res = await glimpseList.getEventUserList(id);
+    if (res?.data?.data) {
+      // console.log('eventUserList!');
+      // console.log(res.data.data);
+      // setGlimpses(res.data.data);
+    }
+  };
+
+  // console.log('dummy!');
+  // console.log(dummyGlimpses);
+  useEffect(() => {
+    setGlimpses(dummyGlimpses);
+  }, [dummyGlimpses]);
+
+  useEffect(() => {
+    if (eventId) {
+      getEventData(eventId);
+      getEventUserData(eventId);
+    }
+  }, [eventId]);
 
   const [glimpses, setGlimpses] = useState<Glimpse[]>([]);
   const [toggleView, setToggleVIew] = useState<ViewType>('box');
@@ -95,10 +130,6 @@ export default function Glimpselist() {
   const handleFilterChange = (filterType: string, value: string) => {
     setFilters(prevFilters => ({...prevFilters, [filterType]: value}));
   };
-
-  useEffect(() => {
-    setGlimpses(dummyGlimpses);
-  }, []);
 
   return (
     <Container>
@@ -292,7 +323,11 @@ export default function Glimpselist() {
               }
             />
           </section>
-          <section className={styles['glimpse-area']}>
+          <section
+            className={clsx(styles['glimpse-area'], {
+              [styles['grid-view']]: toggleView === 'grid',
+            })}
+          >
             {toggleView === 'box' && <BoxView glimpses={glimpses} />}
             {toggleView === 'grid' && <GridView glimpses={glimpses} />}
             {toggleView === 'list' && <ListView glimpses={glimpses} />}

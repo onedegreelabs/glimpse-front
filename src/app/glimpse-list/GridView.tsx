@@ -13,7 +13,7 @@ interface GridViewProps {
 
 export default function GridView({glimpses}: GridViewProps) {
   return (
-    <div className={styles['glimpse-grid-container']}>
+    <>
       {glimpses.map((data, index) => (
         <Link key={`profile-card-${index}`} href={'/users/3'}>
           <Card key={index}>
@@ -57,6 +57,6 @@ export default function GridView({glimpses}: GridViewProps) {
           </Card>
         </Link>
       ))}
-    </div>
+    </>
   );
 }
