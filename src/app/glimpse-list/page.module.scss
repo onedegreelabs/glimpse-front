@@ -128,7 +128,7 @@
 
     .glimpse-area {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(358px, 1fr));
       gap: 16px;
       padding: 16px 0px;
 

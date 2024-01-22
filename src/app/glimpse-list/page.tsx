@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './page.module.scss';
 import clsx from 'clsx';
-import {usePathname, useRouter} from 'next/navigation';
 import {useSearchParams} from 'next/navigation';
 import {useEffect, useState} from 'react';
 import CoverPhoto from './components/CoverPhoto/page';
@@ -15,8 +14,6 @@ import BoxView from './BoxView';
 import GridView from './GridView';
 import ListView from './ListView';
 import Container from '@/components/Container/Container';
-import getQueryString from '@/utils/getQueryString';
-import _ from 'lodash';
 import {glimpseList} from '@/network/api';
 
 const PERSON_TYPE = [
@@ -59,16 +56,14 @@ export type ViewType = (typeof ViewTypes)[keyof typeof ViewTypes];
 
 export default function Glimpselist() {
   const searchParams = useSearchParams();
-  const router = useRouter();
 
   const eventId = Number(searchParams?.get('eventId'));
-  console.log('eventId: ', eventId);
 
   const getEventData = async (id: number) => {
     const res = await glimpseList.getEventList(id);
     if (res?.data?.data) {
-      // console.log('eventDataList!');
-      // console.log(res.data.data);
+      console.log('eventDataList!');
+      console.log(res.data.data);
     }
     return res?.data?.data;
   };
