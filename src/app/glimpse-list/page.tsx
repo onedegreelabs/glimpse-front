@@ -63,6 +63,29 @@ export default function Glimpselist() {
   const [coverImgUrl, setCoverImgUrl] = useState('');
   const [eventTitle, setEventTitle] = useState('');
   const [viewCount, setViewCount] = useState('');
+  const [eventLink, setEventLink] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [location, setLocation] = useState('');
+  const [description, setDescription] = useState('');
+
+  const [dateText, setDateText] = useState('');
+  const [timeText, setTimeText] = useState('');
+
+  useEffect(() => {
+    const dateObj = new Date(startDate);
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const hours = String(dateObj.getHours()).padStart(2, '0');
+    const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+
+    const formattedDate = `${year}/${month}/${day}`;
+    const formattedTime = `${hours}:${minutes} ${
+      dateObj.getHours() >= 12 ? 'PM' : 'AM'
+    }`;
+    setDateText(formattedDate);
+    setTimeText(formattedTime);
+  }, [startDate]);
 
   const getEventData = async (id: number) => {
     const res = await glimpseList.getEventList(id);
@@ -72,6 +95,10 @@ export default function Glimpselist() {
       setCoverImgUrl(res.data.data.coverImageUrl);
       setEventTitle(res.data.data.title);
       setViewCount(res.data.data.viewCount);
+      setEventLink(res.data.data.link);
+      setStartDate(res.data.data.startDate);
+      setLocation(res.data.data.location);
+      setDescription(res.data.data.description);
     }
     return res?.data?.data;
   };
@@ -147,11 +174,8 @@ export default function Glimpselist() {
           />
           <section className={styles['event-info-area']}>
             <div className={styles['event-page-link-wrapper']}>
-              <Link
-                className={styles['page-link']}
-                href={'https://www.saasstudygroup.xyz/'}
-              >
-                https://www.saasstudygroup.xyz/
+              <Link className={styles['page-link']} href={eventLink}>
+                {eventLink}
               </Link>
             </div>
             <div className={styles['event-info-top-wrapper']}>
@@ -161,14 +185,14 @@ export default function Glimpselist() {
                   alt={'달력 아이콘'}
                   width={24}
                   height={24}
-                  text={'2023/12/13'}
+                  text={dateText}
                 />
                 <IconText
                   src={'/assets/glimpse-list/clock-icon.svg'}
                   alt={'시계 아이콘'}
                   width={24}
                   height={24}
-                  text={'8:00 PM (EST)'}
+                  text={timeText}
                 />
               </div>
               <div>
@@ -177,7 +201,7 @@ export default function Glimpselist() {
                   alt={'위치 아이콘'}
                   width={24}
                   height={24}
-                  text={'Seoul, Korea'}
+                  text={location}
                 />
               </div>
             </div>
@@ -188,16 +212,7 @@ export default function Glimpselist() {
                   [styles['open']]: openMore,
                 })}
               >
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industrys standard dummy text
-                ever since the 1500s, when an unknown printer took a galley of
-                type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of
-                Lorem Ipsum.
+                {description}
               </p>
             </div>
             <div className={styles['more-button-wrapper']}>

@@ -19,13 +19,18 @@ export default function CoverPhoto({
 }: CoverPhotoProps) {
   return (
     <div className={styles['event-thumbnail-wrapper']}>
-      <Image
+      {/* <Image
         className={styles['event-thumbnail']}
         src={coverImgUrl}
         alt="이벤트 썸네일"
         width={100}
         height={0}
-      ></Image>
+      ></Image> */}
+      <img
+        className={styles['event-thumbnail']}
+        src={coverImgUrl}
+        alt="이벤트 썸네일"
+      />
       <div className={styles['event-info-wrapper']}>
         <div className={styles['info-header']}>
           <div className={styles['info-type']}>
