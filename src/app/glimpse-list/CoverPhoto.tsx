@@ -1,25 +1,42 @@
 import Chip from '@/components/Chip/page';
-import styles from './page.module.scss';
+import styles from './coverPhoto.module.scss';
+import Image from 'next/image';
 
-export default function CoverPhoto() {
+interface CoverPhotoProps {
+  eventType: string;
+  eventVisibility: string;
+  coverImgUrl: string;
+  eventTitle: string;
+  viewCount: string;
+}
+
+export default function CoverPhoto({
+  eventType,
+  eventVisibility,
+  coverImgUrl,
+  eventTitle,
+  viewCount,
+}: CoverPhotoProps) {
   return (
     <div className={styles['event-thumbnail-wrapper']}>
-      <img
+      <Image
         className={styles['event-thumbnail']}
-        src="/assets/glimpse-list/temp-glimpse-list-img.jpg"
+        src={coverImgUrl}
         alt="이벤트 썸네일"
-      />
+        width={100}
+        height={0}
+      ></Image>
       <div className={styles['event-info-wrapper']}>
         <div className={styles['info-header']}>
           <div className={styles['info-type']}>
             <Chip
-              label="virtual"
+              label={eventType}
               height={28}
               backgroundColor="#7E51FD"
               borderRadius={4}
             />
             <Chip
-              label="Private"
+              label={eventVisibility}
               height={28}
               backgroundColor="#ffffff4d"
               borderRadius={4}
@@ -29,11 +46,11 @@ export default function CoverPhoto() {
           </div>
         </div>
         <div className={styles['info-middle']}>
-          <p>Winter 2023 Party in NYC</p>
+          <p>{eventTitle}</p>
         </div>
         <div className={styles['info-bottom']}>
           <Chip
-            label="total view 179"
+            label={`total view ${viewCount}`}
             height={24}
             backgroundColor="#ffffff4d"
             borderRadius={4}

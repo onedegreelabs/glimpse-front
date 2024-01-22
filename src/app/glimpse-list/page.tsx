@@ -6,7 +6,7 @@ import styles from './page.module.scss';
 import clsx from 'clsx';
 import {useSearchParams} from 'next/navigation';
 import {useEffect, useState} from 'react';
-import CoverPhoto from './components/CoverPhoto/page';
+import CoverPhoto from './CoverPhoto';
 import {Glimpse, dummyGlimpses} from './mock/glimpses';
 import IconText from '@/components/IconText/page';
 import SelectBox from '@/components/SelectBox/page';
@@ -58,12 +58,20 @@ export default function Glimpselist() {
   const searchParams = useSearchParams();
 
   const eventId = Number(searchParams?.get('eventId'));
+  const [eventType, setEventType] = useState('');
+  const [eventVisibility, setEventVisibility] = useState('');
+  const [coverImgUrl, setCoverImgUrl] = useState('');
+  const [eventTitle, setEventTitle] = useState('');
+  const [viewCount, setViewCount] = useState('');
 
   const getEventData = async (id: number) => {
     const res = await glimpseList.getEventList(id);
     if (res?.data?.data) {
-      console.log('eventDataList!');
-      console.log(res.data.data);
+      setEventType(res.data.data.type);
+      setEventVisibility(res.data.data.visibility);
+      setCoverImgUrl(res.data.data.coverImageUrl);
+      setEventTitle(res.data.data.title);
+      setViewCount(res.data.data.viewCount);
     }
     return res?.data?.data;
   };
@@ -130,7 +138,13 @@ export default function Glimpselist() {
     <Container>
       <div className={styles['glimpse-list-wrapper']}>
         <section className={styles['header-content-area']}>
-          <CoverPhoto />
+          <CoverPhoto
+            eventType={eventType}
+            eventVisibility={eventVisibility}
+            coverImgUrl={coverImgUrl}
+            eventTitle={eventTitle}
+            viewCount={viewCount}
+          />
           <section className={styles['event-info-area']}>
             <div className={styles['event-page-link-wrapper']}>
               <Link
