@@ -7,7 +7,6 @@ import clsx from 'clsx';
 import {useSearchParams} from 'next/navigation';
 import {useEffect, useState} from 'react';
 import CoverPhoto from './CoverPhoto';
-import {Glimpse, dummyGlimpses} from './mock/glimpses';
 import IconText from '@/components/IconText/page';
 import SelectBox from '@/components/SelectBox/page';
 import BoxView from './BoxView';
@@ -106,16 +105,9 @@ export default function Glimpselist() {
   const getEventUserData = async (id: number) => {
     const res = await glimpseList.getEventUserList(id);
     if (res?.data?.data) {
-      console.log('eventUserList!');
-      console.log(res.data.data);
       setUserList(res.data.data);
     }
   };
-
-  useEffect(() => {
-    console.log('dummy!');
-    console.log(dummyGlimpses);
-  }, [dummyGlimpses]);
 
   useEffect(() => {
     if (eventId) {
@@ -125,6 +117,7 @@ export default function Glimpselist() {
   }, [eventId]);
 
   const [userList, setUserList] = useState<userData[]>([]);
+  const [userListForRender, setUserListForRender] = useState<userData[]>([]);
   const [toggleView, setToggleVIew] = useState<ViewType>('box');
   const [openMore, setOpenMore] = useState(false);
   const [searchWord, setSerachWord] = useState('');
@@ -136,6 +129,10 @@ export default function Glimpselist() {
     favorite: '',
   });
 
+  useEffect(() => {
+    setUserListForRender(userList);
+  }, [userList]);
+
   const onChangeView = (viewType: ViewType): void => {
     setToggleVIew(viewType);
   };
@@ -144,14 +141,16 @@ export default function Glimpselist() {
   // TODO: URL 쿼리스트링 연결 필요
   const onSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
     // 검색 조건 수정 필요
-    // const keyword = e.target.value;
-    // const filtered = userList.filter(data =>
-    //   data.displayName.includes(keyword)
-    // );
-    // setUserList(filtered);
-    // setSerachWord(keyword);
-    // searchParams.set('search', keyword);
-    // router.replace(`${pathname}?${params.toString()}`);
+    const keyword = e.target.value;
+    if (keyword !== '') {
+      const filtered = userList.filter(data =>
+        data.displayName.includes(keyword)
+      );
+      setUserListForRender(filtered);
+    } else {
+      setUserListForRender(userList);
+    }
+    setSerachWord(keyword);
   };
 
   // TODO: transition 효과가 제대로 작동하지 않음
@@ -355,9 +354,9 @@ export default function Glimpselist() {
               [styles['grid-view']]: toggleView === 'grid',
             })}
           >
-            {toggleView === 'box' && <BoxView userList={userList} />}
-            {toggleView === 'grid' && <GridView userList={userList} />}
-            {toggleView === 'list' && <ListView userList={userList} />}
+            {toggleView === 'box' && <BoxView userList={userListForRender} />}
+            {toggleView === 'grid' && <GridView userList={userListForRender} />}
+            {toggleView === 'list' && <ListView userList={userListForRender} />}
           </section>
         </section>
       </div>
