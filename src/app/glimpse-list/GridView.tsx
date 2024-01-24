@@ -2,19 +2,19 @@ import Avatar from '@/app/glimpse-list/Avatar';
 import Chip from '@/components/Chip/page';
 import styles from './gridView.module.scss';
 import Card from '@/components/Card/page';
-import {Glimpse} from './mock/glimpses';
+import {userData} from './type';
 import Link from 'next/link';
 
 // NOTE: list props로 변경하기
 
 interface GridViewProps {
-  glimpses: Glimpse[];
+  userList: userData[];
 }
 
-export default function GridView({glimpses}: GridViewProps) {
+export default function GridView({userList}: GridViewProps) {
   return (
     <>
-      {glimpses.map((data, index) => (
+      {userList.map((data, index) => (
         <Link key={`profile-card-${index}`} href={'/users/3'}>
           <Card key={index}>
             <div className={styles['glimpse-grid-wrapper']}>
@@ -28,21 +28,19 @@ export default function GridView({glimpses}: GridViewProps) {
                   height={40}
                   width={40}
                 />
-                <p className={styles['profile-name']}>{data.name}</p>
+                <p className={styles['profile-name']}>{data.displayName}</p>
               </div>
               <div className={styles['position-wrapper']}>
-                {data.position.map((d: string, index: number) => (
-                  <Chip
-                    key={index}
-                    label={d}
-                    height={28}
-                    backgroundColor={index === 0 ? '#C1AEF6' : '#F3F3F3'}
-                    borderRadius={4}
-                  />
-                ))}
+                <Chip
+                  key={index}
+                  label={data.department}
+                  height={28}
+                  backgroundColor={index === 0 ? '#C1AEF6' : '#F3F3F3'}
+                  borderRadius={4}
+                />
               </div>
               <div className={styles['link-wrapper']}>
-                {data.link.map((_, index: number) => (
+                {data.cards[3].content.map((_, index: number) => (
                   <div
                     key={`link_${index}`}
                     style={{

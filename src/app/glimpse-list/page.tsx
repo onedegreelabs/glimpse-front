@@ -15,6 +15,7 @@ import GridView from './GridView';
 import ListView from './ListView';
 import Container from '@/components/Container/Container';
 import {glimpseList} from '@/network/api';
+import {userData} from './type';
 
 const PERSON_TYPE = [
   {value: 'all', name: 'all'},
@@ -105,16 +106,15 @@ export default function Glimpselist() {
   const getEventUserData = async (id: number) => {
     const res = await glimpseList.getEventUserList(id);
     if (res?.data?.data) {
-      // console.log('eventUserList!');
-      // console.log(res.data.data);
-      // setGlimpses(res.data.data);
+      console.log('eventUserList!');
+      console.log(res.data.data);
+      setUserList(res.data.data);
     }
   };
 
-  // console.log('dummy!');
-  // console.log(dummyGlimpses);
   useEffect(() => {
-    setGlimpses(dummyGlimpses);
+    console.log('dummy!');
+    console.log(dummyGlimpses);
   }, [dummyGlimpses]);
 
   useEffect(() => {
@@ -124,7 +124,7 @@ export default function Glimpselist() {
     }
   }, [eventId]);
 
-  const [glimpses, setGlimpses] = useState<Glimpse[]>([]);
+  const [userList, setUserList] = useState<userData[]>([]);
   const [toggleView, setToggleVIew] = useState<ViewType>('box');
   const [openMore, setOpenMore] = useState(false);
   const [searchWord, setSerachWord] = useState('');
@@ -143,10 +143,13 @@ export default function Glimpselist() {
   // TODO: API 연결 필요
   // TODO: URL 쿼리스트링 연결 필요
   const onSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const keyword = e.target.value;
-    const filtered = dummyGlimpses.filter(data => data.name.includes(keyword));
-    setGlimpses(filtered);
-    setSerachWord(keyword);
+    // 검색 조건 수정 필요
+    // const keyword = e.target.value;
+    // const filtered = userList.filter(data =>
+    //   data.displayName.includes(keyword)
+    // );
+    // setUserList(filtered);
+    // setSerachWord(keyword);
     // searchParams.set('search', keyword);
     // router.replace(`${pathname}?${params.toString()}`);
   };
@@ -352,9 +355,9 @@ export default function Glimpselist() {
               [styles['grid-view']]: toggleView === 'grid',
             })}
           >
-            {toggleView === 'box' && <BoxView glimpses={glimpses} />}
-            {toggleView === 'grid' && <GridView glimpses={glimpses} />}
-            {toggleView === 'list' && <ListView glimpses={glimpses} />}
+            {toggleView === 'box' && <BoxView userList={userList} />}
+            {/* {toggleView === 'grid' && <GridView userList={userList} />}
+            {toggleView === 'list' && <ListView userList={userList} />} */}
           </section>
         </section>
       </div>

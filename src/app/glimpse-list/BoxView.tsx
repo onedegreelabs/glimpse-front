@@ -2,18 +2,17 @@ import Avatar from '@/app/glimpse-list/Avatar';
 import Chip from '@/components/Chip/page';
 import styles from './boxView.module.scss';
 import Card from '@/components/Card/page';
-import {Glimpse} from './mock/glimpses';
 import IconText from '@/components/IconText/page';
 import Link from 'next/link';
-
+import {userData} from './type';
 interface BoxProps {
-  glimpses: Glimpse[];
+  userList: userData[];
 }
 
-export default function BoxView({glimpses}: BoxProps) {
+export default function BoxView({userList}: BoxProps) {
   return (
     <>
-      {glimpses.map((data, index) => (
+      {userList.map((data, index) => (
         <Link key={`profile-card-${index}`} href={'/users/3'}>
           <Card key={data.id}>
             <div className={styles['glimpse-list-wrapper']}>
@@ -29,17 +28,15 @@ export default function BoxView({glimpses}: BoxProps) {
                     height={24}
                     text={'Seoul, Korea'}
                   />
-                  <p className={styles['profile-name']}>{data.name}</p>
+                  <p className={styles['profile-name']}>{data.displayName}</p>
                   <div className={styles['position-wrapper']}>
-                    {data.position.map((d: string, index: number) => (
-                      <Chip
-                        key={index}
-                        label={d}
-                        height={28}
-                        backgroundColor={index === 0 ? '#C1AEF6' : '#F3F3F3'}
-                        borderRadius={4}
-                      />
-                    ))}
+                    <Chip
+                      key={index}
+                      label={data.department}
+                      height={28}
+                      backgroundColor={index === 0 ? '#C1AEF6' : '#F3F3F3'}
+                      borderRadius={4}
+                    />
                   </div>
                 </div>
                 <Avatar
@@ -50,10 +47,10 @@ export default function BoxView({glimpses}: BoxProps) {
                 />
               </div>
               <div>
-                <p>{data.text}</p>
+                <p>{data.displayName}</p>
               </div>
               <div className={styles['hobby-wrapper']}>
-                {data.hobby.map((d: string, index: number) => (
+                {data.cards[4].content.map((d: string, index: number) => (
                   <Chip
                     key={`hobby-${index}`}
                     label={`#${d}`}
@@ -64,7 +61,7 @@ export default function BoxView({glimpses}: BoxProps) {
                 ))}
               </div>
               <div className={styles['link-wrapper']}>
-                {data.link.map((_, index: number) => (
+                {data.cards[3].content.map((_, index: number) => (
                   <div
                     key={`link_${index}`}
                     style={{

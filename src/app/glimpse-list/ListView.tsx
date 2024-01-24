@@ -2,17 +2,17 @@ import Avatar from '@/app/glimpse-list/Avatar';
 import Chip from '@/components/Chip/page';
 import styles from './listView.module.scss';
 import Card from '@/components/Card/page';
-import {Glimpse} from './mock/glimpses';
+import {userData} from './type';
 import Link from 'next/link';
 
 interface ListViewProps {
-  glimpses: Glimpse[];
+  userList: userData[];
 }
 
-export default function ListView({glimpses}: ListViewProps) {
+export default function ListView({userList}: ListViewProps) {
   return (
     <>
-      {glimpses.map((data, index) => (
+      {userList.map((data, index) => (
         <Link key={`profile-card-${index}`} href={'/users/3'}>
           <Card key={data.id}>
             <div className={styles['glimpse-compact-wrapper']}>
@@ -25,22 +25,20 @@ export default function ListView({glimpses}: ListViewProps) {
                     width={50}
                   />
                   <div className={styles['profile-info-wrapper']}>
-                    <p className={styles['profile-name']}>{data.name}</p>
+                    <p className={styles['profile-name']}>{data.displayName}</p>
                     <div className={styles['position-wrapper']}>
-                      {data.position.map((d: string, index: number) => (
-                        <Chip
-                          key={index}
-                          label={d}
-                          height={28}
-                          backgroundColor={index === 0 ? '#C1AEF6' : '#F3F3F3'}
-                          borderRadius={4}
-                        />
-                      ))}
+                      <Chip
+                        key={index}
+                        label={data.department}
+                        height={28}
+                        backgroundColor={index === 0 ? '#C1AEF6' : '#F3F3F3'}
+                        borderRadius={4}
+                      />
                     </div>
                   </div>
                 </div>
                 <div className={styles['link-wrapper']}>
-                  {data.link.map((_, index: number) => (
+                  {data.cards[3].content.map((_, index: number) => (
                     <div
                       key={`link_${index}`}
                       style={{
