@@ -7,7 +7,7 @@ import CustomDatePicker from '@/components/date-picker/page';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Card from '@/components/Card/page';
-import {createEvent} from '@/network/api';
+import {eventCreate} from '@/network/api';
 import CustomTextarea from '@/components/custom-textarea/page';
 import _ from 'lodash';
 
@@ -179,7 +179,7 @@ export default function EventCreate() {
       description: eventDescription,
       tags: eventTag,
     };
-    await createEvent(imgFile, params);
+    await eventCreate.createEvent(imgFile, params);
   };
 
   const descriptionRef = useRef<HTMLDivElement>(null);
