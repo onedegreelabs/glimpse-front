@@ -356,8 +356,8 @@ export default function Glimpselist() {
             })}
           >
             {toggleView === 'box' && <BoxView userList={userList} />}
-            {/* {toggleView === 'grid' && <GridView userList={userList} />}
-            {toggleView === 'list' && <ListView userList={userList} />} */}
+            {toggleView === 'grid' && <GridView userList={userList} />}
+            {toggleView === 'list' && <ListView userList={userList} />}
           </section>
         </section>
       </div>
