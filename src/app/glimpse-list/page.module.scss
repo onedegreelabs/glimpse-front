@@ -53,7 +53,13 @@
 
   .body-content-area {
     background-color: #fff;
-    padding: 0px 16px;
+    padding: 26px 16px 0;
+
+    .button-wrapper {
+      justify-content: center;
+      display: flex;
+      gap: 8px;
+    }
 
     .search-area {
       display: flex;
@@ -134,6 +140,28 @@
 
       &.grid-view {
         grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .glimpse-list-wrapper {
+    .body-content-area {
+      .button-wrapper {
+        .share-wrapper {
+          display: none;
+        }
+      }
+
+      .search-area {
+        .list-setting {
+          .grid-icon-wrapper {
+            .list-view {
+              display: none;
+            }
+          }
+        }
       }
     }
   }

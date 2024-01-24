@@ -8,7 +8,22 @@
 
   .card-header {
     display: flex;
+    gap: 4px;
     justify-content: end;
+
+    .icon-wrapper {
+      padding: 8px;
+      width: 40px;
+      height: 40px;
+
+      &.comment-icon {
+        border-radius: 50%;
+        box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.05),
+          -2px -2px 5px 1px rgba(0, 0, 0, 0.05),
+          2px -2px 5px 1px rgba(0, 0, 0, 0.05),
+          -2px 2px 5px 1px rgba(0, 0, 0, 0.05);
+      }
+    }
   }
 
   .profile-wrapper {
@@ -19,8 +34,9 @@
 
     .profile-name {
       max-width: 157px;
-      font-size: 22px;
+      font-size: 18px;
       font-weight: 400;
+      margin-bottom: 16px;
     }
 
     .position-wrapper {
@@ -28,16 +44,20 @@
       gap: 10px;
     }
   }
+
   .hobby-wrapper {
     display: flex;
     overflow-x: auto;
     white-space: nowrap;
     scrollbar-width: none;
     gap: 10px;
+    flex-grow: 1;
     -ms-overflow-style: none;
   }
+
   .hobby-wrapper::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera*/
+    display: none;
+    /* Chrome, Safari, Opera*/
   }
 
   .link-wrapper {

@@ -49,6 +49,14 @@ export default function CoverPhoto({
               soldColor="#e1e1e1"
             />
           </div>
+          <div className={styles['share-btn-wrapper']}>
+            <Image
+              alt="share-icon"
+              src="/icons/shareBox.svg"
+              width={24}
+              height={24}
+            />
+          </div>
         </div>
         <div className={styles['info-middle']}>
           <p>{eventTitle}</p>

@@ -8,6 +8,8 @@ interface LabelProps {
   isOutline?: boolean;
   soldColor?: string;
   onDelete?: (param: any) => void;
+  fontSize?: number;
+  fontWeight?: number;
 }
 
 export default function Chip({
@@ -18,6 +20,8 @@ export default function Chip({
   isOutline = false,
   soldColor,
   onDelete,
+  fontSize,
+  fontWeight,
 }: LabelProps) {
   return (
     <div
@@ -29,7 +33,14 @@ export default function Chip({
         ...(isOutline && {border: `1px solid ${soldColor}`}),
       }}
     >
-      <span>{label}</span>
+      <span
+        style={{
+          ...(fontSize && {fontSize: `${fontSize}px`}),
+          ...(fontWeight && {fontWeight: `${fontWeight}`}),
+        }}
+      >
+        {label}
+      </span>
       {onDelete && <button onClick={onDelete}>X</button>}
     </div>
   );

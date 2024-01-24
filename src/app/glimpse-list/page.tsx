@@ -15,6 +15,7 @@ import ListView from './ListView';
 import Container from '@/components/Container/Container';
 import {glimpseList} from '@/network/api';
 import {userData} from './type';
+import Button from '@/components/button/page';
 
 const PERSON_TYPE = [
   {value: 'all', name: 'all'},
@@ -163,6 +164,27 @@ export default function Glimpselist() {
     setFilters(prevFilters => ({...prevFilters, [filterType]: value}));
   };
 
+  const [windowWidth, setWindowWidth] = useState(0);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const handleResize = () => {
+        setWindowWidth(window.innerWidth);
+      };
+      window.addEventListener('resize', handleResize);
+
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }
+    return;
+  }, []);
+
+  useEffect(() => {
+    if (windowWidth <= 768 && toggleView === 'list') {
+      setToggleVIew('box');
+    }
+  }, [windowWidth]);
+
   return (
     <Container>
       <div className={styles['glimpse-list-wrapper']}>
@@ -236,6 +258,28 @@ export default function Glimpselist() {
           </section>
         </section>
         <section className={styles['body-content-area']}>
+          <div className={styles['button-wrapper']}>
+            <div className={styles['rsvp-wrapper']}>
+              <Button
+                color={'ffffff'}
+                bgColor={'7E51FD'}
+                text={'RSVP'}
+                width={240}
+                height={44}
+                clickEvent={() => {}}
+              />
+            </div>
+            <div className={styles['share-wrapper']}>
+              <Button
+                color={'ffffff'}
+                bgColor={'8B8B8B'}
+                text={'Share'}
+                width={240}
+                height={44}
+                clickEvent={() => {}}
+              />
+            </div>
+          </div>
           <section className={styles['search-area']}>
             <p className={styles['list-title']}>Participant List</p>
             <div className={styles['list-setting']}>
@@ -278,7 +322,10 @@ export default function Glimpselist() {
                     height={22}
                   />
                 </button>
-                <button onClick={() => onChangeView('list')}>
+                <button
+                  onClick={() => onChangeView('list')}
+                  className={styles['list-view']}
+                >
                   <Image
                     src={
                       toggleView === ViewTypes.LIST
