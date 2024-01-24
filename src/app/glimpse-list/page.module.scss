@@ -110,6 +110,10 @@
             align-items: center;
             justify-content: center;
           }
+
+          .list-view {
+            display: none;
+          }
         }
       }
     }
@@ -158,7 +162,7 @@
         .list-setting {
           .grid-icon-wrapper {
             .list-view {
-              display: none;
+              display: block;
             }
           }
         }

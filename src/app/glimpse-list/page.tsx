@@ -180,7 +180,7 @@ export default function Glimpselist() {
   }, []);
 
   useEffect(() => {
-    if (windowWidth <= 768 && toggleView === 'list') {
+    if (windowWidth > 768 && toggleView === 'list') {
       setToggleVIew('box');
     }
   }, [windowWidth]);
