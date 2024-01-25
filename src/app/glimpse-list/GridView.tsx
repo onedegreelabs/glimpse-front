@@ -23,6 +23,7 @@ export default function GridView({userList}: GridViewProps) {
     '/assets/favicon/dribble.jpg',
     '/assets/favicon/medium.jpg',
   ];
+  const colorList = ['#C1AEF6', '#F3F3F3', '#f08686', '#86f0e7', '#f8eb74'];
   return (
     <div className={styles['grid-view-wrapper']}>
       {userList.map((data, index) => (
@@ -69,7 +70,7 @@ export default function GridView({userList}: GridViewProps) {
                   key={index}
                   label={data.department}
                   height={28}
-                  backgroundColor={index === 0 ? '#C1AEF6' : '#F3F3F3'}
+                  backgroundColor={colorList[Math.floor(Math.random() * 5)]}
                   borderRadius={4}
                 />
               </div>
