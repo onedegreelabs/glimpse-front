@@ -17,17 +17,11 @@ export default NextAuth({
 
     async signIn({account}) {
       const googleToken = _.get(account, 'id_token') || '';
-      console.log('googleToken');
-      console.log(googleToken);
-
       const response = await loginWithGoogle(googleToken);
-      console.log('response');
-      console.log(response);
-
       const token = _.get(response, 'data') || {};
 
-      const accessToken = _.get(token, 'accessToken');
-      const refreshToken = _.get(token, 'refreshToken');
+      const accessToken = _.get(token?.data, 'accessToken');
+      const refreshToken = _.get(token?.data, 'refreshToken');
       return `/loading?at=${accessToken}&rt=${refreshToken}`;
     },
   },
