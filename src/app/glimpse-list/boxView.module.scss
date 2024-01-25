@@ -45,6 +45,14 @@
     }
   }
 
+  .intro-snippet {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 4;
+  }
+
   .hobby-wrapper {
     display: flex;
     overflow-x: auto;

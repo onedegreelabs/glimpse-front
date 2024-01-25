@@ -69,7 +69,7 @@ export default function BoxView({userList}: BoxProps) {
                 width={70}
               />
             </div>
-            <div>
+            <div className={styles['intro-snippet']}>
               <p>{data.introSnippet}</p>
             </div>
             <div className={styles['hobby-wrapper']}>
