@@ -21,6 +21,7 @@ export default function ListView({userList}: ListViewProps) {
     '/assets/favicon/dribble.jpg',
     '/assets/favicon/medium.jpg',
   ];
+  const colorList = ['#C1AEF6', '#F3F3F3', '#f08686', '#86f0e7', '#f8eb74'];
   return (
     <>
       {userList.map((data, index) => (
@@ -45,7 +46,9 @@ export default function ListView({userList}: ListViewProps) {
                         key={index}
                         label={data.department}
                         height={28}
-                        backgroundColor={index === 0 ? '#C1AEF6' : '#F3F3F3'}
+                        backgroundColor={
+                          colorList[Math.floor(Math.random() * 5)]
+                        }
                         borderRadius={4}
                       />
                     </div>
