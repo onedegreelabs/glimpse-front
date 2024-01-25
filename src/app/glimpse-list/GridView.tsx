@@ -4,6 +4,8 @@ import styles from './gridView.module.scss';
 import Card from '@/components/Card/page';
 import {userData} from './type';
 import Link from 'next/link';
+import Image from 'next/image';
+import clsx from 'clsx';
 
 // NOTE: list props로 변경하기
 
@@ -12,18 +14,50 @@ interface GridViewProps {
 }
 
 export default function GridView({userList}: GridViewProps) {
+  const srcList = [
+    '/assets/favicon/facebook.jpg',
+    '/assets/favicon/github.jpg',
+    '/assets/favicon/instagram.jpg',
+    '/assets/favicon/linkedin.jpg',
+    '/assets/favicon/instagram.jpg',
+    '/assets/favicon/dribble.jpg',
+    '/assets/favicon/medium.jpg',
+  ];
   return (
-    <>
+    <div className={styles['grid-view-wrapper']}>
       {userList.map((data, index) => (
         <Link key={`profile-card-${index}`} href={'/users/3'}>
           <Card key={index}>
             <div className={styles['glimpse-grid-wrapper']}>
               <div className={styles['card-header']}>
-                <img src="/assets/glimpse-list/bookmark-icon.svg" />
+                <div className={styles['icon-wrapper']}>
+                  <Image
+                    alt="bookmark-icon"
+                    src={'icons/bookmark-icon.svg'}
+                    width={24}
+                    height={24}
+                  />
+                </div>
+                <div
+                  className={clsx(
+                    styles['icon-wrapper'],
+                    styles['comment-icon']
+                  )}
+                >
+                  <Image
+                    alt="chat-icon"
+                    src={'icons/comment.svg'}
+                    width={24}
+                    height={24}
+                  />
+                </div>
               </div>
               <div className={styles['profile-wrapper']}>
                 <Avatar
-                  src="/assets/glimpse-list/temp-glimpse-list-img.jpg"
+                  src={
+                    data.profileImageUrl ??
+                    '/assets/glimpse-list/temp-glimpse-list-img.jpg'
+                  }
                   alt="프로필이미지"
                   height={40}
                   width={40}
@@ -41,13 +75,12 @@ export default function GridView({userList}: GridViewProps) {
               </div>
               <div className={styles['link-wrapper']}>
                 {data.cards[3].content.map((_, index: number) => (
-                  <div
+                  <Image
                     key={`link_${index}`}
-                    style={{
-                      width: '32px',
-                      height: '32px',
-                      backgroundColor: '#F3F3F3',
-                    }}
+                    src={srcList[Math.floor(Math.random() * 7)]}
+                    alt={'img'}
+                    width={32}
+                    height={32}
                   />
                 ))}
               </div>
@@ -55,6 +88,6 @@ export default function GridView({userList}: GridViewProps) {
           </Card>
         </Link>
       ))}
-    </>
+    </div>
   );
 }

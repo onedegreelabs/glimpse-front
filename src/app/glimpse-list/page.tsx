@@ -49,7 +49,8 @@ const FAVORITE = [
 
 const ViewTypes = {
   BOX: 'box',
-  GIRD: 'grid',
+  DESKTOPGIRD: 'desktopGrid',
+  MOBILEGIRD: 'mobileGrid',
   LIST: 'list',
 } as const;
 
@@ -322,14 +323,32 @@ export default function Glimpselist() {
                     height={22}
                   />
                 </button>
-                <button onClick={() => onChangeView('grid')}>
+                <button
+                  onClick={() => onChangeView('desktopGrid')}
+                  className={styles['desktop-grid-btn']}
+                >
                   <Image
                     src={
-                      toggleView === ViewTypes.GIRD
+                      toggleView === ViewTypes.DESKTOPGIRD
                         ? '/assets/glimpse-list/dark-grid.svg'
                         : '/assets/glimpse-list/light-grid.svg'
                     }
-                    alt="그리드뷰"
+                    alt="데스크탑 그리드뷰"
+                    width={22}
+                    height={22}
+                  />
+                </button>
+                <button
+                  onClick={() => onChangeView('mobileGrid')}
+                  className={styles['mobile-grid-btn']}
+                >
+                  <Image
+                    src={
+                      toggleView === ViewTypes.MOBILEGIRD
+                        ? '/assets/glimpse-list/dark-grid.svg'
+                        : '/assets/glimpse-list/light-grid.svg'
+                    }
+                    alt="모바일 그리드뷰"
                     width={22}
                     height={22}
                   />
@@ -410,11 +429,15 @@ export default function Glimpselist() {
           </section>
           <section
             className={clsx(styles['glimpse-area'], {
-              [styles['grid-view']]: toggleView === 'grid',
+              [styles['grid-view']]: toggleView === 'desktopGrid',
             })}
           >
-            {toggleView === 'box' && <BoxView userList={userListForRender} />}
-            {toggleView === 'grid' && <GridView userList={userListForRender} />}
+            {(toggleView === 'box' || toggleView === 'desktopGrid') && (
+              <BoxView userList={userListForRender} />
+            )}
+            {toggleView === 'mobileGrid' && (
+              <GridView userList={userListForRender} />
+            )}
             {toggleView === 'list' && <ListView userList={userListForRender} />}
           </section>
         </section>

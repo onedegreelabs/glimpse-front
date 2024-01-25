@@ -12,6 +12,15 @@ interface BoxProps {
 }
 
 export default function BoxView({userList}: BoxProps) {
+  const srcList = [
+    '/assets/favicon/facebook.jpg',
+    '/assets/favicon/github.jpg',
+    '/assets/favicon/instagram.jpg',
+    '/assets/favicon/linkedin.jpg',
+    '/assets/favicon/instagram.jpg',
+    '/assets/favicon/dribble.jpg',
+    '/assets/favicon/medium.jpg',
+  ];
   return (
     <>
       {userList.map((data, index) => (
@@ -63,7 +72,10 @@ export default function BoxView({userList}: BoxProps) {
                 </div>
               </div>
               <Avatar
-                src="/assets/glimpse-list/temp-glimpse-list-img.jpg"
+                src={
+                  data.profileImageUrl ??
+                  '/assets/glimpse-list/temp-glimpse-list-img.jpg'
+                }
                 alt="프로필이미지"
                 height={70}
                 width={70}
@@ -87,13 +99,12 @@ export default function BoxView({userList}: BoxProps) {
             </div>
             <div className={styles['link-wrapper']}>
               {data.cards[3].content.map((_, index: number) => (
-                <div
+                <Image
                   key={`link_${index}`}
-                  style={{
-                    width: '32px',
-                    height: '32px',
-                    backgroundColor: '#F3F3F3',
-                  }}
+                  src={srcList[Math.floor(Math.random() * 7)]}
+                  alt={'img'}
+                  width={32}
+                  height={32}
                 />
               ))}
             </div>

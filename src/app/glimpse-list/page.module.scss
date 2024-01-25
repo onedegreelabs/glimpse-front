@@ -130,6 +130,10 @@
           .list-view {
             display: none;
           }
+
+          .mobile-grid-btn {
+            display: none;
+          }
         }
       }
     }
@@ -154,12 +158,22 @@
 
     .glimpse-area {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(358px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 16px;
       padding: 16px 0px;
 
       &.grid-view {
-        grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .glimpse-list-wrapper {
+    .body-content-area {
+      .glimpse-area {
+        grid-template-columns: repeat(auto-fill, minmax(358px, 1fr));
       }
     }
   }
@@ -178,6 +192,14 @@
         .list-setting {
           .grid-icon-wrapper {
             .list-view {
+              display: block;
+            }
+
+            .desktop-grid-btn {
+              display: none;
+            }
+
+            .mobile-grid-btn {
               display: block;
             }
           }
