@@ -1,34 +1,56 @@
-.glimpse-grid-wrapper {
-  display: flex;
-  flex-direction: column;
-  padding: 8px;
+.grid-view-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 10px;
+  height: 190px;
 
-  .card-header {
+  .glimpse-grid-wrapper {
     display: flex;
-    justify-content: end;
-  }
-
-  .profile-wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    padding: 8px;
     gap: 10px;
+    height: 190px;
 
-    .profile-name {
-      max-width: 98px;
-      font-size: 12px;
-      font-weight: 400;
+    .card-header {
+      display: flex;
+      justify-content: end;
+
+      .icon-wrapper {
+        padding: 8px;
+        width: 40px;
+        height: 40px;
+
+        &.comment-icon {
+          border-radius: 50%;
+          box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.05),
+            -2px -2px 5px 1px rgba(0, 0, 0, 0.05),
+            2px -2px 5px 1px rgba(0, 0, 0, 0.05),
+            -2px 2px 5px 1px rgba(0, 0, 0, 0.05);
+        }
+      }
     }
-  }
 
-  .position-wrapper {
-    display: flex;
-    gap: 8px;
-  }
+    .profile-wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
 
-  .link-wrapper {
-    display: flex;
-    gap: 10px;
+      .profile-name {
+        max-width: 98px;
+        font-size: 12px;
+        font-weight: 400;
+      }
+    }
+
+    .position-wrapper {
+      display: flex;
+      gap: 8px;
+    }
+
+    .link-wrapper {
+      display: flex;
+      gap: 10px;
+    }
   }
 }
