@@ -66,6 +66,7 @@ export default function Glimpselist() {
   const [viewCount, setViewCount] = useState('');
   const [eventLink, setEventLink] = useState('');
   const [startDate, setStartDate] = useState('');
+  const [tags, setTags] = useState([]);
   const [location, setLocation] = useState('');
   const [description, setDescription] = useState('');
 
@@ -100,6 +101,7 @@ export default function Glimpselist() {
       setStartDate(res.data.data.startDate);
       setLocation(res.data.data.location);
       setDescription(res.data.data.description);
+      setTags(res.data.data.tags);
     }
     return res?.data?.data;
   };
@@ -228,6 +230,16 @@ export default function Glimpselist() {
                   text={location}
                 />
               </div>
+            </div>
+            <div className={styles['tag-wrapper']}>
+              {tags.length > 0 &&
+                tags.map((tag, i) => {
+                  return (
+                    <div key={`tag_${i}`} className={styles['tag-item']}>
+                      {`#${tag}`}
+                    </div>
+                  );
+                })}
             </div>
             <div className={styles['event-content-area']}>
               <p

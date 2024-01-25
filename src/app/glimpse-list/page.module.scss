@@ -27,6 +27,22 @@
         }
       }
 
+      .tag-wrapper {
+        display: flex;
+        gap: 10px;
+
+        .tag-item {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 24px;
+          padding: 0 10px;
+          border-radius: 30px;
+          background-color: #f3f3f3;
+          font-size: 12px;
+        }
+      }
+
       .event-content-area {
         .open {
           max-height: 100%;
