@@ -1,4 +1,4 @@
-import styles from './hashtagCard.module.scss';
+import styles from './page.scss';
 import {useEffect, useState} from 'react';
 
 import Card from '@/components/Card/page';
