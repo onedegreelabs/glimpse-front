@@ -10,12 +10,15 @@ import Card from '@/components/Card/page';
 import {eventCreate} from '@/network/api';
 import CustomTextarea from '@/components/custom-textarea/page';
 import _ from 'lodash';
+import {useRouter} from 'next/navigation';
 
 export default function EventCreate() {
   const [eventName, setEventName] = useState('');
   const handleEventTitle = function (name: string) {
     setEventName(name);
   };
+
+  const router = useRouter();
 
   const [eventType, setEventType] = useState(0);
   const eventTypeItems = [
@@ -179,7 +182,11 @@ export default function EventCreate() {
       description: eventDescription,
       tags: eventTag,
     };
-    await eventCreate.createEvent(imgFile, params);
+    const response = await eventCreate.createEvent(imgFile, params);
+    const eventId = response?.data?.data?.id || undefined;
+    if (eventId !== undefined) {
+      router.push(`/glimpse-list?eventId=${eventId}`);
+    }
   };
 
   const descriptionRef = useRef<HTMLDivElement>(null);
