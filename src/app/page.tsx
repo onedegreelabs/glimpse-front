@@ -1,16 +1,28 @@
 'use client';
-import isTokenValid from '@/utils/isTokenValid';
+import {profileApi} from '@/network/api';
+import _ from 'lodash';
 import {useRouter} from 'next/navigation';
 import {useEffect} from 'react';
 
 export default function Home() {
   const router = useRouter();
-  useEffect(() => {
-    if (isTokenValid()) {
-      router.replace('/glimpse-list');
-    } else {
-      router.replace('sign/in');
+  const getMyUserData = async function () {
+    try {
+      const myUserData = await profileApi.getUserMe();
+      const myUserId = _.get(myUserData, 'id');
+      if (myUserId) {
+        router.replace('/profile');
+      } else {
+        router.replace('sign/in');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      router.replace('/sign/in');
     }
+  };
+
+  useEffect(() => {
+    getMyUserData();
   }, []);
   return <div></div>;
 }

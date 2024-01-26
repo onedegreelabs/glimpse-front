@@ -8,18 +8,23 @@ import {useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
 import getQueryString from '@/utils/getQueryString';
 import _ from 'lodash';
-import {verifyEmailCode, sendMailWithCode} from '@/network/api';
+import {verifyEmailCode, sendMailWithCode, profileApi} from '@/network/api';
 import {useRouter} from 'next/navigation';
-import isTokenValid from '@/utils/isTokenValid';
 import Image from 'next/image';
 
 export default function SignUp() {
   const router = useRouter();
 
-  useEffect(() => {
-    if (isTokenValid()) {
+  const isAlreadyLogin = async function () {
+    const myUserData = await profileApi.getUserMe();
+    const myUserId = _.get(myUserData, 'id');
+    if (myUserId) {
       router.replace('/glimpse-list');
     }
+  };
+
+  useEffect(() => {
+    isAlreadyLogin();
   }, []);
 
   const url = window.location.href;

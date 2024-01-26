@@ -5,18 +5,25 @@ import Button from '@/components/button/page';
 import {useRouter} from 'next/navigation';
 import {useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
-import {loginWithLinkedin, sendMailWithCode} from '@/network/api';
-import isTokenValid from '@/utils/isTokenValid';
+import {loginWithLinkedin, profileApi, sendMailWithCode} from '@/network/api';
 import Image from 'next/image';
 import {signIn} from 'next-auth/react';
+import _ from 'lodash';
 
 export default function SignIn() {
   const router = useRouter();
-  useEffect(() => {
-    if (isTokenValid()) {
+  const isAlreadyLogin = async function () {
+    const myUserData = await profileApi.getUserMe();
+    const myUserId = _.get(myUserData, 'id');
+    if (myUserId) {
       router.replace('/glimpse-list');
     }
+  };
+
+  useEffect(() => {
+    isAlreadyLogin();
   }, []);
+
   const [mailAddress, setMailAddress] = useState<string>('');
   const [isInvalidMail, setIsInvalidMail] = useState<Boolean>(false);
 
