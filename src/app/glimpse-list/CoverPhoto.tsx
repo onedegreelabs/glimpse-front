@@ -26,11 +26,13 @@ export default function CoverPhoto({
         width={100}
         height={0}
       ></Image> */}
-      <img
-        className={styles['event-thumbnail']}
-        src={coverImgUrl}
-        alt="이벤트 썸네일"
-      />
+      {coverImgUrl && (
+        <img
+          className={styles['event-thumbnail']}
+          src={coverImgUrl}
+          alt="이벤트 썸네일"
+        />
+      )}
       <div className={styles['event-info-wrapper']}>
         <div className={styles['info-header']}>
           <div className={styles['info-type']}>
