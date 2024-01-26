@@ -119,7 +119,7 @@ export default function Glimpselist() {
       getEventUserData(eventId);
     } else {
       getEventData(66);
-      getEventData(66);
+      getEventUserData(66);
     }
   }, [eventId]);
 
