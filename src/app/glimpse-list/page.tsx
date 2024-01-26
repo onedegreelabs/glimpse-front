@@ -310,7 +310,7 @@ export default function Glimpselist() {
                   src="/assets/glimpse-list/search-icon.svg"
                   alt="검색 아이콘"
                   width={24}
-                  height={24}
+                  height={20}
                 />
               </div>
               <div className={styles['grid-icon-wrapper']}>
