@@ -3,9 +3,9 @@ import Chip from '@/components/Chip/page';
 import styles from './gridView.module.scss';
 import Card from '@/components/Card/page';
 import {userData} from './type';
-import Link from 'next/link';
 import Image from 'next/image';
 import clsx from 'clsx';
+import {useRouter} from 'next/navigation';
 
 // NOTE: list props로 변경하기
 
@@ -23,11 +23,21 @@ export default function GridView({userList}: GridViewProps) {
     '/assets/favicon/dribble.jpg',
     '/assets/favicon/medium.jpg',
   ];
-  const colorList = ['#C1AEF6', '#F3F3F3', '#f08686', '#86f0e7', '#f8eb74'];
+
+  const router = useRouter();
+  const onClickCard = function (userId: number) {
+    router.push(`users/${userId}`);
+  };
   return (
     <div className={styles['grid-view-wrapper']}>
       {userList.map((data, index) => (
-        <Link key={`profile-card-${index}`} href={'/users/3'}>
+        <div
+          key={`profile-card-${index}`}
+          className={styles['card-wrapper']}
+          onClick={() => {
+            onClickCard(data.id);
+          }}
+        >
           <Card key={index}>
             <div className={styles['glimpse-grid-wrapper']}>
               <div className={styles['card-header']}>
@@ -70,7 +80,7 @@ export default function GridView({userList}: GridViewProps) {
                   key={index}
                   label={data.department}
                   height={28}
-                  backgroundColor={colorList[Math.floor(Math.random() * 5)]}
+                  backgroundColor={'#C1AEF6'}
                   borderRadius={4}
                 />
               </div>
@@ -87,7 +97,7 @@ export default function GridView({userList}: GridViewProps) {
               </div>
             </div>
           </Card>
-        </Link>
+        </div>
       ))}
     </div>
   );

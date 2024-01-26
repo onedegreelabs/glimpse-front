@@ -1,3 +1,12 @@
+.card-wrapper {
+  cursor: pointer;
+  border-radius: 15px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
 .glimpse-compact-wrapper {
   display: flex;
   padding: 16px 20px;
@@ -17,7 +26,8 @@
 
       &.comment-icon {
         border-radius: 50%;
-        box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.05),
+        box-shadow:
+          2px 2px 5px 1px rgba(0, 0, 0, 0.05),
           -2px -2px 5px 1px rgba(0, 0, 0, 0.05),
           2px -2px 5px 1px rgba(0, 0, 0, 0.05),
           -2px 2px 5px 1px rgba(0, 0, 0, 0.05);
