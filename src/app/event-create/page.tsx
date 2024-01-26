@@ -170,7 +170,7 @@ export default function EventCreate() {
       value: eventVisibility,
     })?.text;
     const params = {
-      organizationId: 1,
+      organizationId: 31,
       title: eventName,
       type: eventTypeText?.toUpperCase() || '',
       visibility: eventVisibilityText?.toUpperCase() || '',
