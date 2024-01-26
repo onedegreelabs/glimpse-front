@@ -13,10 +13,15 @@ import _ from 'lodash';
 export default function SignIn() {
   const router = useRouter();
   const isAlreadyLogin = async function () {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      router.push('/profile');
+      return;
+    }
     const myUserData = await profileApi.getUserMe();
     const myUserId = _.get(myUserData, 'id');
     if (myUserId) {
-      router.replace('/glimpse-list');
+      router.replace('/profile');
     }
   };
 

@@ -15,7 +15,7 @@ export default function Loading() {
     if (accessToken && refreshToken) {
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
-      router.push('/glimpse-list');
+      router.push('/profile');
     }
   }
   return <div>loading</div>;
