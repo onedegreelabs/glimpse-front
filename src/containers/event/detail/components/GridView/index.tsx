@@ -1,8 +1,8 @@
-import Avatar from '@/app/glimpse-list/Avatar';
+import Avatar from '../Avatar';
 import Chip from '@/components/Chip/page';
-import styles from './gridView.module.scss';
+import styles from './index.module.scss';
 import Card from '@/components/Card/page';
-import {Glimpse} from './mock/glimpses';
+import {Glimpse} from '../../mock/glimpses';
 
 // NOTE: list props로 변경하기
 

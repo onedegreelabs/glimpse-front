@@ -2,18 +2,18 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import styles from './page.module.scss';
+import styles from './index.module.scss';
 import clsx from 'clsx';
 import {usePathname, useRouter} from 'next/navigation';
 import {useSearchParams} from 'next/navigation';
 import {useEffect, useState} from 'react';
-import CoverPhoto from './components/CoverPhoto/page';
+import CoverPhoto from './components/CoverPhoto';
 import {Glimpse, dummyGlimpses} from './mock/glimpses';
 import IconText from '@/components/IconText/page';
 import SelectBox from '@/components/SelectBox/page';
-import BoxView from './BoxView';
-import GridView from './GridView';
-import ListView from './ListView';
+import BoxView from './components/BoxView/';
+import GridView from './components/GridView/';
+import ListView from './components/ListView/';
 
 const PERSON_TYPE = [
   {value: 'all', name: 'all'},
@@ -53,7 +53,7 @@ const ViewTypes = {
 
 export type ViewType = (typeof ViewTypes)[keyof typeof ViewTypes];
 
-export default function Glimpselist() {
+export default function EventDetailContainers() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();

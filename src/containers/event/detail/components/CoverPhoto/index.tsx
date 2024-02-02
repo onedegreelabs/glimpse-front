@@ -1,5 +1,5 @@
 import Chip from '@/components/Chip/page';
-import styles from './page.module.scss';
+import styles from './index.module.scss';
 
 export default function CoverPhoto() {
   return (
