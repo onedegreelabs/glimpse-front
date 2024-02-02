@@ -1,4 +1,4 @@
-import styles from './page.module.scss';
+import styles from './circleImage.module.scss';
 import Image from 'next/image';
 import clsx from 'clsx';
 
