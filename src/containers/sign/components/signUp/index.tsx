@@ -3,7 +3,7 @@
 'use client';
 
 import Card from '@/components/Card/page';
-import styles from './page.module.scss';
+import styles from './index.module.scss';
 import {useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
 import getQueryString from '@/utils/getQueryString';
