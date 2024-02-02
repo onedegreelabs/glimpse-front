@@ -1,6 +1,6 @@
 'use client';
 import Card from '@/components/Card/page';
-import styles from './page.module.scss';
+import styles from './index.module.scss';
 import Button from '@/components/button/page';
 import {useRouter} from 'next/navigation';
 import {useEffect, useRef, useState} from 'react';
@@ -10,7 +10,17 @@ import Image from 'next/image';
 import {signIn} from 'next-auth/react';
 import _ from 'lodash';
 
-export default function SignIn() {
+interface SignInProps {
+  setIsSendMail: React.Dispatch<React.SetStateAction<boolean>>;
+  mailAddress: string;
+  setMailAddress: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export default function SignIn({
+  setIsSendMail,
+  mailAddress,
+  setMailAddress,
+}: SignInProps) {
   const router = useRouter();
   const isAlreadyLogin = async function () {
     const accessToken = localStorage.getItem('accessToken');
@@ -29,14 +39,13 @@ export default function SignIn() {
     isAlreadyLogin();
   }, []);
 
-  const [mailAddress, setMailAddress] = useState<string>('');
   const [isInvalidMail, setIsInvalidMail] = useState<Boolean>(false);
 
   const onClickEmailButton = async function () {
     const emailRegex =
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
     if (emailRegex.test(mailAddress)) {
-      router.push(`/sign/up?mailAddress=${mailAddress}`);
+      setIsSendMail(true);
       await sendMailWithCode(mailAddress);
     } else {
       setIsInvalidMail(true);

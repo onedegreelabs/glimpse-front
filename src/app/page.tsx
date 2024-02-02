@@ -9,7 +9,7 @@ export default function Home() {
   const getMyUserData = async function () {
     const accessToken = localStorage.getItem('accessToken');
     if (!accessToken) {
-      router.push('/sign/in');
+      router.push('/sign');
       return;
     }
     try {
@@ -18,11 +18,11 @@ export default function Home() {
       if (myUserId) {
         router.replace('/profile');
       } else {
-        router.replace('/sign/in');
+        router.replace('/sign');
       }
     } catch (error) {
       console.error('Error:', error);
-      router.replace('/sign/in');
+      router.replace('/sign');
     }
   };
 
