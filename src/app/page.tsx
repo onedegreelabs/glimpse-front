@@ -9,7 +9,7 @@ export default function Home() {
     if (isTokenValid()) {
       router.replace('/glimpse-list');
     } else {
-      router.replace('sign/in');
+      router.replace('sign');
     }
   }, []);
   return <div></div>;

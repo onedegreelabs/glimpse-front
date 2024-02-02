@@ -10,21 +10,30 @@ import isTokenValid from '@/utils/isTokenValid';
 import Image from 'next/image';
 import {signIn} from 'next-auth/react';
 
-export default function SignIn() {
+interface SignInProps {
+  setIsSendMail: React.Dispatch<React.SetStateAction<boolean>>;
+  mailAddress: string;
+  setMailAddress: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export default function SignIn({
+  setIsSendMail,
+  mailAddress,
+  setMailAddress,
+}: SignInProps) {
   const router = useRouter();
   useEffect(() => {
     if (isTokenValid()) {
       router.replace('/glimpse-list');
     }
   }, []);
-  const [mailAddress, setMailAddress] = useState<string>('');
   const [isInvalidMail, setIsInvalidMail] = useState<Boolean>(false);
 
   const onClickEmailButton = async function () {
     const emailRegex =
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
     if (emailRegex.test(mailAddress)) {
-      router.push(`/sign/up?mailAddress=${mailAddress}`);
+      setIsSendMail(true);
       await sendMailWithCode(mailAddress);
     } else {
       setIsInvalidMail(true);
