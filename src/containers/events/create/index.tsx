@@ -1,6 +1,6 @@
 'use client';
 import {useEffect, useRef, useState} from 'react';
-import styles from './page.module.scss';
+import styles from './index.module.scss';
 import CustomInput from '@/components/custom-input/page';
 import CustomRadio from '@/components/custom-radio/page';
 import CustomDatePicker from '@/components/date-picker/page';
