@@ -1,0 +1,19 @@
+.title {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%;
+}
+
+.content-wrapper {
+  padding: 24px 20px;
+}
+
+.hashtag-content {
+  height: 294px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  overflow-y: auto;
+  align-content: flex-start;
+}
