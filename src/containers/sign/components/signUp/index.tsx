@@ -6,13 +6,16 @@ import Card from '@/components/Card/page';
 import styles from './index.module.scss';
 import {useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
-import getQueryString from '@/utils/getQueryString';
 import _ from 'lodash';
 import {verifyEmailCode, sendMailWithCode, profileApi} from '@/network/api';
 import {useRouter} from 'next/navigation';
 import Image from 'next/image';
 
-export default function SignUp() {
+interface SignUpProps {
+  mailAddress: string;
+}
+
+export default function SignUp({mailAddress}: SignUpProps) {
   const router = useRouter();
 
   const isAlreadyLogin = async function () {
@@ -32,15 +35,6 @@ export default function SignUp() {
   useEffect(() => {
     isAlreadyLogin();
   }, []);
-
-  const url = window.location.href;
-  const [mailAddress, setMailAddress] = useState('');
-  useEffect(() => {
-    if (url) {
-      const query = getQueryString(url);
-      setMailAddress(_.get(query, 'mailAddress'));
-    }
-  }, [url]);
 
   const [digitList, setDigitList] = useState<string[]>([]);
   const handleDigitList = function (index: number, num: string) {
@@ -146,8 +140,9 @@ export default function SignUp() {
       <Card width={334} height={296}>
         <div className={styles['card-wrapper']}>
           <div className={styles['card-title']}>Enter code</div>
-          <div className={styles['card-sub-title']}>
-            Enter the six-digit code you sent to your email
+          <div className={styles['card-text-area']}>
+            <div>Please enter the six-digit code sent to</div>
+            <div className={styles['mail-text']}>{mailAddress}</div>
           </div>
           <div className={styles['digit-area']}>
             {Array.from({length: 6}, (_, index) => (
