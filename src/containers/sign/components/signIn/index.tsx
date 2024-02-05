@@ -60,6 +60,10 @@ export default function SignIn({
     await loginWithLinkedin();
   };
 
+  const onClickAppleButton = async function () {
+    await loginWithLinkedin();
+  };
+
   const mailInputRef = useRef<HTMLInputElement | null>(null);
   const isRendered = useRef(false);
   useEffect(() => {
@@ -126,11 +130,11 @@ export default function SignIn({
               clickEvent={onClickEmailButton}
             />
             <div className={styles['text-area']}>OR</div>
-            <Button
+            {/* <Button
               color="ffffff"
               bgColor="000000"
               text="Sign in with apple"
-              clickEvent={onClickLinkedinButton}
+              clickEvent={onClickAppleButton}
             >
               <Image
                 alt="icon"
@@ -138,7 +142,7 @@ export default function SignIn({
                 width={20}
                 height={20}
               />
-            </Button>
+            </Button> */}
             <Button
               color="ffffff"
               bgColor="0094FF"
@@ -152,7 +156,7 @@ export default function SignIn({
                 height={20}
               />
             </Button>
-            <Button
+            {/* <Button
               color="ffffff"
               bgColor="0177B5"
               text="Sign in with linkedIn"
@@ -164,7 +168,7 @@ export default function SignIn({
                 width={20}
                 height={20}
               />
-            </Button>
+            </Button> */}
           </div>
         </div>
       </Card>

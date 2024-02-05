@@ -1,7 +1,7 @@
 .signup-wrapper {
   .card-wrapper {
     display: grid;
-    grid-template-rows: 32px 16px 40px 28px;
+    grid-template-rows: 32px 32px 40px 28px;
     gap: 16px;
     justify-content: center;
     text-align: center;
@@ -11,8 +11,13 @@
       font-size: 24px;
     }
 
-    .card-sub-title {
+    .card-text-area {
+      grid-template-rows: repeat(2, 1fr);
       font-size: 12px;
+
+      .mail-text {
+        font-weight: 600;
+      }
     }
 
     .digit-area {
@@ -53,7 +58,7 @@
         gap: 4px;
         align-items: center;
         justify-content: center;
-        background-color: #F3F3F3;
+        background-color: #f3f3f3;
         height: 28px;
         padding: 0 10px;
         border-radius: 4px;

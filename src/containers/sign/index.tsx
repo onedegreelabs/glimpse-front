@@ -22,7 +22,7 @@ export default function SignContainer() {
           setMailAddress={setMailAddress}
         />
       ) : (
-        <SignUp />
+        <SignUp mailAddress={mailAddress} />
       )}
     </div>
   );
