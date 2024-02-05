@@ -1,12 +1,13 @@
-import {useEffect, useState} from 'react';
+import styles from './connect.module.scss';
+import clsx from 'clsx';
 import Image from 'next/image';
-import {LINK} from '@/app/profile/const/profile';
+import {useEffect, useState} from 'react';
+
 import Card from '@/components/Card/page';
 import {IProfileCard} from '@/types/profileType';
 import getCardsByType from '@/utils/getCardsByType';
-import styles from './connectCard.module.scss';
-import clsx from 'clsx';
 import getConnectImg from '@/utils/getConnectImg';
+import {LINK} from '../constans/profile';
 
 interface ConnectCardProps {
   cards: IProfileCard[];
@@ -16,7 +17,7 @@ export default function ConnectCard({cards}: ConnectCardProps) {
   const [connects, setConnects] = useState<IProfileCard>({
     id: 0,
     type: 'LINK',
-    content: [],
+    content: ['http://github.com/monii'],
     isVisible: true,
     color: '#FFFFFF',
   });

@@ -1,4 +1,4 @@
-import {linkImg} from '@/app/profile/const/profile';
+import {linkImg} from '@/containers/my/profile/constans/profile';
 import {ILinkImg} from '@/types/profileType';
 
 const getConnectImg = (connectUrl: string): ILinkImg => {

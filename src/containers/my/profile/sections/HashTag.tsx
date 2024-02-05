@@ -1,11 +1,11 @@
-import styles from './page.scss';
+import styles from './hashtag.module.scss';
 import {useEffect, useState} from 'react';
 
 import Card from '@/components/Card/page';
 import Chip from '@/components/Chip/page';
 import {IProfileCard} from '@/types/profileType';
 import getCardsByType from '@/utils/getCardsByType';
-import {HASHTAG} from '@/app/profile/const/profile';
+import {HASHTAG} from '../constans/profile';
 
 interface HashTagCardProps {
   cards: IProfileCard[];
@@ -15,7 +15,7 @@ export default function HashTagCard({cards}: HashTagCardProps) {
   const [hashTags, setHashTags] = useState<IProfileCard>({
     id: 0,
     type: 'HASHTAG',
-    content: [],
+    content: ['강아지', '고양이'],
     isVisible: true,
     color: '#FFFFFF',
   });

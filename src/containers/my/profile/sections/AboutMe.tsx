@@ -1,9 +1,10 @@
-import Card from '@/components/Card/page';
-import styles from './aboutMeCard.module.scss';
-import {IProfileCard} from '@/types/profileType';
+import styles from './aboutMe.module.scss';
 import {useEffect, useState} from 'react';
+
+import Card from '@/components/Card/page';
+import {IProfileCard} from '@/types/profileType';
 import getCardsByType from '@/utils/getCardsByType';
-import {ABOUTME} from '@/app/profile/const/profile';
+import {ABOUTME} from '../constans/profile';
 
 interface AboutMeCardProps {
   cards: IProfileCard[];
@@ -13,7 +14,7 @@ export default function AboutMeCard({cards}: AboutMeCardProps) {
   const [aboutMe, setAboutMe] = useState<IProfileCard>({
     id: 0,
     type: 'ABOUTME',
-    content: [],
+    content: ['UI테스트중'],
     isVisible: true,
     color: '#FFFFFF',
   });
