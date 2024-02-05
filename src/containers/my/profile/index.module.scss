@@ -1,0 +1,30 @@
+.my-profile-container {
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.floating-button-container {
+  position: fixed;
+  bottom: 40px;
+  right: 20px;
+  cursor: pointer;
+}
+
+.save-button-wrapper {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+@media screen and (min-width: 480px) {
+  .floating-button-container {
+    position: fixed;
+    bottom: 40px;
+    right: 25%;
+    transform: translate(-25%);
+    cursor: pointer;
+  }
+}
