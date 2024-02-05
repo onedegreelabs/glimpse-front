@@ -1,0 +1,18 @@
+.title {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%;
+}
+
+.content-wrapper {
+  display: flex;
+  gap: 22px;
+}
+
+.content {
+  padding: 24px 20px;
+  cursor: pointer;
+  display: flex;
+  height: 100%;
+}
