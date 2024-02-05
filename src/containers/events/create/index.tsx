@@ -12,7 +12,7 @@ import CustomTextarea from '@/components/custom-textarea/page';
 import _ from 'lodash';
 import {useRouter} from 'next/navigation';
 
-export default function EventCreate() {
+export default function EventCreateContainer() {
   const [eventName, setEventName] = useState('');
   const handleEventTitle = function (name: string) {
     setEventName(name);
@@ -185,7 +185,7 @@ export default function EventCreate() {
     const response = await eventCreate.createEvent(imgFile, params);
     const eventId = response?.data?.data?.id || undefined;
     if (eventId !== undefined) {
-      router.push(`/glimpse-list?eventId=${eventId}`);
+      router.push(`/event/detail?eventId=${eventId}`);
     }
   };
 
