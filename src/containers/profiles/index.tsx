@@ -3,7 +3,8 @@ import styles from './index.module.scss';
 import {useEffect, useState} from 'react';
 
 import {profileApi} from '@/network/api';
-
+import {IProfile} from '@/types/profileType';
+import {DEFAULT_PROFILE} from '../my/profile/constans/defaultValue';
 import {
   AboutMe,
   ActionHeader,
@@ -11,9 +12,7 @@ import {
   HashTag,
   Intro,
   Profile,
-} from './sections';
-import {IProfile} from '@/types/profileType';
-import {DEFAULT_PROFILE} from '../my/profile/constans/defaultValue';
+} from '@/components/profile';
 
 // TODO: 전역상태 설정한후 모두 바꿔야함
 const ProfilesContainer = () => {
@@ -28,7 +27,7 @@ const ProfilesContainer = () => {
   }, []);
 
   return (
-    <div className={styles['my-profile-container']}>
+    <div className={styles['profile-container']}>
       <ActionHeader profile={profile} />
       <Profile profile={profile} />
       <Intro
@@ -65,7 +64,7 @@ const ProfilesContainer = () => {
           {
             id: 0,
             type: 'LINK',
-            content: ['http://github.com/monii'],
+            content: ['http://github.com/monii', 'instagram.com/monii'],
             isVisible: true,
             color: '#FFFFFF',
           },
@@ -76,7 +75,20 @@ const ProfilesContainer = () => {
           {
             id: 0,
             type: 'HASHTAG',
-            content: ['강아지', '고양이'],
+            content: [
+              '강아지',
+              '고양이',
+              '강아지',
+              '고양이',
+              '강아지',
+              '고양이',
+              '강아지',
+              '고양이',
+              '강아지',
+              '고양이',
+              '강아지',
+              '고양이',
+            ],
             isVisible: true,
             color: '#FFFFFF',
           },

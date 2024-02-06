@@ -8,6 +8,7 @@ import {
   INTROCAREER,
   INTROTITLE,
 } from '@/containers/my/profile/constans/profile';
+import ProfileCard from '@/components/profile/ProfileCard/ProfileCard';
 
 interface IntroCardProps {
   cards: IProfileCard[];
@@ -39,26 +40,21 @@ export default function IntroCard({cards}: IntroCardProps) {
   }, [cards]);
 
   return (
-    <>
-      <div className={styles['title']}>
-        <span>Intro</span>
-      </div>
-      <div className={styles['content-wrapper']}>
-        {introTitle && introTitle.content.length > 0 && (
-          <Card height={168}>
-            <div className={styles['content']}>
-              <p>{introTitle.content}</p>
-            </div>
-          </Card>
-        )}
-        {introCareer && introCareer.content.length > 0 && (
-          <Card height={168}>
-            <div className={styles['content']}>
-              <p>{introCareer.content}</p>
-            </div>
-          </Card>
-        )}
-      </div>
-    </>
+    <ProfileCard title={'Intro'} isShowProfileCard={true}>
+      {introTitle && introTitle.content.length > 0 && (
+        <Card height={168}>
+          <div className={styles['content']}>
+            <p>{introTitle.content}</p>
+          </div>
+        </Card>
+      )}
+      {introCareer && introCareer.content.length > 0 && (
+        <Card height={168}>
+          <div className={styles['content']}>
+            <p>{introCareer.content}</p>
+          </div>
+        </Card>
+      )}
+    </ProfileCard>
   );
 }
