@@ -5,6 +5,7 @@ import Card from '@/components/Card/page';
 import {IProfileCard} from '@/types/profileType';
 import getCardsByType from '@/utils/getCardsByType';
 import {ABOUTME} from '@/containers/my/profile/constans/profile';
+import ProfileCard from './ProfileCard/ProfileCard';
 
 interface AboutMeCardProps {
   cards: IProfileCard[];
@@ -27,21 +28,12 @@ export default function AboutMeCard({cards}: AboutMeCardProps) {
   }, [cards]);
 
   return (
-    <>
-      {aboutMe && aboutMe.content.length > 0 && (
-        <>
-          <div className={styles['title']}>
-            <span>About me</span>
-          </div>
-          <div className={styles['content-wrapper']}>
-            <Card height={168}>
-              <div className={styles['content']}>
-                <p>{aboutMe.content || ''}</p>
-              </div>
-            </Card>
-          </div>
-        </>
-      )}
-    </>
+    <ProfileCard title="About me" isShowProfileCard={true}>
+      <Card height={168}>
+        <div className={styles['content']}>
+          <p>{aboutMe.content || ''}</p>
+        </div>
+      </Card>
+    </ProfileCard>
   );
 }

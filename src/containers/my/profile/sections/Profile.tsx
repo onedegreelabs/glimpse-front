@@ -9,7 +9,6 @@ interface Props {
 }
 
 function Profile({profile, onChangeBelong}: Props) {
-  console.log('Profile');
   const {firstName, lastName, introSnippet, department, belong, location} =
     profile;
 
