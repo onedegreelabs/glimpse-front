@@ -10,11 +10,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: SSH to Server
+      - name: Configure SSH Key
         run: |
-          ssh -i <(echo "$SSH_PRIVATE_KEY") -o StrictHostKeyChecking=no ubuntu@172.31.1.74
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          mkdir -p /home/ubuntu/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > /home/ubuntu/.ssh/id_rsa
+          chmod 600 /home/ubuntu/.ssh/id_rsa
+          ssh-keyscan -t rsa your-ec2-instance-ip >> /home/ubuntu/.ssh/known_hosts
 
       - name: Kill existing node processes on port 3000
         run: |

@@ -1,10 +1,9 @@
 import axios from 'axios';
-import Env from '../config/env.json';
+import {config} from '@/lib/config';
 
 export const axiosInstance = function () {
   const serverConnection = axios.create({
-    baseURL: Env['glimpse-dev'],
-    // baseURL: Env['sean-local'],
+    baseURL: config['glimpse-rsvp'],
   });
   return serverConnection;
 };
@@ -16,8 +15,7 @@ export const basicAuthInstance = function (email: string, code: string) {
     headers: {
       Authorization: authHeader,
     },
-    baseURL: Env['glimpse-dev'],
-    // baseURL: Env['sean-local'],
+    baseURL: config['glimpse-rsvp'],
   });
   return serverConnection;
 };
@@ -29,16 +27,15 @@ export const socialAuthInstance = function (socialToken: string) {
     headers: {
       Authorization: authHeader,
     },
-    baseURL: Env['glimpse-dev'],
-    // baseURL: Env['sean-local'],
+    baseURL: config['glimpse-rsvp'],
   });
   return serverConnection;
 };
 
-export const tokenValidInstance = function () {
+export const tokconfigalidInstance = function () {
   const token = localStorage.getItem('accessToken');
   const serverConnection = axios.create({
-    baseURL: Env['glimpse-rsvp'],
+    baseURL: config['glimpse-dev'],
     headers: {
       Authorization: `Bearer ${token}`,
     },

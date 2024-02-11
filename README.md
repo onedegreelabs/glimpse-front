@@ -38,7 +38,3 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 
 git dev branch
-
-git dev feature-login branch
-
-git panseung branch

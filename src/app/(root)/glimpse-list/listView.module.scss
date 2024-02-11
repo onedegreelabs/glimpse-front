@@ -1,0 +1,68 @@
+.card-wrapper {
+  cursor: pointer;
+  border-radius: 15px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.glimpse-compact-wrapper {
+  display: flex;
+  padding: 16px 20px;
+  gap: 10px;
+  flex-shrink: 0;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  .right-wrapper {
+    display: flex;
+    justify-content: end;
+
+    .icon-wrapper {
+      padding: 8px;
+      width: 40px;
+      height: 40px;
+
+      &.comment-icon {
+        border-radius: 50%;
+        box-shadow:
+          2px 2px 5px 1px rgba(0, 0, 0, 0.05),
+          -2px -2px 5px 1px rgba(0, 0, 0, 0.05),
+          2px -2px 5px 1px rgba(0, 0, 0, 0.05),
+          -2px 2px 5px 1px rgba(0, 0, 0, 0.05);
+      }
+    }
+  }
+
+  .left-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .profile-wrapper {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+
+      .profile-info-wrapper {
+        .profile-name {
+          max-width: 157px;
+          font-size: 12px;
+          font-weight: 400;
+          padding-bottom: 5px;
+        }
+
+        .position-wrapper {
+          display: flex;
+          gap: 10px;
+        }
+      }
+    }
+
+    .link-wrapper {
+      display: flex;
+      gap: 10px;
+    }
+  }
+}
