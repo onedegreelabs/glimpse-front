@@ -15,7 +15,7 @@ import ListView from './ListView';
 import Container from '@/components/layouts/container';
 import {glimpseList} from '@/network/api';
 import {userData} from './type';
-import Button from '@/components/ui/button';
+import CustomButton from '@/components/ui/custom-button';
 
 const PERSON_TYPE = [
   {value: 'all', name: 'all'},
@@ -276,7 +276,7 @@ export default function Glimpselist() {
         <section className={styles['body-content-area']}>
           <div className={styles['button-wrapper']}>
             <div className={styles['rsvp-wrapper']}>
-              <Button
+              <CustomButton
                 color={'ffffff'}
                 bgColor={'7E51FD'}
                 text={'RSVP'}
@@ -286,7 +286,7 @@ export default function Glimpselist() {
               />
             </div>
             <div className={styles['share-wrapper']}>
-              <Button
+              <CustomButton
                 color={'ffffff'}
                 bgColor={'8B8B8B'}
                 text={'Share'}

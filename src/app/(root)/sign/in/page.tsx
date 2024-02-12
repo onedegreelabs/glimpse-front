@@ -1,7 +1,7 @@
 'use client';
 import Card from '@/components/ui/card';
 import styles from './page.module.scss';
-import Button from '@/components/ui/button';
+import CustomButton from '@/components/ui/custom-button';
 import {useRouter} from 'next/navigation';
 import {useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
@@ -110,14 +110,14 @@ export default function SignIn() {
               />
               <div className={styles['text-area']}>email is not valid</div>
             </div>
-            <Button
+            <CustomButton
               color="ffffff"
               bgColor="868686"
               text="Continue with email"
               clickEvent={onClickEmailButton}
             />
             <div className={styles['text-area']}>OR</div>
-            <Button
+            <CustomButton
               color="ffffff"
               bgColor="000000"
               text="Sign in with apple"
@@ -129,8 +129,8 @@ export default function SignIn() {
                 width={20}
                 height={20}
               />
-            </Button>
-            <Button
+            </CustomButton>
+            <CustomButton
               color="ffffff"
               bgColor="0094FF"
               text="Sign in with google"
@@ -142,8 +142,8 @@ export default function SignIn() {
                 width={20}
                 height={20}
               />
-            </Button>
-            <Button
+            </CustomButton>
+            <CustomButton
               color="ffffff"
               bgColor="0177B5"
               text="Sign in with linkedIn"
@@ -155,7 +155,7 @@ export default function SignIn() {
                 width={20}
                 height={20}
               />
-            </Button>
+            </CustomButton>
           </div>
         </div>
       </Card>

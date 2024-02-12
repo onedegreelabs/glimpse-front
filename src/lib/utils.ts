@@ -11,12 +11,12 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-const token = localStorage.getItem('accessToken');
+// const token = localStorage.getItem('accessToken');
 
 export const customAxios = axios.create({
   baseURL: 'http://localhost:8080',
   headers: {
-    Authorization: `Bearer ${token}` || '',
+    // Authorization: `Bearer ${token}` || '',
   },
 });
 
