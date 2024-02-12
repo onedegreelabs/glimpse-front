@@ -3,7 +3,7 @@ import styles from './aboutMeCard.module.scss';
 import {IProfileCard} from '@/types/profileType';
 import {useEffect, useState} from 'react';
 import {getCardsByType} from '@/lib/utils';
-import {ABOUTME} from '@/app/profile/const/profile';
+import {ABOUTME} from '@/app/(root)/profile/const/profile';
 
 interface AboutMeCardProps {
   cards: IProfileCard[];

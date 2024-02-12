@@ -2,7 +2,7 @@ import {type ClassValue, clsx} from 'clsx';
 import {twMerge} from 'tailwind-merge';
 import axios from 'axios';
 import {IProfileCard} from '@/types/profileType';
-import {linkImg} from '@/app/profile/const/profile';
+import {linkImg} from '@/app/(root)/profile/const/profile';
 import {ILinkImg} from '@/types/profileType';
 
 type ProfileCardType = IProfileCard['type'];
@@ -30,7 +30,9 @@ export const getCardsByType = (
 };
 
 export const getConnectImg = (connectUrl: string): ILinkImg => {
-  const filteredLinkImg = linkImg.filter(link => connectUrl.includes(link.alt));
+  const filteredLinkImg = linkImg.filter((link: {alt: string; src: string}) =>
+    connectUrl.includes(link.alt)
+  );
 
   return filteredLinkImg.length === 0
     ? {alt: 'link', src: '/icons/link_icon.svg'}

@@ -1,4 +1,4 @@
-import Avatar from '@/app/glimpse-list/Avatar';
+import Avatar from '@/app/(root)/glimpse-list/Avatar';
 import Chip from '@/components/ui/chip';
 import styles from './boxView.module.scss';
 import Card from '@/components/ui/card';

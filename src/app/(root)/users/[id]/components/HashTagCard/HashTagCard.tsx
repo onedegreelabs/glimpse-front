@@ -5,7 +5,7 @@ import Card from '@/components/ui/card';
 import Chip from '@/components/ui/chip';
 import {IProfileCard} from '@/types/profileType';
 import {getCardsByType} from '@/lib/utils';
-import {HASHTAG} from '@/app/profile/const/profile';
+import {HASHTAG} from '@/app/(root)/profile/const/profile';
 
 interface HashTagCardProps {
   cards: IProfileCard[];

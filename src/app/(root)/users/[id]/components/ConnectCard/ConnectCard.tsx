@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import Image from 'next/image';
-import {LINK} from '@/app/profile/const/profile';
+import {LINK} from '@/app/(root)/profile/const/profile';
 import Card from '@/components/ui/card';
 import {IProfileCard} from '@/types/profileType';
 import {getCardsByType, getConnectImg} from '@/lib/utils';

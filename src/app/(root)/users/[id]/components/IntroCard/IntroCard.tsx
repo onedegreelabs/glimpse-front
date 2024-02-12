@@ -3,7 +3,7 @@ import styles from './introCard.module.scss';
 import {IProfileCard} from '@/types/profileType';
 import {useEffect, useState} from 'react';
 import {getCardsByType} from '@/lib/utils';
-import {INTROCAREER, INTROTITLE} from '@/app/profile/const/profile';
+import {INTROCAREER, INTROTITLE} from '@/app/(root)/profile/const/profile';
 
 interface IntroCardProps {
   cards: IProfileCard[];
