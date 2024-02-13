@@ -1,21 +1,18 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import styles from './index.module.scss';
 import clsx from 'clsx';
 import {useSearchParams} from 'next/navigation';
 import {useEffect, useState} from 'react';
-import CoverPhoto from './components/CoverPhoto';
 import BoxView from './components/BoxView';
 import GridView from './components/GridView';
 import ListView from './components/ListView';
-import IconText from '@/components/IconText/page';
 import SelectBox from '@/components/SelectBox/page';
-import Container from '@/components/Container/Container';
-import {glimpseList} from '@/network/api';
 import {userData} from './type';
 import Button from '@/components/button/page';
+import TopPhoto from './sections/TopPhoto';
+import TopInfo from './sections/TopInfo';
 
 const PERSON_TYPE = [
   {value: 'all', name: 'all'},
@@ -60,68 +57,16 @@ export default function EventDetailContainer() {
   const searchParams = useSearchParams();
 
   const eventId = Number(searchParams?.get('eventId'));
-  const [eventType, setEventType] = useState('');
-  const [eventVisibility, setEventVisibility] = useState('');
-  const [coverImgUrl, setCoverImgUrl] = useState('');
-  const [eventTitle, setEventTitle] = useState('');
-  const [viewCount, setViewCount] = useState('');
-  const [eventLink, setEventLink] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [tags, setTags] = useState([]);
-  const [location, setLocation] = useState('');
-  const [description, setDescription] = useState('');
 
-  const [dateText, setDateText] = useState('');
-  const [timeText, setTimeText] = useState('');
-
-  useEffect(() => {
-    const dateObj = new Date(startDate);
-    const year = dateObj.getFullYear();
-    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-    const day = String(dateObj.getDate()).padStart(2, '0');
-    const hours = String(dateObj.getHours()).padStart(2, '0');
-    const minutes = String(dateObj.getMinutes()).padStart(2, '0');
-
-    const formattedDate = `${year}/${month}/${day}`;
-    const formattedTime = `${hours}:${minutes} ${
-      dateObj.getHours() >= 12 ? 'PM' : 'AM'
-    }`;
-    setDateText(formattedDate);
-    setTimeText(formattedTime);
-  }, [startDate]);
-
-  const getEventData = async (id: number) => {
-    const res = await glimpseList.getEventList(id);
-    if (res?.data?.data) {
-      setEventType(res.data.data.type);
-      setEventVisibility(res.data.data.visibility);
-      setCoverImgUrl(res.data.data.coverImageUrl);
-      setEventTitle(res.data.data.title);
-      setViewCount(res.data.data.viewCount);
-      setEventLink(res.data.data.link);
-      setStartDate(res.data.data.startDate);
-      setLocation(res.data.data.location);
-      setDescription(res.data.data.description);
-      setTags(res.data.data.tags);
-    }
-    return res?.data?.data;
-  };
-  const getEventUserData = async (id: number) => {
-    const res = await glimpseList.getEventUserList(id);
-    if (res?.data?.data) {
-      setUserList(res.data.data);
-    }
-  };
-
-  useEffect(() => {
-    if (eventId) {
-      getEventData(eventId);
-      getEventUserData(eventId);
-    } else {
-      getEventData(66);
-      getEventUserData(66);
-    }
-  }, [eventId]);
+  // useEffect(() => {
+  //   if (eventId) {
+  //     getEventData(eventId);
+  //     getEventUserData(eventId);
+  //   } else {
+  //     getEventData(66);
+  //     getEventUserData(66);
+  //   }
+  // }, [eventId]);
 
   const [userList, setUserList] = useState<userData[]>([]);
   const [userListForRender, setUserListForRender] = useState<userData[]>([]);
@@ -192,259 +137,180 @@ export default function EventDetailContainer() {
   }, [windowWidth]);
 
   return (
-    <Container>
-      <div className={styles['glimpse-list-wrapper']}>
-        <section className={styles['header-content-area']}>
-          <CoverPhoto
-            eventType={eventType}
-            eventVisibility={eventVisibility}
-            coverImgUrl={coverImgUrl}
-            eventTitle={eventTitle}
-            viewCount={viewCount}
-          />
-          <section className={styles['event-info-area']}>
-            <div className={styles['event-page-link-wrapper']}>
-              <Link className={styles['page-link']} href={eventLink}>
-                {eventLink}
-              </Link>
+    <div className={styles['events-detail-wrapper']}>
+      <TopPhoto />
+      <TopInfo />
+      <section className={styles['body-content-area']}>
+        <div className={styles['button-wrapper']}>
+          <div className={styles['rsvp-wrapper']}>
+            <Button
+              color={'ffffff'}
+              bgColor={'7E51FD'}
+              text={'RSVP'}
+              width={240}
+              height={44}
+              clickEvent={() => {}}
+            />
+          </div>
+          <div className={styles['share-wrapper']}>
+            <Button
+              color={'ffffff'}
+              bgColor={'8B8B8B'}
+              text={'Share'}
+              width={240}
+              height={44}
+              clickEvent={() => {}}
+            />
+          </div>
+        </div>
+        <section className={styles['search-area']}>
+          <p className={styles['list-title']}>Participant List</p>
+          <div className={styles['list-setting']}>
+            <div className={styles['search-wrapper']}>
+              <input
+                type="text"
+                placeholder="search..."
+                onChange={onSearch}
+                value={searchWord}
+              />
+              <Image
+                src="/assets/glimpse-list/search-icon.svg"
+                alt="검색 아이콘"
+                width={24}
+                height={20}
+              />
             </div>
-            <div className={styles['event-info-top-wrapper']}>
-              <div className={styles['event-date-wrapper']}>
-                <IconText
-                  src={'/assets/glimpse-list/calendar-icon.svg'}
-                  alt={'달력 아이콘'}
-                  width={24}
-                  height={24}
-                  text={dateText}
-                />
-                <IconText
-                  src={'/assets/glimpse-list/clock-icon.svg'}
-                  alt={'시계 아이콘'}
-                  width={24}
-                  height={24}
-                  text={timeText}
-                />
-              </div>
-              <div>
-                <IconText
-                  src={'/assets/glimpse-list/location-icon.svg'}
-                  alt={'위치 아이콘'}
-                  width={24}
-                  height={24}
-                  text={location}
-                />
-              </div>
-            </div>
-            <div className={styles['tag-wrapper']}>
-              {tags.length > 0 &&
-                tags.map((tag, i) => {
-                  return (
-                    <div key={`tag_${i}`} className={styles['tag-item']}>
-                      {`#${tag}`}
-                    </div>
-                  );
-                })}
-            </div>
-            <div className={styles['event-content-area']}>
-              <p
-                className={clsx({
-                  [styles['close']]: !openMore,
-                  [styles['open']]: openMore,
-                })}
-              >
-                {description}
-              </p>
-            </div>
-            <div className={styles['more-button-wrapper']}>
-              <button onClick={onClickMore}>
-                <IconText
+            <div className={styles['grid-icon-wrapper']}>
+              <button onClick={() => onChangeView('box')}>
+                <Image
                   src={
-                    openMore
-                      ? '/assets/glimpse-list/caret-up.svg'
-                      : '/assets/glimpse-list/caret-down.svg'
+                    toggleView === ViewTypes.BOX
+                      ? '/assets/glimpse-list/dark-box.svg'
+                      : '/assets/glimpse-list/light-box.svg'
                   }
-                  alt={'이벤트 설명 펼침 아이콘'}
-                  width={24}
-                  height={24}
-                  text={'More'}
-                  textWeight={600}
+                  alt="박스뷰"
+                  width={22}
+                  height={22}
+                />
+              </button>
+              <button
+                onClick={() => onChangeView('desktopGrid')}
+                className={styles['desktop-grid-btn']}
+              >
+                <Image
+                  src={
+                    toggleView === ViewTypes.DESKTOPGIRD
+                      ? '/assets/glimpse-list/dark-grid.svg'
+                      : '/assets/glimpse-list/light-grid.svg'
+                  }
+                  alt="데스크탑 그리드뷰"
+                  width={22}
+                  height={22}
+                />
+              </button>
+              <button
+                onClick={() => onChangeView('mobileGrid')}
+                className={styles['mobile-grid-btn']}
+              >
+                <Image
+                  src={
+                    toggleView === ViewTypes.MOBILEGIRD
+                      ? '/assets/glimpse-list/dark-grid.svg'
+                      : '/assets/glimpse-list/light-grid.svg'
+                  }
+                  alt="모바일 그리드뷰"
+                  width={22}
+                  height={22}
+                />
+              </button>
+              <button
+                onClick={() => onChangeView('list')}
+                className={styles['list-view']}
+              >
+                <Image
+                  src={
+                    toggleView === ViewTypes.LIST
+                      ? '/assets/glimpse-list/dark-list.svg'
+                      : '/assets/glimpse-list/light-list.svg'
+                  }
+                  alt="리스트뷰"
+                  width={22}
+                  height={22}
                 />
               </button>
             </div>
-          </section>
-        </section>
-        <section className={styles['body-content-area']}>
-          <div className={styles['button-wrapper']}>
-            <div className={styles['rsvp-wrapper']}>
-              <Button
-                color={'ffffff'}
-                bgColor={'7E51FD'}
-                text={'RSVP'}
-                width={240}
-                height={44}
-                clickEvent={() => {}}
-              />
-            </div>
-            <div className={styles['share-wrapper']}>
-              <Button
-                color={'ffffff'}
-                bgColor={'8B8B8B'}
-                text={'Share'}
-                width={240}
-                height={44}
-                clickEvent={() => {}}
-              />
-            </div>
           </div>
-          <section className={styles['search-area']}>
-            <p className={styles['list-title']}>Participant List</p>
-            <div className={styles['list-setting']}>
-              <div className={styles['search-wrapper']}>
-                <input
-                  type="text"
-                  placeholder="search..."
-                  onChange={onSearch}
-                  value={searchWord}
-                />
-                <Image
-                  src="/assets/glimpse-list/search-icon.svg"
-                  alt="검색 아이콘"
-                  width={24}
-                  height={20}
-                />
-              </div>
-              <div className={styles['grid-icon-wrapper']}>
-                <button onClick={() => onChangeView('box')}>
-                  <Image
-                    src={
-                      toggleView === ViewTypes.BOX
-                        ? '/assets/glimpse-list/dark-box.svg'
-                        : '/assets/glimpse-list/light-box.svg'
-                    }
-                    alt="박스뷰"
-                    width={22}
-                    height={22}
-                  />
-                </button>
-                <button
-                  onClick={() => onChangeView('desktopGrid')}
-                  className={styles['desktop-grid-btn']}
-                >
-                  <Image
-                    src={
-                      toggleView === ViewTypes.DESKTOPGIRD
-                        ? '/assets/glimpse-list/dark-grid.svg'
-                        : '/assets/glimpse-list/light-grid.svg'
-                    }
-                    alt="데스크탑 그리드뷰"
-                    width={22}
-                    height={22}
-                  />
-                </button>
-                <button
-                  onClick={() => onChangeView('mobileGrid')}
-                  className={styles['mobile-grid-btn']}
-                >
-                  <Image
-                    src={
-                      toggleView === ViewTypes.MOBILEGIRD
-                        ? '/assets/glimpse-list/dark-grid.svg'
-                        : '/assets/glimpse-list/light-grid.svg'
-                    }
-                    alt="모바일 그리드뷰"
-                    width={22}
-                    height={22}
-                  />
-                </button>
-                <button
-                  onClick={() => onChangeView('list')}
-                  className={styles['list-view']}
-                >
-                  <Image
-                    src={
-                      toggleView === ViewTypes.LIST
-                        ? '/assets/glimpse-list/dark-list.svg'
-                        : '/assets/glimpse-list/light-list.svg'
-                    }
-                    alt="리스트뷰"
-                    width={22}
-                    height={22}
-                  />
-                </button>
-              </div>
-            </div>
-          </section>
-          <div className={styles['divider']} />
-          <section className={styles['filtering-area']}>
-            <SelectBox
-              name="personType"
-              defaultValue="all"
-              options={PERSON_TYPE}
-              value={filters.personType}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                handleFilterChange('personType', e.target.value)
-              }
-            />
-            <SelectBox
-              name="industry"
-              defaultValue="industry"
-              options={INDUSTRY}
-              value={filters.industry}
-              hidden
-              hiddenOption={{value: 'industry', name: 'industry'}}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                handleFilterChange('industry', e.target.value)
-              }
-            />
-            <SelectBox
-              name="hobby"
-              defaultValue="hobby"
-              options={HOBBY}
-              value={filters.hobby}
-              hidden
-              hiddenOption={{value: 'hobby', name: 'hobby'}}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                handleFilterChange('hobby', e.target.value)
-              }
-            />
-            <SelectBox
-              name={'interest'}
-              defaultValue={'interest'}
-              options={INTEREST}
-              value={filters.interest}
-              hidden
-              hiddenOption={{value: 'interest', name: 'interest'}}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                handleFilterChange('interest', e.target.value)
-              }
-            />
-            <SelectBox
-              name={'favorite'}
-              defaultValue={'favorite'}
-              options={FAVORITE}
-              value={filters.favorite}
-              hidden
-              hiddenOption={{value: 'favorite', name: 'favorite'}}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                handleFilterChange('favorite', e.target.value)
-              }
-            />
-          </section>
-          <section
-            className={clsx(styles['glimpse-area'], {
-              [styles['grid-view']]: toggleView === 'desktopGrid',
-            })}
-          >
-            {(toggleView === 'box' || toggleView === 'desktopGrid') && (
-              <BoxView userList={userListForRender} />
-            )}
-            {toggleView === 'mobileGrid' && (
-              <GridView userList={userListForRender} />
-            )}
-            {toggleView === 'list' && <ListView userList={userListForRender} />}
-          </section>
         </section>
-      </div>
-    </Container>
+        <div className={styles['divider']} />
+        <section className={styles['filtering-area']}>
+          <SelectBox
+            name="personType"
+            defaultValue="all"
+            options={PERSON_TYPE}
+            value={filters.personType}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              handleFilterChange('personType', e.target.value)
+            }
+          />
+          <SelectBox
+            name="industry"
+            defaultValue="industry"
+            options={INDUSTRY}
+            value={filters.industry}
+            hidden
+            hiddenOption={{value: 'industry', name: 'industry'}}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              handleFilterChange('industry', e.target.value)
+            }
+          />
+          <SelectBox
+            name="hobby"
+            defaultValue="hobby"
+            options={HOBBY}
+            value={filters.hobby}
+            hidden
+            hiddenOption={{value: 'hobby', name: 'hobby'}}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              handleFilterChange('hobby', e.target.value)
+            }
+          />
+          <SelectBox
+            name={'interest'}
+            defaultValue={'interest'}
+            options={INTEREST}
+            value={filters.interest}
+            hidden
+            hiddenOption={{value: 'interest', name: 'interest'}}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              handleFilterChange('interest', e.target.value)
+            }
+          />
+          <SelectBox
+            name={'favorite'}
+            defaultValue={'favorite'}
+            options={FAVORITE}
+            value={filters.favorite}
+            hidden
+            hiddenOption={{value: 'favorite', name: 'favorite'}}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              handleFilterChange('favorite', e.target.value)
+            }
+          />
+        </section>
+        <section
+          className={clsx(styles['view-area'], {
+            [styles['grid-view']]: toggleView === 'desktopGrid',
+          })}
+        >
+          {(toggleView === 'box' || toggleView === 'desktopGrid') && (
+            <BoxView userList={userListForRender} />
+          )}
+          {toggleView === 'mobileGrid' && (
+            <GridView userList={userListForRender} />
+          )}
+          {toggleView === 'list' && <ListView userList={userListForRender} />}
+        </section>
+      </section>
+    </div>
   );
 }
