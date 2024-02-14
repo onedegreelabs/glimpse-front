@@ -1,21 +1,18 @@
-import {introBox, introData} from '@/lib/contents';
-import {IntroCard} from '@/components/landing/intro-card';
+import { introBox, introData } from '@/lib/contents';
+import { IntroCard } from '@/components/landing/intro-card';
 import Image from 'next/image';
-import {cn} from '@/lib/utils';
+import { cn } from '@/lib/utils';
 
 export default function Intro() {
   return (
-    <div className="flex flex-col items-center justify-center mt-[100px] mb-[250px]">
-      {introData.map(intro => (
+    <div className="mb-[100px] mt-[100px] flex flex-col items-center justify-center sm:mb-[250px]">
+      {introData.map((intro) => (
         <IntroCard key={intro.id} {...intro} />
       ))}
-      <div className="flex flex-row items-center gap-8 mt-14">
-        {introBox.map(box => (
-          <div
-            key={box.img}
-            className="relative flex flex-col gap-5 p-10 bg-[#F7F7F7] rounded-[40px] w-[270px] h-[350px]"
-          >
-            <h3 className="font-semibold text-[22px]">{box.title}</h3>
+      <div className="mt-14 flex flex-col items-center gap-8 sm:flex-row">
+        {introBox.map((box) => (
+          <div key={box.img} className="relative flex h-[350px] w-screen flex-col gap-5 rounded-[40px] bg-[#F7F7F7] p-10 sm:w-[270px]">
+            <h3 className="text-[22px] font-semibold">{box.title}</h3>
             <p className="text-[16px]">{box.desc}</p>
             <Image
               src={box.img}
@@ -23,7 +20,7 @@ export default function Intro() {
               width={226}
               height={76}
               className={cn(
-                'absolute w-[150px] my-1 mx-auto left-[50%] translate-x-[-50%]',
+                'absolute left-[50%] mx-auto my-1 w-[150px] translate-x-[-50%]',
                 box.img === '/box03.png' ? 'bottom-10' : 'bottom-4'
               )}
             />
