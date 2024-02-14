@@ -6,6 +6,7 @@ import Image from 'next/image';
 import {useEffect, useState} from 'react';
 import {events} from '@/network/api';
 import {useSearchParams} from 'next/navigation';
+import testImg from './test.jpg';
 
 export default function TopPhoto() {
   const searchParams = useSearchParams();
@@ -39,31 +40,24 @@ export default function TopPhoto() {
 
   return (
     <div className={styles['event-thumbnail-wrapper']}>
-      {/* <Image
+      <Image
         className={styles['event-thumbnail']}
-        src={coverImgUrl}
+        src={testImg}
         alt="이벤트 썸네일"
-        width={100}
-        height={0}
-      ></Image> */}
-      {coverImgUrl && (
-        <img
-          className={styles['event-thumbnail']}
-          src={coverImgUrl}
-          alt="이벤트 썸네일"
-        />
-      )}
+      ></Image>
       <div className={styles['event-info-wrapper']}>
         <div className={styles['info-header']}>
           <div className={styles['info-type']}>
             <Chip
-              label={eventType}
+              // label={eventType}
+              label={'Virtual'}
               height={28}
               backgroundColor="#7E51FD"
               borderRadius={4}
             />
             <Chip
-              label={eventVisibility}
+              // label={eventVisibility}
+              label={'Private'}
               height={28}
               backgroundColor="#ffffff4d"
               borderRadius={4}
@@ -81,11 +75,13 @@ export default function TopPhoto() {
           </div>
         </div>
         <div className={styles['info-middle']}>
-          <p>{eventTitle}</p>
+          {/* <p>{eventTitle}</p> */}
+          <p>Event Title</p>
         </div>
         <div className={styles['info-bottom']}>
           <Chip
-            label={`total view ${viewCount}`}
+            // label={`total view ${viewCount}`}
+            label={'total view 192'}
             height={24}
             backgroundColor="#ffffff4d"
             borderRadius={4}
