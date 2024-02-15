@@ -5,6 +5,10 @@ import {useEffect, useState} from 'react';
 import {profileApi} from '@/network/api';
 import {DEFAULT_PROFILE} from './constans/defaultValue';
 
+import AddInput from './components/AddInput/AddInput';
+import {IProfile} from '@/types/profileType';
+import FloatingButton from './components/FloatingButton/FloatingButton';
+import SaveButton from './components/SaveButton/SaveButton';
 import {
   AboutMe,
   ActionHeader,
@@ -12,11 +16,7 @@ import {
   HashTag,
   Intro,
   Profile,
-} from './sections';
-import AddInput from './components/AddInput/AddInput';
-import {IProfile} from '@/types/profileType';
-import FloatingButton from './components/FloatingButton/FloatingButton';
-import SaveButton from './components/SaveButton/SaveButton';
+} from '@/components/profile';
 
 // TODO: 전역상태 설정한후 모두 바꿔야함
 const MyProfileContainer = () => {
@@ -65,7 +65,7 @@ const MyProfileContainer = () => {
   return (
     <div className={styles['my-profile-container']}>
       <ActionHeader profile={profile} />
-      <Profile profile={profile} onChangeBelong={changeBelong} />
+      <Profile profile={profile} />
       <Intro
         cards={[
           {

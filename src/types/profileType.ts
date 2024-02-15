@@ -22,7 +22,7 @@ export interface IProfileCard {
 
 export interface IProfileUpdate {
   profileImage?: File;
-  data: updateProfile;
+  data: TUpdateProfile;
 }
 
 export interface IProfileSection {
@@ -47,9 +47,9 @@ export interface ILinkImg {
   src: string;
 }
 
-type updateProfile = Omit<
+type TUpdateProfile = Omit<
   IProfile,
   'firstName' | 'lastName' | 'profileImageUrl' | 'viewCount'
 >;
 
-export type profile = Omit<IProfile, 'cards'>;
+export type TProfile = Omit<IProfile, 'cards'>;
