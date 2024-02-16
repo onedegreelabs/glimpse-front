@@ -7,8 +7,6 @@ import {userData} from '../../type';
 import Image from 'next/image';
 import clsx from 'clsx';
 import {useRouter} from 'next/navigation';
-import bookmarkIcon from '../../../../../../public/icons/bookmark-icon.svg';
-import commentIcon from '../../../../../../public/icons/comment.svg';
 interface BoxProps {
   userList: userData[];
 }
@@ -44,7 +42,7 @@ export default function BoxView({userList}: BoxProps) {
                 <div className={styles['icon-wrapper']}>
                   <Image
                     alt="bookmark-icon"
-                    src={bookmarkIcon}
+                    src={'/icons/bookmark-icon.svg'}
                     width={24}
                     height={24}
                   />
@@ -57,7 +55,7 @@ export default function BoxView({userList}: BoxProps) {
                 >
                   <Image
                     alt="chat-icon"
-                    src={commentIcon}
+                    src={'/icons/comment.svg'}
                     width={24}
                     height={24}
                   />
