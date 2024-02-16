@@ -15,15 +15,22 @@
     "posttest": "npm run lint"
   },
   "dependencies": {
+    "@radix-ui/react-separator": "^1.0.3",
+    "@radix-ui/react-slot": "^1.0.2",
     "axios": "^1.6.2",
-    "clsx": "^2.0.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
     "lodash": "^4.17.21",
+    "lucide-react": "^0.330.0",
     "next": "14.0.1",
     "next-auth": "^4.24.5",
     "react": "^18",
     "react-datepicker": "^4.24.0",
     "react-dom": "^18",
-    "sass": "^1.69.5"
+    "react-fast-marquee": "^1.6.4",
+    "sass": "^1.69.5",
+    "tailwind-merge": "^2.2.1",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.202",
@@ -31,9 +38,13 @@
     "@types/react": "^18",
     "@types/react-datepicker": "^4.19.4",
     "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.17",
     "eslint": "^8",
     "eslint-config-next": "14.0.1",
     "gts": "^5.2.0",
+    "postcss": "^8.4.35",
+    "prettier-plugin-tailwindcss": "^0.5.11",
+    "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
 }
