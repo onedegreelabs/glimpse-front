@@ -56,7 +56,7 @@ const routesMiddleware = (app: Application): void => {
 
 const authErrorHandler = (app: Application): void => {
   app.use((error: IErrorResponse, _req: Request, res: Response, next: NextFunction) => {
-    console.log('error', `AuthService ${error.comingFrom}: `, error);
+    console.log('error', `MockServer ${error.comingFrom}: `, error);
     if (error instanceof CustomError) {
       res.status(error.statusCode).json(error.serializeError());
     }
@@ -67,11 +67,11 @@ const authErrorHandler = (app: Application): void => {
 const startServer = (app: Application): void => {
   try {
     const httpServer: http.Server = new http.Server(app);
-    console.info(`Auth Server has started with process id ${process.pid}`);
+    console.info(`Mock Server has started with process id ${process.pid}`);
     httpServer.listen(SERVER_PORT, () => {
-      console.info(`Auth Server running on port ${SERVER_PORT}`);
+      console.info(`Mock Server running on port ${SERVER_PORT}`);
     });
   } catch (error) {
-    console.log('error', `AuthService startServer() method: `, error);
+    console.log('error', `MockServer startServer() method: `, error);
   }
 };
