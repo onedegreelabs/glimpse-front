@@ -4,8 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './index.module.scss';
 import clsx from 'clsx';
-import {useSearchParams} from 'next/navigation';
-import {useEffect, useState} from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import CoverPhoto from './components/CoverPhoto';
 import BoxView from './components/BoxView';
 import GridView from './components/GridView';
@@ -13,45 +13,45 @@ import ListView from './components/ListView';
 import IconText from '@/components/IconText/page';
 import SelectBox from '@/components/SelectBox/page';
 import Container from '@/components/Container/Container';
-import {glimpseList} from '@/network/api';
-import {userData} from './type';
+import { glimpseList } from '@/services/api';
+import { userData } from './type';
 import Button from '@/components/button/page';
 
 const PERSON_TYPE = [
-  {value: 'all', name: 'all'},
-  {value: 'host', name: 'host'},
-  {value: 'speaker', name: 'speaker'},
+  { value: 'all', name: 'all' },
+  { value: 'host', name: 'host' },
+  { value: 'speaker', name: 'speaker' }
 ];
 
 const INDUSTRY = [
-  {value: '프론트엔드', name: '프론트엔드'},
-  {value: '백엔드', name: '백엔드'},
-  {value: '디자인', name: '디자인'},
-  {value: '앱', name: '앱'},
+  { value: '프론트엔드', name: '프론트엔드' },
+  { value: '백엔드', name: '백엔드' },
+  { value: '디자인', name: '디자인' },
+  { value: '앱', name: '앱' }
 ];
 
 const HOBBY = [
-  {value: '수영', name: '수영'},
-  {value: '등산', name: '등산'},
-  {value: '노래', name: '노래'},
+  { value: '수영', name: '수영' },
+  { value: '등산', name: '등산' },
+  { value: '노래', name: '노래' }
 ];
 
 const INTEREST = [
-  {value: '개발', name: '개발'},
-  {value: '여행', name: '여행'},
+  { value: '개발', name: '개발' },
+  { value: '여행', name: '여행' }
 ];
 
 const FAVORITE = [
-  {value: '과일', name: '과일'},
-  {value: '빵', name: '빵'},
-  {value: '게임', name: '게임'},
+  { value: '과일', name: '과일' },
+  { value: '빵', name: '빵' },
+  { value: '게임', name: '게임' }
 ];
 
 const ViewTypes = {
   BOX: 'box',
   DESKTOPGIRD: 'desktopGrid',
   MOBILEGIRD: 'mobileGrid',
-  LIST: 'list',
+  LIST: 'list'
 } as const;
 
 export type ViewType = (typeof ViewTypes)[keyof typeof ViewTypes];
@@ -83,9 +83,7 @@ export default function EventDetailContainer() {
     const minutes = String(dateObj.getMinutes()).padStart(2, '0');
 
     const formattedDate = `${year}/${month}/${day}`;
-    const formattedTime = `${hours}:${minutes} ${
-      dateObj.getHours() >= 12 ? 'PM' : 'AM'
-    }`;
+    const formattedTime = `${hours}:${minutes} ${dateObj.getHours() >= 12 ? 'PM' : 'AM'}`;
     setDateText(formattedDate);
     setTimeText(formattedTime);
   }, [startDate]);
@@ -133,7 +131,7 @@ export default function EventDetailContainer() {
     industry: '',
     hobby: '',
     interest: '',
-    favorite: '',
+    favorite: ''
   });
 
   useEffect(() => {
@@ -150,9 +148,7 @@ export default function EventDetailContainer() {
     // 검색 조건 수정 필요
     const keyword = e.target.value;
     if (keyword !== '') {
-      const filtered = userList.filter(data =>
-        data.displayName.includes(keyword)
-      );
+      const filtered = userList.filter((data) => data.displayName.includes(keyword));
       setUserListForRender(filtered);
     } else {
       setUserListForRender(userList);
@@ -167,7 +163,7 @@ export default function EventDetailContainer() {
 
   // TODO: URL 쿼리스트링 연결 필요
   const handleFilterChange = (filterType: string, value: string) => {
-    setFilters(prevFilters => ({...prevFilters, [filterType]: value}));
+    setFilters((prevFilters) => ({ ...prevFilters, [filterType]: value }));
   };
 
   const [windowWidth, setWindowWidth] = useState(0);
@@ -210,29 +206,11 @@ export default function EventDetailContainer() {
             </div>
             <div className={styles['event-info-top-wrapper']}>
               <div className={styles['event-date-wrapper']}>
-                <IconText
-                  src={'/assets/glimpse-list/calendar-icon.svg'}
-                  alt={'달력 아이콘'}
-                  width={24}
-                  height={24}
-                  text={dateText}
-                />
-                <IconText
-                  src={'/assets/glimpse-list/clock-icon.svg'}
-                  alt={'시계 아이콘'}
-                  width={24}
-                  height={24}
-                  text={timeText}
-                />
+                <IconText src={'/assets/glimpse-list/calendar-icon.svg'} alt={'달력 아이콘'} width={24} height={24} text={dateText} />
+                <IconText src={'/assets/glimpse-list/clock-icon.svg'} alt={'시계 아이콘'} width={24} height={24} text={timeText} />
               </div>
               <div>
-                <IconText
-                  src={'/assets/glimpse-list/location-icon.svg'}
-                  alt={'위치 아이콘'}
-                  width={24}
-                  height={24}
-                  text={location}
-                />
+                <IconText src={'/assets/glimpse-list/location-icon.svg'} alt={'위치 아이콘'} width={24} height={24} text={location} />
               </div>
             </div>
             <div className={styles['tag-wrapper']}>
@@ -249,7 +227,7 @@ export default function EventDetailContainer() {
               <p
                 className={clsx({
                   [styles['close']]: !openMore,
-                  [styles['open']]: openMore,
+                  [styles['open']]: openMore
                 })}
               >
                 {description}
@@ -258,11 +236,7 @@ export default function EventDetailContainer() {
             <div className={styles['more-button-wrapper']}>
               <button onClick={onClickMore}>
                 <IconText
-                  src={
-                    openMore
-                      ? '/assets/glimpse-list/caret-up.svg'
-                      : '/assets/glimpse-list/caret-down.svg'
-                  }
+                  src={openMore ? '/assets/glimpse-list/caret-up.svg' : '/assets/glimpse-list/caret-down.svg'}
                   alt={'이벤트 설명 펼침 아이콘'}
                   width={24}
                   height={24}
@@ -276,96 +250,49 @@ export default function EventDetailContainer() {
         <section className={styles['body-content-area']}>
           <div className={styles['button-wrapper']}>
             <div className={styles['rsvp-wrapper']}>
-              <Button
-                color={'ffffff'}
-                bgColor={'7E51FD'}
-                text={'RSVP'}
-                width={240}
-                height={44}
-                clickEvent={() => {}}
-              />
+              <Button color={'ffffff'} bgColor={'7E51FD'} text={'RSVP'} width={240} height={44} clickEvent={() => {}} />
             </div>
             <div className={styles['share-wrapper']}>
-              <Button
-                color={'ffffff'}
-                bgColor={'8B8B8B'}
-                text={'Share'}
-                width={240}
-                height={44}
-                clickEvent={() => {}}
-              />
+              <Button color={'ffffff'} bgColor={'8B8B8B'} text={'Share'} width={240} height={44} clickEvent={() => {}} />
             </div>
           </div>
           <section className={styles['search-area']}>
             <p className={styles['list-title']}>Participant List</p>
             <div className={styles['list-setting']}>
               <div className={styles['search-wrapper']}>
-                <input
-                  type="text"
-                  placeholder="search..."
-                  onChange={onSearch}
-                  value={searchWord}
-                />
-                <Image
-                  src="/assets/glimpse-list/search-icon.svg"
-                  alt="검색 아이콘"
-                  width={24}
-                  height={20}
-                />
+                <input type="text" placeholder="search..." onChange={onSearch} value={searchWord} />
+                <Image src="/assets/glimpse-list/search-icon.svg" alt="검색 아이콘" width={24} height={20} />
               </div>
               <div className={styles['grid-icon-wrapper']}>
                 <button onClick={() => onChangeView('box')}>
                   <Image
-                    src={
-                      toggleView === ViewTypes.BOX
-                        ? '/assets/glimpse-list/dark-box.svg'
-                        : '/assets/glimpse-list/light-box.svg'
-                    }
+                    src={toggleView === ViewTypes.BOX ? '/assets/glimpse-list/dark-box.svg' : '/assets/glimpse-list/light-box.svg'}
                     alt="박스뷰"
                     width={22}
                     height={22}
                   />
                 </button>
-                <button
-                  onClick={() => onChangeView('desktopGrid')}
-                  className={styles['desktop-grid-btn']}
-                >
+                <button onClick={() => onChangeView('desktopGrid')} className={styles['desktop-grid-btn']}>
                   <Image
                     src={
-                      toggleView === ViewTypes.DESKTOPGIRD
-                        ? '/assets/glimpse-list/dark-grid.svg'
-                        : '/assets/glimpse-list/light-grid.svg'
+                      toggleView === ViewTypes.DESKTOPGIRD ? '/assets/glimpse-list/dark-grid.svg' : '/assets/glimpse-list/light-grid.svg'
                     }
                     alt="데스크탑 그리드뷰"
                     width={22}
                     height={22}
                   />
                 </button>
-                <button
-                  onClick={() => onChangeView('mobileGrid')}
-                  className={styles['mobile-grid-btn']}
-                >
+                <button onClick={() => onChangeView('mobileGrid')} className={styles['mobile-grid-btn']}>
                   <Image
-                    src={
-                      toggleView === ViewTypes.MOBILEGIRD
-                        ? '/assets/glimpse-list/dark-grid.svg'
-                        : '/assets/glimpse-list/light-grid.svg'
-                    }
+                    src={toggleView === ViewTypes.MOBILEGIRD ? '/assets/glimpse-list/dark-grid.svg' : '/assets/glimpse-list/light-grid.svg'}
                     alt="모바일 그리드뷰"
                     width={22}
                     height={22}
                   />
                 </button>
-                <button
-                  onClick={() => onChangeView('list')}
-                  className={styles['list-view']}
-                >
+                <button onClick={() => onChangeView('list')} className={styles['list-view']}>
                   <Image
-                    src={
-                      toggleView === ViewTypes.LIST
-                        ? '/assets/glimpse-list/dark-list.svg'
-                        : '/assets/glimpse-list/light-list.svg'
-                    }
+                    src={toggleView === ViewTypes.LIST ? '/assets/glimpse-list/dark-list.svg' : '/assets/glimpse-list/light-list.svg'}
                     alt="리스트뷰"
                     width={22}
                     height={22}
@@ -381,9 +308,7 @@ export default function EventDetailContainer() {
               defaultValue="all"
               options={PERSON_TYPE}
               value={filters.personType}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                handleFilterChange('personType', e.target.value)
-              }
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleFilterChange('personType', e.target.value)}
             />
             <SelectBox
               name="industry"
@@ -391,10 +316,8 @@ export default function EventDetailContainer() {
               options={INDUSTRY}
               value={filters.industry}
               hidden
-              hiddenOption={{value: 'industry', name: 'industry'}}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                handleFilterChange('industry', e.target.value)
-              }
+              hiddenOption={{ value: 'industry', name: 'industry' }}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleFilterChange('industry', e.target.value)}
             />
             <SelectBox
               name="hobby"
@@ -402,10 +325,8 @@ export default function EventDetailContainer() {
               options={HOBBY}
               value={filters.hobby}
               hidden
-              hiddenOption={{value: 'hobby', name: 'hobby'}}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                handleFilterChange('hobby', e.target.value)
-              }
+              hiddenOption={{ value: 'hobby', name: 'hobby' }}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleFilterChange('hobby', e.target.value)}
             />
             <SelectBox
               name={'interest'}
@@ -413,10 +334,8 @@ export default function EventDetailContainer() {
               options={INTEREST}
               value={filters.interest}
               hidden
-              hiddenOption={{value: 'interest', name: 'interest'}}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                handleFilterChange('interest', e.target.value)
-              }
+              hiddenOption={{ value: 'interest', name: 'interest' }}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleFilterChange('interest', e.target.value)}
             />
             <SelectBox
               name={'favorite'}
@@ -424,23 +343,17 @@ export default function EventDetailContainer() {
               options={FAVORITE}
               value={filters.favorite}
               hidden
-              hiddenOption={{value: 'favorite', name: 'favorite'}}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                handleFilterChange('favorite', e.target.value)
-              }
+              hiddenOption={{ value: 'favorite', name: 'favorite' }}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleFilterChange('favorite', e.target.value)}
             />
           </section>
           <section
             className={clsx(styles['glimpse-area'], {
-              [styles['grid-view']]: toggleView === 'desktopGrid',
+              [styles['grid-view']]: toggleView === 'desktopGrid'
             })}
           >
-            {(toggleView === 'box' || toggleView === 'desktopGrid') && (
-              <BoxView userList={userListForRender} />
-            )}
-            {toggleView === 'mobileGrid' && (
-              <GridView userList={userListForRender} />
-            )}
+            {(toggleView === 'box' || toggleView === 'desktopGrid') && <BoxView userList={userListForRender} />}
+            {toggleView === 'mobileGrid' && <GridView userList={userListForRender} />}
             {toggleView === 'list' && <ListView userList={userListForRender} />}
           </section>
         </section>

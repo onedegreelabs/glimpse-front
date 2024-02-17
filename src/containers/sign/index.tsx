@@ -1,29 +1,28 @@
 'use client';
 
-import styles from './index.module.scss';
-import SignUp from './components/signUp';
-import SignIn from './components/signIn';
-import {useState} from 'react';
+import { useState } from 'react';
+import SignCard from './components/sign-card';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function SignContainer() {
-  const [isSendMail, setIsSendMail] = useState(false);
-  const [mailAddress, setMailAddress] = useState('');
+  const { authType } = useAuth();
+
+  const signPayload =
+    authType === 'in'
+      ? {
+          title: 'Welcome to glimpse!',
+          subTitle: 'Create a profile card to interact with participants!',
+          authType
+        }
+      : {
+          title: 'Enter code',
+          subTitle: `Please enter the six-digit code sent to`,
+          authType
+        };
+
   return (
-    <div className={styles['sign-wrapper']}>
-      <div className={styles['sign-header']}>
-        <div className={styles['logo-area']}>
-          <div className={styles['text-area']}>Glimpse</div>
-        </div>
-      </div>
-      {!isSendMail ? (
-        <SignIn
-          setIsSendMail={setIsSendMail}
-          mailAddress={mailAddress}
-          setMailAddress={setMailAddress}
-        />
-      ) : (
-        <SignUp mailAddress={mailAddress} />
-      )}
+    <div>
+      <SignCard {...signPayload} />
     </div>
   );
 }
