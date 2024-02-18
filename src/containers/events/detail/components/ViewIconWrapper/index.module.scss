@@ -1,0 +1,37 @@
+
+.grid-icon-wrapper {
+  display: flex;
+  align-items: center;
+
+  button {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .list-view {
+    display: none;
+  }
+
+  .mobile-grid-btn {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 768px) {  
+  .grid-icon-wrapper {
+    .list-view {
+      display: block;
+    }
+
+    .desktop-grid-btn {
+      display: none;
+    }
+
+    .mobile-grid-btn {
+      display: block;
+    }
+  }
+}

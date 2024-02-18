@@ -1,14 +1,14 @@
 'use client';
 
 import {useEffect, useState} from 'react';
-import styles from './topInfo.module.scss';
+import styles from './eventInfo.module.scss';
 import Link from 'next/link';
 import IconText from '@/components/IconText/page';
 import {clsx} from 'clsx';
 import {events} from '@/network/api';
 import {useSearchParams} from 'next/navigation';
 
-export default function TopInfo() {
+export default function EventInfo() {
   const searchParams = useSearchParams();
   const eventId = Number(searchParams?.get('eventId'));
 
