@@ -25,27 +25,6 @@ export const loginWithLinkedin = async () => {
   return await axiosInstance().get('auth/linkedin');
 };
 
-// eventCreate
-export const eventCreate = {
-  createEvent: async (imgFile: File | undefined, params: CreateEventType) => {
-    const {organizationId} = params;
-    const formData = new FormData();
-    if (imgFile) {
-      formData.append('eventCoverImage', imgFile);
-    }
-    formData.append('data', JSON.stringify(params));
-    return await tokenValidInstance().post(
-      `organizations/${organizationId}/events`,
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }
-    );
-  },
-};
-
 // profile api
 export const profileApi = {
   getUserMe: async (): Promise<IProfile> => {
@@ -68,14 +47,35 @@ export const profileApi = {
   },
 };
 
-// glimpseList
-export const glimpseList = {
-  getEventList: async (eventId: number) => {
-    const res = await axiosInstance().get(`events/${eventId}`);
-    return res;
+// events
+export const events = {
+  create: {
+    createEvent: async (imgFile: File | undefined, params: CreateEventType) => {
+      const {organizationId} = params;
+      const formData = new FormData();
+      if (imgFile) {
+        formData.append('eventCoverImage', imgFile);
+      }
+      formData.append('data', JSON.stringify(params));
+      return await tokenValidInstance().post(
+        `organizations/${organizationId}/events`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+    },
   },
-  getEventUserList: async (eventId: number) => {
-    const res = await axiosInstance().get(`events/${eventId}/members`);
-    return res;
+  detail: {
+    getEventList: async (eventId: number) => {
+      const res = await axiosInstance().get(`events/${eventId}`);
+      return res;
+    },
+    getEventUserList: async (eventId: number) => {
+      const res = await axiosInstance().get(`events/${eventId}/members`);
+      return res;
+    },
   },
 };

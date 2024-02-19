@@ -7,10 +7,10 @@ import CustomDatePicker from '@/components/date-picker/page';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Card from '@/components/Card/page';
-import { eventCreate } from '@/services/api';
 import CustomTextarea from '@/components/custom-textarea/page';
 import _ from 'lodash';
 import { useRouter } from 'next/navigation';
+import { events } from '@/services/api';
 
 export default function EventCreateContainer() {
   const [eventName, setEventName] = useState('');
@@ -178,7 +178,7 @@ export default function EventCreateContainer() {
       description: eventDescription,
       tags: eventTag
     };
-    const response = await eventCreate.createEvent(imgFile, params);
+    const response = await events.create.createEvent(imgFile, params);
     const eventId = response?.data?.data?.id || undefined;
     if (eventId !== undefined) {
       router.push(`/event/detail?eventId=${eventId}`);

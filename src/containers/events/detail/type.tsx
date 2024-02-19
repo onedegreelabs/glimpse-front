@@ -6,15 +6,14 @@ export interface cardObj {
   type: string;
 }
 export interface userData {
-  belong: string;
-  cards: cardObj[];
-  department: string;
-  displayName: string;
-  firstName: string;
   id: number;
-  introSnippet: string;
-  lastName: string;
-  location: string;
+  displayName: string;
+  department: string;
   profileImageUrl: string;
-  viewCount: number;
+  introSnippet: string;
+  cards: cardObj[];
+  // firstName: string;
+  // lastName: string;
+  // location: string;
+  // viewCount: number;
 }

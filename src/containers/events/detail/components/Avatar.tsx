@@ -1,4 +1,4 @@
-import styles from './index.module.scss';
+import styles from './avatar.module.scss';
 import Image from 'next/image';
 
 interface AvatarProps {

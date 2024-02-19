@@ -1,5 +1,5 @@
 import EventDetailContainer from '@/containers/events/detail';
 
-export default function eventDetail() {
+export default function EventDetailPage() {
   return <EventDetailContainer />;
 }
