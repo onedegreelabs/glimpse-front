@@ -1,7 +1,7 @@
 'use client';
 
 import SelectBox from '@/components/SelectBox/page';
-import styles from './index.module.scss';
+import styles from './filteringWrapper.module.scss';
 import {useState} from 'react';
 
 const PERSON_TYPE = [

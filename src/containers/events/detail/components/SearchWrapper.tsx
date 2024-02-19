@@ -1,6 +1,6 @@
 'use client';
 
-import styles from './index.module.scss';
+import styles from './searchWrapper.module.scss';
 import Image from 'next/image';
 
 interface SearchWrapperProps {

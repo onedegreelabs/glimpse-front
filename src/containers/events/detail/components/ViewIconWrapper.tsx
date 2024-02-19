@@ -1,7 +1,7 @@
 'use client';
 
 import {useState} from 'react';
-import styles from './index.module.scss';
+import styles from './viewIconWrapper.module.scss';
 import Image from 'next/image';
 
 const ViewTypes = {
