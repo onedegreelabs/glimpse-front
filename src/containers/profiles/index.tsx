@@ -1,18 +1,11 @@
 'use client';
 import styles from './index.module.scss';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 
-import {profileApi} from '@/network/api';
-import {IProfile} from '@/types/profileType';
-import {DEFAULT_PROFILE} from '../my/profile/constans/defaultValue';
-import {
-  AboutMe,
-  ActionHeader,
-  Connect,
-  HashTag,
-  Intro,
-  Profile,
-} from '@/components/profile';
+import { profileApi } from '@/services/api';
+import { IProfile } from '@/types/profileType';
+import { DEFAULT_PROFILE } from '../my/profile/constans/defaultValue';
+import { AboutMe, ActionHeader, Connect, HashTag, Intro, Profile } from '@/components/profile';
 
 // TODO: 전역상태 설정한후 모두 바꿔야함
 const ProfilesContainer = () => {
@@ -20,7 +13,7 @@ const ProfilesContainer = () => {
   const [profile, setProfile] = useState<IProfile>(DEFAULT_PROFILE);
 
   useEffect(() => {
-    profileApi.getUserMe().then(res => {
+    profileApi.getUserMe().then((res) => {
       setProfile(res);
       //   getCardsByType(res.cards);
     });
@@ -37,15 +30,15 @@ const ProfilesContainer = () => {
             type: 'INTROTITLE',
             content: ['리팩토링중'],
             isVisible: true,
-            color: '#FFFFFF',
+            color: '#FFFFFF'
           },
           {
             id: 0,
             type: 'INTROCAREER',
             content: ['일단 더미데이터 테스트중'],
             isVisible: true,
-            color: '#FFFFFF',
-          },
+            color: '#FFFFFF'
+          }
         ]}
       />
       <AboutMe
@@ -55,8 +48,8 @@ const ProfilesContainer = () => {
             type: 'ABOUTME',
             content: ['UI테스트중'],
             isVisible: true,
-            color: '#FFFFFF',
-          },
+            color: '#FFFFFF'
+          }
         ]}
       />
       <Connect
@@ -66,8 +59,8 @@ const ProfilesContainer = () => {
             type: 'LINK',
             content: ['http://github.com/monii', 'instagram.com/monii'],
             isVisible: true,
-            color: '#FFFFFF',
-          },
+            color: '#FFFFFF'
+          }
         ]}
       />
       <HashTag
@@ -87,11 +80,11 @@ const ProfilesContainer = () => {
               '강아지',
               '고양이',
               '강아지',
-              '고양이',
+              '고양이'
             ],
             isVisible: true,
-            color: '#FFFFFF',
-          },
+            color: '#FFFFFF'
+          }
         ]}
       />
     </div>

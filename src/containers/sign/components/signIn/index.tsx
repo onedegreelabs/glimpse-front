@@ -2,12 +2,12 @@
 import Card from '@/components/Card/page';
 import styles from './index.module.scss';
 import Button from '@/components/button/page';
-import {useRouter} from 'next/navigation';
-import {useEffect, useRef, useState} from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import {loginWithLinkedin, profileApi, sendMailWithCode} from '@/network/api';
+import { loginWithLinkedin, profileApi, sendMailWithCode } from '@/services/api';
 import Image from 'next/image';
-import {signIn} from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import _ from 'lodash';
 
 interface SignInProps {
@@ -16,11 +16,7 @@ interface SignInProps {
   setMailAddress: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function SignIn({
-  setIsSendMail,
-  mailAddress,
-  setMailAddress,
-}: SignInProps) {
+export default function SignIn({ setIsSendMail, mailAddress, setMailAddress }: SignInProps) {
   const router = useRouter();
   const isAlreadyLogin = async function () {
     const accessToken = localStorage.getItem('accessToken');
@@ -42,8 +38,7 @@ export default function SignIn({
   const [isInvalidMail, setIsInvalidMail] = useState<Boolean>(false);
 
   const onClickEmailButton = async function () {
-    const emailRegex =
-      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
     if (emailRegex.test(mailAddress)) {
       setIsSendMail(true);
       await sendMailWithCode(mailAddress);
@@ -72,10 +67,7 @@ export default function SignIn({
     } else {
       if (mailInputRef.current) {
         const mailButton = mailInputRef.current;
-        const handleKeyDown = function (e: {
-          key: string;
-          preventDefault: () => void;
-        }) {
+        const handleKeyDown = function (e: { key: string; preventDefault: () => void }) {
           if (e.key === 'Enter') {
             e.preventDefault();
             onClickEmailButton();
@@ -95,40 +87,28 @@ export default function SignIn({
       <Card width={334} height={508}>
         <div className={styles['card-wrapper']}>
           <div className={styles['card-title']}>Welcome to glimpse!</div>
-          <div className={styles['card-sub-title']}>
-            Create a profile card to interact with participants!
-          </div>
+          <div className={styles['card-sub-title']}>Create a profile card to interact with participants!</div>
           <div className={styles['card-body']}>
             <input
               className={clsx(styles['email-input'], {
-                [styles['invalid-mail']]: isInvalidMail,
+                [styles['invalid-mail']]: isInvalidMail
               })}
               placeholder="email address"
               ref={mailInputRef}
-              onChange={e => {
+              onChange={(e) => {
                 setMailAddress(e.target.value);
                 setIsInvalidMail(false);
               }}
             ></input>
             <div
               className={clsx(styles['invalid-text'], {
-                [styles['show']]: isInvalidMail,
+                [styles['show']]: isInvalidMail
               })}
             >
-              <Image
-                alt="icon"
-                src="/icons/warning_icon.svg"
-                width={16}
-                height={16}
-              />
+              <Image alt="icon" src="/icons/warning_icon.svg" width={16} height={16} />
               <div className={styles['text-area']}>email is not valid</div>
             </div>
-            <Button
-              color="ffffff"
-              bgColor="868686"
-              text="Continue with email"
-              clickEvent={onClickEmailButton}
-            />
+            <Button color="ffffff" bgColor="868686" text="Continue with email" clickEvent={onClickEmailButton} />
             <div className={styles['text-area']}>OR</div>
             {/* <Button
               color="ffffff"
@@ -143,18 +123,8 @@ export default function SignIn({
                 height={20}
               />
             </Button> */}
-            <Button
-              color="ffffff"
-              bgColor="0094FF"
-              text="Sign in with google"
-              clickEvent={onClickGoogleButton}
-            >
-              <Image
-                alt="icon"
-                src="/icons/google_icon.svg"
-                width={20}
-                height={20}
-              />
+            <Button color="ffffff" bgColor="0094FF" text="Sign in with google" clickEvent={onClickGoogleButton}>
+              <Image alt="icon" src="/icons/google_icon.svg" width={20} height={20} />
             </Button>
             {/* <Button
               color="ffffff"
