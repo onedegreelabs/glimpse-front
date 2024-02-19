@@ -1,4 +1,4 @@
-import {loginWithGoogle} from '@/network/api';
+import { loginWithGoogle } from '@/services/api';
 import _ from 'lodash';
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
@@ -7,15 +7,15 @@ export default NextAuth({
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || '',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-    }),
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || ''
+    })
   ],
   callbacks: {
-    async session({session}) {
+    async session({ session }) {
       return session;
     },
 
-    async signIn({account}) {
+    async signIn({ account }) {
       const googleToken = _.get(account, 'id_token') || '';
       const response = await loginWithGoogle(googleToken);
       const token = _.get(response, 'data') || {};
@@ -23,6 +23,6 @@ export default NextAuth({
       const accessToken = _.get(token?.data, 'accessToken');
       const refreshToken = _.get(token?.data, 'refreshToken');
       return `/loading?at=${accessToken}&rt=${refreshToken}`;
-    },
-  },
+    }
+  }
 });
