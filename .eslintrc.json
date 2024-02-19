@@ -1,8 +1,6 @@
 {
-  "extends": [
-    "next/core-web-vitals",
-    "./node_modules/gts"
-  ],
+  "extends": ["next/core-web-vitals", "./node_modules/gts"],
+  "ignorePatterns": ["server/"],
   "rules": {
     "react-hooks/exhaustive-deps": "off"
   }
