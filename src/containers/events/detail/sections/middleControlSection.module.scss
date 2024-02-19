@@ -23,49 +23,6 @@
     .list-setting {
       display: flex;
       justify-content: space-between;
-
-      .search-wrapper {
-        position: relative;
-        width: 60%;
-
-        input {
-          width: 100%;
-          border: 1px solid #d9d9d9;
-          border-radius: 30px;
-          padding: 10px 12px;
-          font-size: 14px;
-          text-indent: 18px;
-        }
-
-        img {
-          position: absolute;
-          width: 17px;
-          top: 10px;
-          left: 12px;
-          margin: 0;
-        }
-      }
-
-      .grid-icon-wrapper {
-        display: flex;
-        align-items: center;
-
-        button {
-          width: 32px;
-          height: 32px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .list-view {
-          display: none;
-        }
-
-        .mobile-grid-btn {
-          display: none;
-        }
-      }
     }
   }
 
@@ -73,18 +30,6 @@
     height: 2px;
     width: 100%;
     background-color: #f3f3f3;
-  }
-
-  .filtering-area {
-    padding: 10px 0px;
-    overflow-x: auto;
-    white-space: nowrap;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .filtering-area::-webkit-scrollbar {
-    display: none;
   }
 }
 

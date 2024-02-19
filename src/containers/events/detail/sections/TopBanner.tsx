@@ -1,14 +1,14 @@
 'use client';
 
 import Chip from '@/components/Chip/page';
-import styles from './topPhoto.module.scss';
+import styles from './topBanner.module.scss';
 import Image from 'next/image';
 import {useEffect, useState} from 'react';
 import {events} from '@/network/api';
 import {useSearchParams} from 'next/navigation';
 import testImg from './test.jpg';
 
-export default function TopPhoto() {
+export default function TopBanner() {
   const searchParams = useSearchParams();
   const eventId = Number(searchParams?.get('eventId'));
 
