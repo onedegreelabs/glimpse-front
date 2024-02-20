@@ -1,8 +1,8 @@
 import styles from './hashtag.module.scss';
 import {useEffect, useState} from 'react';
 
-import Card from '@/components/Card/page';
-import Chip from '@/components/Chip/page';
+import Card from '@/components/card/Card';
+import Chip from '@/components/chip/Chip';
 import {IProfileCard} from '@/types/profileType';
 import getCardsByType from '@/utils/getCardsByType';
 import {HASHTAG} from '@/containers/my/profile/constans/profile';

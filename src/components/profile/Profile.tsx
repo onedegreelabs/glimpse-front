@@ -1,6 +1,6 @@
 import styles from './profile.module.scss';
 
-import IconText from '@/components/IconText/page';
+import IconText from '@/components/iconText/IconText';
 import {IProfile} from '@/types/profileType';
 
 interface Props {

@@ -1,0 +1,22 @@
+.user-list-wrapper {
+  background-color: #fff;
+  padding: 0 16px;
+  .view-area {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 16px 0px;
+
+    &.grid-view {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .user-list-wrapper {
+    .view-area {
+      grid-template-columns: repeat(auto-fill, minmax(358px, 1fr));
+    }
+  }
+}

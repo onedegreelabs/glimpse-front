@@ -1,7 +1,7 @@
 import styles from './intro.module.scss';
 import {useEffect, useState} from 'react';
 
-import Card from '@/components/Card/page';
+import Card from '@/components/card/Card';
 import {IProfileCard} from '@/types/profileType';
 import getCardsByType from '@/utils/getCardsByType';
 import {
