@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import styles from './icon-text.module.scss';
+import styles from './iconText.module.scss';
 
 interface IcontextProps {
   src: string;
