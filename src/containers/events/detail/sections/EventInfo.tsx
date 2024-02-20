@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import styles from './eventInfo.module.scss';
 import Link from 'next/link';
-import IconText from '@/components/IconText/page';
+import IconText from '@/components/icon-text/IconText';
 import { clsx } from 'clsx';
 import { events } from '@/services/api';
 import { useSearchParams } from 'next/navigation';

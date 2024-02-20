@@ -1,4 +1,4 @@
-import styles from './page.module.scss';
+import styles from './chip.module.scss';
 
 interface LabelProps {
   label: string;
@@ -21,22 +21,22 @@ export default function Chip({
   soldColor,
   onDelete,
   fontSize,
-  fontWeight,
+  fontWeight
 }: LabelProps) {
   return (
     <div
       className={styles['chip-wrapper']}
       style={{
         height,
-        ...(backgroundColor && {backgroundColor: `${backgroundColor}`}),
-        ...(borderRadius && {borderRadius: `${borderRadius}px`}),
-        ...(isOutline && {border: `1px solid ${soldColor}`}),
+        ...(backgroundColor && { backgroundColor: `${backgroundColor}` }),
+        ...(borderRadius && { borderRadius: `${borderRadius}px` }),
+        ...(isOutline && { border: `1px solid ${soldColor}` })
       }}
     >
       <span
         style={{
-          ...(fontSize && {fontSize: `${fontSize}px`}),
-          ...(fontWeight && {fontWeight: `${fontWeight}`}),
+          ...(fontSize && { fontSize: `${fontSize}px` }),
+          ...(fontWeight && { fontWeight: `${fontWeight}` })
         }}
       >
         {label}

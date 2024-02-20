@@ -1,5 +1,5 @@
-import styles from './page.module.scss';
-interface CustomInputProps {
+import styles from './input.module.scss';
+interface InputProps {
   name: string;
   value?: string;
   valueArr?: string[];
@@ -7,13 +7,7 @@ interface CustomInputProps {
   placeHolder: string;
   handleEnter?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
-export default function CustomInput({
-  name,
-  value,
-  handleValue,
-  placeHolder,
-  handleEnter,
-}: CustomInputProps) {
+export default function Input({ name, value, handleValue, placeHolder, handleEnter }: InputProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (handleValue) {
       handleValue(e.target.value);
@@ -32,7 +26,7 @@ export default function CustomInput({
         placeholder={placeHolder}
         defaultValue={value}
         onChange={handleValue ? handleChange : undefined}
-        onKeyDown={e => {
+        onKeyDown={(e) => {
           handleKeyDown(e);
         }}
       />

@@ -1,5 +1,5 @@
 'use client';
-import styles from './page.module.scss';
+import styles from './footer.module.scss';
 import clsx from 'clsx';
 export default function Footer() {
   return (

@@ -1,4 +1,4 @@
-import styles from './page.module.scss';
+import styles from './card.module.scss';
 
 interface CardProps {
   height?: string | number;
@@ -6,13 +6,13 @@ interface CardProps {
   children?: React.ReactNode;
 }
 
-export default function Card({width, height, children}: CardProps) {
+export default function Card({ width, height, children }: CardProps) {
   return (
     <div
       className={styles['card-wrapper']}
       style={{
-        ...(height && {height: `${height}px`}),
-        ...(width ? {width: `${width}px`} : {width: '100%'}),
+        ...(height && { height: `${height}px` }),
+        ...(width ? { width: `${width}px` } : { width: '100%' })
       }}
     >
       {children}
