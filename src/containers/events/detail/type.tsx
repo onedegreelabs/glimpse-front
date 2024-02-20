@@ -1,6 +1,6 @@
 export interface cardObj {
   color: string;
-  content: [];
+  content: (string | number)[];
   id: number;
   isVisible: string;
   type: string;
