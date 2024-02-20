@@ -1,12 +1,12 @@
 import clsx from 'clsx';
-import styles from './page.module.scss';
+import styles from './select.module.scss';
 
 interface Option {
   value: string;
   name: string;
 }
 
-interface SelectBoxProps {
+interface SelectProps {
   name: string;
   defaultValue: string;
   options: Option[];
@@ -16,19 +16,11 @@ interface SelectBoxProps {
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-export default function SelectBox({
-  name,
-  defaultValue,
-  options,
-  value,
-  hidden = false,
-  hiddenOption,
-  onChange,
-}: SelectBoxProps) {
+export default function Select({ name, defaultValue, options, value, hidden = false, hiddenOption, onChange }: SelectProps) {
   return (
     <select
       className={clsx(styles['filtering'], {
-        [styles['selected-filter']]: value !== '',
+        [styles['selected-filter']]: value !== ''
       })}
       name={name}
       defaultValue={defaultValue}

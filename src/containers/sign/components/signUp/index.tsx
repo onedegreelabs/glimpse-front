@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import Card from '@/components/Card/page';
+import Card from '@/components/card/Card';
 import styles from './index.module.scss';
 import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';

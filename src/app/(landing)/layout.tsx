@@ -1,4 +1,4 @@
-import LandingNavbar from '@/components/layouts/landing-navbar';
+import LandingNavbar from '@/components/layouts/LandingNavbar';
 
 export default function LandingPageLayout({ children }: { children: React.ReactNode }) {
   return (

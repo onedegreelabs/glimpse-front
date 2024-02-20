@@ -8,10 +8,10 @@ type MarqueeType = {
   innerClassName?: string;
 };
 
-export function Marquee({data, className, innerClassName}: MarqueeType) {
+export function Marquee({ data, className, innerClassName }: MarqueeType) {
   return (
     <MarQuee className={className}>
-      {data.map(item => (
+      {data.map((item) => (
         <span className={innerClassName} key={item}>
           {item}
         </span>

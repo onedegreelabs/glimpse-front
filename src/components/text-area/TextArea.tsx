@@ -1,17 +1,12 @@
-import styles from './page.module.scss';
-interface CustomInputProps {
+import styles from './text-area.module.scss';
+interface TextAreaProps {
   name: string;
   value?: string;
   valueArr?: string[];
   handleValue: (value: string) => void;
   placeHolder: string;
 }
-export default function CustomTextarea({
-  name,
-  value,
-  handleValue,
-  placeHolder,
-}: CustomInputProps) {
+export default function TextArea({ name, value, handleValue, placeHolder }: TextAreaProps) {
   return (
     <div className={styles['custom-textarea-wrapper']}>
       <div className={styles['name-area']}>{name}</div>
@@ -19,7 +14,7 @@ export default function CustomTextarea({
         className={styles['textarea-area']}
         placeholder={placeHolder}
         defaultValue={value}
-        onChange={e => {
+        onChange={(e) => {
           handleValue(e.target.value);
         }}
       />

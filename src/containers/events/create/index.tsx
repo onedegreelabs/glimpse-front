@@ -1,13 +1,13 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import styles from './index.module.scss';
-import CustomInput from '@/components/custom-input/page';
-import CustomRadio from '@/components/custom-radio/page';
-import CustomDatePicker from '@/components/date-picker/page';
+import Input from '@/components/input/Input';
+import Radio from '@/components/radio/Radio';
+import DatePicker from '@/components/date-picker/DatePicker';
 import clsx from 'clsx';
 import Image from 'next/image';
-import Card from '@/components/Card/page';
-import CustomTextarea from '@/components/custom-textarea/page';
+import Card from '@/components/card/Card';
+import TextArea from '@/components/text-area/TextArea';
 import _ from 'lodash';
 import { useRouter } from 'next/navigation';
 import { events } from '@/services/api';
@@ -458,34 +458,24 @@ export default function EventCreateContainer() {
           <div className={styles['sub-title-text']}>Input into this field to see the real-time web view on the left.</div>
         </div>
         <div className={styles['body-area']}>
-          <CustomInput name="Event Name *" value={eventName} handleValue={handleEventTitle} placeHolder="Name" />
+          <Input name="Event Name *" value={eventName} handleValue={handleEventTitle} placeHolder="Name" />
           <div className={styles['event-type-radio']}>
-            <CustomRadio name="Event Type *" value={eventType} items={eventTypeItems} handleValue={handleEventType} />
+            <Radio name="Event Type *" value={eventType} items={eventTypeItems} handleValue={handleEventType} />
           </div>
           <div className={styles['event-visibility-radio']}>
-            <CustomRadio
-              name="Event Visibility *"
-              value={eventVisibility}
-              items={eventVisibilityItems}
-              handleValue={handleEventVisibility}
-            />
+            <Radio name="Event Visibility *" value={eventVisibility} items={eventVisibilityItems} handleValue={handleEventVisibility} />
           </div>
-          <CustomDatePicker startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate} />
-          <CustomInput
+          <DatePicker startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate} />
+          <Input
             name="Event Location"
             value={eventLocation}
             handleValue={handleEventLocation}
             placeHolder="Offline location or virtual link"
           />
-          <CustomInput name="External Event Link" value={eventExternalLink} handleValue={handleEventExternalLink} placeHolder="http://" />
-          <CustomInput
-            name="Event handle"
-            value={eventHandle}
-            handleValue={handleEventHandle}
-            placeHolder="e.g., unique identifier or name"
-          />
+          <Input name="External Event Link" value={eventExternalLink} handleValue={handleEventExternalLink} placeHolder="http://" />
+          <Input name="Event handle" value={eventHandle} handleValue={handleEventHandle} placeHolder="e.g., unique identifier or name" />
           <div ref={descriptionRef}>
-            <CustomTextarea
+            <TextArea
               name="Event Description"
               value={eventDescription}
               handleValue={handleEventDescription}
@@ -493,7 +483,7 @@ export default function EventCreateContainer() {
             />
           </div>
           <div ref={eventTagRef}>
-            <CustomInput
+            <Input
               name="Event Tag"
               valueArr={eventTag}
               placeHolder="Tag"

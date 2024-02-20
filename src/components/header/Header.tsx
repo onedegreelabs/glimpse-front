@@ -1,4 +1,4 @@
-import styles from './page.module.scss';
+import styles from './header.module.scss';
 export default function Header() {
   return (
     <div className={styles['header-wrapper']}>

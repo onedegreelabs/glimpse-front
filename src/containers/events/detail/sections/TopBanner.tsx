@@ -1,6 +1,6 @@
 'use client';
 
-import Chip from '@/components/Chip/page';
+import Chip from '@/components/chip/Chip';
 import styles from './topBanner.module.scss';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';

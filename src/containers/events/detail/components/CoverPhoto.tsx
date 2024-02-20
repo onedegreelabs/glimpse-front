@@ -1,4 +1,4 @@
-import Chip from '@/components/Chip/page';
+import Chip from '@/components/chip/Chip';
 import styles from './coverPhoto.module.scss';
 import Image from 'next/image';
 
