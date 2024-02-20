@@ -1,30 +1,33 @@
 import styles from './intro.module.scss';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 
 import Card from '@/components/card/Card';
-import { IProfileCard } from '@/types/profileType';
+import {IProfileCard} from '@/types/profileType';
 import getCardsByType from '@/utils/getCardsByType';
-import { INTROCAREER, INTROTITLE } from '@/containers/my/profile/constans/profile';
+import {
+  INTROCAREER,
+  INTROTITLE,
+} from '@/containers/my/profile/constans/profile';
 import ProfileCard from '@/components/profile/ProfileCard/ProfileCard';
 
 interface IntroCardProps {
   cards: IProfileCard[];
 }
 
-export default function IntroCard({ cards }: IntroCardProps) {
+export default function IntroCard({cards}: IntroCardProps) {
   const [introTitle, setIntroTitle] = useState<IProfileCard>({
     id: 0,
     type: 'INTROTITLE',
     content: ['리팩토링중'],
     isVisible: true,
-    color: '#FFFFFF'
+    color: '#FFFFFF',
   });
   const [introCareer, setIntroCareer] = useState<IProfileCard>({
     id: 0,
     type: 'INTROCAREER',
     content: ['일단 더미데이터 테스트중'],
     isVisible: true,
-    color: '#FFFFFF'
+    color: '#FFFFFF',
   });
 
   useEffect(() => {

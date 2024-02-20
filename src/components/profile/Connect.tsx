@@ -1,26 +1,26 @@
 import styles from './connect.module.scss';
 import clsx from 'clsx';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 
 import Card from '@/components/card/Card';
-import { IProfileCard } from '@/types/profileType';
+import {IProfileCard} from '@/types/profileType';
 import getCardsByType from '@/utils/getCardsByType';
 import getConnectImg from '@/utils/getConnectImg';
-import { LINK } from '@/containers/my/profile/constans/profile';
+import {LINK} from '@/containers/my/profile/constans/profile';
 import ProfileCard from './ProfileCard/ProfileCard';
 
 interface ConnectCardProps {
   cards: IProfileCard[];
 }
 
-export default function ConnectCard({ cards }: ConnectCardProps) {
+export default function ConnectCard({cards}: ConnectCardProps) {
   const [connects, setConnects] = useState<IProfileCard>({
     id: 0,
     type: 'LINK',
     content: ['http://github.com/monii'],
     isVisible: true,
-    color: '#FFFFFF'
+    color: '#FFFFFF',
   });
 
   useEffect(() => {
@@ -39,7 +39,12 @@ export default function ConnectCard({ cards }: ConnectCardProps) {
             return (
               <Card height={64} key={`conent-${index}`}>
                 <div className={styles['link-content']}>
-                  <Image src={connectImg.src} alt={connectImg.alt} width={32} height={32} />
+                  <Image
+                    src={connectImg.src}
+                    alt={connectImg.alt}
+                    width={32}
+                    height={32}
+                  />
                   <span>{connect}</span>
                 </div>
               </Card>

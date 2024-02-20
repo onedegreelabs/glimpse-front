@@ -4,18 +4,18 @@
 
 import Card from '@/components/card/Card';
 import styles from './index.module.scss';
-import { useEffect, useRef, useState } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
 import _ from 'lodash';
-import { verifyEmailCode, sendMailWithCode, profileApi } from '@/services/api';
-import { useRouter } from 'next/navigation';
+import {verifyEmailCode, sendMailWithCode, profileApi} from '@/services/api';
+import {useRouter} from 'next/navigation';
 import Image from 'next/image';
 
 interface SignUpProps {
   mailAddress: string;
 }
 
-export default function SignUp({ mailAddress }: SignUpProps) {
+export default function SignUp({mailAddress}: SignUpProps) {
   const router = useRouter();
 
   const isAlreadyLogin = async function () {
@@ -81,18 +81,25 @@ export default function SignUp({ mailAddress }: SignUpProps) {
   const onPaste = function () {
     navigator.clipboard
       .readText()
-      .then((text) => {
+      .then(text => {
         if (text.length === 6) {
           refArr.current.forEach((v, i) => {
             if (v) v.value = text[i];
           });
-          const textArr = [text[0], text[1], text[2], text[3], text[4], text[5]];
+          const textArr = [
+            text[0],
+            text[1],
+            text[2],
+            text[3],
+            text[4],
+            text[5],
+          ];
           setDigitList(textArr);
         } else {
           alert('올바른 형식의 인증 번호가 아닙니다.');
         }
       })
-      .catch((err) => {
+      .catch(err => {
         alert('Failed to read text from clipboard:' + err);
       });
   };
@@ -138,13 +145,13 @@ export default function SignUp({ mailAddress }: SignUpProps) {
             <div className={styles['mail-text']}>{mailAddress}</div>
           </div>
           <div className={styles['digit-area']}>
-            {Array.from({ length: 6 }, (_, index) => (
+            {Array.from({length: 6}, (_, index) => (
               <input
                 className={styles['input-box']}
                 maxLength={1}
                 key={index}
-                ref={(el) => (refArr.current[index] = el)}
-                onChange={(e) => {
+                ref={el => (refArr.current[index] = el)}
+                onChange={e => {
                   handleInputChange(index, e.target.value);
                   handleDigitList(index, e.target.value);
                   setIsInvalidDigit(false);
@@ -154,18 +161,26 @@ export default function SignUp({ mailAddress }: SignUpProps) {
           </div>
           <div
             className={clsx(styles['invalid-check'], {
-              [styles['show']]: isInvalidDigit
+              [styles['show']]: isInvalidDigit,
             })}
           >
             The authentication number is incorrect.
           </div>
           <div className={styles['card-bottom']}>
             <div className={styles['paste-code']} onClick={onPaste}>
-              <Image alt="icon" src="/icons/clipboard.svg" width={20} height={20} />
+              <Image
+                alt="icon"
+                src="/icons/clipboard.svg"
+                width={20}
+                height={20}
+              />
               paste code
             </div>
             {isTimerActive ? (
-              <div className={styles['resend-timer']} ref={resendTimerRef}></div>
+              <div
+                className={styles['resend-timer']}
+                ref={resendTimerRef}
+              ></div>
             ) : (
               <div className={styles['resend-code']} onClick={onResend}>
                 resend code

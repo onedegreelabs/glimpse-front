@@ -1,11 +1,11 @@
-import { Inter } from 'next/font/google';
+import {Inter} from 'next/font/google';
 import './globals.css';
 import styles from './layout.module.scss';
 import Header from '@/components/header/Header';
 import AuthSession from '@/components/sessionProvider/AuthSession';
 
-const inter = Inter({ subsets: ['latin'] });
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+const inter = Inter({subsets: ['latin']});
+export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en">
       <body className={inter.className}>

@@ -6,7 +6,12 @@ interface TextAreaProps {
   handleValue: (value: string) => void;
   placeHolder: string;
 }
-export default function TextArea({ name, value, handleValue, placeHolder }: TextAreaProps) {
+export default function TextArea({
+  name,
+  value,
+  handleValue,
+  placeHolder,
+}: TextAreaProps) {
   return (
     <div className={styles['custom-textarea-wrapper']}>
       <div className={styles['name-area']}>{name}</div>
@@ -14,7 +19,7 @@ export default function TextArea({ name, value, handleValue, placeHolder }: Text
         className={styles['textarea-area']}
         placeholder={placeHolder}
         defaultValue={value}
-        onChange={(e) => {
+        onChange={e => {
           handleValue(e.target.value);
         }}
       />

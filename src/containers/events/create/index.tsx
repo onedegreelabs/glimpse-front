@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import styles from './index.module.scss';
 import Input from '@/components/input/Input';
 import Radio from '@/components/radio/Radio';
@@ -9,8 +9,8 @@ import Image from 'next/image';
 import Card from '@/components/card/Card';
 import TextArea from '@/components/textArea/TextArea';
 import _ from 'lodash';
-import { useRouter } from 'next/navigation';
-import { events } from '@/services/api';
+import {useRouter} from 'next/navigation';
+import {events} from '@/services/api';
 
 export default function EventCreateContainer() {
   const [eventName, setEventName] = useState('');
@@ -22,14 +22,14 @@ export default function EventCreateContainer() {
 
   const [eventType, setEventType] = useState(0);
   const eventTypeItems = [
-    { text: 'Virtual', value: 0 },
-    { text: 'In-person', value: 1 },
-    { text: 'Both', value: 2 }
+    {text: 'Virtual', value: 0},
+    {text: 'In-person', value: 1},
+    {text: 'Both', value: 2},
   ];
   const [eventTypeText, setEventTypeText] = useState('Virtual');
   useEffect(() => {
     const getTextFromValue = function (valueToFind: number) {
-      const foundItem = eventTypeItems.find((item) => item.value === valueToFind);
+      const foundItem = eventTypeItems.find(item => item.value === valueToFind);
       return foundItem ? foundItem.text : 'Not found';
     };
     const text = getTextFromValue(eventType);
@@ -41,13 +41,15 @@ export default function EventCreateContainer() {
 
   const [eventVisibility, setEventVisibility] = useState(0);
   const eventVisibilityItems = [
-    { text: 'Public', value: 0 },
-    { text: 'Private', value: 1 }
+    {text: 'Public', value: 0},
+    {text: 'Private', value: 1},
   ];
   const [eventVisibilityText, seteventVisibilityText] = useState('Public');
   useEffect(() => {
     const getTextFromValue = function (valueToFind: number) {
-      const foundItem = eventVisibilityItems.find((item) => item.value === valueToFind);
+      const foundItem = eventVisibilityItems.find(
+        item => item.value === valueToFind
+      );
       return foundItem ? foundItem.text : 'Not found';
     };
     const text = getTextFromValue(eventVisibility);
@@ -77,7 +79,9 @@ export default function EventCreateContainer() {
 
       const hours = startDate.getHours();
       const minutes = startDate.getMinutes();
-      const formattedTime = `${hours}:${minutes < 10 ? '0' + minutes : minutes}`;
+      const formattedTime = `${hours}:${
+        minutes < 10 ? '0' + minutes : minutes
+      }`;
       setTimeForRender(formattedTime);
     }
   }, [startDate]);
@@ -113,9 +117,9 @@ export default function EventCreateContainer() {
     const inputValue = (e.currentTarget as HTMLInputElement).value;
     const tagsArray = inputValue
       .split(',')
-      .map((tag) => tag.trim())
-      .filter((e) => e);
-    setEventTag((prev) => [...prev, ...tagsArray]);
+      .map(tag => tag.trim())
+      .filter(e => e);
+    setEventTag(prev => [...prev, ...tagsArray]);
 
     if (eventTagRef.current) {
       const eventTagInputElement = eventTagRef.current.querySelector('input');
@@ -141,7 +145,7 @@ export default function EventCreateContainer() {
 
   const [imgFile, setImgFile] = useState<File | undefined>();
   const [imgUrl, setImgUrl] = useState<string | ArrayBuffer | null>();
-  const handleImageUpload = (event: { target: { files: FileList | null } }) => {
+  const handleImageUpload = (event: {target: {files: FileList | null}}) => {
     const selectedFile = event.target.files?.[0];
 
     if (selectedFile) {
@@ -161,9 +165,9 @@ export default function EventCreateContainer() {
   const [profileViewMode, setProfileViewMode] = useState(0);
 
   const onCreateEvent = async function () {
-    const eventTypeText = _.find(eventTypeItems, { value: eventType })?.text;
+    const eventTypeText = _.find(eventTypeItems, {value: eventType})?.text;
     const eventVisibilityText = _.find(eventVisibilityItems, {
-      value: eventVisibility
+      value: eventVisibility,
     })?.text;
     const params = {
       organizationId: 31,
@@ -176,7 +180,7 @@ export default function EventCreateContainer() {
       link: eventExternalLink,
       handle: eventHandle,
       description: eventDescription,
-      tags: eventTag
+      tags: eventTag,
     };
     const response = await events.create.createEvent(imgFile, params);
     const eventId = response?.data?.data?.id || undefined;
@@ -203,12 +207,16 @@ export default function EventCreateContainer() {
       <div className={clsx(styles['preview-area'], styles[previewMode])}>
         <div className={styles['header-area']}>
           <div className={styles['url-area']}>
-            <div className={styles['text-area']}>{eventHandle.length ? eventHandle : 'https://glimpse.com/event/perfect'}</div>
+            <div className={styles['text-area']}>
+              {eventHandle.length
+                ? eventHandle
+                : 'https://glimpse.com/event/perfect'}
+            </div>
           </div>
           <div className={styles['button-area']}>
             <div
               className={clsx(styles['preview-button'], styles['left'], {
-                [styles['active']]: previewMode === 'mobile'
+                [styles['active']]: previewMode === 'mobile',
               })}
               onClick={() => {
                 onHandlePreviewMode('mobile');
@@ -216,14 +224,18 @@ export default function EventCreateContainer() {
             >
               <Image
                 alt="icon"
-                src={previewMode === 'desktop' ? '/icons/phone_inactive.svg' : '/icons/phone_active.svg'}
+                src={
+                  previewMode === 'desktop'
+                    ? '/icons/phone_inactive.svg'
+                    : '/icons/phone_active.svg'
+                }
                 width={20}
                 height={20}
               />
             </div>
             <div
               className={clsx(styles['preview-button'], styles['right'], {
-                [styles['active']]: previewMode === 'desktop'
+                [styles['active']]: previewMode === 'desktop',
               })}
               onClick={() => {
                 onHandlePreviewMode('desktop');
@@ -231,7 +243,11 @@ export default function EventCreateContainer() {
             >
               <Image
                 alt="icon"
-                src={previewMode === 'mobile' ? '/icons/desktop_inactive.svg' : '/icons/desktop_active.svg'}
+                src={
+                  previewMode === 'mobile'
+                    ? '/icons/desktop_inactive.svg'
+                    : '/icons/desktop_active.svg'
+                }
                 width={20}
                 height={20}
               />
@@ -245,7 +261,12 @@ export default function EventCreateContainer() {
           <div className={styles['text-area']}>Hi, James 👋</div>
           <div className={styles['icon-wrapper']}>
             <div className={styles['icon-area']}>
-              <Image alt="icon" src="/icons/notification.svg" width={24} height={24} />
+              <Image
+                alt="icon"
+                src="/icons/notification.svg"
+                width={24}
+                height={24}
+              />
             </div>
             <div className={styles['icon-area']}>
               <Image alt="icon" src="/icons/menu.svg" width={24} height={24} />
@@ -260,7 +281,7 @@ export default function EventCreateContainer() {
               ? {
                   backgroundImage: `url(${imgUrl})`,
                   backgroundSize: 'cover',
-                  backgroundRepeat: 'no-repeat'
+                  backgroundRepeat: 'no-repeat',
                 }
               : {}
           }
@@ -276,7 +297,9 @@ export default function EventCreateContainer() {
             </div>
           </div>
 
-          <div className={styles['event-name-area']}>{eventName.length ? eventName : 'eventName'}</div>
+          <div className={styles['event-name-area']}>
+            {eventName.length ? eventName : 'eventName'}
+          </div>
 
           <div className={styles['view-area']}>
             <div className={styles['view-item']}>
@@ -295,28 +318,56 @@ export default function EventCreateContainer() {
           <div className={styles['time-location-wrapper']}>
             <div className={styles['item-area']}>
               <div className={styles['icon-area']}>
-                <Image alt="icon" src="/icons/calendar.svg" width={16} height={16} />
+                <Image
+                  alt="icon"
+                  src="/icons/calendar.svg"
+                  width={16}
+                  height={16}
+                />
               </div>
               <div className={styles['text-area']}>{startDateForRender}</div>
             </div>
             <div className={styles['item-area']}>
               <div className={styles['icon-area']}>
-                <Image alt="icon" src="/icons/clock.svg" width={16} height={16} />
+                <Image
+                  alt="icon"
+                  src="/icons/clock.svg"
+                  width={16}
+                  height={16}
+                />
               </div>
               <div className={styles['text-area']}>{timeForRender}</div>
             </div>
             <div className={styles['item-area']}>
               <div className={styles['icon-area']}>
-                <Image alt="icon" src="/icons/location.svg" width={16} height={16} />
+                <Image
+                  alt="icon"
+                  src="/icons/location.svg"
+                  width={16}
+                  height={16}
+                />
               </div>
-              <div className={styles['text-area']}>{eventLocation.length ? eventLocation : 'Location'}</div>
+              <div className={styles['text-area']}>
+                {eventLocation.length ? eventLocation : 'Location'}
+              </div>
             </div>
           </div>
-          <div className={styles['event-description-wrapper']}>{eventDescription.length ? eventDescription : 'eventDescription'}</div>
+          <div className={styles['event-description-wrapper']}>
+            {eventDescription.length ? eventDescription : 'eventDescription'}
+          </div>
           <div className={styles['extenral-event-link-wrapper']}>
-            <div className={styles['text-area']}>{eventExternalLink.length ? eventExternalLink : 'eventExternalLink'}</div>
+            <div className={styles['text-area']}>
+              {eventExternalLink.length
+                ? eventExternalLink
+                : 'eventExternalLink'}
+            </div>
             <div className={styles['icon-area']}>
-              <Image alt="icon" src="/icons/caretRight.svg" width={16} height={16} />
+              <Image
+                alt="icon"
+                src="/icons/caretRight.svg"
+                width={16}
+                height={16}
+              />
             </div>
           </div>
         </div>
@@ -326,7 +377,12 @@ export default function EventCreateContainer() {
         <div className={styles['profile-header']}>
           <div className={styles['search-area']}>
             <div className={styles['icon-wrapper']}>
-              <Image alt="icon" src="/icons/search.svg" width={24} height={24} />
+              <Image
+                alt="icon"
+                src="/icons/search.svg"
+                width={24}
+                height={24}
+              />
             </div>
             <div className={styles['text-area']}>Search</div>
           </div>
@@ -339,7 +395,11 @@ export default function EventCreateContainer() {
             >
               <Image
                 alt="icon"
-                src={profileViewMode === 0 ? '/icons/union_ver1_active.svg' : '/icons/union_ver1_inactive.svg'}
+                src={
+                  profileViewMode === 0
+                    ? '/icons/union_ver1_active.svg'
+                    : '/icons/union_ver1_inactive.svg'
+                }
                 width={24}
                 height={24}
               />
@@ -352,7 +412,11 @@ export default function EventCreateContainer() {
             >
               <Image
                 alt="icon"
-                src={profileViewMode === 1 ? '/icons/union_ver2_active.svg' : '/icons/union_ver2_inactive.svg'}
+                src={
+                  profileViewMode === 1
+                    ? '/icons/union_ver2_active.svg'
+                    : '/icons/union_ver2_inactive.svg'
+                }
                 width={24}
                 height={24}
               />
@@ -365,7 +429,11 @@ export default function EventCreateContainer() {
             >
               <Image
                 alt="icon"
-                src={profileViewMode === 2 ? '/icons/union_ver3_active.svg' : '/icons/union_ver3_inactive.svg'}
+                src={
+                  profileViewMode === 2
+                    ? '/icons/union_ver3_active.svg'
+                    : '/icons/union_ver3_inactive.svg'
+                }
                 width={24}
                 height={24}
               />
@@ -377,25 +445,37 @@ export default function EventCreateContainer() {
           <div className={clsx(styles['item-area'], styles['active'])}>
             <div className={styles['text-area']}>all</div>
             <div className={styles['icon-wrapper']}>
-              <Image alt="icon" src="/icons/arrowDown_active.svg" width={24} height={24} />
+              <Image
+                alt="icon"
+                src="/icons/arrowDown_active.svg"
+                width={24}
+                height={24}
+              />
             </div>
           </div>
 
-          {['industry', 'hobby', 'interest', 'favorite', 'bookmarks'].map((v, i) => {
-            return (
-              <div className={styles['item-area']} key={`item-${i}`}>
-                <div className={styles['text-area']}>{v}</div>
-                <div className={styles['icon-wrapper']}>
-                  <Image alt="icon" src="/icons/arrowDown_inactive.svg" width={24} height={24} />
+          {['industry', 'hobby', 'interest', 'favorite', 'bookmarks'].map(
+            (v, i) => {
+              return (
+                <div className={styles['item-area']} key={`item-${i}`}>
+                  <div className={styles['text-area']}>{v}</div>
+                  <div className={styles['icon-wrapper']}>
+                    <Image
+                      alt="icon"
+                      src="/icons/arrowDown_inactive.svg"
+                      width={24}
+                      height={24}
+                    />
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            }
+          )}
         </div>
 
         <div
           className={clsx(styles['profile-card-wrapper'], {
-            [styles['mobile']]: previewMode === 'mobile'
+            [styles['mobile']]: previewMode === 'mobile',
           })}
         >
           {[...Array(previewMode === 'mobile' ? 2 : 6)].map((v, i) => {
@@ -404,31 +484,69 @@ export default function EventCreateContainer() {
                 <div className={styles['profile-card']}>
                   <div className={styles['card-header']}>
                     <div className={styles['icon-wrapper']}>
-                      <Image alt="icon" src="/icons/bookmark.svg" width={24} height={24} />
+                      <Image
+                        alt="icon"
+                        src="/icons/bookmark.svg"
+                        width={24}
+                        height={24}
+                      />
                     </div>
-                    <div className={clsx(styles['icon-wrapper'], styles['circle-bg'])}>
-                      <Image alt="icon" src="/icons/comment.svg" width={24} height={24} />
+                    <div
+                      className={clsx(
+                        styles['icon-wrapper'],
+                        styles['circle-bg']
+                      )}
+                    >
+                      <Image
+                        alt="icon"
+                        src="/icons/comment.svg"
+                        width={24}
+                        height={24}
+                      />
                     </div>
                   </div>
                   <div className={styles['main-info']}>
                     <div className={styles['info-content']}>
                       <div className={styles['info-location']}>
                         <div className={styles['icon-wrapper']}>
-                          <Image alt="icon" src="/icons/location.svg" width={16} height={16} />
+                          <Image
+                            alt="icon"
+                            src="/icons/location.svg"
+                            width={16}
+                            height={16}
+                          />
                         </div>
-                        <div className={styles['text-area']}>San Fancisco, USA</div>
+                        <div className={styles['text-area']}>
+                          San Fancisco, USA
+                        </div>
                       </div>
-                      <div className={styles['info-name']}>{`sample user${i + 1}`}</div>
+                      <div className={styles['info-name']}>{`sample user${
+                        i + 1
+                      }`}</div>
                       <div className={styles['info-position']}>
-                        <div className={clsx(styles['position-tag'], styles['active'])}>Product</div>
+                        <div
+                          className={clsx(
+                            styles['position-tag'],
+                            styles['active']
+                          )}
+                        >
+                          Product
+                        </div>
                         <div className={styles['position-tag']}>CPO</div>
                       </div>
                     </div>
                     <div className={styles['profile-image']}>
-                      <Image alt="icon" src="/icons/profile_image.jpg" width={64} height={64} />
+                      <Image
+                        alt="icon"
+                        src="/icons/profile_image.jpg"
+                        width={64}
+                        height={64}
+                      />
                     </div>
                   </div>
-                  <div className={styles['tmp-classname']}>{`Hi, I am sample user${i + 1}. Glimpse!`}</div>
+                  <div
+                    className={styles['tmp-classname']}
+                  >{`Hi, I am sample user${i + 1}. Glimpse!`}</div>
                   <div className={styles['tag-info']}>
                     <div className={styles['tag-item']}>#puppylove</div>
                     <div className={styles['tag-item']}>#coding</div>
@@ -436,13 +554,28 @@ export default function EventCreateContainer() {
                   </div>
                   <div className={styles['sns-channel']}>
                     <div className={styles['icon-wrapper']}>
-                      <Image alt="icon" src="/icons/github_icon.jpg" width={32} height={32} />
+                      <Image
+                        alt="icon"
+                        src="/icons/github_icon.jpg"
+                        width={32}
+                        height={32}
+                      />
                     </div>
                     <div className={styles['icon-wrapper']}>
-                      <Image alt="icon" src="/icons/instagram_icon.svg" width={32} height={32} />
+                      <Image
+                        alt="icon"
+                        src="/icons/instagram_icon.svg"
+                        width={32}
+                        height={32}
+                      />
                     </div>
                     <div className={styles['icon-wrapper']}>
-                      <Image alt="icon" src="/icons/link_icon.svg" width={32} height={32} />
+                      <Image
+                        alt="icon"
+                        src="/icons/link_icon.svg"
+                        width={32}
+                        height={32}
+                      />
                     </div>
                   </div>
                 </div>
@@ -455,25 +588,57 @@ export default function EventCreateContainer() {
       <div className={styles['create-area']}>
         <div className={styles['header-area']}>
           <div className={styles['title-text']}>Glimpse Builder</div>
-          <div className={styles['sub-title-text']}>Input into this field to see the real-time web view on the left.</div>
+          <div className={styles['sub-title-text']}>
+            Input into this field to see the real-time web view on the left.
+          </div>
         </div>
         <div className={styles['body-area']}>
-          <Input name="Event Name *" value={eventName} handleValue={handleEventTitle} placeHolder="Name" />
+          <Input
+            name="Event Name *"
+            value={eventName}
+            handleValue={handleEventTitle}
+            placeHolder="Name"
+          />
           <div className={styles['event-type-radio']}>
-            <Radio name="Event Type *" value={eventType} items={eventTypeItems} handleValue={handleEventType} />
+            <Radio
+              name="Event Type *"
+              value={eventType}
+              items={eventTypeItems}
+              handleValue={handleEventType}
+            />
           </div>
           <div className={styles['event-visibility-radio']}>
-            <Radio name="Event Visibility *" value={eventVisibility} items={eventVisibilityItems} handleValue={handleEventVisibility} />
+            <Radio
+              name="Event Visibility *"
+              value={eventVisibility}
+              items={eventVisibilityItems}
+              handleValue={handleEventVisibility}
+            />
           </div>
-          <DatePicker startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate} />
+          <DatePicker
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+          />
           <Input
             name="Event Location"
             value={eventLocation}
             handleValue={handleEventLocation}
             placeHolder="Offline location or virtual link"
           />
-          <Input name="External Event Link" value={eventExternalLink} handleValue={handleEventExternalLink} placeHolder="http://" />
-          <Input name="Event handle" value={eventHandle} handleValue={handleEventHandle} placeHolder="e.g., unique identifier or name" />
+          <Input
+            name="External Event Link"
+            value={eventExternalLink}
+            handleValue={handleEventExternalLink}
+            placeHolder="http://"
+          />
+          <Input
+            name="Event handle"
+            value={eventHandle}
+            handleValue={handleEventHandle}
+            placeHolder="e.g., unique identifier or name"
+          />
           <div ref={descriptionRef}>
             <TextArea
               name="Event Description"
@@ -487,7 +652,7 @@ export default function EventCreateContainer() {
               name="Event Tag"
               valueArr={eventTag}
               placeHolder="Tag"
-              handleEnter={(e) => {
+              handleEnter={e => {
                 onHandleEventTag(e);
               }}
             />
@@ -520,16 +685,27 @@ export default function EventCreateContainer() {
                   ? {
                       backgroundImage: `url(${imgUrl})`,
                       backgroundSize: 'cover',
-                      backgroundRepeat: 'no-repeat'
+                      backgroundRepeat: 'no-repeat',
                     }
                   : {}
               }
             >
               <label htmlFor="fileUpload" className={styles['label-button']}>
-                <Image alt="icon" src="/icons/fileUpload.svg" width={20} height={20} />
+                <Image
+                  alt="icon"
+                  src="/icons/fileUpload.svg"
+                  width={20}
+                  height={20}
+                />
                 {imgUrl ? 'reset' : 'Add Cover'}
               </label>
-              <input style={{ display: 'none' }} type="file" name="fileUpload" id="fileUpload" onChange={handleImageUpload}></input>
+              <input
+                style={{display: 'none'}}
+                type="file"
+                name="fileUpload"
+                id="fileUpload"
+                onChange={handleImageUpload}
+              ></input>
             </div>
           </div>
           <div className={styles['footer-area']}>

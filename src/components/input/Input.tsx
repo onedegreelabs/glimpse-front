@@ -7,7 +7,13 @@ interface InputProps {
   placeHolder: string;
   handleEnter?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
-export default function Input({ name, value, handleValue, placeHolder, handleEnter }: InputProps) {
+export default function Input({
+  name,
+  value,
+  handleValue,
+  placeHolder,
+  handleEnter,
+}: InputProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (handleValue) {
       handleValue(e.target.value);
@@ -26,7 +32,7 @@ export default function Input({ name, value, handleValue, placeHolder, handleEnt
         placeholder={placeHolder}
         defaultValue={value}
         onChange={handleValue ? handleChange : undefined}
-        onKeyDown={(e) => {
+        onKeyDown={e => {
           handleKeyDown(e);
         }}
       />

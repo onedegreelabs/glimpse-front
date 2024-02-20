@@ -3,15 +3,15 @@ import Chip from '@/components/chip/Chip';
 import styles from './boxView.module.scss';
 import Card from '@/components/card/Card';
 import IconText from '@/components/iconText/IconText';
-import { userData } from '../type';
+import {userData} from '../type';
 import Image from 'next/image';
 import clsx from 'clsx';
-import { useRouter } from 'next/navigation';
+import {useRouter} from 'next/navigation';
 interface BoxProps {
   userList: userData[];
 }
 
-export default function BoxView({ userList }: BoxProps) {
+export default function BoxView({userList}: BoxProps) {
   const srcList = [
     '/assets/favicon/facebook.jpg',
     '/assets/favicon/github.jpg',
@@ -19,7 +19,7 @@ export default function BoxView({ userList }: BoxProps) {
     '/assets/favicon/linkedin.jpg',
     '/assets/favicon/instagram.jpg',
     '/assets/favicon/dribble.jpg',
-    '/assets/favicon/medium.jpg'
+    '/assets/favicon/medium.jpg',
   ];
   const router = useRouter();
 
@@ -40,10 +40,25 @@ export default function BoxView({ userList }: BoxProps) {
             <div className={styles['glimpse-list-wrapper']}>
               <div className={styles['card-header']}>
                 <div className={styles['icon-wrapper']}>
-                  <Image alt="bookmark-icon" src={'/icons/bookmark-icon.svg'} width={24} height={24} />
+                  <Image
+                    alt="bookmark-icon"
+                    src={'/icons/bookmark-icon.svg'}
+                    width={24}
+                    height={24}
+                  />
                 </div>
-                <div className={clsx(styles['icon-wrapper'], styles['comment-icon'])}>
-                  <Image alt="chat-icon" src={'/icons/comment.svg'} width={24} height={24} />
+                <div
+                  className={clsx(
+                    styles['icon-wrapper'],
+                    styles['comment-icon']
+                  )}
+                >
+                  <Image
+                    alt="chat-icon"
+                    src={'/icons/comment.svg'}
+                    width={24}
+                    height={24}
+                  />
                 </div>
               </div>
               <div className={styles['profile-wrapper']}>
@@ -71,7 +86,10 @@ export default function BoxView({ userList }: BoxProps) {
                   </div>
                 </div>
                 <Avatar
-                  src={data.profileImageUrl ?? '/assets/glimpse-list/temp-glimpse-list-img.jpg'}
+                  src={
+                    data.profileImageUrl ??
+                    '/assets/glimpse-list/temp-glimpse-list-img.jpg'
+                  }
                   alt="프로필이미지"
                   height={70}
                   width={70}
@@ -95,7 +113,13 @@ export default function BoxView({ userList }: BoxProps) {
               </div>
               <div className={styles['link-wrapper']}>
                 {data.cards[3].content.map((_, index: number) => (
-                  <Image key={`link_${index}`} src={srcList[Math.floor(Math.random() * 7)]} alt={'img'} width={32} height={32} />
+                  <Image
+                    key={`link_${index}`}
+                    src={srcList[Math.floor(Math.random() * 7)]}
+                    alt={'img'}
+                    width={32}
+                    height={32}
+                  />
                 ))}
               </div>
             </div>

@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import styles from './eventInfo.module.scss';
 import Link from 'next/link';
 import IconText from '@/components/iconText/IconText';
-import { clsx } from 'clsx';
-import { events } from '@/services/api';
-import { useSearchParams } from 'next/navigation';
+import {clsx} from 'clsx';
+import {events} from '@/services/api';
+import {useSearchParams} from 'next/navigation';
 
 export default function EventInfo() {
   const searchParams = useSearchParams();
@@ -62,7 +62,9 @@ export default function EventInfo() {
     const minutes = String(dateObj.getMinutes()).padStart(2, '0');
 
     const formattedDate = `${year}/${month}/${day}`;
-    const formattedTime = `${hours}:${minutes} ${dateObj.getHours() >= 12 ? 'PM' : 'AM'}`;
+    const formattedTime = `${hours}:${minutes} ${
+      dateObj.getHours() >= 12 ? 'PM' : 'AM'
+    }`;
     setDateText(formattedDate);
     setTimeText(formattedTime);
   }, [startDate]);
@@ -82,11 +84,29 @@ export default function EventInfo() {
         </div>
         <div className={styles['event-info-top-wrapper']}>
           <div className={styles['event-date-wrapper']}>
-            <IconText src={'/assets/glimpse-list/calendar-icon.svg'} alt={'달력 아이콘'} width={24} height={24} text={dateText} />
-            <IconText src={'/assets/glimpse-list/clock-icon.svg'} alt={'시계 아이콘'} width={24} height={24} text={timeText} />
+            <IconText
+              src={'/assets/glimpse-list/calendar-icon.svg'}
+              alt={'달력 아이콘'}
+              width={24}
+              height={24}
+              text={dateText}
+            />
+            <IconText
+              src={'/assets/glimpse-list/clock-icon.svg'}
+              alt={'시계 아이콘'}
+              width={24}
+              height={24}
+              text={timeText}
+            />
           </div>
           <div>
-            <IconText src={'/assets/glimpse-list/location-icon.svg'} alt={'위치 아이콘'} width={24} height={24} text={location} />
+            <IconText
+              src={'/assets/glimpse-list/location-icon.svg'}
+              alt={'위치 아이콘'}
+              width={24}
+              height={24}
+              text={location}
+            />
           </div>
         </div>
         <div className={styles['tag-wrapper']}>
@@ -103,7 +123,7 @@ export default function EventInfo() {
           <p
             className={clsx({
               [styles['close']]: !openMore,
-              [styles['open']]: openMore
+              [styles['open']]: openMore,
             })}
           >
             {description}
@@ -112,7 +132,11 @@ export default function EventInfo() {
         <div className={styles['more-button-wrapper']}>
           <button onClick={onClickMore}>
             <IconText
-              src={openMore ? '/assets/glimpse-list/caret-up.svg' : '/assets/glimpse-list/caret-down.svg'}
+              src={
+                openMore
+                  ? '/assets/glimpse-list/caret-up.svg'
+                  : '/assets/glimpse-list/caret-down.svg'
+              }
               alt={'이벤트 설명 펼침 아이콘'}
               width={24}
               height={24}

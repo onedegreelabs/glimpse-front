@@ -16,11 +16,19 @@ interface SelectProps {
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-export default function Select({ name, defaultValue, options, value, hidden = false, hiddenOption, onChange }: SelectProps) {
+export default function Select({
+  name,
+  defaultValue,
+  options,
+  value,
+  hidden = false,
+  hiddenOption,
+  onChange,
+}: SelectProps) {
   return (
     <select
       className={clsx(styles['filtering'], {
-        [styles['selected-filter']]: value !== ''
+        [styles['selected-filter']]: value !== '',
       })}
       name={name}
       defaultValue={defaultValue}

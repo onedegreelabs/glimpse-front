@@ -3,10 +3,10 @@
 import Chip from '@/components/chip/Chip';
 import styles from './topBanner.module.scss';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import { events } from '@/services/api';
-import { useSearchParams } from 'next/navigation';
-import testImg from './test.jpg';
+import {useEffect, useState} from 'react';
+import {events} from '@/services/api';
+import {useSearchParams} from 'next/navigation';
+// import testImg from './test.jpg';
 
 export default function TopBanner() {
   const searchParams = useSearchParams();
@@ -40,7 +40,7 @@ export default function TopBanner() {
 
   return (
     <div className={styles['event-thumbnail-wrapper']}>
-      <Image className={styles['event-thumbnail']} src={testImg} alt="이벤트 썸네일"></Image>
+      {/* <Image className={styles['event-thumbnail']} src={testImg} alt="이벤트 썸네일"></Image> */}
       <div className={styles['event-info-wrapper']}>
         <div className={styles['info-header']}>
           <div className={styles['info-type']}>
@@ -62,7 +62,12 @@ export default function TopBanner() {
             />
           </div>
           <div className={styles['share-btn-wrapper']}>
-            <Image alt="share-icon" src="/icons/shareBox.svg" width={24} height={24} />
+            <Image
+              alt="share-icon"
+              src="/icons/shareBox.svg"
+              width={24}
+              height={24}
+            />
           </div>
         </div>
         <div className={styles['info-middle']}>
