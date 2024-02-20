@@ -3,7 +3,7 @@ import Chip from '@/components/chip/Chip';
 import styles from './boxView.module.scss';
 import Card from '@/components/card/Card';
 import IconText from '@/components/iconText/IconText';
-import {userData} from '../type';
+import {userData} from '../../../../types/events/eventDetail';
 import Image from 'next/image';
 import clsx from 'clsx';
 import {useRouter} from 'next/navigation';

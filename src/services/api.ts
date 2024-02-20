@@ -5,7 +5,7 @@ import {
   tokenValidInstance,
 } from './headers';
 import {IProfile, IProfileUpdate} from '@/types/profileType';
-import {CreateEventType} from '@/types/eventCreate';
+import {CreateEventType} from '@/types/events/eventCreate';
 
 export const sendMailWithCode = async (email: string) => {
   return await axiosInstance().post('mails/code', {
