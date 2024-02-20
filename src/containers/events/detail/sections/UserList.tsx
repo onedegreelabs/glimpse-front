@@ -12,6 +12,7 @@ import Button from '@/components/button/Button';
 import SearchWrapper from '../components/SearchWrapper';
 import ViewIconWrapper from '../components/ViewIconWrapper';
 import FilteringWrapper from '../components/FilteringWrapper';
+import {useWindowWidth} from '@/hooks/useWindowWidth';
 
 export default function UserList() {
   const userList = eventUserListData;
@@ -22,20 +23,7 @@ export default function UserList() {
     setUserListForRender(userList);
   }, [userList]);
 
-  const [windowWidth, setWindowWidth] = useState(0);
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const handleResize = () => {
-        setWindowWidth(window.innerWidth);
-      };
-      window.addEventListener('resize', handleResize);
-
-      return () => {
-        window.removeEventListener('resize', handleResize);
-      };
-    }
-    return;
-  }, []);
+  const windowWidth = useWindowWidth();
 
   useEffect(() => {
     if (windowWidth > 768 && toggleView === 'list') {
