@@ -2,24 +2,15 @@ import styles from './eventInfo.module.scss';
 import Link from 'next/link';
 import IconText from '@/components/iconText/IconText';
 import {eventData} from '../mock/mock';
-import EventDescription from '../components/eventDescription';
+import EventDescription from '../components/EventDescription';
+import {getDateTextFromDateObj, getTimeTextFromDateObj} from '@/lib/utils';
 
 export default function EventInfo() {
   const {eventLink, startDate, tags, location, description} = eventData;
 
   const dateObj = new Date(startDate);
-  const year = dateObj.getFullYear();
-  const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-  const day = String(dateObj.getDate()).padStart(2, '0');
-  const hours = String(dateObj.getHours()).padStart(2, '0');
-  const minutes = String(dateObj.getMinutes()).padStart(2, '0');
-
-  const formattedDate = `${year}/${month}/${day}`;
-  const formattedTime = `${hours}:${minutes} ${
-    dateObj.getHours() >= 12 ? 'PM' : 'AM'
-  }`;
-  const dateText = formattedDate;
-  const timeText = formattedTime;
+  const dateText = getDateTextFromDateObj(dateObj);
+  const timeText = getTimeTextFromDateObj(dateObj);
 
   return (
     <section className={styles['header-content-area']}>

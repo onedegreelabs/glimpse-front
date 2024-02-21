@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import BoxView from '../components/BoxView';
 import GridView from '../components/GridView';
 import ListView from '../components/ListView';
-import {userData} from '../../../../types/events/eventDetail';
+import {userData} from '../type';
 import {eventUserListData} from '../mock/mock';
 import Button from '@/components/button/Button';
 import SearchWrapper from '../components/SearchWrapper';

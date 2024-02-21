@@ -2,7 +2,7 @@ import Avatar from '@/containers/events/detail/components/Avatar';
 import Chip from '@/components/chip/Chip';
 import styles from './gridView.module.scss';
 import Card from '@/components/card/Card';
-import {userData} from '../../../../types/events/eventDetail';
+import {userData} from '../type';
 import Image from 'next/image';
 import clsx from 'clsx';
 import {useRouter} from 'next/navigation';

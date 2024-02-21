@@ -3,7 +3,7 @@ import Chip from '@/components/chip/Chip';
 import styles from './boxView.module.scss';
 import Card from '@/components/card/Card';
 import IconText from '@/components/iconText/IconText';
-import {userData} from '../../../../types/events/eventDetail';
+import {userData} from '../type';
 import Image from 'next/image';
 import clsx from 'clsx';
 import {useRouter} from 'next/navigation';
@@ -99,17 +99,19 @@ export default function BoxView({userList}: BoxProps) {
                 <p>{data.introSnippet}</p>
               </div>
               <div className={styles['hobby-wrapper']}>
-                {data.cards[4].content.map((d: string, index: number) => (
-                  <Chip
-                    key={`hobby-${index}`}
-                    label={`#${d}`}
-                    height={24}
-                    backgroundColor="#F3F3F3"
-                    borderRadius={30}
-                    fontSize={12}
-                    fontWeight={600}
-                  />
-                ))}
+                {data.cards[4].content.map(
+                  (d: string | number, index: number) => (
+                    <Chip
+                      key={`hobby-${index}`}
+                      label={`#${d}`}
+                      height={24}
+                      backgroundColor="#F3F3F3"
+                      borderRadius={30}
+                      fontSize={12}
+                      fontWeight={600}
+                    />
+                  )
+                )}
               </div>
               <div className={styles['link-wrapper']}>
                 {data.cards[3].content.map((_, index: number) => (
