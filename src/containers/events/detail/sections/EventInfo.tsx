@@ -1,78 +1,16 @@
-'use client';
-
-import {useEffect, useState} from 'react';
 import styles from './eventInfo.module.scss';
 import Link from 'next/link';
 import IconText from '@/components/iconText/IconText';
-import {clsx} from 'clsx';
-import {events} from '@/services/api';
-import {useSearchParams} from 'next/navigation';
+import {eventData} from '../mock/mock';
+import EventDescription from '../components/EventDescription';
+import {getDateTextFromDateObj, getTimeTextFromDateObj} from '@/lib/utils';
 
 export default function EventInfo() {
-  const searchParams = useSearchParams();
-  const eventId = Number(searchParams?.get('eventId'));
+  const {eventLink, startDate, tags, location, description} = eventData;
 
-  const [eventLink, setEventLink] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [tags, setTags] = useState([]);
-  const [location, setLocation] = useState('');
-  const [description, setDescription] = useState('');
-
-  // testCode
-  useEffect(() => {
-    setEventLink('www.panseung.com');
-    setDescription(
-      '이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!!'
-    );
-    setLocation('서울 특별시 어쩌구 저쩌구 열두시 비둘기구구구');
-    setTimeText('임시 타임 12시 32분');
-    setDateText('임시 24년 13월 33일');
-  });
-
-  const getEventData = async (id: number) => {
-    const res = await events.detail.getEventList(id);
-    if (res?.data?.data) {
-      setEventLink(res.data.data.link);
-      setStartDate(res.data.data.startDate);
-      setLocation(res.data.data.location);
-      setDescription(res.data.data.description);
-      setTags(res.data.data.tags);
-    }
-    return res?.data?.data;
-  };
-
-  // useEffect(() => {
-  //   if (eventId) {
-  //     getEventData(eventId);
-  //   } else {
-  //     getEventData(66);
-  //   }
-  // }, [eventId]);
-
-  const [dateText, setDateText] = useState('');
-  const [timeText, setTimeText] = useState('');
-
-  // 렌더링에 필요한 시간 계산 로직
-  useEffect(() => {
-    const dateObj = new Date(startDate);
-    const year = dateObj.getFullYear();
-    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-    const day = String(dateObj.getDate()).padStart(2, '0');
-    const hours = String(dateObj.getHours()).padStart(2, '0');
-    const minutes = String(dateObj.getMinutes()).padStart(2, '0');
-
-    const formattedDate = `${year}/${month}/${day}`;
-    const formattedTime = `${hours}:${minutes} ${
-      dateObj.getHours() >= 12 ? 'PM' : 'AM'
-    }`;
-    setDateText(formattedDate);
-    setTimeText(formattedTime);
-  }, [startDate]);
-
-  const [openMore, setOpenMore] = useState(false);
-  const onClickMore = () => {
-    setOpenMore(!openMore);
-  };
+  const dateObj = new Date(startDate);
+  const dateText = getDateTextFromDateObj(dateObj);
+  const timeText = getTimeTextFromDateObj(dateObj);
 
   return (
     <section className={styles['header-content-area']}>
@@ -119,32 +57,7 @@ export default function EventInfo() {
               );
             })}
         </div>
-        <div className={styles['event-content-area']}>
-          <p
-            className={clsx({
-              [styles['close']]: !openMore,
-              [styles['open']]: openMore,
-            })}
-          >
-            {description}
-          </p>
-        </div>
-        <div className={styles['more-button-wrapper']}>
-          <button onClick={onClickMore}>
-            <IconText
-              src={
-                openMore
-                  ? '/assets/glimpse-list/caret-up.svg'
-                  : '/assets/glimpse-list/caret-down.svg'
-              }
-              alt={'이벤트 설명 펼침 아이콘'}
-              width={24}
-              height={24}
-              text={'More'}
-              textWeight={600}
-            />
-          </button>
-        </div>
+        <EventDescription description={description} />
       </section>
     </section>
   );

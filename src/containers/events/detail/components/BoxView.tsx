@@ -99,17 +99,19 @@ export default function BoxView({userList}: BoxProps) {
                 <p>{data.introSnippet}</p>
               </div>
               <div className={styles['hobby-wrapper']}>
-                {data.cards[4].content.map((d: string, index: number) => (
-                  <Chip
-                    key={`hobby-${index}`}
-                    label={`#${d}`}
-                    height={24}
-                    backgroundColor="#F3F3F3"
-                    borderRadius={30}
-                    fontSize={12}
-                    fontWeight={600}
-                  />
-                ))}
+                {data.cards[4].content.map(
+                  (d: string | number, index: number) => (
+                    <Chip
+                      key={`hobby-${index}`}
+                      label={`#${d}`}
+                      height={24}
+                      backgroundColor="#F3F3F3"
+                      borderRadius={30}
+                      fontSize={12}
+                      fontWeight={600}
+                    />
+                  )
+                )}
               </div>
               <div className={styles['link-wrapper']}>
                 {data.cards[3].content.map((_, index: number) => (
