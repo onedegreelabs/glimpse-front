@@ -6,11 +6,15 @@ import {Button} from '@/components/ui/button';
 import {useMutation} from '@tanstack/react-query';
 import {signout} from '@/services/auth';
 
-export default function SignContainer() {
-  const {authType, email} = useAuth();
+export default function SignContainer({
+  user,
+}: {
+  user: {user: {id: number; email: string; isAuthenticated: boolean}} | null;
+}) {
+  const {authType} = useAuth();
 
   const {mutateAsync: signoutMutation} = useMutation({
-    mutationFn: async () => await signout({email}),
+    mutationFn: async () => await signout({email: user!.user.email}),
   });
 
   const signPayload =
@@ -32,7 +36,7 @@ export default function SignContainer() {
       <Button
         variant="secondary"
         onClick={() => {
-          if (email !== '') {
+          if (user) {
             signoutMutation();
           }
         }}

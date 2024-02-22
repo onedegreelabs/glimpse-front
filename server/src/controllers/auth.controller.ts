@@ -91,6 +91,11 @@ export const signupORsignin = async (
       60 * 60 * 24 * 7
     );
 
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 1),
+      secure: process.env.NODE_ENV === 'production',
+    });
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
@@ -136,9 +141,15 @@ export const signout = async (req: Request, res: Response) => {
     },
   });
 
-  res.cookie('token', 'logout', {
+  res.cookie('accessToken', 'logout', {
     httpOnly: true,
     expires: new Date(Date.now()),
+    secure: process.env.NODE_ENV === 'production',
+  });
+  res.cookie('refreshToken', 'logout', {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+    secure: process.env.NODE_ENV === 'production',
   });
   res.status(StatusCodes.OK).json({
     message: '유저가 로그아웃 되었습니다.',

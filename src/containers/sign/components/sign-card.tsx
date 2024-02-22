@@ -38,7 +38,7 @@ export default function SignCard({title, subTitle}: SignCardType) {
         router.push('/events/new');
       }
 
-      setError(err.response.data.message || 'Error!!!');
+      setError(err.response?.data.message || 'Error!!!');
     },
     onSuccess: ({data}) => {
       if (data.code) {
