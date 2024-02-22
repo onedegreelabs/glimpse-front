@@ -1,34 +1,34 @@
-import {NotAuthorizedError} from '@/shared/custom-error-handler';
-import {redis} from '@/shared/db';
-import {verifyJWT} from '@/shared/token';
+import {
+  BadRequestError,
+  NotAuthorizedError,
+} from '@/shared/custom-error-handler';
+import {db, redis} from '@/shared/db';
+import {config} from '@/config';
 import {NextFunction, Request, Response} from 'express';
+import jwt from 'jsonwebtoken';
 
-export const authenticateUser = (
+export const verifyToken = (
   req: Request,
   _res: Response,
   next: NextFunction
 ) => {
-  if (!req.cookies?.token)
-    throw new NotAuthorizedError(
-      '인증 오류',
-      'Middleware authenticateUser() method error'
-    );
-
-  const {token} = req.cookies;
-
   try {
-    const {id, name, email} = verifyJWT(token);
-    //@ts-ignore
-    req.currentUser = {id, name, email};
-    //@ts-ignore
-    console.log(req.currentUser);
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      throw new NotAuthorizedError(
+        'AccessToken이 유효하지 않습니다',
+        'Middleware verifyToken() method error'
+      );
+    }
 
+    const accessToken = authHeader.split(' ')[1];
+
+    const decoded = jwt.verify(accessToken, config.ACCESS_TOKEN_SECRET!);
+    //@ts-ignore
+    req.user = decoded;
     next();
   } catch (error) {
-    throw new NotAuthorizedError(
-      '인증 오류',
-      'Middleware authenticateUser() method error'
-    );
+    next(error);
   }
 };
 
@@ -49,7 +49,25 @@ export const verifyAuthCodeFromHeader = async (
     const decoded = Buffer.from(encoded, 'base64').toString();
     const [email, code] = decoded.split(':');
 
-    const storedCode = await redis.get(`authCode:${email}`);
+    const redisCode = await redis.get(`authCode:${email}`);
+    const user = await db.user.findUnique({
+      where: {
+        email,
+      },
+    });
+    console.log(user);
+
+    if (!user)
+      throw new BadRequestError(
+        '해당 이메일로 가입한 정보를 찾을 수 없습니다.',
+        'Middleware/auth.middleware verifyAuthCodeFromHeader() method error',
+        null
+      );
+    const dbCode = user.code;
+
+    const storedCode = redisCode ? redisCode : dbCode;
+    console.log(dbCode);
+
     if (!storedCode || storedCode !== code)
       throw new NotAuthorizedError(
         '인증 코드가 유효하지 않거나 만료되었습니다.',

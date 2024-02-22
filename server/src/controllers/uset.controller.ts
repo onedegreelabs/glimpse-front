@@ -1,29 +1,37 @@
+import {BadRequestError} from '@/shared/custom-error-handler';
 import {db} from '@/shared/db';
-import {Request, Response} from 'express';
+import {NextFunction, Request, Response} from 'express';
 import {StatusCodes} from 'http-status-codes';
 
-export const getCurrentUser = async (req: Request, res: Response) => {
+export const verifyUserToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   //@ts-ignore
-  const {id} = req.currentUser;
+  const id = req.user.id;
 
-  const user = await db.user.findUnique({
-    where: {
-      id,
-    },
-  });
-  if (!user) {
-    res.status(StatusCodes.BAD_REQUEST).json({
-      message: '해당 유저 정보를 찾을 수 없습니다.',
-      data: null,
+  try {
+    const user = await db.user.findUnique({
+      where: {id},
     });
-    console.log('Controller getCurrentUser() method error');
-    return;
-  }
 
-  res.status(StatusCodes.OK).json({
-    message: '유저가 정상적으로 불러와졌습니다.',
-    data: {
-      user,
-    },
-  });
+    if (!user)
+      throw new BadRequestError(
+        '해당 이메일로 가입한 정보를 찾을 수 없습니다.',
+        'Controller/user.controller verifyUserToken() method error',
+        null
+      );
+
+    res.status(StatusCodes.OK).json({
+      message: '유저를 성공적으로 불러왔습니다.',
+      user: {
+        id: user.id,
+        email: user.email,
+        isAuthenticated: user.isAuthenticated,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };

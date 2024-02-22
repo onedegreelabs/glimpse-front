@@ -4,25 +4,15 @@ import jwt from 'jsonwebtoken';
 type CreateJwtType = {
   id: number;
   email: string;
-  name?: string;
 };
 
-type JwtPayload = {
-  id: number;
-  email: string;
-  name: string;
-  iat?: number;
-  exp?: number;
-};
-
-export const createJWT = ({id, email}: CreateJwtType) => {
-  const token = jwt.sign({id, email}, config.JWT_TOKEN!, {
+export const generateTokens = (payload: CreateJwtType) => {
+  const accessToken = jwt.sign(payload, config.ACCESS_TOKEN_SECRET!, {
+    expiresIn: '1d',
+  });
+  const refreshToken = jwt.sign(payload, config.REFRESH_TOKEN_SECRET!, {
     expiresIn: '7d',
   });
-  return token;
-};
 
-export const verifyJWT = (token: string) => {
-  const decoded = jwt.verify(token, config.JWT_TOKEN!) as JwtPayload;
-  return decoded;
+  return {accessToken, refreshToken};
 };

@@ -1,6 +1,6 @@
 import {BadRequestError} from '@/shared/custom-error-handler';
 import {db, redis} from '@/shared/db';
-import {createJWT} from '@/shared/token';
+import {generateTokens} from '@/shared/token';
 import {sendResponse} from '@/shared/utils';
 import {NextFunction, Request, Response} from 'express';
 import {StatusCodes} from 'http-status-codes';
@@ -79,17 +79,28 @@ export const signupORsignin = async (
       },
     });
 
-    const token = createJWT({id: userWithCode.id, email: userWithCode.email});
-    res.cookie('token', token, {
+    const {accessToken, refreshToken} = generateTokens({
+      id: userWithCode.id,
+      email: userWithCode.email,
+    });
+
+    await redis.set(
+      `users:auth#${userWithCode.id}`,
+      refreshToken,
+      'EX',
+      60 * 60 * 24 * 7
+    );
+
+    res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
       secure: process.env.NODE_ENV === 'production',
     });
 
     sendResponse(
       res,
       StatusCodes.CREATED,
-      {user: userWithCode},
+      {accessToken},
       '유저가 정상적으로 인증 되었습니다.'
     );
 

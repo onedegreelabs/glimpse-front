@@ -9,6 +9,8 @@ class Config {
   public REDIS_HOST: string | undefined;
   public REDIS_PORT: string | undefined;
   public REDIS_PASSWORD: string | undefined;
+  public ACCESS_TOKEN_SECRET: string | undefined;
+  public REFRESH_TOKEN_SECRET: string | undefined;
 
   constructor() {
     this.NODE_ENV = process.env.NODE_ENV || '';
@@ -18,6 +20,8 @@ class Config {
     this.REDIS_HOST = process.env.REDIS_HOST || '';
     this.REDIS_PORT = process.env.REDIS_PORT || '';
     this.REDIS_PASSWORD = process.env.REDIS_PASSWORD || '';
+    this.ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || '';
+    this.REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || '';
   }
 }
 
