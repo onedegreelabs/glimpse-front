@@ -1,4 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import {config} from '@/config';
+import {PrismaClient} from '@prisma/client';
+import Redis from 'ioredis';
 
 declare global {
   var prisma: PrismaClient | undefined;
@@ -6,7 +8,10 @@ declare global {
 
 export const db = new PrismaClient();
 
-export function exclude<User, Key extends keyof User>(user: User, keys: Key[]): Omit<User, Key> {
+export function exclude<User, Key extends keyof User>(
+  user: User,
+  keys: Key[]
+): Omit<User, Key> {
   const result = {} as Omit<User, Key>;
 
   for (const key in user) {
@@ -17,3 +22,9 @@ export function exclude<User, Key extends keyof User>(user: User, keys: Key[]): 
 
   return result;
 }
+
+export const redis = new Redis({
+  host: config.REDIS_HOST,
+  port: parseInt(config.REDIS_PORT || '6379'),
+  password: config.REDIS_PASSWORD,
+});

@@ -11,7 +11,7 @@
     "moduleResolution": "node",
     "noEmitOnError": true,
     "outDir": "./build",
-    "rootDir": "../..",
+    "rootDir": "src",
     "sourceMap": true,
     "strict": true,
     "target": "es2021",
@@ -24,7 +24,10 @@
     "noUnusedParameters": true,
     "esModuleInterop": true,
     "alwaysStrict": true,
-    "plugins": [{ "transform": "typescript-transform-paths" }, { "transform": "typescript-transform-paths", "afterDeclarations": true }],
+    "plugins": [
+      {"transform": "typescript-transform-paths"},
+      {"transform": "typescript-transform-paths", "afterDeclarations": true}
+    ],
     "paths": {
       "@/*": ["src/*"]
     }

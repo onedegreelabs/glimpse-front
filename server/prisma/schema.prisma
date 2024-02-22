@@ -13,9 +13,10 @@ model User {
   updatedAt DateTime  @default(now()) @updatedAt @db.Timestamp(6)
   deletedAt DateTime? @db.Timestamp(6)
 
-  email String  @unique
-  code  String
-  name  String?
+  email           String  @unique
+  code            String
+  name            String?
+  isAuthenticated Boolean @default(false)
 
   post Post[]
 }

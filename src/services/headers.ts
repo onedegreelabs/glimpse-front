@@ -3,7 +3,7 @@ import Env from '../config/env.json';
 
 export const axiosInstance = function () {
   const serverConnection = axios.create({
-    baseURL: Env['glimpse-rsvp']
+    baseURL: Env['glimpse-rsvp'],
   });
   return serverConnection;
 };
@@ -13,9 +13,9 @@ export const basicAuthInstance = function (email: string, code: string) {
 
   const serverConnection = axios.create({
     headers: {
-      Authorization: authHeader
+      Authorization: authHeader,
     },
-    baseURL: Env['glimpse-rsvp']
+    baseURL: Env['glimpse-rsvp'],
   });
   return serverConnection;
 };
@@ -25,9 +25,9 @@ export const socialAuthInstance = function (socialToken: string) {
 
   const serverConnection = axios.create({
     headers: {
-      Authorization: authHeader
+      Authorization: authHeader,
     },
-    baseURL: Env['glimpse-rsvp']
+    baseURL: Env['glimpse-rsvp'],
   });
   return serverConnection;
 };
@@ -37,12 +37,12 @@ export const tokenValidInstance = function () {
   const serverConnection = axios.create({
     baseURL: Env['glimpse-rsvp'],
     headers: {
-      Authorization: `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   });
   return serverConnection;
 };
 
 export const customAxios = axios.create({
-  baseURL: 'http://localhost:8000/api/v1'
+  baseURL: 'http://localhost:8000/api/v1',
 });

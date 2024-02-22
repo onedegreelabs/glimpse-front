@@ -1,11 +1,14 @@
 @host = http://localhost:8000/api/v1
 
 ### Sign Up
-POST {{host}}/signup
+POST {{host}}/auth-check
 Content-Type: application/json
 
 {
-    "name": "testuser",
-    "password": "password123",
-    "email": "test@example.com"
+    "email": "test08@test.com"
 }
+
+### Sign Up or Sign in
+POST {{host}}/signup-or-signin
+Content-Type: application/json
+Authorization: Bearer dGVzdDA4QHRlc3QuY29tOjQ1MjQ1MA==

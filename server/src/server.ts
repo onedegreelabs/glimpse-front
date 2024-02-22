@@ -1,14 +1,21 @@
 import 'express-async-errors';
 import http from 'http';
-import { Application, NextFunction, Request, Response, json, urlencoded } from 'express';
+import {
+  Application,
+  NextFunction,
+  Request,
+  Response,
+  json,
+  urlencoded,
+} from 'express';
 import hpp from 'hpp';
 import helmet from 'helmet';
 import compression from 'compression';
 import cors from 'cors';
-import { config } from '@/config';
-import { CustomError, IErrorResponse } from '@/shared/custom-error-handler';
-import { appRoutes } from '@/routes';
-import cookieSession from 'cookie-session';
+// import {config} from '@/config';
+import {CustomError, IErrorResponse} from '@/shared/custom-error-handler';
+import {appRoutes} from '@/routes';
+import cookieParser from 'cookie-parser';
 
 const SERVER_PORT = 8000;
 
@@ -21,33 +28,23 @@ export const start = (app: Application): void => {
 };
 
 const securityMiddleware = (app: Application): void => {
-  app.set('trust proxy', 1);
-  app.use(
-    cookieSession({
-      name: 'session',
-      keys: [`${config.SECRET_KEY_ONE}`, `${config.SECRET_KEY_TWO}`],
-      maxAge: 24 * 7 * 3600000,
-      secure: config.NODE_ENV !== 'development',
-      ...(config.NODE_ENV !== 'development' && {
-        sameSite: 'none'
-      })
-    })
-  );
+  // app.set('trust proxy', 1);
+  app.use(cookieParser());
   app.use(hpp());
   app.use(helmet());
   app.use(
     cors({
-      origin: config.CLIENT_URL,
+      origin: 'http://localhost:3000',
       credentials: true,
-      methods: ['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS']
+      methods: ['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS'],
     })
   );
 };
 
 const standardMiddleware = (app: Application): void => {
   app.use(compression());
-  app.use(json({ limit: '200mb' }));
-  app.use(urlencoded({ limit: '200mb', extended: true }));
+  app.use(json({limit: '200mb'}));
+  app.use(urlencoded({limit: '200mb', extended: true}));
 };
 
 const routesMiddleware = (app: Application): void => {
@@ -55,13 +52,20 @@ const routesMiddleware = (app: Application): void => {
 };
 
 const authErrorHandler = (app: Application): void => {
-  app.use((error: IErrorResponse, _req: Request, res: Response, next: NextFunction) => {
-    console.log('error', `MockServer ${error.comingFrom}: `, error);
-    if (error instanceof CustomError) {
-      res.status(error.statusCode).json(error.serializeError());
+  app.use(
+    (
+      error: IErrorResponse,
+      _req: Request,
+      res: Response,
+      next: NextFunction
+    ) => {
+      console.log('error', `MockServer ${error.comingFrom}: `, error);
+      if (error instanceof CustomError) {
+        res.status(error.statusCode).json(error.serializeError());
+      }
+      next();
     }
-    next();
-  });
+  );
 };
 
 const startServer = (app: Application): void => {
