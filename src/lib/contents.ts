@@ -56,3 +56,24 @@ export const introBox = [
     img: '/assets/landing/box03.png',
   },
 ];
+
+export const socialLoginData = [
+  {
+    id: '1',
+    imgUrl: '/assets/sign/apple.png',
+    text: 'Sign in with apple',
+    className: 'bg-[#000000]',
+  },
+  {
+    id: '2',
+    imgUrl: '/assets/sign/google.png',
+    text: 'Sign in with google',
+    className: 'bg-[#0094FF]',
+  },
+  {
+    id: '3',
+    imgUrl: '/assets/sign/linkedin.png',
+    text: 'Sign in with linkedIn',
+    className: 'bg-[#0177B5]',
+  },
+];

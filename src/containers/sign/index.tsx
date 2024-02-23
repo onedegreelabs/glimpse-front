@@ -5,6 +5,7 @@ import {useAuth} from '@/hooks/useAuth';
 import {Button} from '@/components/ui/button';
 import {useMutation} from '@tanstack/react-query';
 import {signout} from '@/services/auth';
+import SoicalLogin from './components/soical-login';
 
 export default function SignContainer({
   user,
@@ -33,6 +34,8 @@ export default function SignContainer({
   return (
     <div>
       <SignCard {...signPayload} />
+      <div className="text-[12px] font-semibold text-center mb-4">OR</div>
+      <SoicalLogin />
       <Button
         variant="secondary"
         onClick={() => {
@@ -40,6 +43,7 @@ export default function SignContainer({
             signoutMutation();
           }
         }}
+        className="mt-6"
       >
         테스트 로그아웃
       </Button>
