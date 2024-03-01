@@ -42,3 +42,7 @@ export const tokenValidInstance = function () {
   });
   return serverConnection;
 };
+
+export const customAxios = axios.create({
+  baseURL: 'https://api.glimpse.rsvp/v1',
+});
