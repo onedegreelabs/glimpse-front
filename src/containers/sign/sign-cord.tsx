@@ -4,13 +4,12 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import {codeSchema} from './sign.schema';
 import {customAxios} from '@/services/headers';
 import {useAuth} from '@/hooks/useAuth';
-import {usePathname, useRouter, useSearchParams} from 'next/navigation';
+import {useRouter, useSearchParams} from 'next/navigation';
 
 export default function SignCord() {
   const {email} = useAuth();
 
   const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const {control, setValue, watch} = useForm({
