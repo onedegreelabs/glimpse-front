@@ -9,7 +9,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import {emailScema} from './sign.schema';
+import {emailScema} from '@/containers/sign/constants/sign.schema';
 import {Input} from '@/components/ui/input';
 import {Button} from '@/components/ui/button';
 import {customAxios} from '@/services/headers';

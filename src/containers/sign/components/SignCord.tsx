@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useForm, Controller} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {codeSchema} from './sign.schema';
+import {codeSchema} from '@/containers/sign/constants/sign.schema';
 import {customAxios} from '@/services/headers';
 import {useAuth} from '@/hooks/useAuth';
 import {useRouter, useSearchParams} from 'next/navigation';

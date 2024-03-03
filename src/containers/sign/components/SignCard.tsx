@@ -1,8 +1,8 @@
 'use client';
 
 import {useAuth} from '@/hooks/useAuth';
-import SignForm from './sign-form';
-import SignCord from './sign-cord';
+import SignForm from './SignForm';
+import SignCord from './SignCord';
 
 export default function SignCard() {
   const {status, email} = useAuth();
