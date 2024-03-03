@@ -1,0 +1,10 @@
+.day-event-wrapper {
+  display: grid;
+  gap: 16px;
+  padding: 28px 0 36px;
+
+  .date-text {
+    font-size: 16px;
+    font-weight: 600;
+  }
+}

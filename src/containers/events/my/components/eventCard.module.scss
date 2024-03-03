@@ -1,0 +1,69 @@
+.event-card-wrapper {
+  display: grid;
+  grid-template-columns: 78px 1fr;
+  grid-template-rows: 78px;
+  gap: 14px;
+  padding: 24px 20px;
+  border-radius: 16px;
+
+  .image-box {
+    width: 78px;
+    height: 78px;
+
+    img {
+      border-radius: 10px;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .right-area {
+    display: grid;
+    grid-template-rows: 20px 24px 22px;
+    gap: 6px;
+
+    .event-title {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .time-and-location {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .people-info {
+      font-size: 14px;
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .host-area {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        .host-img-box {
+          width: 12px;
+          height: 12px;
+
+          img {
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+
+      .participant-area {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+    }
+  }
+}
