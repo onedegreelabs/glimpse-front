@@ -2,7 +2,6 @@
 import styles from './index.module.scss';
 import {useEffect, useState} from 'react';
 
-import {profileApi} from '@/services/api';
 import {DEFAULT_PROFILE} from './constans/defaultValue';
 
 import AddInput from './components/AddInput/AddInput';
@@ -17,6 +16,7 @@ import {
   Intro,
   Profile,
 } from '@/components/profile';
+import {getUserMe as getUserMeFetch} from '@/services/profile';
 
 // TODO: 전역상태 설정한후 모두 바꿔야함
 const MyProfileContainer = () => {
@@ -24,7 +24,7 @@ const MyProfileContainer = () => {
   const [profile, setProfile] = useState<IProfile>(DEFAULT_PROFILE);
 
   useEffect(() => {
-    profileApi.getUserMe().then(res => {
+    getUserMeFetch().then(res => {
       setProfile(res);
       //   getCardsByType(res.cards);
     });
