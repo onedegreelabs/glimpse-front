@@ -1,4 +1,4 @@
-import Container from '@/components/Container/Container';
+import Container from '@/components/container/Container';
 import MyProfileContainer from '@/containers/my/profile';
 import React from 'react';
 
