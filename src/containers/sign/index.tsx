@@ -1,29 +1,16 @@
-'use client';
-
-import styles from './index.module.scss';
-import SignUp from './components/signUp';
-import SignIn from './components/signIn';
-import {useState} from 'react';
+import SignCard from './components/SignCard';
 
 export default function SignContainer() {
-  const [isSendMail, setIsSendMail] = useState(false);
-  const [mailAddress, setMailAddress] = useState('');
   return (
-    <div className={styles['sign-wrapper']}>
-      <div className={styles['sign-header']}>
-        <div className={styles['logo-area']}>
-          <div className={styles['text-area']}>Glimpse</div>
+    <div className="w-full flex items-center justify-center">
+      <div className="w-[350px] px-4 flex flex-col justify-center items-center gap-6">
+        <div className="w-[110px] h-[50px] flex items-center justify-center text-white text-[12px] font-semibold bg-[#7E51FD] rounded-[100px] p-2">
+          Glimpse
+        </div>
+        <div className="shadow-[0px_0px_9px_0px_#00000033] py-10 px-5 min-h-[280px] w-full">
+          <SignCard />
         </div>
       </div>
-      {!isSendMail ? (
-        <SignIn
-          setIsSendMail={setIsSendMail}
-          mailAddress={mailAddress}
-          setMailAddress={setMailAddress}
-        />
-      ) : (
-        <SignUp mailAddress={mailAddress} />
-      )}
     </div>
   );
 }
