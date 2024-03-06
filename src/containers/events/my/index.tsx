@@ -1,12 +1,20 @@
 'use client';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import styles from './index.module.scss';
 import CreateRoundButton from './sections/CreateRoundButton';
 import DayEvent from './sections/DayEvent';
 import EmptyEvent from './sections/EmptyEvent';
-
+import useSWR from 'swr';
+import Env from '../../../config/env.json';
+import {eventsAPI} from '@/services/eventsApi';
 export default function EventMyContainer() {
   const [isEmptyEvent, setIsEmptyEvent] = useState(true);
+  const fetcher = eventsAPI.getAllEvents;
+  const {data, error, isLoading} = useSWR(
+    `${Env['glimpse-rsvp']}/events?take=${3}`,
+    fetcher
+  );
+
   return (
     <div className={styles['event-container-wrapper']}>
       {!isEmptyEvent ? (

@@ -1,7 +1,7 @@
 import {axiosInstance, tokenValidInstance} from './headers';
 
 import {CreateEventType} from '@/containers/events/create/type';
-export const events = {
+export const eventsAPI = {
   create: {
     createEvent: async (imgFile: File | undefined, params: CreateEventType) => {
       const {organizationId} = params;
@@ -37,5 +37,9 @@ export const events = {
         `events/my-events?take=${count}`
       );
     },
+  },
+  getAllEvents: async (url: string) => {
+    const res = await axiosInstance().get(url);
+    return res;
   },
 };
