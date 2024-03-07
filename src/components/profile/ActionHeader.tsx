@@ -1,3 +1,4 @@
+'use client';
 import styles from './actionHeader.module.scss';
 import Image from 'next/image';
 import {useRouter} from 'next/navigation';

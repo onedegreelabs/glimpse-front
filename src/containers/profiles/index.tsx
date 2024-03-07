@@ -1,8 +1,5 @@
-'use client';
 import styles from './index.module.scss';
-import {useEffect, useState} from 'react';
 
-import {profileApi} from '@/services/api';
 import {IProfile} from '@/types/profileType';
 import {DEFAULT_PROFILE} from '../my/profile/constans/defaultValue';
 import {
@@ -13,18 +10,16 @@ import {
   Intro,
   Profile,
 } from '@/components/profile';
+import {getUserOther} from '@/services/profile';
 
-// TODO: 전역상태 설정한후 모두 바꿔야함
-const ProfilesContainer = () => {
-  ///// Profile /////
-  const [profile, setProfile] = useState<IProfile>(DEFAULT_PROFILE);
+const getProfilesFetch = async (id: number): Promise<IProfile> => {
+  const result = await getUserOther(id);
+  return result;
+};
 
-  useEffect(() => {
-    profileApi.getUserMe().then(res => {
-      setProfile(res);
-      //   getCardsByType(res.cards);
-    });
-  }, []);
+const ProfilesContainer = async () => {
+  // TODO: api 연결 테스트
+  const profile = await getProfilesFetch(1);
 
   return (
     <div className={styles['profile-container']}>

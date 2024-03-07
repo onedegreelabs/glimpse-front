@@ -1,3 +1,4 @@
+'use client';
 import styles from './hashtag.module.scss';
 import {useEffect, useState} from 'react';
 

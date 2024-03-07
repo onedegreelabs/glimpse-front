@@ -1,3 +1,4 @@
+'use client';
 import styles from './profile.module.scss';
 
 import IconText from '@/components/iconText/IconText';
