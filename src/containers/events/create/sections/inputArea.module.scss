@@ -1,0 +1,178 @@
+.input-area {
+  display: grid;
+  gap: 24px;
+  padding: 0 16px;
+
+  input {
+    padding: 0 12px;
+    width: 343px;
+    border: 1px solid #DADADA;
+    border-radius: 8px;
+    font-size: 14px;
+    height: 40px;
+    font-weight: 400;
+  }
+
+  textarea {
+    padding: 12px;
+    width: 343px;
+    min-height: 120px;
+    border: 1px solid #DADADA;
+    border-radius: 8px;
+    font-size: 14px;
+    height: 40px;
+    font-weight: 400;
+    resize: none;
+  }
+
+  .row-area {
+    display: grid;
+    gap: 12px;
+    position: relative;
+
+    .limit-text {
+      position: absolute;
+      right: 4px;
+      bottom: -20px;
+      font-size: 12px;
+      color: #9c9c9c;
+      font-weight: 400;
+    }
+
+    .title-area {
+      height: 24px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+
+      &.required {
+        position: relative;
+
+        &::after {
+          position: absolute;
+          content: '*';
+          color: #764BE5;
+          padding-left: 4px;
+        }
+      }
+    }
+
+    .date-row-wrapper {
+      display: grid;
+      grid-template-rows: 37px;
+      gap: 8px;
+
+      .date-row {
+        display: grid;
+        grid-template-columns: 34px 258px;
+        align-items: center;
+        gap: 12px;
+
+        .text-area {
+          color: #767676;
+          font-size: 14px;
+          font-weight: 500;
+        }
+
+        .date-wrapper {
+          display: grid;
+          grid-template-columns: repeat(2, 125px);
+          gap: 8px;
+
+          input {
+            width: 125px;
+            text-align: center;
+            height: 40px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #9c9c9c;
+            border: 1px solid #dadada;
+          }
+        }
+      }
+    }
+
+    .type-wrapper {
+      display: flex;
+
+      .radio-item {
+        display: grid;
+        align-items: center;
+        grid-template-columns: auto 1fr;
+        gap: 4px;
+        width: 146px;
+
+        .custom-radio {
+          width: 14px;
+          height: 14px;
+          border: 3px solid #D6D6D6;
+          border-radius: 50%;
+
+          &.checked {
+
+            border: 3px solid #7E51FD;
+          }
+        }
+
+        .text-area {
+          font-size: 16px;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .handle-wrapper {
+      display: grid;
+      gap: 8px;
+
+      .base-handle {
+        font-size: 14px;
+        font-weight: 400;
+        color: #5C5C5C;
+      }
+    }
+
+    .add-box {
+      height: 120px;
+      background-color: #F2EDFF;
+      width: 343px;
+      border: 1px dashed #B497FF;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .icon-text {
+        display: grid;
+        justify-content: center;
+        gap: 8px;
+        width: 84px;
+        height: 64px;
+
+        img {
+          margin: 0 auto;
+        }
+
+        .text-area {
+          color: #7E51FD;
+          font-weight: 500;
+          font-size: 16px;
+        }
+      }
+    }
+
+  }
+
+  .create-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 343px;
+    height: 48px;
+    background-color: #7E51FD;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 4px;
+    margin-bottom: 48px;
+  }
+}
