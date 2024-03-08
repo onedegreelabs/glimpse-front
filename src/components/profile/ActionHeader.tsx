@@ -4,14 +4,14 @@ import Image from 'next/image';
 import {useCallback, useRef, useState} from 'react';
 import {useRouter} from 'next/navigation';
 
-import {IProfile} from '@/types/profileType';
 import CircleImage from '@/containers/my/profile/components/CircleImage/CircleImage';
 import {useProfileStore} from '@/stores/profile';
+import {TProfile} from '@/types/profileType';
 
 const DEFAULT_IMG_URL = '/assets/profile/temp-glimpse-list-img.jpg';
 
 interface Props {
-  profile: IProfile;
+  profile: TProfile;
   profileImage?: File;
 }
 
@@ -19,7 +19,6 @@ function ActionHeader({profile}: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
   const {setProfileImage} = useProfileStore();
-
   const [preViewImgUrl, setPreViewImgUrl] = useState<string>(DEFAULT_IMG_URL);
 
   const handleImageUpload = (e: any) => {
@@ -72,21 +71,25 @@ function ActionHeader({profile}: Props) {
               height={120}
             />
           </div>
-          <CircleImage
-            src="/assets/profile/image.svg"
-            alt="프로필이미지 업로드"
-            width={20}
-            height={20}
-            isAbsolute={true}
-            onClick={onUploadImageButtonClick}
-          />
-          <input
-            style={{display: 'none'}}
-            type="file"
-            accept="image/*"
-            ref={inputRef}
-            onChange={onUploadImage}
-          />
+          {!profile.isOtherProfile && (
+            <>
+              <CircleImage
+                src="/assets/profile/image.svg"
+                alt="프로필이미지 업로드"
+                width={20}
+                height={20}
+                isAbsolute={true}
+                onClick={onUploadImageButtonClick}
+              />
+              <input
+                style={{display: 'none'}}
+                type="file"
+                accept="image/*"
+                ref={inputRef}
+                onChange={onUploadImage}
+              />
+            </>
+          )}
         </div>
         <CircleImage
           src="/assets/profile/share-box.svg"

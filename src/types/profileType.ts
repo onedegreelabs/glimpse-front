@@ -52,6 +52,8 @@ type TUpdateProfile = Omit<
   'firstName' | 'lastName' | 'profileImageUrl' | 'viewCount'
 >;
 
-export type TProfile = IProfile & {isOtherProfile: boolean} & {
+export type TProfile = IProfile & {
+  isOtherProfile: boolean;
+  isChangeProfile: boolean;
   profileImage?: File;
 };
