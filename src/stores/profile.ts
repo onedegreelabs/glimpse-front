@@ -5,6 +5,7 @@ import {TProfile} from '@/types/profileType';
 interface ProfileStore {
   profile: TProfile;
   setProfileImage: (profileImage: File) => void;
+  setChangeProfile: (targetElement: {name: string; value: string}) => void;
 }
 
 const initialProfile: TProfile = {
@@ -14,8 +15,8 @@ const initialProfile: TProfile = {
   displayName: '없어질수도',
   profileImageUrl: '',
   introSnippet: '하이',
-  department: '개발자',
-  location: '서울',
+  department: '',
+  location: 'Seoul, Korea',
   belong: '글림스',
   viewCount: 0,
   cards: [],
@@ -31,6 +32,14 @@ export const useProfileStore = create<ProfileStore>(set => ({
         ...state.profile,
         isChangeProfile: true,
         profileImage,
+      },
+    })),
+  setChangeProfile: (updateTarget: {name: string; value: string}) =>
+    set(state => ({
+      profile: {
+        ...state.profile,
+        isChangeProfile: true,
+        [updateTarget.name]: updateTarget.value,
       },
     })),
 }));

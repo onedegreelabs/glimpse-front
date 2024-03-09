@@ -1,7 +1,6 @@
 import styles from './index.module.scss';
 
-import {IProfile, TProfile} from '@/types/profileType';
-import {DEFAULT_PROFILE} from '../my/profile/constans/defaultValue';
+import {TProfile} from '@/types/profileType';
 import {
   AboutMe,
   ActionHeader,
@@ -14,7 +13,7 @@ import {getUserOther} from '@/services/profile';
 
 const getProfilesFetch = async (id: number): Promise<TProfile> => {
   const result = await getUserOther(id);
-  return {...result, isOtherProfile: true};
+  return {...result, isOtherProfile: true, isChangeProfile: false};
 };
 
 const ProfilesContainer = async () => {
@@ -36,6 +35,8 @@ const ProfilesContainer = async () => {
           belong: '글림스',
           viewCount: 0,
           cards: [],
+          isOtherProfile: true,
+          isChangeProfile: false,
         }}
       />
       <Profile
@@ -52,6 +53,7 @@ const ProfilesContainer = async () => {
           viewCount: 0,
           cards: [],
           isOtherProfile: true,
+          isChangeProfile: false,
         }}
       />
       <Intro

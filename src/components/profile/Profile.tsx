@@ -3,6 +3,17 @@ import styles from './profile.module.scss';
 
 import IconText from '@/components/iconText/IconText';
 import {TProfile} from '@/types/profileType';
+import {cn} from '@/lib/utils';
+import {Input} from '../ui/input';
+import {useProfileStore} from '@/stores/profile';
+import {DEPARTMENT} from '@/containers/my/profile/constans/profile';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
 
 interface Props {
   profile: TProfile;
@@ -10,41 +21,149 @@ interface Props {
 
 function Profile({profile}: Props) {
   const {
-    firstName,
     lastName,
+    firstName,
     introSnippet,
     department,
     belong,
     location,
     isOtherProfile,
   } = profile;
+  const {setChangeProfile} = useProfileStore();
 
   return (
-    <div className={styles['profile-info-wrapper']}>
-      <p className={styles['name']}>{`${lastName} ${firstName}`}</p>
-      <p>{introSnippet}</p>
-      <div className={styles['company-wrapper']}>
-        <p className={styles['company-text']}>{department}</p>
-        <p className={styles['divider']}>|</p>
+    <section className={styles['profile-info-wrapper']}>
+      <div className={styles['name-wrapper']}>
         {isOtherProfile ? (
-          <p className={styles['company-text']}>{belong}</p>
+          <p>{`${lastName} ${firstName} `}</p>
         ) : (
-          <input
-            className={styles['company-name']}
-            placeholder="company"
-            value={belong}
+          <>
+            <Input
+              name="lastName"
+              type="text"
+              placeholder="lastName"
+              className={cn(
+                'border-solid border-[#D9D9D9] text-[24px] text-center font-normal'
+              )}
+              maxLength={10}
+              value={lastName}
+              onChange={e => {
+                const name = e.target.name;
+                const value = e.target.value;
+                setChangeProfile({name, value});
+              }}
+            />
+            <Input
+              name="firstName"
+              type="text"
+              placeholder="firstName"
+              className={cn(
+                'border-solid border-[#D9D9D9] text-[24px] text-center font-normal'
+              )}
+              maxLength={10}
+              value={firstName}
+              onChange={e => {
+                const name = e.target.name;
+                const value = e.target.value;
+                setChangeProfile({name, value});
+              }}
+            />
+          </>
+        )}
+      </div>
+      <div>
+        {isOtherProfile ? (
+          <p>{introSnippet}</p>
+        ) : (
+          <Input
+            name="introSnippet"
+            type="text"
+            placeholder="add bio..."
+            className={cn('h-[16px] text-[12px] text-center ')}
             maxLength={20}
+            value={introSnippet}
+            onChange={e => {
+              const name = e.target.name;
+              const value = e.target.value;
+              setChangeProfile({name, value});
+            }}
           />
         )}
       </div>
-      <IconText
-        src="/assets/glimpse-list/location-icon.svg"
-        alt="위치아이콘"
-        width={24}
-        height={24}
-        text={location || ''}
-      />
-    </div>
+      <div className={styles['company-wrapper']}>
+        {isOtherProfile ? (
+          <>
+            <p className={styles['company-text']}>{department}</p>
+            <p className={styles['divider']}>|</p>
+            <p className={styles['company-text']}>{belong}</p>
+          </>
+        ) : (
+          <>
+            <Select
+              name="department"
+              value={department}
+              onValueChange={value => {
+                const name = 'department';
+                setChangeProfile({name, value});
+              }}
+            >
+              <SelectTrigger className="h-[24px] py-[4px] px-[10px] border border-solid border-[#D9D9D9] rounded-[4px] text-[12px] focus:ring-[#7E51FD]">
+                <SelectValue placeholder="department" />
+              </SelectTrigger>
+              <SelectContent>
+                {DEPARTMENT.map(department => (
+                  <SelectItem
+                    key={department}
+                    value={department}
+                    className="text-[12px]"
+                  >
+                    {department}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className={styles['divider']}>|</p>
+            <Input
+              name="belong"
+              type="text"
+              placeholder="company"
+              className={cn(
+                'w-[72px] h-[24px] border-solid border-[#D9D9D9] text-[12px]'
+              )}
+              maxLength={15}
+              value={belong}
+              onChange={e => {
+                const name = e.target.name;
+                const value = e.target.value;
+                setChangeProfile({name, value});
+              }}
+            />
+          </>
+        )}
+      </div>
+      <div className={'relative'}>
+        <div className="absolute pl-[10px] inset-y-0 start-0 flex items-center pointer-events-none">
+          <IconText
+            src="/assets/glimpse-list/location-icon.svg"
+            alt="위치아이콘"
+            width={16}
+            height={16}
+            text={''}
+          />
+        </div>
+        <Input
+          name="location"
+          type="text"
+          className="h-[20px] py-[4px] px-[10px] ps-[32px] border-solid border-[#D9D9D9] text-[12px]"
+          value={location}
+          onChange={e => {
+            const name = e.target.name;
+            const value = e.target.value;
+            setChangeProfile({name, value});
+          }}
+        />
+      </div>
+    </section>
   );
 }
 
