@@ -5,15 +5,11 @@ import CreateRoundButton from './sections/CreateRoundButton';
 import DayEvent from './sections/DayEvent';
 import EmptyEvent from './sections/EmptyEvent';
 import useSWR from 'swr';
-import Env from '../../../config/env.json';
 import {eventsAPI} from '@/services/eventsApi';
 export default function EventMyContainer() {
   const [isEmptyEvent, setIsEmptyEvent] = useState(true);
-  const fetcher = eventsAPI.getAllEvents;
-  const {data, error, isLoading} = useSWR(
-    `${Env['glimpse-rsvp']}/events?take=${3}`,
-    fetcher
-  );
+  const fetcher = eventsAPI.my.getMyEventList;
+  const {data, error, isLoading} = useSWR('3', fetcher);
 
   return (
     <div className={styles['event-container-wrapper']}>

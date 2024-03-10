@@ -1,4 +1,4 @@
-import {axiosInstance, tokenValidInstance} from './headers';
+import {axiosInstance, customAxios, tokenValidInstance} from './headers';
 
 import {CreateEventType} from '@/containers/events/create/type';
 export const eventsAPI = {
@@ -33,9 +33,8 @@ export const eventsAPI = {
   },
   my: {
     getMyEventList: async (count: number) => {
-      const res = await tokenValidInstance().get(
-        `events/my-events?take=${count}`
-      );
+      const res = await customAxios.get(`events/my-events?take=${count}`);
+      return res;
     },
   },
   getAllEvents: async (url: string) => {
