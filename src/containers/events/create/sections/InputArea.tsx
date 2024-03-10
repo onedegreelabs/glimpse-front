@@ -5,7 +5,19 @@ import styles from './inputArea.module.scss';
 import clsx from 'clsx';
 import UploadPurple from '@/../public/assets/events/UploadPurple.svg';
 import Image from 'next/image';
+import {useEffect, useState} from 'react';
 export default function InputArea() {
+  const [title, setTitle] = useState('');
+  const [startAt, setStartAt] = useState<Date>();
+  const [endAt, setEndAt] = useState<Date>();
+  const [dueAt, setDueAt] = useState<Date>();
+  const [type, setType] = useState('Online');
+  const [handle, setHandle] = useState('');
+  const [region, setRegion] = useState('');
+  const [detailAddress, setDetailAddress] = useState('');
+  const [externalLink, setExternalLink] = useState('');
+  const [description, setDescription] = useState('');
+  const [coverImageKey, setCoverImageKey] = useState('');
   return (
     <div className={styles['input-area']}>
       {/* title */}
@@ -13,7 +25,13 @@ export default function InputArea() {
         <div className={clsx(styles['title-area'], styles['required'])}>
           Event Title
         </div>
-        <input placeholder="Title" />
+        <input
+          placeholder="Title"
+          value={title}
+          onChange={e => {
+            setTitle(e.target.value);
+          }}
+        />
       </div>
       {/* date/time */}
       <div className={styles['row-area']}>
@@ -64,11 +82,25 @@ export default function InputArea() {
         </div>
         <div className={styles['type-wrapper']}>
           <div className={styles['radio-item']}>
-            <div className={clsx(styles['custom-radio'], styles['checked'])} />
+            <div
+              className={clsx(styles['custom-radio'], {
+                [styles['checked']]: type === 'Online',
+              })}
+              onClick={() => {
+                setType('Online');
+              }}
+            />
             <div className={styles['text-area']}>Online</div>
           </div>
           <div className={styles['radio-item']}>
-            <div className={styles['custom-radio']} />
+            <div
+              className={clsx(styles['custom-radio'], {
+                [styles['checked']]: type === 'Offline',
+              })}
+              onClick={() => {
+                setType('Offline');
+              }}
+            />
             <div className={styles['text-area']}>Offline</div>
           </div>
         </div>
@@ -78,8 +110,18 @@ export default function InputArea() {
         <div className={clsx(styles['title-area'], styles['required'])}>
           Event Location
         </div>
-        <input placeholder="Meeting URL (online) or address (offline)" />
-        <div className={styles['limit-text']}>0/2000</div>
+        <input
+          placeholder="Meeting URL (online) or address (offline)"
+          value={externalLink}
+          onChange={e => {
+            if (e.target.value.length < 2000) {
+              setExternalLink(e.target.value);
+            }
+          }}
+        />
+        <div
+          className={styles['limit-text']}
+        >{`${externalLink.length}/2000`}</div>
       </div>
       {/* handle */}
       <div className={styles['row-area']}>
@@ -88,14 +130,29 @@ export default function InputArea() {
           <div className={styles['base-handle']}>
             glimpse.rsvp/events?handle=
           </div>
-          <input placeholder="Unique ID of your event" />
+          <input
+            placeholder="Unique ID of your event"
+            value={handle}
+            onChange={e => {
+              setHandle(e.target.value);
+            }}
+          />
         </div>
       </div>
       {/* description */}
       <div className={styles['row-area']}>
         <div className={styles['title-area']}>Event Description</div>
-        <textarea></textarea>
-        <div className={styles['limit-text']}>0/3000</div>
+        <textarea
+          value={description}
+          onChange={e => {
+            if (e.target.value.length < 3000) {
+              setDescription(e.target.value);
+            }
+          }}
+        />
+        <div
+          className={styles['limit-text']}
+        >{`${description.length}/3000`}</div>
       </div>
       {/* image */}
       <div className={styles['row-area']}>

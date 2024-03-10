@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import styles from './index.module.scss';
 import InputArea from './sections/InputArea';
 export default function EventCreateContainer() {
