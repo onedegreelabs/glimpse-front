@@ -74,7 +74,7 @@ export default function SignCord() {
         },
       });
       if (data) {
-        router.replace('/my/profile?');
+        router.replace('/my/profile');
       }
     } catch (error) {
       console.error('Error fetching token:', error);
