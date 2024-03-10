@@ -8,8 +8,9 @@ import useSWR from 'swr';
 import {eventsAPI} from '@/services/eventsApi';
 export default function EventMyContainer() {
   const [isEmptyEvent, setIsEmptyEvent] = useState(true);
-  const fetcher = eventsAPI.my.getMyEventList;
-  const {data, error, isLoading} = useSWR('3', fetcher);
+  // const fetcher = eventsAPI.my.getMyEventList;
+  const fetcher = eventsAPI.getAllEvents;
+  const {data, error, isLoading} = useSWR('events/my-events?take=3', fetcher);
 
   return (
     <div className={styles['event-container-wrapper']}>
