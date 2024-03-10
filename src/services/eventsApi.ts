@@ -38,7 +38,7 @@ export const eventsAPI = {
     },
   },
   getAllEvents: async (url: string) => {
-    const res = await axiosInstance().get(url);
+    const res = await customAxios.get(url);
     return res;
   },
 };
