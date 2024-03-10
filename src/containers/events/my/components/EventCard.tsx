@@ -1,16 +1,18 @@
 import Card from '@/components/card/Card';
 import styles from './eventCard.module.scss';
-import testImg from '../test.jpg';
 import Image from 'next/image';
 import IconText from '@/components/iconText/IconText';
-import TestHostImg from '@/../public/icons/profile_image.jpg';
-import PersonIcon from '@/../public/icons/person_icon.svg';
 export default function EventCard() {
   return (
     <Card>
       <div className={styles['event-card-wrapper']}>
         <div className={styles['image-box']}>
-          <Image src={testImg} alt={'event-image'} />
+          <Image
+            src="/assets/events/test.jpg"
+            alt={'event-image'}
+            width={200}
+            height={200}
+          />
         </div>
 
         <div className={styles['right-area']}>
@@ -42,12 +44,22 @@ export default function EventCard() {
           <div className={styles['people-info']}>
             <div className={styles['host-area']}>
               <div className={styles['host-img-box']}>
-                <Image src={TestHostImg} alt="host-profile-img" />
+                <Image
+                  src={'/icons/profile_image.jpg'}
+                  alt="host-profile-img"
+                  width={12}
+                  height={12}
+                />
               </div>
               <div className={styles['']}>By Claire Jeong</div>
             </div>
             <div className={styles['participant-area']}>
-              <Image src={PersonIcon} alt="person-icon" />
+              <Image
+                src={'/icons/person_icon.svg'}
+                alt="person-icon"
+                width={14}
+                height={14}
+              />
               <div className={styles['']}>23/23</div>
             </div>
           </div>

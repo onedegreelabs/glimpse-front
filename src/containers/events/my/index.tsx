@@ -7,7 +7,7 @@ import EmptyEvent from './sections/EmptyEvent';
 import useSWR from 'swr';
 import {eventsAPI} from '@/services/eventsApi';
 export default function EventMyContainer() {
-  const [isEmptyEvent, setIsEmptyEvent] = useState(true);
+  const [isEmptyEvent, setIsEmptyEvent] = useState(false);
   // const fetcher = eventsAPI.my.getMyEventList;
   const fetcher = eventsAPI.getAllEvents;
   const {data, error, isLoading} = useSWR('events/my-events?take=3', fetcher);
