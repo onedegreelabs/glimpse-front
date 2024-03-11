@@ -2,10 +2,7 @@
 import styles from './index.module.scss';
 import {useEffect, useState} from 'react';
 
-import {DEFAULT_PROFILE} from './constans/defaultValue';
-
 import AddInput from './components/AddInput/AddInput';
-import {IProfile} from '@/types/profileType';
 import FloatingButton from './components/FloatingButton/FloatingButton';
 import SaveButton from './components/SaveButton/SaveButton';
 import {
@@ -17,23 +14,23 @@ import {
   Profile,
 } from '@/components/profile';
 import {getUserMe as getUserMeFetch} from '@/services/profile';
+import {useProfileStore} from '@/stores/profile';
 
 // TODO: 전역상태 설정한후 모두 바꿔야함
 const MyProfileContainer = () => {
-  ///// Profile /////
-  const [profile, setProfile] = useState<IProfile>(DEFAULT_PROFILE);
-
+  const {profile, setChangeText} = useProfileStore();
+  console.log('my profile container', profile);
   useEffect(() => {
     getUserMeFetch().then(res => {
-      setProfile(res);
+      // setProfile(res);
       //   getCardsByType(res.cards);
     });
   }, []);
   //   }, [isSaving]);
 
-  const changeBelong = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProfile(prev => ({...prev, belong: e.target.value}));
-  };
+  // const changeBelong = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setProfile(prev => ({...prev, belong: e.target.value}));
+  // };
 
   ///// Add Link /////
   const [isShowAddInput, setIsShowAddInput] = useState(false);
@@ -120,9 +117,12 @@ const MyProfileContainer = () => {
       <div className={styles['floating-button-container']}>
         <FloatingButton onClickShowAddInput={onClickShowAddInput} />
       </div>
-      <div className={styles['save-button-wrapper']}>
-        <SaveButton />
-      </div>
+      {profile.isChangeProfile && (
+        <div className={styles['save-button-wrapper']}>
+          <SaveButton />
+        </div>
+      )}
+
       {isShowAddInput && (
         <AddInput
           currentTarget={addTarget}
