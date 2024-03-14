@@ -5,9 +5,13 @@ import styles from './inputArea.module.scss';
 import clsx from 'clsx';
 import UploadPurple from '@/../public/assets/events/UploadPurple.svg';
 import Image from 'next/image';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 export default function InputArea() {
   const [title, setTitle] = useState('');
+  const [startDate, setStartDate] = useState<Date>();
+  const [startTime, setStartTime] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>();
+  const [endTime, setEndTime] = useState<Date>();
   const [startAt, setStartAt] = useState<Date>();
   const [endAt, setEndAt] = useState<Date>();
   const [dueAt, setDueAt] = useState<Date>();
@@ -45,13 +49,21 @@ export default function InputArea() {
               <ReactDatePicker
                 showTimeSelect
                 selected={new Date()}
-                onChange={d => {}}
+                onChange={d => {
+                  if (d) {
+                    setStartDate(d);
+                  }
+                }}
                 dateFormat="yyyy/MM/dd"
               />
               <ReactDatePicker
                 showTimeSelect
                 selected={new Date()}
-                onChange={d => {}}
+                onChange={d => {
+                  if (d) {
+                    setStartTime(d);
+                  }
+                }}
                 dateFormat="h:mm aa"
               />
             </div>
@@ -62,13 +74,21 @@ export default function InputArea() {
               <ReactDatePicker
                 showTimeSelect
                 selected={new Date()}
-                onChange={d => {}}
+                onChange={d => {
+                  if (d) {
+                    setEndDate(d);
+                  }
+                }}
                 dateFormat="yyyy/MM/dd"
               />
               <ReactDatePicker
                 showTimeSelect
                 selected={new Date()}
-                onChange={d => {}}
+                onChange={d => {
+                  if (d) {
+                    setEndTime(d);
+                  }
+                }}
                 dateFormat="h:mm aa"
               />
             </div>
