@@ -74,6 +74,15 @@ export default function InputArea() {
             </div>
           </div>
         </div>
+        <div className={styles['global-time']}>
+          <Image
+            src={'/assets/events/Earth_icon.svg'}
+            width={16}
+            height={16}
+            alt="earth_icon"
+          />
+          GMT+ 09:00 Seoul
+        </div>
       </div>
       {/* type */}
       <div className={styles['row-area']}>
@@ -110,18 +119,39 @@ export default function InputArea() {
         <div className={clsx(styles['title-area'], styles['required'])}>
           Event Location
         </div>
-        <input
-          placeholder="Meeting URL (online) or address (offline)"
-          value={externalLink}
-          onChange={e => {
-            if (e.target.value.length < 2000) {
-              setExternalLink(e.target.value);
-            }
-          }}
-        />
-        <div
-          className={styles['limit-text']}
-        >{`${externalLink.length}/2000`}</div>
+        {type === 'Online' && (
+          <input
+            placeholder="Meeting URL (e.g. Zoom link)"
+            value={externalLink}
+            onChange={e => {
+              if (e.target.value.length < 2000) {
+                setExternalLink(e.target.value);
+              }
+            }}
+          />
+        )}
+        {type === 'Offline' && (
+          <input
+            placeholder="Offline address"
+            value={region}
+            onChange={e => {
+              if (e.target.value.length < 2000) {
+                setRegion(e.target.value);
+              }
+            }}
+          />
+        )}
+        {type === 'Offline' && (
+          <input
+            placeholder="Detailed address (e.g. Unit 419, Level 4)"
+            value={detailAddress}
+            onChange={e => {
+              if (e.target.value.length < 2000) {
+                setDetailAddress(e.target.value);
+              }
+            }}
+          />
+        )}
       </div>
       {/* handle */}
       <div className={styles['row-area']}>
@@ -149,6 +179,7 @@ export default function InputArea() {
               setDescription(e.target.value);
             }
           }}
+          placeholder="Description of your event"
         />
         <div
           className={styles['limit-text']}

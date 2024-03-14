@@ -92,6 +92,13 @@
       }
     }
 
+    .global-time {
+      display: flex;
+      gap: 4px;
+      font-size: 12px;
+      color: #9C9C9C;
+    }
+
     .type-wrapper {
       display: flex;
 
@@ -135,13 +142,17 @@
 
     .add-box {
       height: 120px;
-      background-color: #F2EDFF;
       width: 343px;
       border: 1px dashed #B497FF;
       border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #F2EDFF;
+      }
 
       .icon-text {
         display: grid;
