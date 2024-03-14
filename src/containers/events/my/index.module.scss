@@ -1,0 +1,11 @@
+.event-container-wrapper {
+  position: relative;
+  margin: 172px auto;
+  max-width: 375px;
+
+  .create-button {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+  }
+}
