@@ -45,4 +45,5 @@ export const tokenValidInstance = function () {
 
 export const customAxios = axios.create({
   baseURL: Env['glimpse-rsvp'],
+  withCredentials: true,
 });

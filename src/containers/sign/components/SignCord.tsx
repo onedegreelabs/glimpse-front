@@ -66,9 +66,6 @@ export default function SignCord() {
   };
 
   const submitCode = async (fullCode: string) => {
-    const updatedSearchParams = new URLSearchParams(
-      searchParams ? searchParams : ''
-    );
     const credentials = btoa(`${email}:${fullCode}`);
     try {
       const {data} = await customAxios.get('/auth/token', {
@@ -77,11 +74,8 @@ export default function SignCord() {
         },
       });
       if (data) {
-        updatedSearchParams.set('token', data.data.accessToken);
-      } else {
-        updatedSearchParams.delete('token');
+        router.replace('/my/profile');
       }
-      router.replace(`/my/profile?${updatedSearchParams.toString()}`);
     } catch (error) {
       console.error('Error fetching token:', error);
       setServerError('서버 에러가 발생하였습니다. 다시 시도해주세요.');
