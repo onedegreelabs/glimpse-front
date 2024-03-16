@@ -17,10 +17,6 @@ export default function InputArea() {
   const [description, setDescription] = useState('');
   const [imgFile, setImgFile] = useState<File | undefined>();
 
-  useEffect(() => {
-    console.log(imgFile);
-  }, [imgFile]);
-
   // time logic
   useEffect(() => {
     const currentDate = new Date();

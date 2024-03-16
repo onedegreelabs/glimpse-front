@@ -1,12 +1,7 @@
-import {customAxios} from '@/services/headers';
+import {fetcher} from '@/services/fetcher';
 import useSWR from 'swr';
 
 const useMyEventList = function (count: number) {
-  const fetcher = async function () {
-    const res = await customAxios.get(`events/my-events?take=${count}`);
-    return res.data;
-  };
-
   const {data, error, isLoading} = useSWR(
     `events/my-events?take=${count}`,
     fetcher
