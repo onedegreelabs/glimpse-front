@@ -3,25 +3,62 @@ import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './inputArea.module.scss';
 import clsx from 'clsx';
-import UploadPurple from '@/../public/assets/events/UploadPurple.svg';
 import Image from 'next/image';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 export default function InputArea() {
   const [title, setTitle] = useState('');
-  const [startDate, setStartDate] = useState<Date>();
-  const [startTime, setStartTime] = useState<Date>();
-  const [endDate, setEndDate] = useState<Date>();
-  const [endTime, setEndTime] = useState<Date>();
   const [startAt, setStartAt] = useState<Date>();
   const [endAt, setEndAt] = useState<Date>();
-  const [dueAt, setDueAt] = useState<Date>();
   const [type, setType] = useState('Online');
   const [handle, setHandle] = useState('');
   const [region, setRegion] = useState('');
   const [detailAddress, setDetailAddress] = useState('');
   const [externalLink, setExternalLink] = useState('');
   const [description, setDescription] = useState('');
-  const [coverImageKey, setCoverImageKey] = useState('');
+  const [imgFile, setImgFile] = useState<File | undefined>();
+
+  useEffect(() => {
+    console.log(imgFile);
+  }, [imgFile]);
+
+  // time logic
+  useEffect(() => {
+    const currentDate = new Date();
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+    const roundMinutes = Math.ceil(minutes / 15) * 15;
+    if (roundMinutes === 60) {
+      currentDate.setHours(hours + 1);
+      currentDate.setMinutes(0);
+    } else {
+      currentDate.setMinutes(roundMinutes);
+    }
+
+    setStartAt(currentDate);
+    const nextDate = new Date();
+    nextDate.setMinutes(roundMinutes + 15);
+    setEndAt(nextDate);
+  }, []);
+
+  useEffect(() => {
+    if (startAt && endAt) {
+      if (startAt > endAt) {
+        setEndAt(startAt);
+      }
+    }
+  }, [startAt, endAt]);
+
+  // image logic
+  const handleImageUpload = (event: {target: {files: FileList | null}}) => {
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile) {
+      if (selectedFile.type.startsWith('image/')) {
+        setImgFile(selectedFile);
+      } else {
+        alert('이미지 파일을 선택해주세요.');
+      }
+    }
+  };
   return (
     <div className={styles['input-area']}>
       {/* title */}
@@ -46,51 +83,65 @@ export default function InputArea() {
           <div className={styles['date-row']}>
             <div className={styles['text-area']}>Start</div>
             <div className={styles['date-wrapper']}>
-              <ReactDatePicker
-                showTimeSelect
-                selected={new Date()}
-                onChange={d => {
-                  if (d) {
-                    setStartDate(d);
-                  }
-                }}
-                dateFormat="yyyy/MM/dd"
-              />
-              <ReactDatePicker
-                showTimeSelect
-                selected={new Date()}
-                onChange={d => {
-                  if (d) {
-                    setStartTime(d);
-                  }
-                }}
-                dateFormat="h:mm aa"
-              />
+              <div className={styles['first-picker']}>
+                <ReactDatePicker
+                  selected={startAt}
+                  onChange={d => {
+                    if (d) {
+                      setStartAt(d);
+                    }
+                  }}
+                  dateFormat="yyyy/MM/dd"
+                  minDate={new Date()}
+                />
+              </div>
+              <div className={styles['second-picker']}>
+                <ReactDatePicker
+                  showTimeSelect
+                  selected={startAt}
+                  onChange={d => {
+                    if (d) {
+                      setStartAt(d);
+                    }
+                  }}
+                  showTimeSelectOnly
+                  timeIntervals={15}
+                  timeCaption="Time"
+                  dateFormat="h:mm aa"
+                />
+              </div>
             </div>
           </div>
           <div className={styles['date-row']}>
             <div className={styles['text-area']}>End</div>
             <div className={styles['date-wrapper']}>
-              <ReactDatePicker
-                showTimeSelect
-                selected={new Date()}
-                onChange={d => {
-                  if (d) {
-                    setEndDate(d);
-                  }
-                }}
-                dateFormat="yyyy/MM/dd"
-              />
-              <ReactDatePicker
-                showTimeSelect
-                selected={new Date()}
-                onChange={d => {
-                  if (d) {
-                    setEndTime(d);
-                  }
-                }}
-                dateFormat="h:mm aa"
-              />
+              <div className={styles['first-picker']}>
+                <ReactDatePicker
+                  selected={endAt}
+                  onChange={d => {
+                    if (d) {
+                      setEndAt(d);
+                    }
+                  }}
+                  dateFormat="yyyy/MM/dd"
+                  minDate={startAt}
+                />
+              </div>
+              <div className={styles['second-picker']}>
+                <ReactDatePicker
+                  selected={endAt}
+                  onChange={d => {
+                    if (d) {
+                      setEndAt(d);
+                    }
+                  }}
+                  dateFormat="h:mm aa"
+                  showTimeSelect
+                  showTimeSelectOnly
+                  timeIntervals={15}
+                  timeCaption="Time"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -110,25 +161,29 @@ export default function InputArea() {
           Event Type
         </div>
         <div className={styles['type-wrapper']}>
-          <div className={styles['radio-item']}>
+          <div
+            className={styles['radio-item']}
+            onClick={() => {
+              setType('Online');
+            }}
+          >
             <div
               className={clsx(styles['custom-radio'], {
                 [styles['checked']]: type === 'Online',
               })}
-              onClick={() => {
-                setType('Online');
-              }}
             />
             <div className={styles['text-area']}>Online</div>
           </div>
-          <div className={styles['radio-item']}>
+          <div
+            className={styles['radio-item']}
+            onClick={() => {
+              setType('Offline');
+            }}
+          >
             <div
               className={clsx(styles['custom-radio'], {
                 [styles['checked']]: type === 'Offline',
               })}
-              onClick={() => {
-                setType('Offline');
-              }}
             />
             <div className={styles['text-area']}>Offline</div>
           </div>
@@ -208,9 +263,24 @@ export default function InputArea() {
       {/* image */}
       <div className={styles['row-area']}>
         <div className={styles['title-area']}>Event Cover image</div>
+        <input
+          style={{display: 'none'}}
+          type="file"
+          name="fileUpload"
+          id="fileUpload"
+          onChange={handleImageUpload}
+        ></input>
         <div className={styles['add-box']}>
           <div className={styles['icon-text']}>
-            <Image src={UploadPurple} alt="uploadPurple" />
+            <label htmlFor="fileUpload" className={styles['label-button']}>
+              <Image
+                src={'/assets/events/UploadPurple.svg'}
+                alt="uploadPurple"
+                width={40}
+                height={40}
+              />
+            </label>
+
             <div className={styles['text-area']}>Add Image</div>
           </div>
         </div>

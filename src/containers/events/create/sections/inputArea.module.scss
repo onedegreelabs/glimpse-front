@@ -79,6 +79,15 @@
           grid-template-columns: repeat(2, 125px);
           gap: 8px;
 
+          .first-picker {
+            position: relative;
+          }
+          
+          .second-picker {
+            position: absolute;
+            left: 180px;
+          }
+
           input {
             width: 125px;
             text-align: center;
@@ -108,13 +117,13 @@
         grid-template-columns: auto 1fr;
         gap: 4px;
         width: 146px;
+        cursor: pointer;
 
         .custom-radio {
           width: 14px;
           height: 14px;
           border: 3px solid #D6D6D6;
           border-radius: 50%;
-          cursor: pointer;
 
           &.checked {
 
@@ -160,6 +169,10 @@
         gap: 8px;
         width: 84px;
         height: 64px;
+
+        .label-button {
+          cursor: pointer;
+        }
 
         img {
           margin: 0 auto;
