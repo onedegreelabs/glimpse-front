@@ -1,8 +1,15 @@
 import {customAxios} from './headers';
 
-const fetcher = async (url: string) => {
+const getFetcher = async (url: string) => {
   const res = await customAxios.get(url);
   return res.data;
 };
 
-export {fetcher};
+export {getFetcher};
+
+const postFetcher = async (url: string) => {
+  const res = await customAxios.post(url);
+  return res.data;
+};
+
+export {postFetcher};

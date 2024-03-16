@@ -5,6 +5,8 @@ import styles from './inputArea.module.scss';
 import clsx from 'clsx';
 import Image from 'next/image';
 import {useEffect, useState} from 'react';
+import {createEvent} from '@/hooks/swr/useEvents';
+import {CreateEventType} from '@/types/eventTypes';
 export default function InputArea() {
   const [title, setTitle] = useState('');
   const [startAt, setStartAt] = useState<Date>();
@@ -55,6 +57,42 @@ export default function InputArea() {
       }
     }
   };
+
+  const onClickCreateEvent = function () {
+    // if (!title) {
+    //   return;
+    // } else if (!startAt || !endAt) {
+    //   return;
+    // } else if (!handle) {
+    //   return;
+    // } else if (!region) {
+    //   return;
+    // } else if (!detailAddress) {
+    //   return;
+    // } else if (!externalLink) {
+    //   return;
+    // } else if (!description) {
+    //   return;
+    // } else if (!imgFile) {
+    //   return;
+    // }
+    const params = {
+      title: title,
+      startAt: startAt,
+      endAt: endAt,
+      dueAt: endAt,
+      type: type,
+      handle: handle,
+      region: region,
+      detailAddress: detailAddress,
+      externalLink: externalLink,
+      description: description,
+      coverImageKey: imgFile,
+    };
+    const res = createEvent(params);
+    console.log(res);
+  };
+
   return (
     <div className={styles['input-area']}>
       {/* title */}
@@ -282,7 +320,9 @@ export default function InputArea() {
         </div>
       </div>
       {/* button */}
-      <div className={styles['create-button']}>Create Event</div>
+      <div className={styles['create-button']} onClick={onClickCreateEvent}>
+        Create Event
+      </div>
     </div>
   );
 }
