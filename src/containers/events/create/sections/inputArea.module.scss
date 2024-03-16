@@ -19,6 +19,25 @@
     }
   }
 
+  .error-message {
+    position: absolute;
+    align-items: center;
+    gap: 2px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #f00;
+    bottom: -20px;
+    display: none;
+
+    &.show-error {
+      display: flex;
+    }
+
+    &.for-region {
+      bottom: 38px;
+    }
+  }
+
   textarea {
     padding: 12px;
     width: 343px;

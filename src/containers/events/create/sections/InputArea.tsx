@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import {useEffect, useState} from 'react';
 import {createEvent} from '@/hooks/swr/useEvents';
+import {error} from 'console';
 export default function InputArea() {
   const [title, setTitle] = useState('');
   const [startAt, setStartAt] = useState<Date>();
@@ -17,6 +18,8 @@ export default function InputArea() {
   const [externalLink, setExternalLink] = useState('');
   const [description, setDescription] = useState('');
   const [imgFile, setImgFile] = useState<File | undefined>();
+
+  const [errorState, setErrorState] = useState('');
 
   // time logic
   useEffect(() => {
@@ -57,22 +60,35 @@ export default function InputArea() {
     }
   };
 
+  const handleErrorState = function (state: string) {
+    setErrorState(state);
+    setTimeout(() => {
+      setErrorState('');
+    }, 2000);
+  };
   const onClickCreateEvent = function () {
     if (!title) {
+      handleErrorState('title');
       return;
     } else if (!startAt || !endAt) {
       return;
     } else if (!handle) {
+      handleErrorState('handle');
       return;
     } else if (!region) {
+      handleErrorState('region');
       return;
     } else if (!detailAddress) {
+      handleErrorState('detailAddress');
       return;
     } else if (!externalLink) {
+      handleErrorState('externalLink');
       return;
     } else if (!description) {
+      handleErrorState('description');
       return;
     } else if (!imgFile) {
+      handleErrorState('imgFile');
       return;
     }
     const params = {
@@ -106,6 +122,25 @@ export default function InputArea() {
             setTitle(e.target.value);
           }}
         />
+        <div
+          className={clsx([
+            styles['error-message'],
+            {
+              [styles['show-error']]:
+                errorState === 'title' || errorState === 'titleLimit',
+            },
+          ])}
+        >
+          <Image
+            src={'/assets/events/Warning.svg'}
+            alt="warning"
+            width={16}
+            height={16}
+          />
+          {errorState === 'title'
+            ? 'Please enter the title of your event.'
+            : 'Please enter the event title between 1 and 100 characters.'}
+        </div>
       </div>
       {/* date/time */}
       <div className={styles['row-area']}>
@@ -228,37 +263,96 @@ export default function InputArea() {
           Event Location
         </div>
         {type === 'Online' && (
-          <input
-            placeholder="Meeting URL (e.g. Zoom link)"
-            value={externalLink}
-            onChange={e => {
-              if (e.target.value.length < 2000) {
-                setExternalLink(e.target.value);
-              }
-            }}
-          />
+          <>
+            <input
+              placeholder="Meeting URL (e.g. Zoom link)"
+              value={externalLink}
+              onChange={e => {
+                if (e.target.value.length < 2000) {
+                  setExternalLink(e.target.value);
+                }
+              }}
+            />
+            <div
+              className={clsx([
+                styles['error-message'],
+                {
+                  [styles['show-error']]:
+                    errorState === 'externalLink' ||
+                    errorState === 'externalLinkLimit',
+                },
+              ])}
+            >
+              <Image
+                src={'/assets/events/Warning.svg'}
+                alt="warning"
+                width={16}
+                height={16}
+              />
+              {errorState === 'externalLink'
+                ? 'Please enter the URL of your event.'
+                : 'Please enter the meeting URL between 1 and 1999 charachters.'}
+            </div>
+          </>
         )}
         {type === 'Offline' && (
-          <input
-            placeholder="Offline address"
-            value={region}
-            onChange={e => {
-              if (e.target.value.length < 2000) {
-                setRegion(e.target.value);
-              }
-            }}
-          />
+          <>
+            <input
+              placeholder="Offline address"
+              value={region}
+              onChange={e => {
+                if (e.target.value.length < 2000) {
+                  setRegion(e.target.value);
+                }
+              }}
+            />
+            <div
+              className={clsx([
+                styles['error-message'],
+                styles['for-region'],
+                {
+                  [styles['show-error']]: errorState === 'region',
+                },
+              ])}
+            >
+              <Image
+                src={'/assets/events/Warning.svg'}
+                alt="warning"
+                width={16}
+                height={16}
+              />
+              Please enter the address of the event location.
+            </div>
+          </>
         )}
         {type === 'Offline' && (
-          <input
-            placeholder="Detailed address (e.g. Unit 419, Level 4)"
-            value={detailAddress}
-            onChange={e => {
-              if (e.target.value.length < 2000) {
-                setDetailAddress(e.target.value);
-              }
-            }}
-          />
+          <>
+            <input
+              placeholder="Detailed address (e.g. Unit 419, Level 4)"
+              value={detailAddress}
+              onChange={e => {
+                if (e.target.value.length < 2000) {
+                  setDetailAddress(e.target.value);
+                }
+              }}
+            />
+            <div
+              className={clsx([
+                styles['error-message'],
+                {
+                  [styles['show-error']]: errorState === 'detailAddress',
+                },
+              ])}
+            >
+              <Image
+                src={'/assets/events/Warning.svg'}
+                alt="warning"
+                width={16}
+                height={16}
+              />
+              Please enter the the detailed address.
+            </div>
+          </>
         )}
       </div>
       {/* handle */}
@@ -275,6 +369,25 @@ export default function InputArea() {
               setHandle(e.target.value);
             }}
           />
+          <div
+            className={clsx([
+              styles['error-message'],
+              {
+                [styles['show-error']]:
+                  errorState === 'handle' || errorState === 'handleDuplicate',
+              },
+            ])}
+          >
+            <Image
+              src={'/assets/events/Warning.svg'}
+              alt="warning"
+              width={16}
+              height={16}
+            />
+            {errorState === 'handle'
+              ? 'Please enter the event handle between 2 and 19 characters. Only alphabets and numbers.'
+              : 'Already exists. Please try another one.'}
+          </div>
         </div>
       </div>
       {/* description */}
@@ -289,6 +402,22 @@ export default function InputArea() {
           }}
           placeholder="Description of your event"
         />
+        <div
+          className={clsx([
+            styles['error-message'],
+            {
+              [styles['show-error']]: errorState === 'description',
+            },
+          ])}
+        >
+          <Image
+            src={'/assets/events/Warning.svg'}
+            alt="warning"
+            width={16}
+            height={16}
+          />
+          Please enter the the detailed address.
+        </div>
         <div
           className={styles['limit-text']}
         >{`${description.length}/3000`}</div>
@@ -315,6 +444,25 @@ export default function InputArea() {
             </label>
 
             <div className={styles['text-area']}>Add Image</div>
+          </div>
+        </div>
+        <div
+          className={clsx([
+            styles['error-message'],
+            {
+              [styles['show-error']]: errorState === 'imgFile',
+            },
+          ])}
+        >
+          <Image
+            src={'/assets/events/Warning.svg'}
+            alt="warning"
+            width={16}
+            height={16}
+          />
+          <div>
+            <div>Image size exceeds the limit (10MB).</div>
+            <div>Please upload another image with a smaller file size.</div>
           </div>
         </div>
       </div>
