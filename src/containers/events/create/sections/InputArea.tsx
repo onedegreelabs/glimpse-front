@@ -6,7 +6,6 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import {useEffect, useState} from 'react';
 import {createEvent} from '@/hooks/swr/useEvents';
-import {CreateEventType} from '@/types/eventTypes';
 export default function InputArea() {
   const [title, setTitle] = useState('');
   const [startAt, setStartAt] = useState<Date>();
@@ -59,23 +58,23 @@ export default function InputArea() {
   };
 
   const onClickCreateEvent = function () {
-    // if (!title) {
-    //   return;
-    // } else if (!startAt || !endAt) {
-    //   return;
-    // } else if (!handle) {
-    //   return;
-    // } else if (!region) {
-    //   return;
-    // } else if (!detailAddress) {
-    //   return;
-    // } else if (!externalLink) {
-    //   return;
-    // } else if (!description) {
-    //   return;
-    // } else if (!imgFile) {
-    //   return;
-    // }
+    if (!title) {
+      return;
+    } else if (!startAt || !endAt) {
+      return;
+    } else if (!handle) {
+      return;
+    } else if (!region) {
+      return;
+    } else if (!detailAddress) {
+      return;
+    } else if (!externalLink) {
+      return;
+    } else if (!description) {
+      return;
+    } else if (!imgFile) {
+      return;
+    }
     const params = {
       title: title,
       startAt: startAt,
