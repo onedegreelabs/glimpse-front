@@ -4,9 +4,11 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styles from './inputArea.module.scss';
 import clsx from 'clsx';
 import Image from 'next/image';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {createEvent} from '@/hooks/swr/useEvents';
-import {error} from 'console';
+import {checkDuplicateHandle} from '@/hooks/swr/useEvents';
+import _ from 'lodash';
+
 export default function InputArea() {
   const [title, setTitle] = useState('');
   const [startAt, setStartAt] = useState<Date>();
@@ -108,6 +110,25 @@ export default function InputArea() {
     console.log(res);
   };
 
+  const checkDuplicate = useCallback(
+    _.debounce(async handle => {
+      if (handle.length >= 2) {
+        const res = await checkDuplicateHandle(handle);
+        const isDuplicate = res.data.data;
+        if (isDuplicate) {
+          handleErrorState('handleDuplicate');
+        }
+      }
+    }, 1000),
+    []
+  );
+
+  useEffect(() => {
+    if (handle.length >= 2) {
+      checkDuplicate(handle);
+    }
+  }, [handle]);
+
   return (
     <div className={styles['input-area']}>
       {/* title */}
@@ -119,7 +140,11 @@ export default function InputArea() {
           placeholder="Title"
           value={title}
           onChange={e => {
-            setTitle(e.target.value);
+            if (e.target.value.length <= 100) {
+              setTitle(e.target.value);
+            } else {
+              handleErrorState('titleLimit');
+            }
           }}
         />
         <div
