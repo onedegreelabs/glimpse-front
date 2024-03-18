@@ -146,6 +146,12 @@ export default function InputArea() {
               handleErrorState('titleLimit');
             }
           }}
+          className={clsx([
+            {
+              [styles['error']]:
+                errorState === 'title' || errorState === 'titleLimit',
+            },
+          ])}
         />
         <div
           className={clsx([
@@ -297,6 +303,13 @@ export default function InputArea() {
                   setExternalLink(e.target.value);
                 }
               }}
+              className={clsx([
+                {
+                  [styles['error']]:
+                    errorState === 'externalLink' ||
+                    errorState === 'externalLinkLimit',
+                },
+              ])}
             />
             <div
               className={clsx([
@@ -330,6 +343,11 @@ export default function InputArea() {
                   setRegion(e.target.value);
                 }
               }}
+              className={clsx([
+                {
+                  [styles['error']]: errorState === 'region',
+                },
+              ])}
             />
             <div
               className={clsx([
@@ -358,14 +376,25 @@ export default function InputArea() {
               onChange={e => {
                 if (e.target.value.length < 2000) {
                   setDetailAddress(e.target.value);
+                } else {
+                  handleErrorState('detailAddressLimit');
                 }
               }}
+              className={clsx([
+                {
+                  [styles['error']]:
+                    errorState === 'detailAddress' ||
+                    errorState === 'detailAddressLimit',
+                },
+              ])}
             />
             <div
               className={clsx([
                 styles['error-message'],
                 {
-                  [styles['show-error']]: errorState === 'detailAddress',
+                  [styles['show-error']]:
+                    errorState === 'detailAddress' ||
+                    errorState === 'detailAddressLimit',
                 },
               ])}
             >
@@ -375,7 +404,9 @@ export default function InputArea() {
                 width={16}
                 height={16}
               />
-              Please enter the the detailed address.
+              {errorState === 'detailAddress'
+                ? 'Please enter the the detailed address.'
+                : 'Please enter the event location between 1 and 1999 characters.'}
             </div>
           </>
         )}
@@ -393,6 +424,12 @@ export default function InputArea() {
             onChange={e => {
               setHandle(e.target.value);
             }}
+            className={clsx([
+              {
+                [styles['error']]:
+                  errorState === 'handle' || errorState === 'handleDuplicate',
+              },
+            ])}
           />
           <div
             className={clsx([
@@ -426,6 +463,11 @@ export default function InputArea() {
             }
           }}
           placeholder="Description of your event"
+          className={clsx([
+            {
+              [styles['error']]: errorState === 'description',
+            },
+          ])}
         />
         <div
           className={clsx([

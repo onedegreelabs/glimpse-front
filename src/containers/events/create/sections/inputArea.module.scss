@@ -17,6 +17,11 @@
       border: 1px solid #7e51fd;
       box-shadow: 2px 2px 8px 0px rgba(126, 81, 253, 0.7);
     }
+
+    &.error {
+      border: 1px solid #f00;
+      box-shadow: 2px 2px 8px 0px rgba(255, 0, 0, 0.7);
+    }
   }
 
   .error-message {
@@ -54,6 +59,11 @@
       outline: none;
       border: 1px solid #7e51fd;
       box-shadow: 2px 2px 8px 0px rgba(126, 81, 253, 0.7);
+    }
+
+    &.error {
+      border: 1px solid #f00;
+      box-shadow: 2px 2px 8px 0px rgba(255, 0, 0, 0.7);
     }
   }
 
