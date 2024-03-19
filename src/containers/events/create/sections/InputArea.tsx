@@ -72,17 +72,17 @@ export default function InputArea() {
       return;
     } else if (!startAt || !endAt) {
       return;
-    } else if (!handle) {
-      handleErrorState('handle');
-      return;
-    } else if (!region) {
+    } else if (type === 'Offline' && !region) {
       handleErrorState('region');
       return;
-    } else if (!detailAddress) {
+    } else if (type === 'Offline' && !detailAddress) {
       handleErrorState('detailAddress');
       return;
-    } else if (!externalLink) {
+    } else if (type === 'Online' && !externalLink) {
       handleErrorState('externalLink');
+      return;
+    } else if (!handle) {
+      handleErrorState('handle');
       return;
     } else if (!description) {
       handleErrorState('description');
@@ -296,7 +296,7 @@ export default function InputArea() {
           </>
         )}
         {type === 'Offline' && (
-          <>
+          <div style={{position: 'relative'}}>
             <input
               placeholder="Offline address"
               value={region}
@@ -321,9 +321,9 @@ export default function InputArea() {
                 width={16}
                 height={16}
               />
-              Please enter the address of the event location.
+              Please enter the address of the event location.!
             </div>
-          </>
+          </div>
         )}
         {type === 'Offline' && (
           <>
