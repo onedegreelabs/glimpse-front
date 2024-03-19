@@ -1,18 +1,29 @@
+import {getFetcher} from '@/services/fetcher';
 import {customAxios} from '@/services/headers';
+import {CreateEventType} from '@/types/eventTypes';
 import useSWR from 'swr';
 
 const useMyEventList = function (count: number) {
-  const fetcher = async function () {
-    const res = await customAxios.get(`events/my-events?take=${count}`);
-    return res.data;
-  };
-
   const {data, error, isLoading} = useSWR(
     `events/my-events?take=${count}`,
-    fetcher
+    getFetcher
   );
 
   return {data, error, isLoading};
 };
 
 export {useMyEventList};
+
+const createEvent = async function (data: CreateEventType) {
+  const res = await customAxios.post('events', data);
+  return res;
+};
+
+export {createEvent};
+
+const checkDuplicateHandle = async function (handle: string) {
+  const res = await customAxios.get(`events/check-duplicate?handle=${handle}`);
+  return res;
+};
+
+export {checkDuplicateHandle};
