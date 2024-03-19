@@ -1,15 +1,14 @@
 'use client';
 import {useEffect} from 'react';
 import styles from './dayEvent.module.scss';
-import {eventsAPI} from '@/services/eventsApi';
 import EventCard from '../components/EventCard';
-import {tmpLogin} from '../tmpLogin';
-export default function DayEvent() {
+import {EventDataType} from '@/types/eventTypes';
+
+export default function DayEvent(data: EventDataType) {
   useEffect(() => {
-    const eventList = eventsAPI.my.getMyEventList(3);
-    console.log(eventList);
+    console.log(data);
     // tmpLogin();
-  }, []);
+  }, [data]);
   return (
     <div className={styles['day-event-wrapper']}>
       <div className={styles['date-text']}>Feb 18, 2023 Sunday</div>
