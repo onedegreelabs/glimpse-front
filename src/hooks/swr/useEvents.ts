@@ -20,3 +20,10 @@ const createEvent = async function (data: CreateEventType) {
 };
 
 export {createEvent};
+
+const checkDuplicateHandle = async function (handle: string) {
+  const res = await customAxios.get(`events/check-duplicate?handle=${handle}`);
+  return res;
+};
+
+export {checkDuplicateHandle};

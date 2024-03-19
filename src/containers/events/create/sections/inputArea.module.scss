@@ -6,7 +6,7 @@
   input {
     padding: 0 12px;
     width: 343px;
-    border: 1px solid #DADADA;
+    border: 1px solid #dadada;
     border-radius: 8px;
     font-size: 14px;
     height: 40px;
@@ -16,6 +16,11 @@
       outline: none;
       border: 1px solid #7E51FD;
       box-shadow: 2px 2px 8px 0px rgba(126, 81, 253, 0.70);
+    }
+
+    &.error {
+      border: 1px solid #f00;
+      box-shadow: 2px 2px 8px 0px rgba(255, 0, 0, 0.7);
     }
   }
 
@@ -27,7 +32,6 @@
     font-weight: 400;
     color: #f00;
     top: 100%;
-    // display: flex;
     display: none;
 
     &.show-error {
@@ -43,7 +47,7 @@
     padding: 12px;
     width: 343px;
     min-height: 120px;
-    border: 1px solid #DADADA;
+    border: 1px solid #dadada;
     border-radius: 8px;
     font-size: 14px;
     height: 40px;
@@ -54,6 +58,11 @@
       outline: none;
       border: 1px solid #7E51FD;
       box-shadow: 2px 2px 8px 0px rgba(126, 81, 253, 0.70);
+    }
+
+    &.error {
+      border: 1px solid #f00;
+      box-shadow: 2px 2px 8px 0px rgba(255, 0, 0, 0.7);
     }
   }
 
@@ -83,7 +92,7 @@
         &::after {
           position: absolute;
           content: '*';
-          color: #764BE5;
+          color: #764be5;
           padding-left: 4px;
         }
       }
@@ -137,7 +146,7 @@
       display: flex;
       gap: 4px;
       font-size: 12px;
-      color: #9C9C9C;
+      color: #9c9c9c;
     }
 
     .type-wrapper {
@@ -154,12 +163,11 @@
         .custom-radio {
           width: 14px;
           height: 14px;
-          border: 3px solid #D6D6D6;
+          border: 3px solid #d6d6d6;
           border-radius: 50%;
 
           &.checked {
-
-            border: 3px solid #7E51FD;
+            border: 3px solid #7e51fd;
           }
         }
 
@@ -177,14 +185,14 @@
       .base-handle {
         font-size: 14px;
         font-weight: 400;
-        color: #5C5C5C;
+        color: #5c5c5c;
       }
     }
 
     .add-box {
       height: 120px;
       width: 343px;
-      border: 1px dashed #B497FF;
+      border: 1px dashed #b497ff;
       border-radius: 8px;
       display: flex;
       align-items: center;
@@ -192,7 +200,7 @@
       cursor: pointer;
 
       &:hover {
-        background-color: #F2EDFF;
+        background-color: #f2edff;
       }
 
       .icon-text {
@@ -211,13 +219,12 @@
         }
 
         .text-area {
-          color: #7E51FD;
+          color: #7e51fd;
           font-weight: 500;
           font-size: 16px;
         }
       }
     }
-
   }
 
   .create-button {
@@ -226,7 +233,7 @@
     justify-content: center;
     width: 343px;
     height: 48px;
-    background-color: #7E51FD;
+    background-color: #7e51fd;
     color: #fff;
     font-weight: 600;
     border-radius: 4px;

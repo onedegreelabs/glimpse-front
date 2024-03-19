@@ -4,9 +4,11 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styles from './inputArea.module.scss';
 import clsx from 'clsx';
 import Image from 'next/image';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {createEvent} from '@/hooks/swr/useEvents';
-import {error} from 'console';
+import {checkDuplicateHandle} from '@/hooks/swr/useEvents';
+import _ from 'lodash';
+
 export default function InputArea() {
   const [title, setTitle] = useState('');
   const [startAt, setStartAt] = useState<Date>();
@@ -108,6 +110,25 @@ export default function InputArea() {
     console.log(res);
   };
 
+  const checkDuplicate = useCallback(
+    _.debounce(async handle => {
+      if (handle.length >= 2) {
+        const res = await checkDuplicateHandle(handle);
+        const isDuplicate = res.data.data;
+        if (isDuplicate) {
+          handleErrorState('handleDuplicate');
+        }
+      }
+    }, 1000),
+    []
+  );
+
+  useEffect(() => {
+    if (handle.length >= 2) {
+      checkDuplicate(handle);
+    }
+  }, [handle]);
+
   return (
     <div className={styles['input-area']}>
       {/* title */}
@@ -119,8 +140,18 @@ export default function InputArea() {
           placeholder="Title"
           value={title}
           onChange={e => {
-            setTitle(e.target.value);
+            if (e.target.value.length <= 100) {
+              setTitle(e.target.value);
+            } else {
+              handleErrorState('titleLimit');
+            }
           }}
+          className={clsx([
+            {
+              [styles['error']]:
+                errorState === 'title' || errorState === 'titleLimit',
+            },
+          ])}
         />
         <div
           className={clsx([
@@ -272,6 +303,13 @@ export default function InputArea() {
                   setExternalLink(e.target.value);
                 }
               }}
+              className={clsx([
+                {
+                  [styles['error']]:
+                    errorState === 'externalLink' ||
+                    errorState === 'externalLinkLimit',
+                },
+              ])}
             />
             <div
               className={clsx([
@@ -305,6 +343,11 @@ export default function InputArea() {
                   setRegion(e.target.value);
                 }
               }}
+              className={clsx([
+                {
+                  [styles['error']]: errorState === 'region',
+                },
+              ])}
             />
             <div
               className={clsx([
@@ -333,14 +376,25 @@ export default function InputArea() {
               onChange={e => {
                 if (e.target.value.length < 2000) {
                   setDetailAddress(e.target.value);
+                } else {
+                  handleErrorState('detailAddressLimit');
                 }
               }}
+              className={clsx([
+                {
+                  [styles['error']]:
+                    errorState === 'detailAddress' ||
+                    errorState === 'detailAddressLimit',
+                },
+              ])}
             />
             <div
               className={clsx([
                 styles['error-message'],
                 {
-                  [styles['show-error']]: errorState === 'detailAddress',
+                  [styles['show-error']]:
+                    errorState === 'detailAddress' ||
+                    errorState === 'detailAddressLimit',
                 },
               ])}
             >
@@ -350,7 +404,9 @@ export default function InputArea() {
                 width={16}
                 height={16}
               />
-              Please enter the the detailed address.
+              {errorState === 'detailAddress'
+                ? 'Please enter the the detailed address.'
+                : 'Please enter the event location between 1 and 1999 characters.'}
             </div>
           </>
         )}
@@ -368,6 +424,12 @@ export default function InputArea() {
             onChange={e => {
               setHandle(e.target.value);
             }}
+            className={clsx([
+              {
+                [styles['error']]:
+                  errorState === 'handle' || errorState === 'handleDuplicate',
+              },
+            ])}
           />
           <div
             className={clsx([
@@ -401,6 +463,11 @@ export default function InputArea() {
             }
           }}
           placeholder="Description of your event"
+          className={clsx([
+            {
+              [styles['error']]: errorState === 'description',
+            },
+          ])}
         />
         <div
           className={clsx([
