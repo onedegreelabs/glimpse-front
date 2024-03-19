@@ -47,7 +47,7 @@ export default function BoxView({userList}: BoxProps) {
                     height={24}
                   />
                 </div>
-                <div
+                {/* <div
                   className={clsx(
                     styles['icon-wrapper'],
                     styles['comment-icon']
@@ -59,20 +59,20 @@ export default function BoxView({userList}: BoxProps) {
                     width={24}
                     height={24}
                   />
-                </div>
+                </div> */}
               </div>
               <div className={styles['profile-wrapper']}>
                 <div>
+                  <p className={styles['profile-name']}>{data.displayName}</p>
                   <IconText
-                    src={'/assets/glimpse-list/location-icon.svg'}
+                    src={'/assets/glimpse-list/Location.svg'}
                     alt={'위치 아이콘'}
-                    width={24}
-                    height={24}
-                    text={'Seoul, Korea'}
+                    width={16}
+                    height={16}
+                    text={'San Fancisco, USA'}
                     fontsize={12}
                     gap={4}
                   />
-                  <p className={styles['profile-name']}>{data.displayName}</p>
                   <div className={styles['position-wrapper']}>
                     <Chip
                       key={index}
@@ -86,10 +86,12 @@ export default function BoxView({userList}: BoxProps) {
                   </div>
                 </div>
                 <Avatar
-                  src={
-                    data.profileImageUrl ??
-                    '/assets/glimpse-list/temp-glimpse-list-img.jpg'
-                  }
+                  src={'/icons/profile_image.jpg'}
+                  // src={
+                  //   data.profileImageUrl ??
+                  //   // '/assets/glimpse-list/temp-glimpse-list-img.jpg'
+                  //   '/assets/glimpse-list/location-icon.svg'
+                  // }
                   alt="프로필이미지"
                   height={70}
                   width={70}
@@ -103,7 +105,7 @@ export default function BoxView({userList}: BoxProps) {
                   (d: string | number, index: number) => (
                     <Chip
                       key={`hobby-${index}`}
-                      label={`#${d}`}
+                      label={`${d}`}
                       height={24}
                       backgroundColor="#F3F3F3"
                       borderRadius={30}
@@ -113,7 +115,7 @@ export default function BoxView({userList}: BoxProps) {
                   )
                 )}
               </div>
-              <div className={styles['link-wrapper']}>
+              {/* <div className={styles['link-wrapper']}>
                 {data.cards[3].content.map((_, index: number) => (
                   <Image
                     key={`link_${index}`}
@@ -123,7 +125,7 @@ export default function BoxView({userList}: BoxProps) {
                     height={32}
                   />
                 ))}
-              </div>
+              </div> */}
             </div>
           </Card>
         </div>

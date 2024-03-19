@@ -24,22 +24,24 @@ export default function TopBanner() {
               height={28}
               backgroundColor="#7E51FD"
               borderRadius={4}
+              color="#fff"
+              fontSize={12}
             />
-            <Chip
+            {/* <Chip
               label={eventVisibility}
               height={28}
               backgroundColor="#ffffff4d"
               borderRadius={4}
               isOutline
               soldColor="#e1e1e1"
-            />
+            /> */}
           </div>
           <div className={styles['share-btn-wrapper']}>
             <Image
               alt="share-icon"
               src="/icons/shareBox.svg"
-              width={24}
-              height={24}
+              width={16}
+              height={16}
             />
           </div>
         </div>
@@ -52,8 +54,7 @@ export default function TopBanner() {
             height={24}
             backgroundColor="#ffffff4d"
             borderRadius={4}
-            isOutline
-            soldColor="#e1e1e1"
+            fontSize={12}
           />
         </div>
       </div>

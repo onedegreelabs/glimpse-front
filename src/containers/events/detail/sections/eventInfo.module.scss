@@ -21,6 +21,13 @@
       .event-date-wrapper {
         display: flex;
         gap: 8px;
+        align-items: start;
+        font-size: 16px;
+        font-weight: 400;
+
+        img {
+          margin-top: 4px;
+        }
       }
     }
 

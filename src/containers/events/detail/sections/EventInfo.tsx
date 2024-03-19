@@ -4,6 +4,7 @@ import IconText from '@/components/iconText/IconText';
 import {eventData} from '../mock/mock';
 import EventDescription from '../components/EventDescription';
 import {getDateTextFromDateObj, getTimeTextFromDateObj} from '@/lib/utils';
+import Image from 'next/image';
 
 export default function EventInfo() {
   const {eventLink, startDate, tags, location, description} = eventData;
@@ -15,39 +16,36 @@ export default function EventInfo() {
   return (
     <section className={styles['header-content-area']}>
       <section className={styles['event-info-area']}>
-        <div className={styles['event-page-link-wrapper']}>
-          <Link className={styles['page-link']} href={eventLink}>
-            {eventLink}
-          </Link>
-        </div>
         <div className={styles['event-info-top-wrapper']}>
           <div className={styles['event-date-wrapper']}>
-            <IconText
+            <Image
               src={'/assets/glimpse-list/calendar-icon.svg'}
               alt={'달력 아이콘'}
-              width={24}
-              height={24}
-              text={dateText}
+              width={16}
+              height={16}
             />
-            <IconText
-              src={'/assets/glimpse-list/clock-icon.svg'}
-              alt={'시계 아이콘'}
-              width={24}
-              height={24}
-              text={timeText}
-            />
+            <div>{dateText}</div>
           </div>
-          <div>
-            <IconText
-              src={'/assets/glimpse-list/location-icon.svg'}
-              alt={'위치 아이콘'}
-              width={24}
-              height={24}
-              text={location}
+          <div className={styles['event-date-wrapper']}>
+            <Image
+              src={'/assets/glimpse-list/Clock.svg'}
+              alt={'시계 아이콘'}
+              width={16}
+              height={16}
             />
+            <div>{timeText}</div>
+          </div>
+          <div className={styles['event-date-wrapper']}>
+            <Image
+              src={'/assets/glimpse-list/Location.svg'}
+              alt={'위치 아이콘'}
+              width={16}
+              height={16}
+            />
+            <div>{location}</div>
           </div>
         </div>
-        <div className={styles['tag-wrapper']}>
+        {/* <div className={styles['tag-wrapper']}>
           {tags.length > 0 &&
             tags.map((tag, i) => {
               return (
@@ -56,7 +54,7 @@ export default function EventInfo() {
                 </div>
               );
             })}
-        </div>
+        </div> */}
         <EventDescription description={description} />
       </section>
     </section>

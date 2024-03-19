@@ -14,6 +14,7 @@ interface SelectProps {
   hidden?: boolean;
   hiddenOption?: Option;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  fontsize?: number;
 }
 
 export default function Select({
@@ -24,6 +25,7 @@ export default function Select({
   hidden = false,
   hiddenOption,
   onChange,
+  fontsize,
 }: SelectProps) {
   return (
     <select
@@ -33,14 +35,24 @@ export default function Select({
       name={name}
       defaultValue={defaultValue}
       onChange={onChange}
+      style={{fontSize: `${fontsize}px`}}
     >
       {hidden && hiddenOption && (
-        <option value={hiddenOption.value} disabled hidden>
+        <option
+          value={hiddenOption.value}
+          disabled
+          hidden
+          style={{fontSize: `${fontsize}px`}}
+        >
           {hiddenOption.name}
         </option>
       )}
       {options.map((option, index) => (
-        <option key={`${name}-${index}`} value={option.value}>
+        <option
+          key={`${name}-${index}`}
+          value={option.value}
+          style={{fontSize: `${fontsize}px`}}
+        >
           {option.name}
         </option>
       ))}

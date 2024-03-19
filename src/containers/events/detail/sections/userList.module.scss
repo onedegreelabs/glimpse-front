@@ -2,22 +2,20 @@
   background-color: #fff;
   padding: 26px 16px 0;
 
-  .button-wrapper {
-    justify-content: center;
-    display: flex;
-    gap: 8px;
-  }
-
   .search-area {
     display: flex;
+    justify-content: space-between;
     padding: 10px 0px;
-    flex-direction: column;
     gap: 10px;
 
     .list-title {
       font-size: 18px;
       font-style: normal;
       font-weight: 400;
+
+      span {
+        color: #7E51FD;
+      }
     }
 
     .list-setting {
@@ -64,9 +62,10 @@
 .user-list-wrapper {
   background-color: #fff;
   padding: 0 16px;
+
   .view-area {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    // grid-template-columns: repeat(4, 1fr);
     gap: 16px;
     padding: 16px 0px;
 
