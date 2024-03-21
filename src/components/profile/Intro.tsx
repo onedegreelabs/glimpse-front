@@ -2,7 +2,7 @@
 import styles from './intro.module.scss';
 import {useEffect, useState} from 'react';
 
-import Card from '@/components/card/Card';
+// import Card from '@/components/card/Card';
 import {IProfileCard} from '@/types/profileType';
 import getCardsByType from '@/utils/getCardsByType';
 import {
@@ -10,12 +10,21 @@ import {
   INTROTITLE,
 } from '@/containers/my/profile/constans/profile';
 import ProfileCard from '@/components/profile/ProfileCard/ProfileCard';
+import {Card} from '../ui/card';
+import {cn} from '@/lib/utils';
 
 interface IntroCardProps {
-  cards: IProfileCard[];
+  cards?: IProfileCard[];
+  isOtherProfile: boolean;
 }
 
-export default function IntroCard({cards}: IntroCardProps) {
+interface IFocuse {
+  [index: string]: boolean;
+  introTitle: boolean;
+  inTroCarrer: boolean;
+}
+
+export default function IntroCard({cards, isOtherProfile}: IntroCardProps) {
   const [introTitle, setIntroTitle] = useState<IProfileCard>({
     id: 0,
     type: 'INTROTITLE',
@@ -30,6 +39,19 @@ export default function IntroCard({cards}: IntroCardProps) {
     isVisible: true,
     color: '#FFFFFF',
   });
+  const [isFocus, setIsFocus] = useState<IFocuse>({
+    introTitle: false,
+    inTroCarrer: false,
+  });
+
+  const changeCard = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const {name} = e.target;
+    console.log('name', name);
+    setIsFocus(prevState => ({
+      ...prevState,
+      [name]: !prevState[name],
+    }));
+  };
 
   useEffect(() => {
     if (cards !== undefined) {
@@ -40,19 +62,49 @@ export default function IntroCard({cards}: IntroCardProps) {
     }
   }, [cards]);
 
+  console.log('thi', isFocus);
+
   return (
     <ProfileCard title={'Intro'} isShowProfileCard={true}>
       {introTitle && introTitle.content.length > 0 && (
-        <Card height={168}>
+        <Card
+          className={cn(
+            'w-[136px] h-[136px]',
+            isFocus['introTitle'] && 'border-solid border-[#7E51FD]'
+          )}
+        >
           <div className={styles['content']}>
-            <p>{introTitle.content}</p>
+            {isOtherProfile ? (
+              <p>{introTitle.content}</p>
+            ) : (
+              <textarea
+                name="introTitle"
+                className={styles['content-textarea']}
+                readOnly={isFocus.introTitle}
+                onChange={changeCard}
+              />
+            )}
           </div>
         </Card>
       )}
       {introCareer && introCareer.content.length > 0 && (
-        <Card height={168}>
+        <Card
+          className={cn(
+            'w-[136px] h-[136px]',
+            isFocus['introCarrer'] && 'border-solid border-[#7E51FD]'
+          )}
+        >
           <div className={styles['content']}>
-            <p>{introCareer.content}</p>
+            {isOtherProfile ? (
+              <p>{introTitle.content}</p>
+            ) : (
+              <textarea
+                name="introCarrer"
+                className={styles['content-textarea']}
+                readOnly={isFocus.introTitle}
+                onChange={changeCard}
+              />
+            )}
           </div>
         </Card>
       )}

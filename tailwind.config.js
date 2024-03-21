@@ -71,6 +71,17 @@ module.exports = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
+      boxShadow: {
+        'all-round': `2px 2px 5px 1px rgba(0, 0, 0, 0.05),
+        -2px -2px 5px 1px rgba(0, 0, 0, 0.05),
+        2px -2px 5px 1px rgba(0, 0, 0, 0.05),
+        -2px 2px 5px 1px rgba(0, 0, 0, 0.05)`,
+      },
+    },
+    variants: {
+      extend: {
+        borderColor: ['focus-within'],
+      },
     },
   },
   plugins: [require('tailwindcss-animate')],

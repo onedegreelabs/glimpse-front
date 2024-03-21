@@ -99,45 +99,49 @@ function Profile({profile}: Props) {
           </>
         ) : (
           <>
-            <Select
-              name="department"
-              value={department}
-              onValueChange={value => {
-                const name = 'department';
-                setChangeProfile({name, value});
-              }}
-            >
-              <SelectTrigger className="h-[24px] py-[4px] px-[10px] border border-solid border-[#D9D9D9] rounded-[4px] text-[12px] focus:ring-[#7E51FD]">
-                <SelectValue placeholder="department" />
-              </SelectTrigger>
-              <SelectContent>
-                {DEPARTMENT.map(department => (
-                  <SelectItem
-                    key={department}
-                    value={department}
-                    className="text-[12px]"
-                  >
-                    {department}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div style={{width: '166px'}}>
+              <Select
+                name="department"
+                value={department}
+                onValueChange={value => {
+                  const name = 'department';
+                  setChangeProfile({name, value});
+                }}
+              >
+                <SelectTrigger className="h-[24px] py-[4px] px-[10px] border border-solid border-[#D9D9D9] rounded-[4px] text-[12px] focus:ring-[#7E51FD]">
+                  <SelectValue placeholder="department" />
+                </SelectTrigger>
+                <SelectContent>
+                  {DEPARTMENT.map(department => (
+                    <SelectItem
+                      key={department}
+                      value={department}
+                      className="text-[12px]"
+                    >
+                      {department}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
             <p className={styles['divider']}>|</p>
-            <Input
-              name="belong"
-              type="text"
-              placeholder="company"
-              className={cn(
-                'w-[72px] h-[24px] border-solid border-[#D9D9D9] text-[12px]'
-              )}
-              maxLength={15}
-              value={belong}
-              onChange={e => {
-                const name = e.target.name;
-                const value = e.target.value;
-                setChangeProfile({name, value});
-              }}
-            />
+            <div style={{width: '166px'}}>
+              <Input
+                name="belong"
+                type="text"
+                placeholder="company"
+                className={cn(
+                  'w-[72px] h-[24px] border-solid border-[#D9D9D9] text-[12px]'
+                )}
+                maxLength={15}
+                value={belong}
+                onChange={e => {
+                  const name = e.target.name;
+                  const value = e.target.value;
+                  setChangeProfile({name, value});
+                }}
+              />
+            </div>
           </>
         )}
       </div>
@@ -154,7 +158,7 @@ function Profile({profile}: Props) {
         <Input
           name="location"
           type="text"
-          className="h-[20px] py-[4px] px-[10px] ps-[32px] border-solid border-[#D9D9D9] text-[12px]"
+          className="max-w-[110px] h-[20px] py-[4px] px-[10px] ps-[32px] border-solid border-[#D9D9D9] text-[12px]"
           value={location}
           onChange={e => {
             const name = e.target.name;

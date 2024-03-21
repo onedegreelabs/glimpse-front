@@ -56,24 +56,7 @@ const ProfilesContainer = async () => {
           isChangeProfile: false,
         }}
       />
-      <Intro
-        cards={[
-          {
-            id: 0,
-            type: 'INTROTITLE',
-            content: ['리팩토링중'],
-            isVisible: true,
-            color: '#FFFFFF',
-          },
-          {
-            id: 0,
-            type: 'INTROCAREER',
-            content: ['일단 더미데이터 테스트중'],
-            isVisible: true,
-            color: '#FFFFFF',
-          },
-        ]}
-      />
+      <Intro isOtherProfile={true} />
       <AboutMe
         cards={[
           {

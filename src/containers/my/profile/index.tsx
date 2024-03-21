@@ -28,10 +28,6 @@ const MyProfileContainer = () => {
   }, []);
   //   }, [isSaving]);
 
-  // const changeBelong = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setProfile(prev => ({...prev, belong: e.target.value}));
-  // };
-
   ///// Add Link /////
   const [isShowAddInput, setIsShowAddInput] = useState(false);
   const [addTarget, setAddTarget] = useState('LINK');
@@ -63,24 +59,7 @@ const MyProfileContainer = () => {
     <div className={styles['my-profile-container']}>
       <ActionHeader profile={profile} />
       <Profile profile={profile} />
-      <Intro
-        cards={[
-          {
-            id: 0,
-            type: 'INTROTITLE',
-            content: ['리팩토링중'],
-            isVisible: true,
-            color: '#FFFFFF',
-          },
-          {
-            id: 0,
-            type: 'INTROCAREER',
-            content: ['일단 더미데이터 테스트중'],
-            isVisible: true,
-            color: '#FFFFFF',
-          },
-        ]}
-      />
+      <Intro isOtherProfile={profile.isOtherProfile} />
       <AboutMe
         cards={[
           {
