@@ -57,3 +57,40 @@ export type TProfile = IProfile & {
   isChangeProfile: boolean;
   profileImage?: File;
 };
+
+interface BasicDate {
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type TempPropfile = Profile & {
+  isOtherProfile: boolean;
+  isChangeProfile: boolean;
+};
+
+export interface Profile {
+  id: number;
+  email: string;
+  regionId: number;
+  department: string;
+  familyName: string;
+  givenName: string;
+  introduction: string;
+  belong: string;
+  role: string;
+  image: string;
+  sns: SnsDto[];
+  authentication: {};
+  profileCard: string[];
+  userTag: string[];
+}
+
+export interface SnsDto extends BasicDate {
+  id: number;
+  type: string;
+  account: string;
+}
+export interface GetUserResponseDto {
+  status: number;
+  data: BasicDate & Profile;
+}

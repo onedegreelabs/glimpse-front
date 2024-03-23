@@ -1,6 +1,6 @@
 import styles from './index.module.scss';
 
-import {TProfile} from '@/types/profileType';
+import {TempPropfile} from '@/types/profileType';
 import {
   AboutMe,
   ActionHeader,
@@ -11,51 +11,27 @@ import {
 } from '@/components/profile';
 import {getUserOther} from '@/services/profile';
 
-const getProfilesFetch = async (id: number): Promise<TProfile> => {
+interface UserIdProps {
+  id: string;
+}
+
+const getProfilesFetch = async (id: number): Promise<TempPropfile> => {
   const result = await getUserOther(id);
-  return {...result, isOtherProfile: true, isChangeProfile: false};
+  const profile: TempPropfile = {
+    ...result.data,
+    isOtherProfile: true,
+    isChangeProfile: false,
+  };
+  return profile;
 };
 
-const ProfilesContainer = async () => {
-  // TODO: api 연결 테스트
-  // const profile = await getProfilesFetch(1);
+const ProfilesContainer = async ({id}: UserIdProps) => {
+  const profile = await getProfilesFetch(Number(id));
 
   return (
     <div className={styles['profile-container']}>
-      <ActionHeader
-        profile={{
-          id: 1,
-          firstName: '테',
-          lastName: '스트',
-          displayName: '없어질수도',
-          profileImageUrl: '',
-          introSnippet: '하이',
-          department: '개발자',
-          location: '서울',
-          belong: '글림스',
-          viewCount: 0,
-          cards: [],
-          isOtherProfile: true,
-          isChangeProfile: false,
-        }}
-      />
-      <Profile
-        profile={{
-          id: 1,
-          firstName: '테',
-          lastName: '스트',
-          displayName: '없어질수도',
-          profileImageUrl: '',
-          introSnippet: '하이',
-          department: '개발자',
-          location: '서울',
-          belong: '글림스',
-          viewCount: 0,
-          cards: [],
-          isOtherProfile: true,
-          isChangeProfile: false,
-        }}
-      />
+      <ActionHeader profile={profile} />
+      <Profile profile={profile} />
       <Intro isOtherProfile={true} />
       <AboutMe
         cards={[

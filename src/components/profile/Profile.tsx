@@ -2,7 +2,7 @@
 import styles from './profile.module.scss';
 
 import IconText from '@/components/iconText/IconText';
-import {TProfile} from '@/types/profileType';
+import {TProfile, TempPropfile} from '@/types/profileType';
 import {cn} from '@/lib/utils';
 import {Input} from '../ui/input';
 import {useProfileStore} from '@/stores/profile';
@@ -16,17 +16,17 @@ import {
 } from '../ui/select';
 
 interface Props {
-  profile: TProfile;
+  profile: TempPropfile;
 }
 
 function Profile({profile}: Props) {
   const {
-    lastName,
-    firstName,
-    introSnippet,
+    familyName,
+    givenName,
+    introduction,
     department,
     belong,
-    location,
+    regionId,
     isOtherProfile,
   } = profile;
   const {setChangeProfile} = useProfileStore();
@@ -35,7 +35,7 @@ function Profile({profile}: Props) {
     <section className={styles['profile-info-wrapper']}>
       <div className={styles['name-wrapper']}>
         {isOtherProfile ? (
-          <p>{`${lastName} ${firstName} `}</p>
+          <p>{`${familyName} ${givenName} `}</p>
         ) : (
           <>
             <Input
@@ -46,7 +46,7 @@ function Profile({profile}: Props) {
                 'border-solid border-[#D9D9D9] text-[24px] text-center font-normal'
               )}
               maxLength={10}
-              value={lastName}
+              value={familyName}
               onChange={e => {
                 const name = e.target.name;
                 const value = e.target.value;
@@ -61,7 +61,7 @@ function Profile({profile}: Props) {
                 'border-solid border-[#D9D9D9] text-[24px] text-center font-normal'
               )}
               maxLength={10}
-              value={firstName}
+              value={givenName}
               onChange={e => {
                 const name = e.target.name;
                 const value = e.target.value;
@@ -73,7 +73,7 @@ function Profile({profile}: Props) {
       </div>
       <div>
         {isOtherProfile ? (
-          <p>{introSnippet}</p>
+          <p>{introduction}</p>
         ) : (
           <Input
             name="introSnippet"
@@ -81,7 +81,7 @@ function Profile({profile}: Props) {
             placeholder="add bio..."
             className={cn('h-[16px] text-[12px] text-center ')}
             maxLength={20}
-            value={introSnippet}
+            value={introduction}
             onChange={e => {
               const name = e.target.name;
               const value = e.target.value;
@@ -159,7 +159,7 @@ function Profile({profile}: Props) {
           name="location"
           type="text"
           className="max-w-[110px] h-[20px] py-[4px] px-[10px] ps-[32px] border-solid border-[#D9D9D9] text-[12px]"
-          value={location}
+          value={'서울'}
           onChange={e => {
             const name = e.target.name;
             const value = e.target.value;
