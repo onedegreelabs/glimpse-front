@@ -4,7 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styles from './inputArea.module.scss';
 import clsx from 'clsx';
 import Image from 'next/image';
-import {useCallback, useEffect, useState} from 'react';
+import {ChangeEvent, useCallback, useEffect, useState} from 'react';
 import {createEvent} from '@/hooks/swr/useEvents';
 import {checkDuplicateHandle} from '@/hooks/swr/useEvents';
 import _ from 'lodash';
@@ -22,6 +22,7 @@ export default function InputArea() {
   const [imgFile, setImgFile] = useState<File | undefined>();
 
   const [errorState, setErrorState] = useState('');
+  const [validState, setValidState] = useState('');
 
   // time logic
   useEffect(() => {
@@ -68,6 +69,13 @@ export default function InputArea() {
       setErrorState('');
     }, 2000);
   };
+  const handleValidState = function (state: string) {
+    setValidState(state);
+    setTimeout(() => {
+      setValidState('');
+    }, 2000);
+  };
+
   const onClickCreateEvent = function () {
     if (!title) {
       handleErrorState('title');
@@ -110,13 +118,34 @@ export default function InputArea() {
     console.log(res);
   };
 
+  // handle logic
+  const changeHandle = function (
+    e: ChangeEvent<HTMLInputElement>,
+    targetInput: string
+  ) {
+    const value = e.target.value;
+    const newValue = value.replace(/[^a-zA-Z0-9]/g, '');
+    if (value !== newValue) {
+      switch (targetInput) {
+        case 'handle':
+          handleErrorState('handle');
+          break;
+        default:
+          null;
+      }
+    }
+    setHandle(newValue);
+  };
+
   const checkDuplicate = useCallback(
     _.debounce(async handle => {
-      if (handle.length >= 2) {
+      if (handle.length >= 2 && errorState !== 'handle') {
         const res = await checkDuplicateHandle(handle);
         const isDuplicate = res.data.data;
         if (isDuplicate) {
           handleErrorState('handleDuplicate');
+        } else {
+          handleValidState('handle');
         }
       }
     }, 1000),
@@ -128,6 +157,22 @@ export default function InputArea() {
       checkDuplicate(handle);
     }
   }, [handle]);
+
+  // check input valid when blur (focus out input)
+  const checkInputValid = function (
+    e: ChangeEvent<HTMLInputElement>,
+    targetInput: string
+  ) {
+    if (e.target.value === '') {
+      setErrorState(targetInput);
+    }
+  };
+
+  const deleteErrorState = function (targetInput: string) {
+    if (errorState === targetInput) {
+      setErrorState('');
+    }
+  };
 
   return (
     <div className={styles['input-area']}>
@@ -145,6 +190,12 @@ export default function InputArea() {
             } else {
               handleErrorState('titleLimit');
             }
+          }}
+          onFocus={() => {
+            deleteErrorState('title');
+          }}
+          onBlur={e => {
+            checkInputValid(e, 'title');
           }}
           className={clsx([
             {
@@ -301,7 +352,15 @@ export default function InputArea() {
               onChange={e => {
                 if (e.target.value.length < 2000) {
                   setExternalLink(e.target.value);
+                } else {
+                  handleErrorState('externalLinkLimit');
                 }
+              }}
+              onFocus={() => {
+                deleteErrorState('externalLink');
+              }}
+              onBlur={e => {
+                checkInputValid(e, 'externalLink');
               }}
               className={clsx([
                 {
@@ -327,14 +386,19 @@ export default function InputArea() {
                 width={16}
                 height={16}
               />
-              {errorState === 'externalLink'
-                ? 'Please enter the URL of your event.'
-                : 'Please enter the meeting URL between 1 and 1999 charachters.'}
+              {errorState === 'externalLink' ? (
+                'Please enter the URL of your event.'
+              ) : (
+                <div>
+                  <div>Please enter the meeting URL between</div>
+                  <div>1 and 1999 charachters.</div>
+                </div>
+              )}
             </div>
           </>
         )}
         {type === 'Offline' && (
-          <div style={{position: 'relative'}}>
+          <div style={{position: 'relative', marginBottom: '12px'}}>
             <input
               placeholder="Offline address"
               value={region}
@@ -342,6 +406,12 @@ export default function InputArea() {
                 if (e.target.value.length < 2000) {
                   setRegion(e.target.value);
                 }
+              }}
+              onFocus={() => {
+                deleteErrorState('region');
+              }}
+              onBlur={e => {
+                checkInputValid(e, 'region');
               }}
               className={clsx([
                 {
@@ -379,6 +449,12 @@ export default function InputArea() {
                 } else {
                   handleErrorState('detailAddressLimit');
                 }
+              }}
+              onFocus={() => {
+                deleteErrorState('detailAddress');
+              }}
+              onBlur={e => {
+                checkInputValid(e, 'detailAddress');
               }}
               className={clsx([
                 {
@@ -422,15 +498,38 @@ export default function InputArea() {
             placeholder="Unique ID of your event"
             value={handle}
             onChange={e => {
-              setHandle(e.target.value);
+              changeHandle(e, 'handle');
+            }}
+            onFocus={() => {
+              deleteErrorState('handle');
+            }}
+            onBlur={e => {
+              checkInputValid(e, 'handle');
             }}
             className={clsx([
               {
                 [styles['error']]:
                   errorState === 'handle' || errorState === 'handleDuplicate',
+                [styles['valid']]: validState === 'handle',
               },
             ])}
           />
+          <div
+            className={clsx([
+              styles['valid-message'],
+              {
+                [styles['show-valid']]: validState === 'handle',
+              },
+            ])}
+          >
+            <Image
+              src={'/assets/events/Check.svg'}
+              alt="warning"
+              width={16}
+              height={16}
+            />
+            {'Available'}
+          </div>
           <div
             className={clsx([
               styles['error-message'],
@@ -468,6 +567,12 @@ export default function InputArea() {
               [styles['error']]: errorState === 'description',
             },
           ])}
+          onFocus={() => {
+            deleteErrorState('description');
+          }}
+          onBlur={e => {
+            checkInputValid(e, 'description');
+          }}
         />
         <div
           className={clsx([
@@ -483,14 +588,17 @@ export default function InputArea() {
             width={16}
             height={16}
           />
-          Please enter the the detailed address.
+          <div>
+            <div>Please enter the event handle between</div>
+            <div>2 and 19 characters. Only alphabets and numbers.</div>
+          </div>
         </div>
         <div
           className={styles['limit-text']}
         >{`${description.length}/3000`}</div>
       </div>
       {/* image */}
-      <div className={styles['row-area']}>
+      <div className={clsx([styles['row-area'], styles['image-area']])}>
         <div className={styles['title-area']}>Event Cover image</div>
         <input
           style={{display: 'none'}}

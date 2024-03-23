@@ -1,6 +1,6 @@
 .input-area {
   display: grid;
-  gap: 24px;
+  gap: 44px;
   padding: 0 16px;
 
   input {
@@ -22,6 +22,11 @@
       border: 1px solid #f00;
       box-shadow: 2px 2px 8px 0px rgba(255, 0, 0, 0.7);
     }
+
+    &.valid {
+      border: 1px solid #00B21C;
+      box-shadow: 2px 2px 8px 0px rgba(0, 178, 28, 0.70)
+    }
   }
 
   .error-message {
@@ -31,7 +36,7 @@
     font-size: 12px;
     font-weight: 400;
     color: #f00;
-    top: 100%;
+    top: calc(100% + 6px);
     display: none;
 
     &.show-error {
@@ -40,6 +45,21 @@
 
     &.for-region {
       bottom: 38px;
+    }
+  }
+
+  .valid-message {
+    position: absolute;
+    align-items: start;
+    gap: 2px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #00B21C;
+    top: calc(100% + 6px);
+    display: none;
+
+    &.show-valid {
+      display: flex;
     }
   }
 
@@ -224,6 +244,10 @@
           font-size: 16px;
         }
       }
+    }
+
+    &.image-area {
+      margin-top: 22px;
     }
   }
 
