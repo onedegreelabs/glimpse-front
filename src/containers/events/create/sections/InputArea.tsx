@@ -16,7 +16,7 @@ import {
 import {createEvent} from '@/hooks/swr/useEvents';
 import {checkDuplicateHandle} from '@/hooks/swr/useEvents';
 import _ from 'lodash';
-import {start} from 'repl';
+import SuccessModal from '../components/successModal';
 
 export default function InputArea() {
   const [title, setTitle] = useState('');
@@ -39,6 +39,7 @@ export default function InputArea() {
   const [imgFile, setImgFile] = useState<File | undefined>();
   const imgFileRef = useRef<HTMLInputElement>(null);
   const [imgUrl, setImgUrl] = useState<string | ArrayBuffer | null>();
+  const [showModal, setShowModal] = useState<Boolean>(false);
 
   const [errorState, setErrorState] = useState('');
   const [validState, setValidState] = useState('');
@@ -112,7 +113,7 @@ export default function InputArea() {
     }
   };
 
-  const onClickCreateEvent = function () {
+  const onClickCreateEvent = async function () {
     if (!title) {
       scrollToElement(titleRef);
       handleErrorState('title');
@@ -163,7 +164,10 @@ export default function InputArea() {
       // coverImageKey: imgFile,
       coverImageKey: '',
     };
-    const res = createEvent(params);
+    const res = await createEvent(params);
+    if (res.status === 201) {
+      setShowModal(true);
+    }
   };
 
   // handle logic
@@ -713,6 +717,10 @@ export default function InputArea() {
       <div className={styles['create-button']} onClick={onClickCreateEvent}>
         Create Event
       </div>
+
+      {/* modal */}
+      {showModal && <SuccessModal handle={handle} />}
+      {/* <SuccessModal handle={handle} /> */}
     </div>
   );
 }
