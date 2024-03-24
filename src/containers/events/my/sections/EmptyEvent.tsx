@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import styles from './emptyEvent.module.scss';
 import {useRouter} from 'next/navigation';
-export default function EmptyEvent() {
+export default function EmptyEvent({pageType}: {pageType: string}) {
   const router = useRouter();
   const resUrl = window.location.href;
   const eventCreateUrl = resUrl.replace(/\/my$/, '/new');
@@ -21,7 +21,9 @@ export default function EmptyEvent() {
           />
         </div>
         <div className={styles['main-title']}>
-          {"You don't have any events"}
+          {pageType === 'my'
+            ? "You don't have any events"
+            : 'There are no events to discover.'}
         </div>
         <div className={styles['sub-title']}>
           {'Would you like to create one?'}

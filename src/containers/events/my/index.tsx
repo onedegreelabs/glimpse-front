@@ -3,15 +3,16 @@ import {useEffect, useState} from 'react';
 import styles from './index.module.scss';
 import DayEvent from './sections/DayEvent';
 import EmptyEvent from './sections/EmptyEvent';
-import {useMyEventList} from '@/hooks/swr/useEvents';
+import {useEventList, useMyEventList} from '@/hooks/swr/useEvents';
 import _ from 'lodash';
 import {DayEventProps} from '@/types/eventTypes';
 import CreateRoundButton from './sections/CreateRoundButton';
 import clsx from 'clsx';
 
-export default function EventMyContainer() {
+export default function EventMyContainer({pageType}: {pageType: string}) {
   const [isEmptyEvent, setIsEmptyEvent] = useState(true);
-  const {data, error, isLoading} = useMyEventList(100);
+  const needSwrHook = pageType === 'my' ? useMyEventList : useEventList;
+  const {data, error, isLoading} = needSwrHook(9);
   const [eventsByDate, setEventsByDate] = useState<DayEventProps[]>([]);
 
   useEffect(() => {
@@ -55,12 +56,14 @@ export default function EventMyContainer() {
                 </div>
               );
             })}
-            <div className={styles['create-button']}>
-              <CreateRoundButton />
-            </div>
+            {pageType === 'My' && (
+              <div className={styles['create-button']}>
+                <CreateRoundButton />
+              </div>
+            )}
           </>
         ) : (
-          <EmptyEvent />
+          <EmptyEvent pageType={pageType} />
         )}
       </div>
     );
