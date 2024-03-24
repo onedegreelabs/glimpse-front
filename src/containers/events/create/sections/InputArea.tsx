@@ -38,6 +38,7 @@ export default function InputArea() {
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const [imgFile, setImgFile] = useState<File | undefined>();
   const imgFileRef = useRef<HTMLInputElement>(null);
+  const [imgUrl, setImgUrl] = useState<string | ArrayBuffer | null>();
 
   const [errorState, setErrorState] = useState('');
   const [validState, setValidState] = useState('');
@@ -74,6 +75,11 @@ export default function InputArea() {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
       if (selectedFile.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        reader.onload = () => {
+          setImgUrl(reader.result);
+        };
         setImgFile(selectedFile);
       } else {
         alert('이미지 파일을 선택해주세요.');
@@ -658,7 +664,18 @@ export default function InputArea() {
           id="fileUpload"
           onChange={handleImageUpload}
         ></input>
-        <div className={styles['add-box']}>
+        <div
+          className={styles['add-box']}
+          style={
+            imgUrl
+              ? {
+                  backgroundImage: `url(${imgUrl})`,
+                  backgroundSize: 'cover',
+                  backgroundRepeat: 'no-repeat',
+                }
+              : {}
+          }
+        >
           <div className={styles['icon-text']}>
             <label htmlFor="fileUpload" className={styles['label-button']}>
               <Image
