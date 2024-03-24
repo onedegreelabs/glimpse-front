@@ -1,28 +1,38 @@
 export interface CreateEventType {
-  title: String;
+  title: string;
   startAt: Date;
   endAt: Date;
   dueAt: Date;
-  type: String;
-  handle: String;
-  region: String;
-  detailAddress: String;
-  externalLink: String;
-  description: String;
+  type: string;
+  handle: string;
+  region: string;
+  detailAddress: string;
+  externalLink: string;
+  description: string;
   coverImageKey: File;
 }
 
+interface regionType {
+  oneDepth: string;
+  twoDepth: string;
+  threeDepth: string;
+}
 export interface EventDataType {
-  title: String;
+  title: string;
   startAt: Date;
   endAt: Date;
-  type: String;
-  handle: String;
-  externalLink: String;
-  detailAddress: String;
-  region: String;
+  type: string;
+  handle: string;
+  externalLink: string;
+  detailAddress: string;
+  region: regionType;
   id: number;
-  organizer: {id: number; familyName: String; givenName: String};
-  description: String;
+  organizer: {id: number; familyName: string; givenName: string};
+  description: string;
   coverImageKey: File;
+}
+
+export interface DayEventProps {
+  date: string;
+  events: EventDataType[];
 }

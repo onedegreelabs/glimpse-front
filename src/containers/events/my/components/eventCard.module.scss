@@ -23,14 +23,17 @@
     gap: 6px;
 
     .event-title {
-      display: flex;
-      align-items: center;
       font-size: 16px;
       font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
     }
 
     .time-and-location {
-      display: flex;
+      display: grid;
+      grid-template-columns: 60px 160px;
       align-items: center;
       gap: 8px;
     }
