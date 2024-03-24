@@ -12,7 +12,7 @@ import clsx from 'clsx';
 export default function EventMyContainer({pageType}: {pageType: string}) {
   const [isEmptyEvent, setIsEmptyEvent] = useState(true);
   const needSwrHook = pageType === 'my' ? useMyEventList : useEventList;
-  const {data, error, isLoading} = needSwrHook(9);
+  const {data, error, isLoading} = needSwrHook(100);
   const [eventsByDate, setEventsByDate] = useState<DayEventProps[]>([]);
 
   useEffect(() => {
@@ -52,7 +52,11 @@ export default function EventMyContainer({pageType}: {pageType: string}) {
                     [styles['last-child']]: idx + 1 === eventsByDate.length,
                   })}
                 >
-                  <DayEvent data={event.events} date={event.date} />
+                  <DayEvent
+                    data={event.events}
+                    date={event.date}
+                    pageType={pageType}
+                  />
                 </div>
               );
             })}
