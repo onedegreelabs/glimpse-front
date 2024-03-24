@@ -6,6 +6,8 @@ import EmptyEvent from './sections/EmptyEvent';
 import {useMyEventList} from '@/hooks/swr/useEvents';
 import _ from 'lodash';
 import {DayEventProps} from '@/types/eventTypes';
+import CreateRoundButton from './sections/CreateRoundButton';
+import clsx from 'clsx';
 
 export default function EventMyContainer() {
   const [isEmptyEvent, setIsEmptyEvent] = useState(true);
@@ -43,11 +45,19 @@ export default function EventMyContainer() {
           <>
             {eventsByDate.map((event, idx) => {
               return (
-                <div key={`${event?.date}_${idx}`}>
+                <div
+                  key={`${event?.date}_${idx}`}
+                  className={clsx(styles['day-event-wrapper'], {
+                    [styles['last-child']]: idx + 1 === eventsByDate.length,
+                  })}
+                >
                   <DayEvent data={event.events} date={event.date} />
                 </div>
               );
             })}
+            <div className={styles['create-button']}>
+              <CreateRoundButton />
+            </div>
           </>
         ) : (
           <EmptyEvent />

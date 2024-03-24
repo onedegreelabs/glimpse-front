@@ -3,6 +3,7 @@ import styles from './eventCard.module.scss';
 import Image from 'next/image';
 import IconText from '@/components/iconText/IconText';
 import {EventDataType} from '@/types/eventTypes';
+import {useRouter} from 'next/navigation';
 
 export default function EventCard({eventData}: {eventData: EventDataType}) {
   const makeTimeText = (dateTimeString: Date) => {
@@ -35,9 +36,21 @@ export default function EventCard({eventData}: {eventData: EventDataType}) {
   };
   const organizerText = makeOrganizerText();
 
+  const router = useRouter();
+  const resUrl = window.location.href;
+  const onClickCard = (handle: string) => {
+    const eventDetailUrl = resUrl.replace(/\/my$/, `/${handle}`);
+    router.push(eventDetailUrl);
+  };
+
   return (
     <Card>
-      <div className={styles['event-card-wrapper']}>
+      <div
+        className={styles['event-card-wrapper']}
+        onClick={() => {
+          onClickCard(eventData.handle);
+        }}
+      >
         <div className={styles['image-box']}>
           <Image
             src="/assets/events/test.jpg"
