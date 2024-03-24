@@ -1,13 +1,20 @@
+'use client';
 import Image from 'next/image';
 import styles from './emptyEvent.module.scss';
-
+import {useRouter} from 'next/navigation';
 export default function EmptyEvent() {
+  const router = useRouter();
+  const resUrl = window.location.href;
+  const eventCreateUrl = resUrl.replace(/\/my$/, '/new');
+  const onClickButton = () => {
+    router.push(eventCreateUrl);
+  };
   return (
     <div className={styles['empty-event-wrapper']}>
       <div className={styles['content-wrapper']}>
         <div className={styles['img-wrapper']}>
           <Image
-            src={'/icons/file_icon.svg'}
+            src={'/assets/events/noEventImage.png'}
             alt="file-icon"
             width={168}
             height={168}
@@ -26,7 +33,9 @@ export default function EmptyEvent() {
             width={20}
             height={20}
           />
-          <div className={styles['button-text']}>Create Event</div>
+          <div onClick={onClickButton} className={styles['button-text']}>
+            Create Event
+          </div>
         </div>
       </div>
     </div>
