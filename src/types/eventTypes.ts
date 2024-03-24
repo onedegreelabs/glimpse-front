@@ -9,5 +9,5 @@ export interface CreateEventType {
   detailAddress: String;
   externalLink: String;
   description: String;
-  coverImageKey: File;
+  coverImageKey: File | string;
 }
