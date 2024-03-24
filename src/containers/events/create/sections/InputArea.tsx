@@ -4,22 +4,40 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styles from './inputArea.module.scss';
 import clsx from 'clsx';
 import Image from 'next/image';
-import {ChangeEvent, useCallback, useEffect, useState} from 'react';
+import {
+  ChangeEvent,
+  FocusEvent,
+  RefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {createEvent} from '@/hooks/swr/useEvents';
 import {checkDuplicateHandle} from '@/hooks/swr/useEvents';
 import _ from 'lodash';
+import {start} from 'repl';
 
 export default function InputArea() {
   const [title, setTitle] = useState('');
+  const titleRef = useRef<HTMLInputElement>(null);
   const [startAt, setStartAt] = useState<Date>();
+  const startRef = useRef<HTMLInputElement>(null);
   const [endAt, setEndAt] = useState<Date>();
+  const endRef = useRef<HTMLInputElement>(null);
   const [type, setType] = useState('Online');
   const [handle, setHandle] = useState('');
+  const handleRef = useRef<HTMLInputElement>(null);
   const [region, setRegion] = useState('');
+  const regionRef = useRef<HTMLInputElement>(null);
   const [detailAddress, setDetailAddress] = useState('');
+  const detailAddressRef = useRef<HTMLInputElement>(null);
   const [externalLink, setExternalLink] = useState('');
+  const externalLinkRef = useRef<HTMLInputElement>(null);
   const [description, setDescription] = useState('');
+  const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const [imgFile, setImgFile] = useState<File | undefined>();
+  const imgFileRef = useRef<HTMLInputElement>(null);
 
   const [errorState, setErrorState] = useState('');
   const [validState, setValidState] = useState('');
@@ -76,28 +94,52 @@ export default function InputArea() {
     }, 2000);
   };
 
+  const scrollToElement = function (
+    target: RefObject<HTMLInputElement> | RefObject<HTMLTextAreaElement>
+  ) {
+    if (target.current) {
+      target.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center',
+      });
+    }
+  };
+
   const onClickCreateEvent = function () {
     if (!title) {
+      scrollToElement(titleRef);
       handleErrorState('title');
       return;
     } else if (!startAt || !endAt) {
+      if (!startAt) {
+        scrollToElement(startRef);
+      } else {
+        scrollToElement(endRef);
+      }
       return;
     } else if (type === 'Offline' && !region) {
+      scrollToElement(regionRef);
       handleErrorState('region');
       return;
     } else if (type === 'Offline' && !detailAddress) {
+      scrollToElement(detailAddressRef);
       handleErrorState('detailAddress');
       return;
     } else if (type === 'Online' && !externalLink) {
+      scrollToElement(externalLinkRef);
       handleErrorState('externalLink');
       return;
     } else if (!handle) {
+      scrollToElement(handleRef);
       handleErrorState('handle');
       return;
     } else if (!description) {
+      scrollToElement(descriptionRef);
       handleErrorState('description');
       return;
     } else if (!imgFile) {
+      scrollToElement(imgFileRef);
       handleErrorState('imgFile');
       return;
     }
@@ -112,10 +154,10 @@ export default function InputArea() {
       detailAddress: detailAddress,
       externalLink: externalLink,
       description: description,
-      coverImageKey: imgFile,
+      // coverImageKey: imgFile,
+      coverImageKey: '',
     };
     const res = createEvent(params);
-    console.log(res);
   };
 
   // handle logic
@@ -160,7 +202,9 @@ export default function InputArea() {
 
   // check input valid when blur (focus out input)
   const checkInputValid = function (
-    e: ChangeEvent<HTMLInputElement>,
+    e:
+      | FocusEvent<HTMLInputElement, Element>
+      | FocusEvent<HTMLTextAreaElement, Element>,
     targetInput: string
   ) {
     if (e.target.value === '') {
@@ -182,6 +226,7 @@ export default function InputArea() {
           Event Title
         </div>
         <input
+          ref={titleRef}
           placeholder="Title"
           value={title}
           onChange={e => {
@@ -233,7 +278,7 @@ export default function InputArea() {
           <div className={styles['date-row']}>
             <div className={styles['text-area']}>Start</div>
             <div className={styles['date-wrapper']}>
-              <div className={styles['first-picker']}>
+              <div ref={startRef} className={styles['first-picker']}>
                 <ReactDatePicker
                   selected={startAt}
                   onChange={d => {
@@ -265,7 +310,7 @@ export default function InputArea() {
           <div className={styles['date-row']}>
             <div className={styles['text-area']}>End</div>
             <div className={styles['date-wrapper']}>
-              <div className={styles['first-picker']}>
+              <div ref={endRef} className={styles['first-picker']}>
                 <ReactDatePicker
                   selected={endAt}
                   onChange={d => {
@@ -347,6 +392,7 @@ export default function InputArea() {
         {type === 'Online' && (
           <>
             <input
+              ref={externalLinkRef}
               placeholder="Meeting URL (e.g. Zoom link)"
               value={externalLink}
               onChange={e => {
@@ -400,6 +446,7 @@ export default function InputArea() {
         {type === 'Offline' && (
           <div style={{position: 'relative', marginBottom: '12px'}}>
             <input
+              ref={regionRef}
               placeholder="Offline address"
               value={region}
               onChange={e => {
@@ -441,6 +488,7 @@ export default function InputArea() {
         {type === 'Offline' && (
           <>
             <input
+              ref={detailAddressRef}
               placeholder="Detailed address (e.g. Unit 419, Level 4)"
               value={detailAddress}
               onChange={e => {
@@ -495,6 +543,7 @@ export default function InputArea() {
             glimpse.rsvp/events?handle=
           </div>
           <input
+            ref={handleRef}
             placeholder="Unique ID of your event"
             value={handle}
             onChange={e => {
@@ -555,6 +604,7 @@ export default function InputArea() {
       <div className={styles['row-area']}>
         <div className={styles['title-area']}>Event Description</div>
         <textarea
+          ref={descriptionRef}
           value={description}
           onChange={e => {
             if (e.target.value.length < 3000) {
@@ -601,6 +651,7 @@ export default function InputArea() {
       <div className={clsx([styles['row-area'], styles['image-area']])}>
         <div className={styles['title-area']}>Event Cover image</div>
         <input
+          ref={imgFileRef}
           style={{display: 'none'}}
           type="file"
           name="fileUpload"
