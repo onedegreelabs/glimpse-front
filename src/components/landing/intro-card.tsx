@@ -76,7 +76,6 @@ export function IntroCard({
             </div>
             <Image
               src={
-                // eslint-disable-next-line no-constant-condition
                 img === '/assets/landing/intro05.png' ||
                 '/assets/landing/intro06.png'
                   ? viewType === 'D'
