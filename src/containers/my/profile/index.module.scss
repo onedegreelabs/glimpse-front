@@ -19,11 +19,11 @@
   transform: translate(-50%);
 }
 
-@media screen and (min-width: 480px) {
+@media screen and (min-width: 390px) {
   .floating-button-container {
     position: fixed;
     bottom: 40px;
-    right: 25%;
+    right: 30%;
     transform: translate(-25%);
     cursor: pointer;
   }
