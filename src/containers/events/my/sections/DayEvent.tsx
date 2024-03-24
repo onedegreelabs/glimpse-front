@@ -7,9 +7,10 @@ import {useEffect, useState} from 'react';
 interface DayEventProps {
   date: string;
   data: EventDataType[];
+  pageType: string;
 }
 
-export default function DayEvent({data, date}: DayEventProps) {
+export default function DayEvent({data, date, pageType}: DayEventProps) {
   const formatDate = (inputDate: string) => {
     const months = [
       'Jan',
@@ -58,7 +59,7 @@ export default function DayEvent({data, date}: DayEventProps) {
       {data.map((event, idx) => {
         return (
           <div key={idx}>
-            <EventCard eventData={event} />
+            <EventCard eventData={event} pageType={pageType} />
           </div>
         );
       })}

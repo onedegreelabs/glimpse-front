@@ -5,7 +5,13 @@ import IconText from '@/components/iconText/IconText';
 import {EventDataType} from '@/types/eventTypes';
 import {useRouter} from 'next/navigation';
 
-export default function EventCard({eventData}: {eventData: EventDataType}) {
+export default function EventCard({
+  eventData,
+  pageType,
+}: {
+  eventData: EventDataType;
+  pageType: string;
+}) {
   const makeTimeText = (dateTimeString: Date) => {
     const date = new Date(dateTimeString);
     const hours = ('0' + date.getHours()).slice(-2);
@@ -39,7 +45,10 @@ export default function EventCard({eventData}: {eventData: EventDataType}) {
   const router = useRouter();
   const resUrl = window.location.href;
   const onClickCard = (handle: string) => {
-    const eventDetailUrl = resUrl.replace(/\/my$/, `/${handle}`);
+    const eventDetailUrl =
+      pageType === 'my'
+        ? resUrl.replace(/\/my$/, `/${handle}`)
+        : resUrl.replace(/\/discover$/, `/${handle}`);
     router.push(eventDetailUrl);
   };
 
