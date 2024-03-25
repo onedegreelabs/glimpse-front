@@ -15,12 +15,12 @@
     &:focus {
       outline: none;
       border: 1px solid #7E51FD;
-      box-shadow: 2px 2px 8px 0px rgba(126, 81, 253, 0.70);
+      box-shadow: 2px 2px 8px 0px rgba(126, 81, 253, 0.30);
     }
 
     &.error {
-      border: 1px solid #f00;
-      box-shadow: 2px 2px 8px 0px rgba(255, 0, 0, 0.7);
+      border: 1px solid #ff5f5f;
+      box-shadow: 2px 2px 8px 0px rgba(255, 0, 0, 0.3);
     }
 
     &.valid {
@@ -244,10 +244,6 @@
           font-size: 16px;
         }
       }
-    }
-
-    &.image-area {
-      margin-top: 22px;
     }
   }
 

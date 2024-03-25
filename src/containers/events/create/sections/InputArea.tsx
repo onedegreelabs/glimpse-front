@@ -720,7 +720,6 @@ export default function InputArea() {
 
       {/* modal */}
       {showModal && <SuccessModal handle={handle} />}
-      {/* <SuccessModal handle={handle} /> */}
     </div>
   );
 }
