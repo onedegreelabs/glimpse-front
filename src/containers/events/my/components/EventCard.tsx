@@ -107,15 +107,6 @@ export default function EventCard({
               </div>
               <div className={styles['']}>{organizerText}</div>
             </div>
-            <div className={styles['participant-area']}>
-              <Image
-                src={'/icons/person_icon.svg'}
-                alt="person-icon"
-                width={14}
-                height={14}
-              />
-              <div className={styles['']}>23/23</div>
-            </div>
           </div>
         </div>
       </div>
