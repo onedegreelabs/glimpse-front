@@ -3,13 +3,13 @@ export interface CreateEventType {
   startAt: Date;
   endAt: Date;
   dueAt: Date;
-  type: string;
-  handle: string;
-  region: string;
-  detailAddress: string;
-  externalLink: string;
-  description: string;
-  coverImageKey: File;
+  type: String;
+  handle: String;
+  region: String;
+  detailAddress: String;
+  externalLink: String;
+  description: String;
+  coverImageKey: File | string;
 }
 
 interface regionType {
