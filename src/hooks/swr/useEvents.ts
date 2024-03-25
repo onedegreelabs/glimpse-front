@@ -14,6 +14,14 @@ const useMyEventList = function (count: number) {
 
 export {useMyEventList};
 
+const useEventList = function (count: number) {
+  const {data, error, isLoading} = useSWR(`events?take=${count}`, getFetcher);
+
+  return {data, error, isLoading};
+};
+
+export {useEventList};
+
 const createEvent = async function (data: CreateEventType) {
   const res = await customAxios.post('events', data);
   return res;
