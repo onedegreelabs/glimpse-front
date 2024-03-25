@@ -29,7 +29,6 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-
     }
 
     .time-and-location {
@@ -61,12 +60,6 @@
             height: 100%;
           }
         }
-      }
-
-      .participant-area {
-        display: flex;
-        align-items: center;
-        gap: 4px;
       }
     }
   }
