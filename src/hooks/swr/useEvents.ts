@@ -35,3 +35,25 @@ const checkDuplicateHandle = async function (handle: string) {
 };
 
 export {checkDuplicateHandle};
+
+const useEventDetail = function (handle: string) {
+  const {data, error, isLoading} = useSWR(
+    `events/handle/${handle}`,
+    getFetcher
+  );
+
+  return {data, error, isLoading};
+};
+
+export {useEventDetail};
+
+const useEventUser = function (eventId: number) {
+  const {data, error, isLoading} = useSWR(
+    `events/${eventId}/participants`,
+    getFetcher
+  );
+
+  return {data, error, isLoading};
+};
+
+export {useEventUser};

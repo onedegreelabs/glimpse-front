@@ -1,0 +1,85 @@
+.card-wrapper {
+  cursor: pointer;
+  border-radius: 15px;
+  width: calc(100% - 32px);
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.glimpse-list-wrapper {
+  display: flex;
+  padding: 16px 20px;
+  gap: 10px;
+  flex-shrink: 0;
+  flex-direction: column;
+  justify-content: center;
+
+  .card-header {
+    display: flex;
+    gap: 4px;
+    justify-content: end;
+
+    .icon-wrapper {
+      padding: 8px;
+      width: 40px;
+      height: 40px;
+
+      &.comment-icon {
+        border-radius: 50%;
+        box-shadow:
+          2px 2px 5px 1px rgba(0, 0, 0, 0.05),
+          -2px -2px 5px 1px rgba(0, 0, 0, 0.05),
+          2px -2px 5px 1px rgba(0, 0, 0, 0.05),
+          -2px 2px 5px 1px rgba(0, 0, 0, 0.05);
+      }
+    }
+  }
+
+  .profile-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .profile-name {
+      max-width: 157px;
+      font-size: 18px;
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+
+    .position-wrapper {
+      display: flex;
+      gap: 10px;
+    }
+  }
+
+  .intro-snippet {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-height: 150%;
+    color: #2a2a2a;
+  }
+
+  .hobby-wrapper {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+    gap: 10px;
+    flex-grow: 1;
+    -ms-overflow-style: none;
+  }
+
+  .hobby-wrapper::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera*/
+  }
+
+  .link-wrapper {
+    display: flex;
+    gap: 10px;
+  }
+}

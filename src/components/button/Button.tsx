@@ -8,6 +8,7 @@ interface ButtonProps {
   height?: string | number;
   children?: React.ReactNode;
   clickEvent: any;
+  borderColor?: string;
 }
 export default function Button({
   color,
@@ -17,6 +18,7 @@ export default function Button({
   height,
   children,
   clickEvent,
+  borderColor,
 }: ButtonProps) {
   return (
     <div
@@ -26,6 +28,7 @@ export default function Button({
         ...(height && {height: `${height}px`}),
         ...(color && {color: `#${color}`}),
         ...(bgColor && {backgroundColor: `#${bgColor}`}),
+        ...(borderColor && {border: `1px solid #${borderColor}`}),
       }}
       onClick={() => clickEvent()}
     >
