@@ -6,16 +6,18 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getDateTextFromDateObj(dateObj: Date) {
-  const year = dateObj.getFullYear();
-  const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-  const day = String(dateObj.getDate()).padStart(2, '0');
+  const kstDdateObj = new Date(dateObj.getTime() - 9 * 60 * 60 * 1000);
+  const year = kstDdateObj.getFullYear();
+  const month = String(kstDdateObj.getMonth() + 1).padStart(2, '0');
+  const day = String(kstDdateObj.getDate()).padStart(2, '0');
 
   return `${year}/${month}/${day}`;
 }
 
 export function getTimeTextFromDateObj(dateObj: Date) {
-  const hours = String(dateObj.getHours()).padStart(2, '0');
-  const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+  const kstDdateObj = new Date(dateObj.getTime() - 9 * 60 * 60 * 1000);
+  const hours = String(kstDdateObj.getHours()).replace(/^0+/, '');
+  const minutes = String(kstDdateObj.getMinutes()).padStart(2, '0');
 
-  return `${hours}:${minutes} ${dateObj.getHours() >= 12 ? 'PM' : 'AM'}`;
+  return `${hours}:${minutes} ${kstDdateObj.getHours() >= 12 ? 'PM' : 'AM'}`;
 }

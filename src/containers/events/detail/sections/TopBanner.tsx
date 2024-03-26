@@ -3,19 +3,30 @@ import styles from './topBanner.module.scss';
 import Image from 'next/image';
 import {eventData} from '../mock/mock';
 
-export default function TopBanner() {
-  const {eventType, eventVisibility, coverImgUrl, eventTitle, viewCount} =
-    eventData;
+export default function TopBanner({
+  viewCount,
+  eventType,
+  eventTitle,
+  coverImage,
+}: {
+  viewCount: number;
+  eventType: string;
+  eventTitle: string;
+  coverImage: File | string | null;
+}) {
+  const {coverImgUrl} = eventData;
 
   return (
     <div className={styles['event-thumbnail-wrapper']}>
-      <Image
-        className={styles['event-thumbnail']}
-        src={coverImgUrl}
-        alt="이벤트 썸네일"
-        width={100}
-        height={40}
-      ></Image>
+      {coverImage && (
+        <Image
+          className={styles['event-thumbnail']}
+          src={coverImgUrl}
+          alt="이벤트 썸네일"
+          width={100}
+          height={40}
+        />
+      )}
       <div className={styles['event-info-wrapper']}>
         <div className={styles['info-header']}>
           <div className={styles['info-type']}>

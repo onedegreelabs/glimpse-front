@@ -7,11 +7,9 @@ import {userData} from '../type';
 import Image from 'next/image';
 import clsx from 'clsx';
 import {useRouter} from 'next/navigation';
-interface BoxProps {
-  userList: userData[];
-}
+import {eventUserDataType} from '@/types/eventTypes';
 
-export default function BoxView({userList}: BoxProps) {
+export default function BoxView({userList}: {userList: eventUserDataType[]}) {
   const srcList = [
     '/assets/favicon/facebook.jpg',
     '/assets/favicon/github.jpg',
@@ -63,7 +61,9 @@ export default function BoxView({userList}: BoxProps) {
               </div>
               <div className={styles['profile-wrapper']}>
                 <div>
-                  <p className={styles['profile-name']}>{data.displayName}</p>
+                  <p
+                    className={styles['profile-name']}
+                  >{`${data.user.givenName} ${data.user.familyName}`}</p>
                   <IconText
                     src={'/assets/glimpse-list/Location.svg'}
                     alt={'위치 아이콘'}
@@ -76,7 +76,7 @@ export default function BoxView({userList}: BoxProps) {
                   <div className={styles['position-wrapper']}>
                     <Chip
                       key={index}
-                      label={data.department}
+                      label={data.role}
                       height={28}
                       backgroundColor={'#C1AEF6'}
                       borderRadius={4}
@@ -98,10 +98,10 @@ export default function BoxView({userList}: BoxProps) {
                 />
               </div>
               <div className={styles['intro-snippet']}>
-                <p>{data.introSnippet}</p>
+                <p>{data.purpose}</p>
               </div>
               <div className={styles['hobby-wrapper']}>
-                {data.cards[4].content.map(
+                {data.participantInterest.map(
                   (d: string | number, index: number) => (
                     <Chip
                       key={`hobby-${index}`}
