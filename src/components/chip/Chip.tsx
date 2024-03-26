@@ -1,5 +1,11 @@
 import styles from './chip.module.scss';
 
+interface PaddingProps {
+  paddingTop?: number;
+  paddingBottom?: number;
+  paddingLeft?: number;
+  paddingRight?: number;
+}
 interface LabelProps {
   label: string;
   height: number;
@@ -11,6 +17,7 @@ interface LabelProps {
   fontSize?: number;
   fontWeight?: number;
   color?: string;
+  padding?: PaddingProps;
 }
 
 export default function Chip({
@@ -24,6 +31,7 @@ export default function Chip({
   fontSize,
   fontWeight,
   color,
+  padding,
 }: LabelProps) {
   return (
     <div
@@ -33,6 +41,14 @@ export default function Chip({
         ...(backgroundColor && {backgroundColor: `${backgroundColor}`}),
         ...(borderRadius && {borderRadius: `${borderRadius}px`}),
         ...(isOutline && {border: `1px solid ${soldColor}`}),
+        ...(padding?.paddingTop && {paddingTop: `${padding.paddingTop}px`}),
+        ...(padding?.paddingBottom && {
+          paddingBottom: `${padding.paddingBottom}px`,
+        }),
+        ...(padding?.paddingLeft && {paddingLeft: `${padding.paddingLeft}px`}),
+        ...(padding?.paddingRight && {
+          paddingRight: `${padding.paddingRight}px`,
+        }),
       }}
     >
       <span

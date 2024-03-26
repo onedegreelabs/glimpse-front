@@ -14,6 +14,14 @@ const useMyEventList = function (count: number) {
 
 export {useMyEventList};
 
+const useEventList = function (count: number) {
+  const {data, error, isLoading} = useSWR(`events?take=${count}`, getFetcher);
+
+  return {data, error, isLoading};
+};
+
+export {useEventList};
+
 const createEvent = async function (data: CreateEventType) {
   const res = await customAxios.post('events', data);
   return res;
@@ -27,3 +35,25 @@ const checkDuplicateHandle = async function (handle: string) {
 };
 
 export {checkDuplicateHandle};
+
+const useEventDetail = function (handle: string) {
+  const {data, error, isLoading} = useSWR(
+    `events/handle/${handle}`,
+    getFetcher
+  );
+
+  return {data, error, isLoading};
+};
+
+export {useEventDetail};
+
+const useEventUser = function (eventId: number) {
+  const {data, error, isLoading} = useSWR(
+    `events/${eventId}/participants`,
+    getFetcher
+  );
+
+  return {data, error, isLoading};
+};
+
+export {useEventUser};
