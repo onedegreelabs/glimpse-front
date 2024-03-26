@@ -71,7 +71,7 @@ export type TempPropfile = Profile & {
 export interface Profile {
   id: number;
   email: string;
-  regionId: number;
+  regionId: string;
   department: string;
   familyName: string;
   givenName: string;

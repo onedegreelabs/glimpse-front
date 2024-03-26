@@ -21,7 +21,7 @@ interface IntroCardProps {
 interface IFocuse {
   [index: string]: boolean;
   introTitle: boolean;
-  inTroCarrer: boolean;
+  introCarrer: boolean;
 }
 
 export default function IntroCard({cards, isOtherProfile}: IntroCardProps) {
@@ -41,16 +41,16 @@ export default function IntroCard({cards, isOtherProfile}: IntroCardProps) {
   });
   const [isFocus, setIsFocus] = useState<IFocuse>({
     introTitle: false,
-    inTroCarrer: false,
+    introCarrer: false,
   });
 
   const changeCard = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const {name} = e.target;
-    console.log('name', name);
-    setIsFocus(prevState => ({
-      ...prevState,
-      [name]: !prevState[name],
-    }));
+    const {name, value} = e.target;
+    if (name === 'introTitle') {
+      setIntroTitle(prevState => ({...prevState, content: [value]}));
+    } else {
+      setIntroCareer(prevState => ({...prevState, content: [value]}));
+    }
   };
 
   useEffect(() => {
@@ -62,15 +62,12 @@ export default function IntroCard({cards, isOtherProfile}: IntroCardProps) {
     }
   }, [cards]);
 
-  console.log('thi', isFocus);
-
   return (
     <ProfileCard title={'Intro'} isShowProfileCard={true}>
       {introTitle && introTitle.content.length > 0 && (
         <Card
           className={cn(
-            'w-[136px] h-[136px]',
-            isFocus['introTitle'] && 'border-solid border-[#7E51FD]'
+            'w-[136px] h-[136px] focus:ring-2 focus:outline-none border-solid border-[#7E51FD]'
           )}
         >
           <div className={styles['content']}>
@@ -80,7 +77,13 @@ export default function IntroCard({cards, isOtherProfile}: IntroCardProps) {
               <textarea
                 name="introTitle"
                 className={styles['content-textarea']}
-                readOnly={isFocus.introTitle}
+                value={introTitle.content}
+                // onFocus={() =>
+                //   setIsFocus(prevState => ({
+                //     ...prevState,
+                //     introTitle: !prevState.introTitle,
+                //   }))
+                // }
                 onChange={changeCard}
               />
             )}
@@ -101,7 +104,13 @@ export default function IntroCard({cards, isOtherProfile}: IntroCardProps) {
               <textarea
                 name="introCarrer"
                 className={styles['content-textarea']}
-                readOnly={isFocus.introTitle}
+                value={introCareer.content}
+                onFocus={() =>
+                  setIsFocus(prevState => ({
+                    ...prevState,
+                    introCarrer: true,
+                  }))
+                }
                 onChange={changeCard}
               />
             )}

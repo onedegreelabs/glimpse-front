@@ -15,7 +15,6 @@ interface Props {
 }
 
 function ActionHeader({profile}: Props) {
-  console.log('여기도?', profile);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
   const {setProfileImage} = useProfileStore();

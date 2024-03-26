@@ -15,7 +15,7 @@ const initialProfile: TempPropfile = {
   image: '',
   introduction: '하이',
   department: '',
-  regionId: 1,
+  regionId: '서울',
   belong: '글림스',
   isOtherProfile: false,
   isChangeProfile: false,

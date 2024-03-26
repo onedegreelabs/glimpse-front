@@ -19,7 +19,6 @@ import {useProfileStore} from '@/stores/profile';
 // TODO: 전역상태 설정한후 모두 바꿔야함
 const MyProfileContainer = () => {
   const {profile} = useProfileStore();
-  console.log('my profile container', profile);
   useEffect(() => {
     getUserMeFetch().then(res => {
       // setProfile(res);
@@ -70,6 +69,7 @@ const MyProfileContainer = () => {
             color: '#FFFFFF',
           },
         ]}
+        isOtherProfile={profile.isOtherProfile}
       />
       <Connect
         cards={[

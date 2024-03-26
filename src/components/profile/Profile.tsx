@@ -39,7 +39,7 @@ function Profile({profile}: Props) {
         ) : (
           <>
             <Input
-              name="lastName"
+              name="familyName"
               type="text"
               placeholder="lastName"
               className={cn(
@@ -54,7 +54,7 @@ function Profile({profile}: Props) {
               }}
             />
             <Input
-              name="firstName"
+              name="givenName"
               type="text"
               placeholder="firstName"
               className={cn(
@@ -79,7 +79,7 @@ function Profile({profile}: Props) {
             name="introSnippet"
             type="text"
             placeholder="add bio..."
-            className={cn('h-[16px] text-[12px] text-center ')}
+            className={cn('h-[16px] text-[12px] text-center')}
             maxLength={20}
             value={introduction}
             onChange={e => {
@@ -108,7 +108,7 @@ function Profile({profile}: Props) {
                   setChangeProfile({name, value});
                 }}
               >
-                <SelectTrigger className="h-[24px] py-[4px] px-[10px] border border-solid border-[#D9D9D9] rounded-[4px] text-[12px] focus:ring-[#7E51FD]">
+                <SelectTrigger className="h-[24px] py-[4px] px-[10px] border border-solid border-[#D9D9D9] rounded-[4px] text-[12px] focus:ring-[#7E51FD] outline-offset-0">
                   <SelectValue placeholder="department" />
                 </SelectTrigger>
                 <SelectContent>
@@ -156,10 +156,10 @@ function Profile({profile}: Props) {
           />
         </div>
         <Input
-          name="location"
+          name="regionId"
           type="text"
           className="max-w-[110px] h-[20px] py-[4px] px-[10px] ps-[32px] border-solid border-[#D9D9D9] text-[12px]"
-          value={'서울'}
+          value={regionId}
           onChange={e => {
             const name = e.target.name;
             const value = e.target.value;
