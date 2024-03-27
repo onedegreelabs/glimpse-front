@@ -57,7 +57,7 @@ export default function UserList({
       <div className={styles['control-section-wrapper']}>
         <section className={styles['search-area']}>
           <p className={styles['list-title']}>
-            Participants <span>150</span>
+            Participants <span>{userListForRender.length}</span>
           </p>
           <SearchWrapper onSearch={onSearch} searchWord={searchWord} />
         </section>
