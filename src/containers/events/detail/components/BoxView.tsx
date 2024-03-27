@@ -12,7 +12,7 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
   const router = useRouter();
 
   const onClickCard = function (userId: number) {
-    router.push(`users/${userId}`);
+    router.push(`/profiles/${userId}`);
   };
   if (userList.length > 0) {
     return (
