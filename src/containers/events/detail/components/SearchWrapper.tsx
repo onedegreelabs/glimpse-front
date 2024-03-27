@@ -24,7 +24,7 @@ export default function SearchWrapper({
         src="/assets/glimpse-list/search-icon.svg"
         alt="검색 아이콘"
         width={24}
-        height={20}
+        height={24}
       />
     </div>
   );

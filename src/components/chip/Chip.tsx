@@ -16,6 +16,7 @@ interface LabelProps {
   onDelete?: (param: any) => void;
   fontSize?: number;
   fontWeight?: number;
+  color?: string;
   padding?: PaddingProps;
 }
 
@@ -29,6 +30,7 @@ export default function Chip({
   onDelete,
   fontSize,
   fontWeight,
+  color,
   padding,
 }: LabelProps) {
   return (
@@ -53,6 +55,7 @@ export default function Chip({
         style={{
           ...(fontSize && {fontSize: `${fontSize}px`}),
           ...(fontWeight && {fontWeight: `${fontWeight}`}),
+          ...(color && {color: `${color}`}),
         }}
       >
         {label}

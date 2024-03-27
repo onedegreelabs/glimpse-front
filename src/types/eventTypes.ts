@@ -29,10 +29,21 @@ export interface EventDataType {
   id: number;
   organizer: {id: number; familyName: string; givenName: string};
   description: string;
-  coverImageKey: File;
+  coverImage: File | string | null;
 }
 
 export interface DayEventProps {
   date: string;
   events: EventDataType[];
+}
+
+export interface eventUserDataType {
+  createdAt: string;
+  eventId: number;
+  id: number;
+  participantInterest: [];
+  purpose: string;
+  role: string;
+  updatedAt: string;
+  user: {id: number; familyName: string; givenName: string; sns: []};
 }

@@ -56,6 +56,7 @@ export default function FilteringWrapper() {
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
           handleFilterChange('personType', e.target.value)
         }
+        fontsize={12}
       />
       <Select
         name="industry"
@@ -67,6 +68,7 @@ export default function FilteringWrapper() {
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
           handleFilterChange('industry', e.target.value)
         }
+        fontsize={12}
       />
       <Select
         name="hobby"
@@ -78,6 +80,7 @@ export default function FilteringWrapper() {
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
           handleFilterChange('hobby', e.target.value)
         }
+        fontsize={12}
       />
       <Select
         name={'interest'}
@@ -89,6 +92,7 @@ export default function FilteringWrapper() {
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
           handleFilterChange('interest', e.target.value)
         }
+        fontsize={12}
       />
       <Select
         name={'favorite'}
@@ -100,6 +104,7 @@ export default function FilteringWrapper() {
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
           handleFilterChange('favorite', e.target.value)
         }
+        fontsize={12}
       />
     </section>
   );

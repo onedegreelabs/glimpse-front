@@ -3,19 +3,30 @@ import styles from './topBanner.module.scss';
 import Image from 'next/image';
 import {eventData} from '../mock/mock';
 
-export default function TopBanner() {
-  const {eventType, eventVisibility, coverImgUrl, eventTitle, viewCount} =
-    eventData;
+export default function TopBanner({
+  viewCount,
+  eventType,
+  eventTitle,
+  coverImage,
+}: {
+  viewCount: number;
+  eventType: string;
+  eventTitle: string;
+  coverImage: File | string | null;
+}) {
+  const {coverImgUrl} = eventData;
 
   return (
     <div className={styles['event-thumbnail-wrapper']}>
-      <Image
-        className={styles['event-thumbnail']}
-        src={coverImgUrl}
-        alt="이벤트 썸네일"
-        width={100}
-        height={40}
-      ></Image>
+      {coverImage && (
+        <Image
+          className={styles['event-thumbnail']}
+          src={coverImgUrl}
+          alt="이벤트 썸네일"
+          width={100}
+          height={40}
+        />
+      )}
       <div className={styles['event-info-wrapper']}>
         <div className={styles['info-header']}>
           <div className={styles['info-type']}>
@@ -24,22 +35,24 @@ export default function TopBanner() {
               height={28}
               backgroundColor="#7E51FD"
               borderRadius={4}
+              color="#fff"
+              fontSize={12}
             />
-            <Chip
+            {/* <Chip
               label={eventVisibility}
               height={28}
               backgroundColor="#ffffff4d"
               borderRadius={4}
               isOutline
               soldColor="#e1e1e1"
-            />
+            /> */}
           </div>
           <div className={styles['share-btn-wrapper']}>
             <Image
               alt="share-icon"
               src="/icons/shareBox.svg"
-              width={24}
-              height={24}
+              width={16}
+              height={16}
             />
           </div>
         </div>
@@ -52,8 +65,7 @@ export default function TopBanner() {
             height={24}
             backgroundColor="#ffffff4d"
             borderRadius={4}
-            isOutline
-            soldColor="#e1e1e1"
+            fontSize={12}
           />
         </div>
       </div>

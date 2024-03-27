@@ -1,10 +1,11 @@
 export const eventUserListData = [
   {
     id: 1,
-    displayName: '디스플레이 네임',
-    department: '부서',
+    displayName: 'Jennifer Lawrence',
+    department: 'Product',
     profileImageUrl: '',
-    introSnippet: '',
+    introSnippet:
+      'Im interested in engaging in conversations with diverse individuals to explore various facets of PM careers.',
     cards: [
       {color: '', content: [], id: 1, isVisible: '', type: ''},
       {color: '', content: [], id: 1, isVisible: '', type: ''},
@@ -12,7 +13,7 @@ export const eventUserListData = [
       {color: '', content: [0, 1, 2, 3], id: 1, isVisible: '', type: ''},
       {
         color: '',
-        content: ['hobby1', 'hobby2'],
+        content: ['Industry', 'Role', 'Problem Solving'],
         id: 1,
         isVisible: '',
         type: '',
@@ -21,10 +22,11 @@ export const eventUserListData = [
   },
   {
     id: 1,
-    displayName: '디스플레이 네임',
-    department: '부서',
+    displayName: 'Jennifer Lawrence',
+    department: 'Product',
     profileImageUrl: '',
-    introSnippet: '',
+    introSnippet:
+      'Im interested in engaging in conversations with diverse individuals to explore various facets of PM careers.',
     cards: [
       {color: '', content: [], id: 1, isVisible: '', type: ''},
       {color: '', content: [], id: 1, isVisible: '', type: ''},
@@ -32,7 +34,7 @@ export const eventUserListData = [
       {color: '', content: [0, 1, 2, 3], id: 1, isVisible: '', type: ''},
       {
         color: '',
-        content: ['hobby1', 'hobby2'],
+        content: ['Industry', 'Role', 'Problem Solving'],
         id: 1,
         isVisible: '',
         type: '',
@@ -41,10 +43,11 @@ export const eventUserListData = [
   },
   {
     id: 1,
-    displayName: '디스플레이 네임',
-    department: '부서',
+    displayName: 'Jennifer Lawrence',
+    department: 'Product',
     profileImageUrl: '',
-    introSnippet: '',
+    introSnippet:
+      'Im interested in engaging in conversations with diverse individuals to explore various facets of PM careers.',
     cards: [
       {color: '', content: [], id: 1, isVisible: '', type: ''},
       {color: '', content: [], id: 1, isVisible: '', type: ''},
@@ -52,7 +55,7 @@ export const eventUserListData = [
       {color: '', content: [0, 1, 2, 3], id: 1, isVisible: '', type: ''},
       {
         color: '',
-        content: ['hobby1', 'hobby2'],
+        content: ['Industry', 'Role', 'Problem Solving'],
         id: 1,
         isVisible: '',
         type: '',
@@ -61,10 +64,11 @@ export const eventUserListData = [
   },
   {
     id: 1,
-    displayName: '디스플레이 네임',
-    department: '부서',
+    displayName: 'Jennifer Lawrence',
+    department: 'Product',
     profileImageUrl: '',
-    introSnippet: '',
+    introSnippet:
+      'Im interested in engaging in conversations with diverse individuals to explore various facets of PM careers.',
     cards: [
       {color: '', content: [], id: 1, isVisible: '', type: ''},
       {color: '', content: [], id: 1, isVisible: '', type: ''},
@@ -72,7 +76,7 @@ export const eventUserListData = [
       {color: '', content: [0, 1, 2, 3], id: 1, isVisible: '', type: ''},
       {
         color: '',
-        content: ['hobby1', 'hobby2'],
+        content: ['Industry', 'Role', 'Problem Solving'],
         id: 1,
         isVisible: '',
         type: '',
@@ -81,10 +85,11 @@ export const eventUserListData = [
   },
   {
     id: 1,
-    displayName: '디스플레이 네임',
-    department: '부서',
+    displayName: 'Jennifer Lawrence',
+    department: 'Product',
     profileImageUrl: '',
-    introSnippet: '',
+    introSnippet:
+      'Im interested in engaging in conversations with diverse individuals to explore various facets of PM careers.',
     cards: [
       {color: '', content: [], id: 1, isVisible: '', type: ''},
       {color: '', content: [], id: 1, isVisible: '', type: ''},
@@ -92,7 +97,7 @@ export const eventUserListData = [
       {color: '', content: [0, 1, 2, 3], id: 1, isVisible: '', type: ''},
       {
         color: '',
-        content: ['hobby1', 'hobby2'],
+        content: ['Industry', 'Role', 'Problem Solving'],
         id: 1,
         isVisible: '',
         type: '',
@@ -101,10 +106,11 @@ export const eventUserListData = [
   },
   {
     id: 1,
-    displayName: '디스플레이 네임',
-    department: '부서',
+    displayName: 'Jennifer Lawrence',
+    department: 'Product',
     profileImageUrl: '',
-    introSnippet: '',
+    introSnippet:
+      'Im interested in engaging in conversations with diverse individuals to explore various facets of PM careers.',
     cards: [
       {color: '', content: [], id: 1, isVisible: '', type: ''},
       {color: '', content: [], id: 1, isVisible: '', type: ''},
@@ -112,247 +118,7 @@ export const eventUserListData = [
       {color: '', content: [0, 1, 2, 3], id: 1, isVisible: '', type: ''},
       {
         color: '',
-        content: ['hobby1', 'hobby2'],
-        id: 1,
-        isVisible: '',
-        type: '',
-      },
-    ],
-  },
-  {
-    id: 1,
-    displayName: '디스플레이 네임',
-    department: '부서',
-    profileImageUrl: '',
-    introSnippet: '',
-    cards: [
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [0, 1, 2, 3], id: 1, isVisible: '', type: ''},
-      {
-        color: '',
-        content: ['hobby1', 'hobby2'],
-        id: 1,
-        isVisible: '',
-        type: '',
-      },
-    ],
-  },
-  {
-    id: 1,
-    displayName: '디스플레이 네임',
-    department: '부서',
-    profileImageUrl: '',
-    introSnippet: '',
-    cards: [
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [0, 1, 2, 3], id: 1, isVisible: '', type: ''},
-      {
-        color: '',
-        content: ['hobby1', 'hobby2'],
-        id: 1,
-        isVisible: '',
-        type: '',
-      },
-    ],
-  },
-  {
-    id: 1,
-    displayName: '디스플레이 네임',
-    department: '부서',
-    profileImageUrl: '',
-    introSnippet: '',
-    cards: [
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [0, 1, 2, 3], id: 1, isVisible: '', type: ''},
-      {
-        color: '',
-        content: ['hobby1', 'hobby2'],
-        id: 1,
-        isVisible: '',
-        type: '',
-      },
-    ],
-  },
-  {
-    id: 1,
-    displayName: '디스플레이 네임',
-    department: '부서',
-    profileImageUrl: '',
-    introSnippet: '',
-    cards: [
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [0, 1, 2, 3], id: 1, isVisible: '', type: ''},
-      {
-        color: '',
-        content: ['hobby1', 'hobby2'],
-        id: 1,
-        isVisible: '',
-        type: '',
-      },
-    ],
-  },
-  {
-    id: 1,
-    displayName: '디스플레이 네임',
-    department: '부서',
-    profileImageUrl: '',
-    introSnippet: '',
-    cards: [
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [0, 1, 2, 3], id: 1, isVisible: '', type: ''},
-      {
-        color: '',
-        content: ['hobby1', 'hobby2'],
-        id: 1,
-        isVisible: '',
-        type: '',
-      },
-    ],
-  },
-  {
-    id: 1,
-    displayName: '디스플레이 네임',
-    department: '부서',
-    profileImageUrl: '',
-    introSnippet: '',
-    cards: [
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [0, 1, 2, 3], id: 1, isVisible: '', type: ''},
-      {
-        color: '',
-        content: ['hobby1', 'hobby2'],
-        id: 1,
-        isVisible: '',
-        type: '',
-      },
-    ],
-  },
-  {
-    id: 1,
-    displayName: '디스플레이 네임',
-    department: '부서',
-    profileImageUrl: '',
-    introSnippet: '',
-    cards: [
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [0, 1, 2, 3], id: 1, isVisible: '', type: ''},
-      {
-        color: '',
-        content: ['hobby1', 'hobby2'],
-        id: 1,
-        isVisible: '',
-        type: '',
-      },
-    ],
-  },
-  {
-    id: 1,
-    displayName: '디스플레이 네임',
-    department: '부서',
-    profileImageUrl: '',
-    introSnippet: '',
-    cards: [
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [0, 1, 2, 3], id: 1, isVisible: '', type: ''},
-      {
-        color: '',
-        content: ['hobby1', 'hobby2'],
-        id: 1,
-        isVisible: '',
-        type: '',
-      },
-    ],
-  },
-  {
-    id: 1,
-    displayName: '디스플레이 네임',
-    department: '부서',
-    profileImageUrl: '',
-    introSnippet: '',
-    cards: [
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [0, 1, 2, 3], id: 1, isVisible: '', type: ''},
-      {
-        color: '',
-        content: ['hobby1', 'hobby2'],
-        id: 1,
-        isVisible: '',
-        type: '',
-      },
-    ],
-  },
-  {
-    id: 1,
-    displayName: '디스플레이 네임',
-    department: '부서',
-    profileImageUrl: '',
-    introSnippet: '',
-    cards: [
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [0, 1, 2, 3], id: 1, isVisible: '', type: ''},
-      {
-        color: '',
-        content: ['hobby1', 'hobby2'],
-        id: 1,
-        isVisible: '',
-        type: '',
-      },
-    ],
-  },
-  {
-    id: 1,
-    displayName: '디스플레이 네임',
-    department: '부서',
-    profileImageUrl: '',
-    introSnippet: '',
-    cards: [
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [0, 1, 2, 3], id: 1, isVisible: '', type: ''},
-      {
-        color: '',
-        content: ['hobby1', 'hobby2'],
-        id: 1,
-        isVisible: '',
-        type: '',
-      },
-    ],
-  },
-  {
-    id: 1,
-    displayName: '디스플레이 네임',
-    department: '부서',
-    profileImageUrl: '',
-    introSnippet: '',
-    cards: [
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [], id: 1, isVisible: '', type: ''},
-      {color: '', content: [0, 1, 2, 3], id: 1, isVisible: '', type: ''},
-      {
-        color: '',
-        content: ['hobby1', 'hobby2'],
+        content: ['Industry', 'Role', 'Problem Solving'],
         id: 1,
         isVisible: '',
         type: '',
@@ -362,7 +128,7 @@ export const eventUserListData = [
 ];
 
 export const eventData = {
-  eventType: 'Virtual',
+  eventType: 'Offline',
   eventVisibility: 'Private',
   coverImgUrl: '/test/eventDetailTest.jpg',
   eventTitle: 'Event Title',
@@ -370,7 +136,7 @@ export const eventData = {
   eventLink: 'www.panseung.com',
   startDate: new Date(),
   tags: ['tag1', 'tag2', 'tag3'],
-  location: '서울 특별시 어쩌구 저쩌구 열두시 비둘기구구구',
+  location: '37, Teheran-ro 4-gil, Gangnam-gu,Seoul, Republic of Korea',
   description:
     '이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!! 이벤트 설명이다~~~~~~~~~~~~~~~~ 아주 길게 쓸거야!!',
 };
