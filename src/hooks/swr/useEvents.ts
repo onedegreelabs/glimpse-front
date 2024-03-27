@@ -22,8 +22,17 @@ const useEventList = function (count: number) {
 
 export {useEventList};
 
-const createEvent = async function (data: CreateEventType) {
-  const res = await customAxios.post('events', data);
+const createEvent = async function (data: CreateEventType, imgFile: any) {
+  const formData = new FormData();
+  if (imgFile) {
+    formData.append('eventImage', imgFile);
+  }
+  formData.append('data', new Blob([JSON.stringify(data)]));
+  const res = await customAxios.post('events', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return res;
 };
 

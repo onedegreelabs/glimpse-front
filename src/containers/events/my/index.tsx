@@ -60,7 +60,7 @@ export default function EventMyContainer({pageType}: {pageType: string}) {
                 </div>
               );
             })}
-            {pageType === 'My' && (
+            {pageType === 'my' && (
               <div className={styles['create-button']}>
                 <CreateRoundButton />
               </div>

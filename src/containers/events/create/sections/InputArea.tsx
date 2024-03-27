@@ -145,10 +145,6 @@ export default function InputArea() {
       scrollToElement(descriptionRef);
       handleErrorState('description');
       return;
-    } else if (!imgFile) {
-      scrollToElement(imgFileRef);
-      handleErrorState('imgFile');
-      return;
     }
     const params = {
       title: title,
@@ -161,10 +157,8 @@ export default function InputArea() {
       detailAddress: detailAddress,
       externalLink: externalLink,
       description: description,
-      // coverImageKey: imgFile,
-      coverImageKey: '',
     };
-    const res = await createEvent(params);
+    const res = await createEvent(params, imgFile);
     if (res.status === 201) {
       setShowModal(true);
     }
@@ -666,7 +660,9 @@ export default function InputArea() {
           type="file"
           name="fileUpload"
           id="fileUpload"
-          onChange={handleImageUpload}
+          onChange={e => {
+            handleImageUpload(e);
+          }}
         ></input>
         <div
           className={styles['add-box']}

@@ -9,7 +9,7 @@ export interface CreateEventType {
   detailAddress: String;
   externalLink: String;
   description: String;
-  coverImageKey: File | string;
+  coverImageKey?: File | string;
 }
 
 interface regionType {
