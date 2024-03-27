@@ -15,7 +15,7 @@ interface Footer {
 
 const FOOTER_LINK: Footer[] = [
   {url: '/', name: 'Home', icon: 'home'},
-  {url: '/discover', name: 'Discover', icon: 'discover'},
+  {url: '/events/discover', name: 'Discover', icon: 'discover'},
   {url: '/events/my', name: 'My Events', icon: 'calendar'},
   {url: '/my/profile', name: 'My Profile', icon: 'contacts'},
 ];
