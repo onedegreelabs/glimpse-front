@@ -1,6 +1,7 @@
 'use client';
 import styles from './index.module.scss';
 import {useEffect, useState} from 'react';
+import {getCookie} from 'cookies-next';
 
 import AddInput from './components/AddInput/AddInput';
 import FloatingButton from './components/FloatingButton/FloatingButton';
@@ -20,12 +21,16 @@ import {useProfileStore} from '@/stores/profile';
 const MyProfileContainer = () => {
   const {profile} = useProfileStore();
   useEffect(() => {
-    getUserMeFetch().then(res => {
-      // setProfile(res);
-      //   getCardsByType(res.cards);
-    });
+    // 쿠키에서 액세시 토큰 가져오기
+    const myCookies = document.cookie;
+    console.log(myCookies);
+    const accessToken = getCookie('accessToken');
+    console.log('get cookie', accessToken);
+    const cookieData = document.cookie;
+    console.log('cookieData', cookieData);
+    // const decoded = jwtDecode(accessToken);
+    // console.log('decoded', decoded);
   }, []);
-  //   }, [isSaving]);
 
   ///// Add Link /////
   const [isShowAddInput, setIsShowAddInput] = useState(false);
@@ -114,3 +119,6 @@ const MyProfileContainer = () => {
 };
 
 export default MyProfileContainer;
+function jwtDecode(token: any) {
+  throw new Error('Function not implemented.');
+}
