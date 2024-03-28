@@ -4,39 +4,46 @@ import {TempPropfile} from '@/types/profileType';
 
 interface ProfileStore {
   profile: TempPropfile;
+  setProfile: (profile: TempPropfile) => void;
   setProfileImage: (profileImage: File) => void;
   setChangeProfile: (targetElement: {name: string; value: string}) => void;
 }
 
 const initialProfile: TempPropfile = {
+  createdAt: '',
+  updatedAt: '',
   id: 1,
-  familyName: '테',
-  givenName: '스트',
+  familyName: '',
+  givenName: '',
   image: '',
-  introduction: '하이',
+  introduction: '',
   department: '',
-  regionId: '서울',
-  belong: '글림스',
+  regionId: '',
+  belong: '',
   isOtherProfile: false,
   isChangeProfile: false,
-  email: 'moniyel@gmail.com',
-  role: '프론트',
+  email: '',
+  role: '',
   sns: [
     {
       createdAt: '',
       updatedAt: '',
       id: 1,
-      type: 'test',
-      account: 'moniyel@gmail.com',
+      type: '',
+      account: '',
     },
   ],
   authentication: {},
-  profileCard: ['gam', 'www'],
-  userTag: ['강아지', '고양이'],
+  profileCard: [],
+  userTag: [],
 };
 
 export const useProfileStore = create<ProfileStore>(set => ({
   profile: initialProfile,
+  setProfile: (profile: TempPropfile) =>
+    set({
+      profile,
+    }),
   setProfileImage: (profileImage: File) =>
     set(state => ({
       profile: {

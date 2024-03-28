@@ -93,8 +93,12 @@ function Profile({profile}: Props) {
       <div className={styles['company-wrapper']}>
         {isOtherProfile ? (
           <>
-            <p className={styles['company-text']}>{department}</p>
-            <p className={styles['divider']}>|</p>
+            {department && (
+              <>
+                <p className={styles['company-text']}>{department}</p>
+                <p className={styles['divider']}>|</p>
+              </>
+            )}
             <p className={styles['company-text']}>{belong}</p>
           </>
         ) : (

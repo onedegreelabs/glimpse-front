@@ -68,7 +68,7 @@ export type TempPropfile = Profile & {
   isChangeProfile: boolean;
 };
 
-export interface Profile {
+export interface Profile extends BasicDate {
   id: number;
   email: string;
   regionId: string;
@@ -81,7 +81,7 @@ export interface Profile {
   image: string;
   sns: SnsDto[];
   authentication: {};
-  profileCard: string[];
+  profileCard: ProfileCardDto[];
   userTag: string[];
 }
 
@@ -90,7 +90,14 @@ export interface SnsDto extends BasicDate {
   type: string;
   account: string;
 }
+
+export interface ProfileCardDto extends BasicDate {
+  id: number;
+  userId: number;
+  type: string;
+  content: string;
+}
 export interface GetUserResponseDto {
   status: number;
-  data: BasicDate & Profile;
+  data: Profile;
 }

@@ -1,11 +1,11 @@
-import {IProfileCard} from '@/types/profileType';
+import {ProfileCardDto} from '@/types/profileType';
 
-type ProfileCardType = IProfileCard['type'];
+type ProfileCardType = ProfileCardDto['type'];
 
 const getCardsByType = (
-  cards: IProfileCard[],
+  cards: ProfileCardDto[],
   type: ProfileCardType
-): IProfileCard[] => {
+): ProfileCardDto[] => {
   const filteredCards = cards.filter(card => card.type === type);
 
   return filteredCards;

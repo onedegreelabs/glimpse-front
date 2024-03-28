@@ -2,30 +2,31 @@
 import styles from './aboutMe.module.scss';
 import {useEffect, useState} from 'react';
 
-import {IProfileCard} from '@/types/profileType';
+import {ProfileCardDto} from '@/types/profileType';
 import getCardsByType from '@/utils/getCardsByType';
 import {ABOUTME} from '@/containers/my/profile/constans/profile';
 import ProfileCard from './ProfileCard/ProfileCard';
-import {Card} from '../ui/card';
 import {cn} from '@/lib/utils';
+import {Card} from '../ui/card';
 
 interface AboutMeCardProps {
-  cards?: IProfileCard[];
+  cards: ProfileCardDto[];
   isOtherProfile: boolean;
 }
 
 export default function AboutMeCard({cards, isOtherProfile}: AboutMeCardProps) {
-  const [aboutMe, setAboutMe] = useState<IProfileCard>({
+  const [aboutMe, setAboutMe] = useState<ProfileCardDto>({
+    createdAt: '',
+    updatedAt: '',
     id: 0,
+    userId: 1,
     type: 'ABOUTME',
-    content: ['UI테스트중'],
-    isVisible: true,
-    color: '#FFFFFF',
+    content: '',
   });
 
   const changeCard = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {value} = e.target;
-    setAboutMe(prevState => ({...prevState, content: [value]}));
+    setAboutMe(prevState => ({...prevState, content: value}));
   };
 
   useEffect(() => {
@@ -35,26 +36,29 @@ export default function AboutMeCard({cards, isOtherProfile}: AboutMeCardProps) {
     }
   }, [cards]);
 
-  return (
-    <ProfileCard title="About me" isShowProfileCard={true}>
-      <Card
-        className={cn(
-          'w-[343px] h-[168px] focus:ring-2 focus:outline-none border-solid border-[#7E51FD]'
-        )}
-      >
-        <div className={styles['content']}>
-          {isOtherProfile ? (
-            <p>{aboutMe.content || ''}</p>
-          ) : (
-            <textarea
-              name="aboutme"
-              className={styles['content-textarea']}
-              value={aboutMe.content}
-              onChange={changeCard}
-            />
+  if (!aboutMe) {
+    return null;
+  } else {
+    return (
+      <ProfileCard title="About me" isShowProfileCard={true}>
+        <Card
+          className={cn(
+            'w-[343px] h-[168px] focus-within:border-solid border-[#7E51FD]'
           )}
-        </div>
-      </Card>
-    </ProfileCard>
-  );
+        >
+          <div className={styles['content']}>
+            {isOtherProfile ? (
+              <p>{aboutMe.content}</p>
+            ) : (
+              <textarea
+                name="aboutMe"
+                className={styles['content-textarea']}
+                onChange={changeCard}
+              />
+            )}
+          </div>
+        </Card>
+      </ProfileCard>
+    );
+  }
 }

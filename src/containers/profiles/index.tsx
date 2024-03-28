@@ -32,54 +32,10 @@ const ProfilesContainer = async ({id}: UserIdProps) => {
     <div className={styles['profile-container']}>
       <ActionHeader profile={profile} />
       <Profile profile={profile} />
-      <Intro isOtherProfile={true} />
-      <AboutMe
-        cards={[
-          {
-            id: 0,
-            type: 'ABOUTME',
-            content: ['UI테스트중'],
-            isVisible: true,
-            color: '#FFFFFF',
-          },
-        ]}
-        isOtherProfile={true}
-      />
-      <Connect
-        cards={[
-          {
-            id: 0,
-            type: 'LINK',
-            content: ['http://github.com/monii', 'instagram.com/monii'],
-            isVisible: true,
-            color: '#FFFFFF',
-          },
-        ]}
-      />
-      <HashTag
-        cards={[
-          {
-            id: 0,
-            type: 'HASHTAG',
-            content: [
-              '강아지',
-              '고양이',
-              '강아지',
-              '고양이',
-              '강아지',
-              '고양이',
-              '강아지',
-              '고양이',
-              '강아지',
-              '고양이',
-              '강아지',
-              '고양이',
-            ],
-            isVisible: true,
-            color: '#FFFFFF',
-          },
-        ]}
-      />
+      <Intro cards={profile.profileCard} isOtherProfile={true} />
+      <AboutMe cards={profile.profileCard} isOtherProfile={true} />
+      <Connect cards={profile.profileCard} isOtherProfile={true} />
+      <HashTag cards={profile.profileCard} isOtherProfile={true} />
     </div>
   );
 };

@@ -1,14 +1,10 @@
-import {
-  GetUserResponseDto,
-  IProfile,
-  IProfileUpdate,
-} from '@/types/profileType';
+import {GetUserResponseDto, IProfileUpdate} from '@/types/profileType';
 import {axiosInstance, tokenValidInstance} from './headers';
 
 // profile api
-export const getUserMe = async (): Promise<IProfile> => {
-  const res = await tokenValidInstance().get('users/me');
-  return res.data.data;
+export const getUserMe = async (id: number): Promise<GetUserResponseDto> => {
+  const res = await tokenValidInstance().get(`/users/${id}`);
+  return res.data;
 };
 
 export const updateUserMe = async (
