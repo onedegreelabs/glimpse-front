@@ -25,7 +25,7 @@ export default function EventInfo({
       );
       setEndTimeText(getTimeTextFromDateObj(new Date(eventDetailData?.endAt)));
       if (eventDetailData.type === 'Offline') {
-        const location = `${eventDetailData.region.oneDepth} ${eventDetailData.region.twoDepth} ${eventDetailData.region.threeDepth}`;
+        const location = `${eventDetailData.region.oneDepth} ${eventDetailData.region.twoDepth} ${eventDetailData.region.threeDepth} ${eventDetailData.detailAddress}`;
         setLocation(location);
       } else {
         setLocation(eventDetailData.externalLink);
@@ -38,6 +38,16 @@ export default function EventInfo({
     <section className={styles['header-content-area']}>
       <section className={styles['event-info-area']}>
         <div className={styles['event-info-top-wrapper']}>
+          {eventDetailData?.externalLink && (
+            <div
+              className={styles['external-link']}
+              onClick={() => {
+                window.open(eventDetailData.externalLink);
+              }}
+            >
+              {eventDetailData.externalLink}
+            </div>
+          )}
           <div className={styles['event-date-wrapper']}>
             <Image
               src={'/assets/glimpse-list/calendar-icon.svg'}
