@@ -20,7 +20,11 @@
 
     .info-header {
       display: flex;
-      justify-content: space-between;
+      gap: 12px;
+
+      .back-button {
+        cursor: pointer;
+      }
 
       .info-type {
         display: flex;
@@ -50,7 +54,7 @@
 
 @media only screen and (max-width: 768px) {
   .event-thumbnail-wrapper {
-    background: linear-gradient(90deg, #80CAFF 0%, #9747FF 100%);
+    background: linear-gradient(90deg, #80caff 0%, #9747ff 100%);
 
     .event-info-wrapper {
       .info-header {
