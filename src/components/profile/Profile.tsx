@@ -2,7 +2,7 @@
 import styles from './profile.module.scss';
 
 import IconText from '@/components/iconText/IconText';
-import {TProfile} from '@/types/profileType';
+import {TProfile, TempPropfile} from '@/types/profileType';
 import {cn} from '@/lib/utils';
 import {Input} from '../ui/input';
 import {useProfileStore} from '@/stores/profile';
@@ -16,17 +16,17 @@ import {
 } from '../ui/select';
 
 interface Props {
-  profile: TProfile;
+  profile: TempPropfile;
 }
 
 function Profile({profile}: Props) {
   const {
-    lastName,
-    firstName,
-    introSnippet,
+    familyName,
+    givenName,
+    introduction,
     department,
     belong,
-    location,
+    regionId,
     isOtherProfile,
   } = profile;
   const {setChangeProfile} = useProfileStore();
@@ -35,18 +35,18 @@ function Profile({profile}: Props) {
     <section className={styles['profile-info-wrapper']}>
       <div className={styles['name-wrapper']}>
         {isOtherProfile ? (
-          <p>{`${lastName} ${firstName} `}</p>
+          <p>{`${familyName} ${givenName} `}</p>
         ) : (
           <>
             <Input
-              name="lastName"
+              name="familyName"
               type="text"
               placeholder="lastName"
               className={cn(
                 'border-solid border-[#D9D9D9] text-[24px] text-center font-normal'
               )}
               maxLength={10}
-              value={lastName}
+              value={familyName}
               onChange={e => {
                 const name = e.target.name;
                 const value = e.target.value;
@@ -54,14 +54,14 @@ function Profile({profile}: Props) {
               }}
             />
             <Input
-              name="firstName"
+              name="givenName"
               type="text"
               placeholder="firstName"
               className={cn(
                 'border-solid border-[#D9D9D9] text-[24px] text-center font-normal'
               )}
               maxLength={10}
-              value={firstName}
+              value={givenName}
               onChange={e => {
                 const name = e.target.name;
                 const value = e.target.value;
@@ -73,15 +73,15 @@ function Profile({profile}: Props) {
       </div>
       <div>
         {isOtherProfile ? (
-          <p>{introSnippet}</p>
+          <p>{introduction}</p>
         ) : (
           <Input
             name="introSnippet"
             type="text"
             placeholder="add bio..."
-            className={cn('h-[16px] text-[12px] text-center ')}
+            className={cn('h-[16px] text-[12px] text-center')}
             maxLength={20}
-            value={introSnippet}
+            value={introduction}
             onChange={e => {
               const name = e.target.name;
               const value = e.target.value;
@@ -93,51 +93,59 @@ function Profile({profile}: Props) {
       <div className={styles['company-wrapper']}>
         {isOtherProfile ? (
           <>
-            <p className={styles['company-text']}>{department}</p>
-            <p className={styles['divider']}>|</p>
+            {department && (
+              <>
+                <p className={styles['company-text']}>{department}</p>
+                <p className={styles['divider']}>|</p>
+              </>
+            )}
             <p className={styles['company-text']}>{belong}</p>
           </>
         ) : (
           <>
-            <Select
-              name="department"
-              value={department}
-              onValueChange={value => {
-                const name = 'department';
-                setChangeProfile({name, value});
-              }}
-            >
-              <SelectTrigger className="h-[24px] py-[4px] px-[10px] border border-solid border-[#D9D9D9] rounded-[4px] text-[12px] focus:ring-[#7E51FD]">
-                <SelectValue placeholder="department" />
-              </SelectTrigger>
-              <SelectContent>
-                {DEPARTMENT.map(department => (
-                  <SelectItem
-                    key={department}
-                    value={department}
-                    className="text-[12px]"
-                  >
-                    {department}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div style={{width: '166px'}}>
+              <Select
+                name="department"
+                value={department}
+                onValueChange={value => {
+                  const name = 'department';
+                  setChangeProfile({name, value});
+                }}
+              >
+                <SelectTrigger className="h-[24px] py-[4px] px-[10px] border border-solid border-[#D9D9D9] rounded-[4px] text-[12px] focus:ring-[#7E51FD] outline-offset-0">
+                  <SelectValue placeholder="department" />
+                </SelectTrigger>
+                <SelectContent>
+                  {DEPARTMENT.map(department => (
+                    <SelectItem
+                      key={department}
+                      value={department}
+                      className="text-[12px]"
+                    >
+                      {department}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
             <p className={styles['divider']}>|</p>
-            <Input
-              name="belong"
-              type="text"
-              placeholder="company"
-              className={cn(
-                'w-[72px] h-[24px] border-solid border-[#D9D9D9] text-[12px]'
-              )}
-              maxLength={15}
-              value={belong}
-              onChange={e => {
-                const name = e.target.name;
-                const value = e.target.value;
-                setChangeProfile({name, value});
-              }}
-            />
+            <div style={{width: '166px'}}>
+              <Input
+                name="belong"
+                type="text"
+                placeholder="company"
+                className={cn(
+                  'w-[72px] h-[24px] border-solid border-[#D9D9D9] text-[12px]'
+                )}
+                maxLength={15}
+                value={belong}
+                onChange={e => {
+                  const name = e.target.name;
+                  const value = e.target.value;
+                  setChangeProfile({name, value});
+                }}
+              />
+            </div>
           </>
         )}
       </div>
@@ -152,10 +160,10 @@ function Profile({profile}: Props) {
           />
         </div>
         <Input
-          name="location"
+          name="regionId"
           type="text"
-          className="h-[20px] py-[4px] px-[10px] ps-[32px] border-solid border-[#D9D9D9] text-[12px]"
-          value={location}
+          className="max-w-[110px] h-[20px] py-[4px] px-[10px] ps-[32px] border-solid border-[#D9D9D9] text-[12px]"
+          value={regionId}
           onChange={e => {
             const name = e.target.name;
             const value = e.target.value;

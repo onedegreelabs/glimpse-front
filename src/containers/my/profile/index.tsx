@@ -1,6 +1,7 @@
 'use client';
 import styles from './index.module.scss';
 import {useEffect, useState} from 'react';
+import {getCookie} from 'cookies-next';
 
 import AddInput from './components/AddInput/AddInput';
 import FloatingButton from './components/FloatingButton/FloatingButton';
@@ -19,18 +20,17 @@ import {useProfileStore} from '@/stores/profile';
 // TODO: 전역상태 설정한후 모두 바꿔야함
 const MyProfileContainer = () => {
   const {profile} = useProfileStore();
-  console.log('my profile container', profile);
   useEffect(() => {
-    getUserMeFetch().then(res => {
-      // setProfile(res);
-      //   getCardsByType(res.cards);
-    });
+    // 쿠키에서 액세시 토큰 가져오기
+    const myCookies = document.cookie;
+    console.log(myCookies);
+    const accessToken = getCookie('accessToken');
+    console.log('get cookie', accessToken);
+    const cookieData = document.cookie;
+    console.log('cookieData', cookieData);
+    // const decoded = jwtDecode(accessToken);
+    // console.log('decoded', decoded);
   }, []);
-  //   }, [isSaving]);
-
-  // const changeBelong = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setProfile(prev => ({...prev, belong: e.target.value}));
-  // };
 
   ///// Add Link /////
   const [isShowAddInput, setIsShowAddInput] = useState(false);
@@ -63,24 +63,7 @@ const MyProfileContainer = () => {
     <div className={styles['my-profile-container']}>
       <ActionHeader profile={profile} />
       <Profile profile={profile} />
-      <Intro
-        cards={[
-          {
-            id: 0,
-            type: 'INTROTITLE',
-            content: ['리팩토링중'],
-            isVisible: true,
-            color: '#FFFFFF',
-          },
-          {
-            id: 0,
-            type: 'INTROCAREER',
-            content: ['일단 더미데이터 테스트중'],
-            isVisible: true,
-            color: '#FFFFFF',
-          },
-        ]}
-      />
+      <Intro isOtherProfile={profile.isOtherProfile} />
       <AboutMe
         cards={[
           {
@@ -91,6 +74,7 @@ const MyProfileContainer = () => {
             color: '#FFFFFF',
           },
         ]}
+        isOtherProfile={profile.isOtherProfile}
       />
       <Connect
         cards={[
@@ -135,3 +119,6 @@ const MyProfileContainer = () => {
 };
 
 export default MyProfileContainer;
+function jwtDecode(token: any) {
+  throw new Error('Function not implemented.');
+}

@@ -6,13 +6,12 @@ import {useRouter} from 'next/navigation';
 
 import CircleImage from '@/containers/my/profile/components/CircleImage/CircleImage';
 import {useProfileStore} from '@/stores/profile';
-import {TProfile} from '@/types/profileType';
+import {TempPropfile} from '@/types/profileType';
 
 const DEFAULT_IMG_URL = '/assets/profile/temp-glimpse-list-img.jpg';
 
 interface Props {
-  profile: TProfile;
-  profileImage?: File;
+  profile: TempPropfile;
 }
 
 function ActionHeader({profile}: Props) {
@@ -65,7 +64,7 @@ function ActionHeader({profile}: Props) {
         <div className={styles['profile-image-wrapper']}>
           <div className={styles['profile-image']}>
             <Image
-              src={profile.profileImageUrl || preViewImgUrl}
+              src={profile.image || preViewImgUrl}
               alt="프로필사진"
               width={120}
               height={120}
