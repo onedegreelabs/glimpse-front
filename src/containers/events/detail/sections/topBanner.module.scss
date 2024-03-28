@@ -21,7 +21,12 @@
 
     .info-header {
       display: flex;
-      gap: 12px;
+      justify-content: space-between;
+
+      .flex-area {
+        display: flex;
+        gap: 12px;
+      }
 
       .back-button {
         cursor: pointer;

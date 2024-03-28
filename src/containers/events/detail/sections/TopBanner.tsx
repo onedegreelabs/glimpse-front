@@ -31,24 +31,25 @@ export default function TopBanner({
       )}
       <div className={styles['event-info-wrapper']}>
         <div className={styles['info-header']}>
-          <div className={styles['back-button']} onClick={goBack}>
-            <Image
-              src={'/assets/events/back_arrow.svg'}
-              alt="back-button"
-              width={24}
-              height={24}
-            />
-          </div>
-          <div className={styles['info-type']}>
-            <Chip
-              label={eventType}
-              height={28}
-              backgroundColor="#7E51FD"
-              borderRadius={4}
-              color="#fff"
-              fontSize={12}
-            />
-            {/* <Chip
+          <div className={styles['flex-area']}>
+            <div className={styles['back-button']} onClick={goBack}>
+              <Image
+                src={'/assets/events/back_arrow.svg'}
+                alt="back-button"
+                width={24}
+                height={24}
+              />
+            </div>
+            <div className={styles['info-type']}>
+              <Chip
+                label={eventType}
+                height={28}
+                backgroundColor="#7E51FD"
+                borderRadius={4}
+                color="#fff"
+                fontSize={12}
+              />
+              {/* <Chip
               label={eventVisibility}
               height={28}
               backgroundColor="#ffffff4d"
@@ -56,6 +57,7 @@ export default function TopBanner({
               isOutline
               soldColor="#e1e1e1"
             /> */}
+            </div>
           </div>
           <div className={styles['share-btn-wrapper']}>
             <Image
