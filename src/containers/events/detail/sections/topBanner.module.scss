@@ -1,4 +1,5 @@
 .event-thumbnail-wrapper {
+  background: linear-gradient(90deg, #80caff 0%, #9747ff 100%);
   position: relative;
   height: 180px;
   width: 100%;
@@ -16,7 +17,7 @@
     bottom: 10px;
     padding: 0px 16px;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
 
     .info-header {
       display: flex;
@@ -24,6 +25,7 @@
 
       .back-button {
         cursor: pointer;
+        transform: rotate(-90deg);
       }
 
       .info-type {
@@ -54,8 +56,6 @@
 
 @media only screen and (max-width: 768px) {
   .event-thumbnail-wrapper {
-    background: linear-gradient(90deg, #80caff 0%, #9747ff 100%);
-
     .event-info-wrapper {
       .info-header {
         .share-btn-wrapper {

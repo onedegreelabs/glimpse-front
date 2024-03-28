@@ -40,7 +40,7 @@ export default function EventInfo({
         <div className={styles['event-info-top-wrapper']}>
           {eventDetailData?.externalLink && (
             <div
-              className={styles['external-link']}
+              className={styles['external-link-box']}
               onClick={() => {
                 window.open(eventDetailData.externalLink);
               }}

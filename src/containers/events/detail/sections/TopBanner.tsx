@@ -33,7 +33,7 @@ export default function TopBanner({
         <div className={styles['info-header']}>
           <div className={styles['back-button']} onClick={goBack}>
             <Image
-              src={'/assets/events/back_arrow.png'}
+              src={'/assets/events/back_arrow.svg'}
               alt="back-button"
               width={24}
               height={24}
