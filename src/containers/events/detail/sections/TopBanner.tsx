@@ -1,7 +1,6 @@
 import Chip from '@/components/chip/Chip';
 import styles from './topBanner.module.scss';
 import Image from 'next/image';
-import {eventData} from '../mock/mock';
 
 export default function TopBanner({
   viewCount,
@@ -12,16 +11,14 @@ export default function TopBanner({
   viewCount: number;
   eventType: string;
   eventTitle: string;
-  coverImage: File | string | null;
+  coverImage: string;
 }) {
-  const {coverImgUrl} = eventData;
-
   return (
     <div className={styles['event-thumbnail-wrapper']}>
       {coverImage && (
         <Image
           className={styles['event-thumbnail']}
-          src={coverImgUrl}
+          src={coverImage}
           alt="이벤트 썸네일"
           width={100}
           height={40}

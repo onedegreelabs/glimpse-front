@@ -9,7 +9,11 @@ const nextConfig = {
         pathname: '/image/users/*',
       },
     ],
-    domains: ['avatars.githubusercontent.com', 'localhost'],
+    domains: [
+      'avatars.githubusercontent.com',
+      'localhost',
+      'aws-s3-glimpse.s3.ap-northeast-2.amazonaws.com',
+    ],
   },
 };
 
