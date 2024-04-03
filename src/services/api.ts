@@ -25,6 +25,28 @@ export const loginWithLinkedin = async () => {
   return await axiosInstance().get('auth/linkedin');
 };
 
+// profile api
+export const profileApi = {
+  getUserMe: async (): Promise<IProfile> => {
+    const res = await tokenValidInstance().get('users/me');
+    return res.data.data;
+  },
+  updateUserMe: async (updateUser: IProfileUpdate): Promise<void> => {
+    const formData = new FormData();
+    formData.append('profileImage', updateUser.profileImage as Blob);
+    formData.append('data', JSON.stringify(updateUser.data));
+    await tokenValidInstance().patch('/users/me', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+  getUserOther: async (id: number): Promise<IProfile> => {
+    const res = await tokenValidInstance().get(`/users/other/${id}`);
+    return res.data.data;
+  },
+};
+
 // events
 export const events = {
   create: {
