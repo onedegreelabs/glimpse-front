@@ -64,40 +64,9 @@ const MyProfileContainer = () => {
       <ActionHeader profile={profile} />
       <Profile profile={profile} />
       <Intro isOtherProfile={profile.isOtherProfile} />
-      <AboutMe
-        cards={[
-          {
-            id: 0,
-            type: 'ABOUTME',
-            content: ['UI테스트중'],
-            isVisible: true,
-            color: '#FFFFFF',
-          },
-        ]}
-        isOtherProfile={profile.isOtherProfile}
-      />
-      <Connect
-        cards={[
-          {
-            id: 0,
-            type: 'LINK',
-            content: ['http://github.com/monii'],
-            isVisible: true,
-            color: '#FFFFFF',
-          },
-        ]}
-      />
-      <HashTag
-        cards={[
-          {
-            id: 0,
-            type: 'HASHTAG',
-            content: ['강아지', '고양이'],
-            isVisible: true,
-            color: '#FFFFFF',
-          },
-        ]}
-      />
+      <AboutMe cards={[]} isOtherProfile={profile.isOtherProfile} />
+      <Connect cards={[]} isOtherProfile={false} />
+      <HashTag cards={[]} isOtherProfile={false} />
       <div className={styles['floating-button-container']}>
         <FloatingButton onClickShowAddInput={onClickShowAddInput} />
       </div>
