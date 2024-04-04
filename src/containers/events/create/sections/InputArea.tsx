@@ -171,7 +171,7 @@ export default function InputArea() {
       endAt: endAt,
       dueAt: endAt,
       type: type,
-      handle: handle,
+      handle: `glimpse.rsvp/events?handle=${handle}`,
       region: region,
       detailAddress: detailAddress,
       externalLink: externalLink,

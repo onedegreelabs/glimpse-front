@@ -27,7 +27,7 @@ const createEvent = async function (data: CreateEventType, imgFile: any) {
   if (imgFile) {
     formData.append('eventImage', imgFile);
   }
-  formData.append('data', new Blob([JSON.stringify(data)]));
+  formData.append('data', JSON.stringify(data));
   const res = await customAxios.post('events', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
