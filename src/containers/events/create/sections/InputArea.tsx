@@ -21,9 +21,11 @@ import SuccessModal from '../components/successModal';
 export default function InputArea() {
   const [title, setTitle] = useState('');
   const titleRef = useRef<HTMLInputElement>(null);
-  const [startAt, setStartAt] = useState<Date>();
+  const [startAt, setStartAt] = useState<Date>(new Date());
   const startRef = useRef<HTMLInputElement>(null);
-  const [endAt, setEndAt] = useState<Date>();
+  const [endAt, setEndAt] = useState<Date>(new Date());
+  const [minZeroTime, setMinZeroTime] = useState<Date>();
+  const [maxTime, setMaxTime] = useState<Date>();
   const endRef = useRef<HTMLInputElement>(null);
   const [type, setType] = useState('Online');
   const [handle, setHandle] = useState('');
@@ -40,11 +42,18 @@ export default function InputArea() {
   const imgFileRef = useRef<HTMLInputElement>(null);
   const [imgUrl, setImgUrl] = useState<string | ArrayBuffer | null>();
   const [showModal, setShowModal] = useState<Boolean>(false);
-
   const [errorState, setErrorState] = useState('');
   const [validState, setValidState] = useState('');
 
   // time logic
+  function isDateEqual(date1: Date, date2: Date) {
+    return (
+      date1?.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  }
+
   useEffect(() => {
     const currentDate = new Date();
     const hours = currentDate.getHours();
@@ -61,6 +70,16 @@ export default function InputArea() {
     const nextDate = new Date();
     nextDate.setMinutes(roundMinutes + 15);
     setEndAt(nextDate);
+
+    const newMaxTime = new Date();
+    newMaxTime.setHours(23);
+    newMaxTime.setMinutes(50);
+    setMaxTime(newMaxTime);
+
+    const newZeroTime = new Date();
+    newZeroTime.setHours(0);
+    newZeroTime.setMinutes(0);
+    setMinZeroTime(newZeroTime);
   }, []);
 
   useEffect(() => {
@@ -307,6 +326,10 @@ export default function InputArea() {
                   timeIntervals={15}
                   timeCaption="Time"
                   dateFormat="h:mm aa"
+                  minTime={
+                    isDateEqual(startAt, new Date()) ? new Date() : minZeroTime
+                  }
+                  maxTime={maxTime}
                 />
               </div>
             </div>
@@ -339,6 +362,8 @@ export default function InputArea() {
                   showTimeSelectOnly
                   timeIntervals={15}
                   timeCaption="Time"
+                  minTime={isDateEqual(startAt, endAt) ? startAt : minZeroTime}
+                  maxTime={maxTime}
                 />
               </div>
             </div>
