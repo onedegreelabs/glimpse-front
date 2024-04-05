@@ -11,109 +11,80 @@ export default function EventRsvpContainer() {
         <div className={styles['rsvp-required']}>Required *</div>
         <div className={styles['rsvp-input']}>
           <label>
-            First Name (이름) <p> *</p>
+            First Name (이름) <span> *</span>
           </label>
           <input type="text" placeholder="Place holder" />
         </div>
         <div className={styles['rsvp-input']}>
           <label>
-            Last Name (성) <p> *</p>
+            Last Name (성) <span> *</span>
           </label>
           <input type="text" placeholder="Place holder" />
         </div>
         <div className={styles['rsvp-input']}>
           <label>
-            Role (직군) <p> *</p>
+            Role (직군) <span> *</span>
           </label>
           <input type="text" placeholder="Place holder" />
         </div>
         <div className={styles['rsvp-input']}>
           <label>
-            Organization (소속) <p> *</p>
+            Organization (소속) <span> *</span>
           </label>
           <input type="text" placeholder="Place holder" />
         </div>
         <div className={styles['rsvp-input']}>
           <label>
-            Experience (경력) <p> *</p>
+            Experience (경력) <span> *</span>
           </label>
           <input type="text" placeholder="Place holder" />
         </div>
         <div className={styles['rsvp-input']}>
-          <label>
-            Location (거주지역) <p> *</p>
-          </label>
+          <label>Location (거주지역)</label>
           <input type="text" placeholder="Place holder" />
         </div>
-        <div>
-          <label>Interest (관심사)</label>
+        <div className={styles['rsvp-interest']}>
+          <h2>Interest (관심사)</h2>
           <div className={styles['rsvp-checkbox-container']}>
             <div className={styles['rsvp-checkbox']}>
               <input type="checkbox" id="industry" />
-              <label htmlFor="industry">
-                Industry
-                <div />
-              </label>
+              <label htmlFor="industry">Industry</label>
             </div>
             <div className={styles['rsvp-checkbox']}>
               <input type="checkbox" id="role" />
-              <label htmlFor="role">
-                Role
-                <div />
-              </label>
+              <label htmlFor="role">Role</label>
             </div>
             <div className={styles['rsvp-checkbox']}>
               <input type="checkbox" id="self-development" />
-              <label htmlFor="self-development">
-                Self-Development
-                <div />
-              </label>
+              <label htmlFor="self-development">Self-Development</label>
             </div>
             <div className={styles['rsvp-checkbox']}>
               <input type="checkbox" id="hobby" />
-              <label htmlFor="hobby">
-                Hobby
-                <div />
-              </label>
+              <label htmlFor="hobby">Hobby</label>
             </div>
             <div className={styles['rsvp-checkbox']}>
               <input type="checkbox" id="networking" />
-              <label htmlFor="networking">
-                Networking
-                <div />
-              </label>
+              <label htmlFor="networking">Networking</label>
             </div>
             <div className={styles['rsvp-checkbox']}>
               <input type="checkbox" id="career" />
-              <label htmlFor="career">
-                Career
-                <div />
-              </label>
+              <label htmlFor="career">Career</label>
             </div>
             <div className={styles['rsvp-checkbox']}>
               <input type="checkbox" id="skill" />
-              <label htmlFor="skill">
-                Skill
-                <div />
-              </label>
+              <label htmlFor="skill">Skill</label>
             </div>
             <div className={styles['rsvp-checkbox']}>
               <input type="checkbox" id="leadership" />
-              <label htmlFor="leadership">
-                Leadership
-                <div />
-              </label>
+              <label htmlFor="leadership">Leadership</label>
             </div>
             <div className={styles['rsvp-checkbox']}>
               <input type="checkbox" id="problem-solving" />
-              <label htmlFor="problem-solving">
-                Problem Solving
-                <div />
-              </label>
+              <label htmlFor="problem-solving">Problem Solving</label>
             </div>
           </div>
+          <button>Submit</button>
         </div>
-        <button>submit</button>
       </div>
     </div>
   );

@@ -1,94 +1,117 @@
 .rsvp {
     width: 375px;
-    height: 1408px;
     margin: auto;
     display: flex;
     justify-content: center;
-    border: 1px solid gainsboro;
-}
 
-.rsvp-container {
-    width: 343px;
-    display: flex;
-    flex-direction: column;
-
-    button {
-        height: 52px;
-        color: white;
-        background: #7E51FD;
-        border-radius: 4px;
-        margin-top: 36px;
-    }
-}
-
-.rsvp-required {
-    color: #7E51FD;
-    font-size: 12px;
-    text-align: right;
-    margin-top: 10px;
-    margin-bottom: 12px;
-}
-.rsvp-title {
-    height: 106px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(to right, #80CAFF, #9747FF);
-    border-radius: 10px;
-    margin-top: 10px;
-}
-
-.rsvp-input {
-    display: flex;
-    flex-direction: column;
-
-    label{
-        font-size: 16px;
-        font-weight:normal;
+    .rsvp-container {
+        width: 343px;
         display: flex;
+        flex-direction: column;
 
-        p{
-            color: #7E51FD;
-            white-space: pre;
+        .rsvp-title {
+            height: 106px;
+            background: linear-gradient(to right, rgba(128, 202, 255, 0.5), rgba(151, 71, 255, 0.5));
+            border-radius: 10px;
+            padding: 24px 16px;
+            margin-top: 10px;
+
+            h1{
+                font-size: 20px;
+                font-weight: 500;
+            }
         }
-    }
 
-    input {
-        color: #D9D9D9;
-        font-size: 14px;
-        border: 1px solid ;
-        border-radius: 5px;
-        padding: 6px 0;
-        padding-left: 12px;
-        margin-top: 8px;
-        margin-bottom: 32px;    
-    }
-}
+        .rsvp-required {
+            color: #7E51FD;
+            font-size: 12px;
+            text-align: right;
+            margin-top: 10px;
+            margin-bottom: 12px;
+        }
 
-.rsvp-checkbox-container {
-    display: flex;
-    flex-direction: column;
-    height: 428px;
-    border: 1px solid #D9D9D9;
-    border-radius: 8px;
-    gap: 20px;
-    padding: 24.5px 16px;
-    margin-top: 8px;
-    font-size: 16px;
-}
+        .rsvp-input {
+            display: flex;
+            flex-direction: column;
+        
+            label{
+                font-size: 16px;
+                font-weight: 500;
+        
+                span{
+                    color: #7E51FD;
+                }
+            }
+        
+            input {
+                color: #171717;
+                font-size: 14px;
+                border: 1px solid #D9D9D9;
+                border-radius: 5px;
+                padding: 6px 0;
+                padding-left: 12px;
+                margin-top: 8px;
+                margin-bottom: 32px;
+                outline: none;
+            }
+            
+            &:focus{
+                border-color: #7E51FD;
+            }
+            &::-ms-input-placeholder{
+                color: #C1C1C1;
+            }
+        }
+        
+        .rsvp-interest{
 
-.rsvp-checkbox {
-    display: flex;
-    align-items: center;
+            h2 {
+                font-weight: 500;
+            }
+
+            .rsvp-checkbox-container {
+                display: flex;
+                flex-direction: column;
+                border: 1px solid #D9D9D9;
+                border-radius: 8px;
+                gap: 20px;
+                padding: 24.5px 16px;
+                margin-top: 8px;
+                font-size: 16px;
     
-    input {
-        width: 20px;
-        height: 20px;
-        margin-right: 8px;
-    }
+                .rsvp-checkbox {
+                    display: flex;
+                    align-items: center;
+                    
+                    input {
+                        width: 20px;
+                        height: 20px;
+                        margin-right: 8px;
+                    }
+                
+                    label {
+                        font-size: 16px;
+                    }
+                }
+            }
 
-    label {
-        font-size: 16px;
+            .rsvp-checkbox-container:hover{
+                border-color: #7E51FD;
+            }
+    
+            button {
+                width: 343px;
+                height: 52px;
+                color: white;
+                background: #7E51FD;
+                border-radius: 4px;
+                margin-top: 36px;
+                margin-bottom: 102px;
+            }
+        }
+        
     }
+    
 }
+    
+    
