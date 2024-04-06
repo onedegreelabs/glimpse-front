@@ -5,34 +5,9 @@
   gap: 28px;
 }
 
-.floating-button-container {
-  position: absolute;
-  bottom: 75px;
-  right: 70px;
-  cursor: pointer;
-}
-
 .save-button-wrapper {
   position: fixed;
-  bottom: 40px;
+  bottom: 80px;
   left: 50%;
   transform: translate(-50%);
-}
-
-@media screen and (max-width: 375px) {
-  .floating-button-container {
-    position: absolute;
-    bottom: 75px;
-    right: 70px;
-    cursor: pointer;
-  }
-}
-
-@media screen and (max-width: 720px) {
-  .floating-button-container {
-    position: absolute;
-    bottom: 75px;
-    right: 70px;
-    cursor: pointer;
-  }
 }

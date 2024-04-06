@@ -14,12 +14,21 @@ import {
   Intro,
   Profile,
 } from '@/components/profile';
-import {getUserMe as getUserMeFetch} from '@/services/profile';
 import {useProfileStore} from '@/stores/profile';
 
-// TODO: 전역상태 설정한후 모두 바꿔야함
-const MyProfileContainer = () => {
+interface Props {
+  isShowAddInput: boolean;
+  addTarget: string;
+  setIsShowAddInput: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const MyProfileContainer = ({
+  isShowAddInput,
+  addTarget,
+  setIsShowAddInput,
+}: Props) => {
   const {profile} = useProfileStore();
+
   useEffect(() => {
     // 쿠키에서 액세시 토큰 가져오기
     const myCookies = document.cookie;
@@ -31,16 +40,6 @@ const MyProfileContainer = () => {
     // const decoded = jwtDecode(accessToken);
     // console.log('decoded', decoded);
   }, []);
-
-  ///// Add Link /////
-  const [isShowAddInput, setIsShowAddInput] = useState(false);
-  const [addTarget, setAddTarget] = useState('LINK');
-
-  const onClickShowAddInput = (target: 'LINK' | 'HASHTAG') => {
-    setIsShowAddInput(true);
-    setAddTarget(target);
-    document.body.style.overflow = 'hidden';
-  };
 
   const onClickAddContent = (value: string) => {
     const content = value;
@@ -75,7 +74,6 @@ const MyProfileContainer = () => {
           <SaveButton />
         </div>
       )}
-
       {isShowAddInput && (
         <AddInput
           currentTarget={addTarget}
@@ -88,6 +86,3 @@ const MyProfileContainer = () => {
 };
 
 export default MyProfileContainer;
-function jwtDecode(token: any) {
-  throw new Error('Function not implemented.');
-}

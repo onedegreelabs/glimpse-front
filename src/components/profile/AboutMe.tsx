@@ -36,29 +36,25 @@ export default function AboutMeCard({cards, isOtherProfile}: AboutMeCardProps) {
     }
   }, [cards]);
 
-  if (!aboutMe) {
-    return null;
-  } else {
-    return (
-      <ProfileCard title="About me" isShowProfileCard={true}>
-        <Card
-          className={cn(
-            'w-[343px] h-[168px] focus-within:border-solid border-[#7E51FD]'
+  return (
+    <ProfileCard title="About me" isShowProfileCard={true}>
+      <Card
+        className={cn(
+          'w-[343px] h-[168px] focus-within:border-solid border-[#7E51FD]'
+        )}
+      >
+        <div className={styles['content']}>
+          {isOtherProfile ? (
+            <p>{aboutMe.content}</p>
+          ) : (
+            <textarea
+              name="aboutMe"
+              className={styles['content-textarea']}
+              onChange={changeCard}
+            />
           )}
-        >
-          <div className={styles['content']}>
-            {isOtherProfile ? (
-              <p>{aboutMe.content}</p>
-            ) : (
-              <textarea
-                name="aboutMe"
-                className={styles['content-textarea']}
-                onChange={changeCard}
-              />
-            )}
-          </div>
-        </Card>
-      </ProfileCard>
-    );
-  }
+        </div>
+      </Card>
+    </ProfileCard>
+  );
 }

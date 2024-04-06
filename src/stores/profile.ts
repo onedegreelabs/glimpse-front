@@ -60,4 +60,5 @@ export const useProfileStore = create<ProfileStore>(set => ({
         [updateTarget.name]: updateTarget.value,
       },
     })),
+  // setChangeCards : (updateTarget:)
 }));

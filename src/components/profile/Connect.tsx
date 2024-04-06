@@ -33,31 +33,28 @@ export default function ConnectCard({cards}: ConnectCardProps) {
     }
   }, [cards]);
 
-  if (!connects) {
-    return null;
-  } else {
-    return (
-      <ProfileCard title="Connect" isShowProfileCard={true}>
-        <div className={clsx(styles['link-content-wrapper'])}>
-          {Array.isArray(connects.content) &&
-            connects.content.map((connect, index) => {
-              const connectImg = getConnectImg(connect);
-              return (
-                <Card height={64} key={`conent-${index}`}>
-                  <div className={styles['link-content']}>
-                    <Image
-                      src={connectImg.src}
-                      alt={connectImg.alt}
-                      width={32}
-                      height={32}
-                    />
-                    <span>{connect}</span>
-                  </div>
-                </Card>
-              );
-            })}
-        </div>
-      </ProfileCard>
-    );
-  }
+  return (
+    <ProfileCard title="Connect" isShowProfileCard={true}>
+      <div className={clsx(styles['link-content-wrapper'])}>
+        {connects?.content &&
+          Array.isArray(connects.content) &&
+          connects.content.map((connect, index) => {
+            const connectImg = getConnectImg(connect);
+            return (
+              <Card height={64} key={`conent-${index}`}>
+                <div className={styles['link-content']}>
+                  <Image
+                    src={connectImg.src}
+                    alt={connectImg.alt}
+                    width={32}
+                    height={32}
+                  />
+                  <span>{connect}</span>
+                </div>
+              </Card>
+            );
+          })}
+      </div>
+    </ProfileCard>
+  );
 }
