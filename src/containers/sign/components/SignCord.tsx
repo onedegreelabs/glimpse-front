@@ -4,14 +4,9 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import {codeSchema} from '@/containers/sign/constants/sign.schema';
 import {customAxios} from '@/services/headers';
 import {useAuth} from '@/hooks/useAuth';
-import {useRouter, useSearchParams} from 'next/navigation';
 
 export default function SignCord() {
   const {email} = useAuth();
-
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
   const {control, setValue, watch} = useForm({
     resolver: zodResolver(codeSchema),
     defaultValues: {
@@ -74,7 +69,7 @@ export default function SignCord() {
         },
       });
       if (data) {
-        router.replace('/my/profile');
+        window.location.href = '/';
       }
     } catch (error) {
       console.error('Error fetching token:', error);

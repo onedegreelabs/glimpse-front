@@ -15,8 +15,10 @@ export default function Header() {
   useEffect(() => {
     if (data?.statusCode === 200) {
       setProfile(data.data);
+      setIsLogin(true);
     }
   }, [data]);
+
   useEffect(() => {
     if (error?.response) {
       const status = error.response.status;
