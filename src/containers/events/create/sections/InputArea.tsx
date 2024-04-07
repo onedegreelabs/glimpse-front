@@ -199,7 +199,8 @@ export default function InputArea() {
           null;
       }
     }
-    setHandle(newValue);
+    const loweredNewValue = newValue.toLocaleLowerCase();
+    setHandle(loweredNewValue);
   };
 
   const checkDuplicate = useCallback(
