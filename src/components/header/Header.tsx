@@ -1,20 +1,22 @@
 'use client';
 import {useProfileStore} from '@/stores/profile';
 import styles from './header.module.scss';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {useMyProfile} from '@/hooks/swr/useProfiles';
 import {getAccessTokenByRefreshToken, logout} from '@/services/api';
 import {useIsLoginStore} from '@/stores/auth';
+import {useRouter} from 'next/navigation';
 export default function Header() {
   const setProfile = useProfileStore(state => state.setProfile);
   const profile = useProfileStore(state => state.profile);
   const {data, error} = useMyProfile();
   const setIsLogin = useIsLoginStore(state => state.setIsLogin);
+  const isLogin = useIsLoginStore(state => state.isLogin);
   useEffect(() => {
     if (data?.statusCode === 200) {
       setProfile(data.data);
     }
-  }, [profile, data]);
+  }, [data]);
   useEffect(() => {
     if (error?.response) {
       const status = error.response.status;
@@ -35,19 +37,71 @@ export default function Header() {
     }
   };
 
-  // // 로그아웃 기능 추가 시 아래 코드 사용
-  // const clearUserIdStorage = useProfileStore.persist.clearStorage;
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    if (profile.email) {
+      if (profile.givenName) {
+        setUserName(profile.givenName);
+      } else {
+        setUserName('guest');
+      }
+    }
+  }, [profile]);
+
+  const router = useRouter();
+
+  const onLogout = () => {
+    logout();
+    setProfile({
+      createdAt: '',
+      updatedAt: '',
+      id: 1,
+      familyName: '',
+      givenName: '',
+      image: '',
+      introduction: '',
+      department: '',
+      regionId: '',
+      belong: '',
+      isOtherProfile: false,
+      isChangeProfile: false,
+      email: '',
+      role: '',
+      sns: [
+        {
+          createdAt: '',
+          updatedAt: '',
+          id: 1,
+          type: '',
+          account: '',
+        },
+      ],
+      authentication: {},
+      profileCard: [],
+      userTag: [],
+    });
+    setIsLogin(false);
+  };
+
+  const onLogin = () => {
+    router.push('/sign');
+  };
 
   return (
     <div className={styles['header-wrapper']}>
-      <div
-        className={styles['text-area']}
-        onClick={() => {
-          logout();
-        }}
-      >
-        로그아웃
-      </div>
+      <div className={styles['text-area']}>{userName && `Hi ${userName}`}</div>
+
+      {userName && (
+        <div
+          className={styles['btn-area']}
+          onClick={() => {
+            isLogin ? onLogout() : onLogin();
+          }}
+        >
+          {isLogin ? '로그아웃' : '로그인'}
+        </div>
+      )}
     </div>
   );
 }
