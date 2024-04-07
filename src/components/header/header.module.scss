@@ -1,13 +1,25 @@
 .header-wrapper {
-  display: grid;
+  width: 375px;
+  margin: auto;
+  display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   height: 60px;
   background: #fff;
 
   .text-area {
-    font-size: 12px;
+    font-size: 20px;
     text-align: center;
     font-weight: 500;
+  }
+
+  .btn-area {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 2px 12px;
+    background-color: #7E51FD;
+    border-radius: 100px;
+    cursor: pointer;
+    color: #fff;
   }
 }

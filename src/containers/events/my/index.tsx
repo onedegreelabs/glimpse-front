@@ -8,12 +8,23 @@ import _ from 'lodash';
 import {DayEventProps} from '@/types/eventTypes';
 import CreateRoundButton from './sections/CreateRoundButton';
 import clsx from 'clsx';
+import {useRouter} from 'next/navigation';
+import {useIsLoginStore} from '@/stores/auth';
 
 export default function EventMyContainer({pageType}: {pageType: string}) {
   const [isEmptyEvent, setIsEmptyEvent] = useState(true);
   const needSwrHook = pageType === 'my' ? useMyEventList : useEventList;
   const {data, error, isLoading} = needSwrHook(100);
   const [eventsByDate, setEventsByDate] = useState<DayEventProps[]>([]);
+
+  const router = useRouter();
+  const isLogin = useIsLoginStore(state => state.isLogin);
+
+  useEffect(() => {
+    if (pageType === 'my' && !isLogin) {
+      router.push('/sign');
+    }
+  }, [isLogin]);
 
   useEffect(() => {
     if (data?.data) {

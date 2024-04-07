@@ -1,6 +1,7 @@
 import {
   axiosInstance,
   basicAuthInstance,
+  customAxios,
   socialAuthInstance,
   tokenValidInstance,
 } from './headers';
@@ -23,6 +24,14 @@ export const loginWithGoogle = async (googleToken: string) => {
 
 export const loginWithLinkedin = async () => {
   return await axiosInstance().get('auth/linkedin');
+};
+
+export const getAccessTokenByRefreshToken = async () => {
+  return await customAxios.put('/auth/token');
+};
+
+export const logout = async () => {
+  return await customAxios.delete('/auth/token');
 };
 
 // profile api
