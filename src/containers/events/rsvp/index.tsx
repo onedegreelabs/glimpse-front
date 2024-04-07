@@ -4,22 +4,22 @@ import {useState, FormEvent} from 'react';
 import styles from './index.module.scss';
 
 interface InputValid {
-  firstName: string;
-  lastName: string;
+  givenName: string;
+  familyName: string;
   role: string;
-  organization: string;
+  belong: string;
   experience: string;
-  location: string;
+  region: string;
 }
 
 export default function EventRsvpContainer() {
   const [inputValid, setInputValid] = useState<InputValid>({
-    firstName: '',
-    lastName: '',
+    givenName: '',
+    familyName: '',
     role: '',
-    organization: '',
+    belong: '',
     experience: '',
-    location: '',
+    region: '',
   });
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -34,15 +34,22 @@ export default function EventRsvpContainer() {
 
     const formElement = event.target as HTMLFormElement;
     const fd = new FormData(formElement);
-    const data: Record<string, FormDataEntryValue> = {};
+    const data: Record<string, FormDataEntryValue | string[]> = {};
+    data.interest = [];
 
     for (const [key, value] of fd.entries()) {
-      data[key] = value;
       if (!value) {
         setInputValid(prevInputValid => ({
           ...prevInputValid,
           [key]: 'invalid',
         }));
+      }
+
+      if (value === 'on') {
+        const interest = key.split('-');
+        data.interest.push(interest[0]);
+      } else {
+        data[key] = value;
       }
     }
 
@@ -82,10 +89,10 @@ export default function EventRsvpContainer() {
           </label>
           <input
             type="text"
-            name="firstName"
+            name="givenName"
             placeholder="Place holder"
             onChange={handleChange}
-            className={styles[inputValid.firstName]}
+            className={styles[inputValid.givenName]}
           />
         </div>
         <div className={styles['rsvp-input']}>
@@ -94,10 +101,10 @@ export default function EventRsvpContainer() {
           </label>
           <input
             type="text"
-            name="lastName"
+            name="familyName"
             placeholder="Place holder"
             onChange={handleChange}
-            className={styles[inputValid.lastName]}
+            className={styles[inputValid.familyName]}
           />
         </div>
         <div className={styles['rsvp-input']}>
@@ -114,14 +121,14 @@ export default function EventRsvpContainer() {
         </div>
         <div className={styles['rsvp-input']}>
           <label>
-            Organization (소속) <span> *</span>
+            belong (소속) <span> *</span>
           </label>
           <input
             type="text"
-            name="organization"
+            name="belong"
             placeholder="Place holder"
             onChange={handleChange}
-            className={styles[inputValid.organization]}
+            className={styles[inputValid.belong]}
           />
         </div>
         <div className={styles['rsvp-input']}>
@@ -137,13 +144,13 @@ export default function EventRsvpContainer() {
           />
         </div>
         <div className={styles['rsvp-input']}>
-          <label>Location (거주지역)</label>
+          <label>region (거주지역)</label>
           <input
             type="text"
-            name="location"
+            name="region"
             placeholder="Place holder"
             onChange={handleChange}
-            className={styles[inputValid.location]}
+            className={styles[inputValid.region]}
           />
         </div>
         <div className={styles['rsvp-interest']}>
