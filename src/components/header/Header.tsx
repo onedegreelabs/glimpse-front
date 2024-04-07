@@ -43,14 +43,6 @@ export default function Header() {
       <div
         className={styles['text-area']}
         onClick={() => {
-          getNewAccessToken();
-        }}
-      >
-        토큰재발급
-      </div>
-      <div
-        className={styles['text-area']}
-        onClick={() => {
           logout();
         }}
       >
