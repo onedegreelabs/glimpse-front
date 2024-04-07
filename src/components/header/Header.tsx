@@ -46,6 +46,8 @@ export default function Header() {
       } else {
         setUserName('guest');
       }
+    } else {
+      setUserName('guest');
     }
   }, [profile]);
 
