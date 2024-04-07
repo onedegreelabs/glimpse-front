@@ -1,6 +1,19 @@
+'use client';
+import {useRouter} from 'next/navigation';
 import SignCard from './components/SignCard';
+import {useIsLoginStore} from '@/stores/auth';
+import {useEffect} from 'react';
 
 export default function SignContainer() {
+  const router = useRouter();
+  const isLogin = useIsLoginStore(state => state.isLogin);
+
+  useEffect(() => {
+    if (isLogin) {
+      router.push('/');
+    }
+  }, [isLogin]);
+
   return (
     <div className="w-full flex items-center justify-center">
       <div className="w-[350px] px-4 flex flex-col justify-center items-center gap-6">
