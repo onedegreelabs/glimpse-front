@@ -17,8 +17,17 @@ import {createEvent} from '@/hooks/swr/useEvents';
 import {checkDuplicateHandle} from '@/hooks/swr/useEvents';
 import _ from 'lodash';
 import SuccessModal from '../components/successModal';
+import {useIsLoginStore} from '@/stores/auth';
+import {useRouter} from 'next/navigation';
 
 export default function InputArea() {
+  const router = useRouter();
+  const isLogin = useIsLoginStore(state => state.isLogin);
+  useEffect(() => {
+    if (!isLogin) {
+      router.push('/sign');
+    }
+  }, [isLogin]);
   const [title, setTitle] = useState('');
   const titleRef = useRef<HTMLInputElement>(null);
   const [startAt, setStartAt] = useState<Date>(new Date());
