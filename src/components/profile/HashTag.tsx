@@ -31,28 +31,25 @@ export default function HashTagCard({cards}: HashTagCardProps) {
     }
   }, [cards]);
 
-  if (!hashTags) {
-    return null;
-  } else {
-    return (
-      <ProfileCard title="Hashtag of interest" isShowProfileCard={true}>
-        <Card height={358}>
-          <div className={styles['content-wrapper']}>
-            <div className={styles['hashtag-content']}>
-              {Array.isArray(hashTags.content) &&
-                hashTags.content.map((tag, index) => (
-                  <Chip
-                    key={`hashTag-${index}`}
-                    label={tag}
-                    height={24}
-                    backgroundColor={'#D9D9D9'}
-                    borderRadius={4}
-                  />
-                ))}
-            </div>
+  return (
+    <ProfileCard title="Hashtag of interest" isShowProfileCard={true}>
+      <Card height={358}>
+        <div className={styles['content-wrapper']}>
+          <div className={styles['hashtag-content']}>
+            {hashTags?.content &&
+              Array.isArray(hashTags.content) &&
+              hashTags.content.map((tag, index) => (
+                <Chip
+                  key={`hashTag-${index}`}
+                  label={tag}
+                  height={24}
+                  backgroundColor={'#D9D9D9'}
+                  borderRadius={4}
+                />
+              ))}
           </div>
-        </Card>
-      </ProfileCard>
-    );
-  }
+        </div>
+      </Card>
+    </ProfileCard>
+  );
 }

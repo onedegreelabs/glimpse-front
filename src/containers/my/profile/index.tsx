@@ -4,7 +4,6 @@ import {useEffect, useState} from 'react';
 import {getCookie} from 'cookies-next';
 
 import AddInput from './components/AddInput/AddInput';
-import FloatingButton from './components/FloatingButton/FloatingButton';
 import SaveButton from './components/SaveButton/SaveButton';
 import {
   AboutMe,
@@ -14,33 +13,20 @@ import {
   Intro,
   Profile,
 } from '@/components/profile';
-import {getUserMe as getUserMeFetch} from '@/services/profile';
 import {useProfileStore} from '@/stores/profile';
 
-// TODO: 전역상태 설정한후 모두 바꿔야함
-const MyProfileContainer = () => {
+interface Props {
+  isShowAddInput: boolean;
+  addTarget: string;
+  setIsShowAddInput: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const MyProfileContainer = ({
+  isShowAddInput,
+  addTarget,
+  setIsShowAddInput,
+}: Props) => {
   const {profile} = useProfileStore();
-  useEffect(() => {
-    // 쿠키에서 액세시 토큰 가져오기
-    const myCookies = document.cookie;
-    console.log(myCookies);
-    const accessToken = getCookie('accessToken');
-    console.log('get cookie', accessToken);
-    const cookieData = document.cookie;
-    console.log('cookieData', cookieData);
-    // const decoded = jwtDecode(accessToken);
-    // console.log('decoded', decoded);
-  }, []);
-
-  ///// Add Link /////
-  const [isShowAddInput, setIsShowAddInput] = useState(false);
-  const [addTarget, setAddTarget] = useState('LINK');
-
-  const onClickShowAddInput = (target: 'LINK' | 'HASHTAG') => {
-    setIsShowAddInput(true);
-    setAddTarget(target);
-    document.body.style.overflow = 'hidden';
-  };
 
   const onClickAddContent = (value: string) => {
     const content = value;
@@ -59,23 +45,31 @@ const MyProfileContainer = () => {
     document.body.style.overflow = 'unset';
   };
 
+  useEffect(() => {
+    // 쿠키에서 액세시 토큰 가져오기
+    const myCookies = window.document.cookie;
+    console.log(myCookies);
+    const accessToken = getCookie('accessToken');
+    console.log('get cookie', accessToken);
+    const cookieData = document.cookie;
+    console.log('cookieData', cookieData);
+    // const decoded = jwtDecode(accessToken);
+    // console.log('decoded', decoded);
+  }, []);
+
   return (
     <div className={styles['my-profile-container']}>
       <ActionHeader profile={profile} />
       <Profile profile={profile} />
-      <Intro isOtherProfile={profile.isOtherProfile} />
+      <Intro cards={[]} isOtherProfile={profile.isOtherProfile} />
       <AboutMe cards={[]} isOtherProfile={profile.isOtherProfile} />
-      <Connect cards={[]} isOtherProfile={false} />
-      <HashTag cards={[]} isOtherProfile={false} />
-      <div className={styles['floating-button-container']}>
-        <FloatingButton onClickShowAddInput={onClickShowAddInput} />
-      </div>
+      <Connect cards={[]} isOtherProfile={profile.isOtherProfile} />
+      <HashTag cards={[]} isOtherProfile={profile.isOtherProfile} />
       {profile.isChangeProfile && (
         <div className={styles['save-button-wrapper']}>
           <SaveButton />
         </div>
       )}
-
       {isShowAddInput && (
         <AddInput
           currentTarget={addTarget}
@@ -88,6 +82,3 @@ const MyProfileContainer = () => {
 };
 
 export default MyProfileContainer;
-function jwtDecode(token: any) {
-  throw new Error('Function not implemented.');
-}

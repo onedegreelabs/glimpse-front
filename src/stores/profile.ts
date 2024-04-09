@@ -1,49 +1,32 @@
 import {create} from 'zustand';
 
-import {TempPropfile} from '@/types/profileType';
+import {
+  TProfile,
+  UpdateProfileCardDto,
+  UpdateUserDtoRequest,
+} from '@/types/profileType';
+import {
+  initialProfile,
+  initialUpdateProfile,
+} from '@/containers/my/profile/constans/profile';
 
 interface ProfileStore {
-  profile: TempPropfile;
-  setProfile: (profile: TempPropfile) => void;
+  profile: TProfile;
+  updateProfile: UpdateUserDtoRequest;
+  setProfile: (profile: TProfile) => void;
   setProfileImage: (profileImage: File) => void;
   setChangeProfile: (targetElement: {name: string; value: string}) => void;
+  // setChangeProfileCard: (cards: UpdateProfileCardDto[]) => void;
 }
-
-const initialProfile: TempPropfile = {
-  createdAt: '',
-  updatedAt: '',
-  id: 1,
-  familyName: '',
-  givenName: '',
-  image: '',
-  introduction: '',
-  department: '',
-  regionId: '',
-  belong: '',
-  isOtherProfile: false,
-  isChangeProfile: false,
-  email: '',
-  role: '',
-  sns: [
-    {
-      createdAt: '',
-      updatedAt: '',
-      id: 1,
-      type: '',
-      account: '',
-    },
-  ],
-  authentication: {},
-  profileCard: [],
-  userTag: [],
-};
 
 export const useProfileStore = create<ProfileStore>(set => ({
   profile: initialProfile,
-  setProfile: (profile: TempPropfile) =>
-    set({
+  updateProfile: initialUpdateProfile,
+  setProfile: (profile: TProfile) =>
+    set(state => ({
+      ...state.profile,
       profile,
-    }),
+    })),
   setProfileImage: (profileImage: File) =>
     set(state => ({
       profile: {
@@ -60,4 +43,12 @@ export const useProfileStore = create<ProfileStore>(set => ({
         [updateTarget.name]: updateTarget.value,
       },
     })),
+  // setChangeProfileCard: (cards: UpdateProfileCardDto[]) =>
+  //   set(state => ({
+  //     updateProfile: {
+  //       ...state.updateProfile,
+  //       isChangeProfile: true,
+  //       profileCard: cards,
+  //     },
+  //   })),
 }));

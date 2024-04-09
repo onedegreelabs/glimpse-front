@@ -1,9 +1,8 @@
 'use client';
 import styles from './intro.module.scss';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 
-// import Card from '@/components/card/Card';
-import {IProfileCard, ProfileCardDto} from '@/types/profileType';
+import {ProfileCardDto, UpdateProfileCardDto} from '@/types/profileType';
 import getCardsByType from '@/utils/getCardsByType';
 import {
   INTROCAREER,
@@ -12,39 +11,76 @@ import {
 import ProfileCard from '@/components/profile/ProfileCard/ProfileCard';
 import {Card} from '../ui/card';
 import {cn} from '@/lib/utils';
+import {useProfileStore} from '@/stores/profile';
 
 interface IntroCardProps {
-  cards?: ProfileCardDto[];
+  cards: ProfileCardDto[];
   isOtherProfile: boolean;
 }
 
 export default function IntroCard({cards, isOtherProfile}: IntroCardProps) {
-  const [introTitle, setIntroTitle] = useState<ProfileCardDto>({
-    createdAt: '',
-    updatedAt: '',
+  const {profile, setProfile} = useProfileStore();
+  const [introTitle, setIntroTitle] = useState<UpdateProfileCardDto>({
     id: 0,
-    userId: 1,
     type: 'INTROTITLE',
     content: '',
   });
-  const [introCareer, setIntroCareer] = useState<ProfileCardDto>({
-    createdAt: '',
-    updatedAt: '',
+  const [introCareer, setIntroCareer] = useState<UpdateProfileCardDto>({
     id: 0,
-    userId: 1,
     type: 'INTROCAREER',
     content: '',
   });
 
   const changeCard = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {name, value} = e.target;
+
+    let updatedProfileCard;
+
     if (name === 'introTitle') {
-      setIntroTitle(prevState => ({...prevState, content: value}));
+      const introTitleCard = profile.profileCard.find(
+        card => card.type === 'INTROTITLE'
+      );
+      if (introTitleCard) {
+        updatedProfileCard = {
+          ...profile,
+          profileCard: profile.profileCard.map(card =>
+            card.type === 'INTROTITLE' ? {...card, content: value} : card
+          ),
+        };
+      } else {
+        updatedProfileCard = {
+          ...profile,
+          profileCard: [
+            ...profile.profileCard,
+            {id: 0, type: 'INTROTITLE', content: value},
+          ],
+        };
+      }
     } else {
-      setIntroCareer(prevState => ({...prevState, content: value}));
+      const introCareerCard = profile.profileCard.find(
+        card => card.type === 'INTROCAREER'
+      );
+      if (introCareerCard) {
+        updatedProfileCard = {
+          ...profile,
+          profileCard: profile.profileCard.map(card =>
+            card.type === 'INTROCAREER' ? {...card, content: value} : card
+          ),
+        };
+      } else {
+        updatedProfileCard = {
+          ...profile,
+          profileCard: [
+            ...profile.profileCard,
+            {id: 0, type: 'INTROCAREER', content: value},
+          ],
+        };
+      }
     }
+    setProfile(updatedProfileCard);
   };
 
+  console.log('profile', profile);
   useEffect(() => {
     if (cards !== undefined) {
       const introTitleCard = getCardsByType(cards, INTROTITLE);
@@ -54,52 +90,44 @@ export default function IntroCard({cards, isOtherProfile}: IntroCardProps) {
     }
   }, [cards]);
 
-  if (!introTitle || !introCareer) {
-    return null;
-  } else {
-    return (
-      <ProfileCard title={'Intro'} isShowProfileCard={true}>
-        {introTitle.content.length > 0 && (
-          <Card
-            className={cn(
-              'w-[136px] h-[136px] focus-within:border-solid border-[#7E51FD]'
-            )}
-          >
-            <div className={styles['content']}>
-              {isOtherProfile ? (
-                <p>{introTitle.content}</p>
-              ) : (
-                <textarea
-                  name="introTitle"
-                  className={styles['content-textarea']}
-                  value={introTitle.content}
-                  onChange={changeCard}
-                />
-              )}
-            </div>
-          </Card>
+  return (
+    <ProfileCard title={'Intro'} isShowProfileCard={true}>
+      <Card
+        className={cn(
+          'w-[136px] h-[136px] focus-within:border-solid border-[#7E51FD]'
         )}
-        {introCareer.content.length > 0 && (
-          <Card
-            className={cn(
-              'w-[136px] h-[136px] focus-within:border-solid border-[#7E51FD]'
-            )}
-          >
-            <div className={styles['content']}>
-              {isOtherProfile ? (
-                <p>{introTitle.content}</p>
-              ) : (
-                <textarea
-                  name="introCarrer"
-                  className={styles['content-textarea']}
-                  value={introCareer.content}
-                  onChange={changeCard}
-                />
-              )}
-            </div>
-          </Card>
+      >
+        <div className={styles['content']}>
+          {isOtherProfile ? (
+            <p>{introTitle?.content}</p>
+          ) : (
+            <textarea
+              name="introTitle"
+              className={styles['content-textarea']}
+              value={introTitle?.content}
+              onChange={changeCard}
+            />
+          )}
+        </div>
+      </Card>
+      <Card
+        className={cn(
+          'w-[136px] h-[136px] focus-within:border-solid border-[#7E51FD]'
         )}
-      </ProfileCard>
-    );
-  }
+      >
+        <div className={styles['content']}>
+          {isOtherProfile ? (
+            <p>{introTitle?.content}</p>
+          ) : (
+            <textarea
+              name="introCarrer"
+              className={styles['content-textarea']}
+              value={introCareer?.content}
+              onChange={changeCard}
+            />
+          )}
+        </div>
+      </Card>
+    </ProfileCard>
+  );
 }

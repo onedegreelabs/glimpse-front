@@ -5,26 +5,9 @@
   gap: 28px;
 }
 
-.floating-button-container {
-  position: fixed;
-  bottom: 40px;
-  right: 20px;
-  cursor: pointer;
-}
-
 .save-button-wrapper {
   position: fixed;
-  bottom: 40px;
+  bottom: 80px;
   left: 50%;
   transform: translate(-50%);
-}
-
-@media screen and (min-width: 390px) {
-  .floating-button-container {
-    position: fixed;
-    bottom: 40px;
-    right: 30%;
-    transform: translate(-25%);
-    cursor: pointer;
-  }
 }
