@@ -20,55 +20,22 @@ export interface IProfileCard {
   color: string;
 }
 
-export interface IProfileUpdate {
-  profileImage?: File;
-  data: TUpdateProfile;
-}
-
-export interface IProfileSection {
-  height: number;
-  width: number;
-  placeholder: string;
-}
-
-export interface ISection {
-  title: string;
-  sectionProp: IProfileSection[];
-}
-
-export interface ICombinedDataItem {
-  title: string;
-  content: IProfileCard[];
-  cards: IProfileSection[];
-}
-
 export interface ILinkImg {
   alt: string;
   src: string;
 }
 
-type TUpdateProfile = Omit<
-  IProfile,
-  'firstName' | 'lastName' | 'profileImageUrl' | 'viewCount'
->;
-
-export type TProfile = IProfile & {
-  isOtherProfile: boolean;
-  isChangeProfile: boolean;
-  profileImage?: File;
-};
-
 interface BasicDate {
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
-export type TempPropfile = Profile & {
+export type TProfile = ProfileDto & {
   isOtherProfile: boolean;
   isChangeProfile: boolean;
 };
 
-export interface Profile extends BasicDate {
+export interface ProfileDto extends BasicDate {
   id: number;
   email: string;
   regionId: string;
@@ -93,11 +60,29 @@ export interface SnsDto extends BasicDate {
 
 export interface ProfileCardDto extends BasicDate {
   id: number;
-  userId: number;
+  userId?: number;
   type: string;
   content: string;
 }
 export interface GetUserResponseDto {
   status: number;
-  data: Profile;
+  data: ProfileDto;
 }
+
+export interface UpdateUserDtoRequest {
+  region: string;
+  department: string;
+  familyName: string;
+  givenName: string;
+  introduction: string;
+  belong: string;
+  role: string;
+  sns: string[];
+  profileCard: UpdateProfileCardDto[];
+  userTag: string[];
+}
+
+export type UpdateProfileCardDto = Pick<
+  ProfileCardDto,
+  'id' | 'type' | 'content'
+>;

@@ -5,7 +5,7 @@ import {
   socialAuthInstance,
   tokenValidInstance,
 } from './headers';
-import {IProfile, IProfileUpdate} from '@/types/profileType';
+import {IProfile} from '@/types/profileType';
 import {CreateEventType} from '@/containers/events/create/type';
 
 export const sendMailWithCode = async (email: string) => {
@@ -38,20 +38,6 @@ export const logout = async () => {
 export const profileApi = {
   getUserMe: async (): Promise<IProfile> => {
     const res = await tokenValidInstance().get('users/me');
-    return res.data.data;
-  },
-  updateUserMe: async (updateUser: IProfileUpdate): Promise<void> => {
-    const formData = new FormData();
-    formData.append('profileImage', updateUser.profileImage as Blob);
-    formData.append('data', JSON.stringify(updateUser.data));
-    await tokenValidInstance().patch('/users/me', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-  },
-  getUserOther: async (id: number): Promise<IProfile> => {
-    const res = await tokenValidInstance().get(`/users/other/${id}`);
     return res.data.data;
   },
 };

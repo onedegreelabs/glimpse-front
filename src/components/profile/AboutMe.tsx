@@ -1,8 +1,7 @@
-'use client';
 import styles from './aboutMe.module.scss';
 import {useEffect, useState} from 'react';
-
-import {ProfileCardDto} from '@/types/profileType';
+import {useProfileStore} from '@/stores/profile';
+import {ProfileCardDto, UpdateProfileCardDto} from '@/types/profileType';
 import getCardsByType from '@/utils/getCardsByType';
 import {ABOUTME} from '@/containers/my/profile/constans/profile';
 import ProfileCard from './ProfileCard/ProfileCard';
@@ -15,24 +14,47 @@ interface AboutMeCardProps {
 }
 
 export default function AboutMeCard({cards, isOtherProfile}: AboutMeCardProps) {
-  const [aboutMe, setAboutMe] = useState<ProfileCardDto>({
-    createdAt: '',
-    updatedAt: '',
+  const {profile, setProfile} = useProfileStore();
+  const [aboutMe, setAboutMe] = useState<UpdateProfileCardDto>({
     id: 0,
-    userId: 1,
     type: 'ABOUTME',
     content: '',
   });
 
   const changeCard = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {value} = e.target;
+
+    const aboutMeCardIndex = profile.profileCard.findIndex(
+      card => card.type === 'ABOUTME'
+    );
+
+    if (aboutMeCardIndex === -1) {
+      const newAboutMeCard: ProfileCardDto = {
+        id: 0,
+        type: 'ABOUTME',
+        content: value,
+      };
+      const updatedProfileCard = [...profile.profileCard, newAboutMeCard];
+      const updatedProfile = {...profile, profileCard: updatedProfileCard};
+      setProfile(updatedProfile);
+    } else {
+      const updatedProfileCard = profile.profileCard.map(card =>
+        card.type === 'ABOUTME' ? {...card, content: value} : card
+      );
+      const updatedProfile = {...profile, profileCard: updatedProfileCard};
+      setProfile(updatedProfile);
+    }
+
+    // aboutMe 상태 업데이트
     setAboutMe(prevState => ({...prevState, content: value}));
   };
 
   useEffect(() => {
     if (cards !== undefined) {
       const aboutMeCard = getCardsByType(cards, ABOUTME);
-      setAboutMe(aboutMeCard[0]);
+      if (aboutMeCard.length > 0) {
+        setAboutMe(aboutMeCard[0]);
+      }
     }
   }, [cards]);
 
@@ -51,6 +73,7 @@ export default function AboutMeCard({cards, isOtherProfile}: AboutMeCardProps) {
               name="aboutMe"
               className={styles['content-textarea']}
               onChange={changeCard}
+              value={aboutMe.content}
             />
           )}
         </div>

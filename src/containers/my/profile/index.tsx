@@ -4,7 +4,6 @@ import {useEffect, useState} from 'react';
 import {getCookie} from 'cookies-next';
 
 import AddInput from './components/AddInput/AddInput';
-import FloatingButton from './components/FloatingButton/FloatingButton';
 import SaveButton from './components/SaveButton/SaveButton';
 import {
   AboutMe,
@@ -29,18 +28,6 @@ const MyProfileContainer = ({
 }: Props) => {
   const {profile} = useProfileStore();
 
-  useEffect(() => {
-    // 쿠키에서 액세시 토큰 가져오기
-    const myCookies = document.cookie;
-    console.log(myCookies);
-    const accessToken = getCookie('accessToken');
-    console.log('get cookie', accessToken);
-    const cookieData = document.cookie;
-    console.log('cookieData', cookieData);
-    // const decoded = jwtDecode(accessToken);
-    // console.log('decoded', decoded);
-  }, []);
-
   const onClickAddContent = (value: string) => {
     const content = value;
     if (content === '') {
@@ -58,17 +45,26 @@ const MyProfileContainer = ({
     document.body.style.overflow = 'unset';
   };
 
+  useEffect(() => {
+    // 쿠키에서 액세시 토큰 가져오기
+    const myCookies = window.document.cookie;
+    console.log(myCookies);
+    const accessToken = getCookie('accessToken');
+    console.log('get cookie', accessToken);
+    const cookieData = document.cookie;
+    console.log('cookieData', cookieData);
+    // const decoded = jwtDecode(accessToken);
+    // console.log('decoded', decoded);
+  }, []);
+
   return (
     <div className={styles['my-profile-container']}>
       <ActionHeader profile={profile} />
       <Profile profile={profile} />
-      <Intro isOtherProfile={profile.isOtherProfile} />
+      <Intro cards={[]} isOtherProfile={profile.isOtherProfile} />
       <AboutMe cards={[]} isOtherProfile={profile.isOtherProfile} />
-      <Connect cards={[]} isOtherProfile={false} />
-      <HashTag cards={[]} isOtherProfile={false} />
-      <div className={styles['floating-button-container']}>
-        <FloatingButton onClickShowAddInput={onClickShowAddInput} />
-      </div>
+      <Connect cards={[]} isOtherProfile={profile.isOtherProfile} />
+      <HashTag cards={[]} isOtherProfile={profile.isOtherProfile} />
       {profile.isChangeProfile && (
         <div className={styles['save-button-wrapper']}>
           <SaveButton />

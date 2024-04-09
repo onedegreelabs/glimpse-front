@@ -1,6 +1,6 @@
 import styles from './index.module.scss';
 
-import {TempPropfile} from '@/types/profileType';
+import {Profile} from '@/types/profileType';
 import {
   AboutMe,
   ActionHeader,
@@ -15,9 +15,9 @@ interface UserIdProps {
   id: string;
 }
 
-const getProfilesFetch = async (id: number): Promise<TempPropfile> => {
+const getProfilesFetch = async (id: number): Promise<Profile> => {
   const result = await getUserOther(id);
-  const profile: TempPropfile = {
+  const profile: Profile = {
     ...result.data,
     isOtherProfile: true,
     isChangeProfile: false,

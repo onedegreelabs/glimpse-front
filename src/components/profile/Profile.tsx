@@ -2,7 +2,7 @@
 import styles from './profile.module.scss';
 
 import IconText from '@/components/iconText/IconText';
-import {TProfile, TempPropfile} from '@/types/profileType';
+import {TProfile} from '@/types/profileType';
 import {cn} from '@/lib/utils';
 import {Input} from '../ui/input';
 import {useProfileStore} from '@/stores/profile';
@@ -16,7 +16,7 @@ import {
 } from '../ui/select';
 
 interface Props {
-  profile: TempPropfile;
+  profile: TProfile;
 }
 
 function Profile({profile}: Props) {
