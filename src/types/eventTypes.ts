@@ -45,5 +45,11 @@ export interface eventUserDataType {
   purpose: string;
   role: string;
   updatedAt: string;
-  user: {id: number; familyName: string; givenName: string; sns: []};
+  user: {
+    id: number;
+    familyName: string;
+    givenName: string;
+    image: string;
+    sns: [];
+  };
 }

@@ -79,7 +79,11 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
                     </div>
                   </div>
                   <Avatar
-                    src={'/icons/profile_image.jpg'}
+                    src={
+                      data.user.image
+                        ? data.user.image // 유저 이미지
+                        : '/icons/profile_image.jpg' // 대체 이미지
+                    }
                     // src={
                     //   data.profileImageUrl ??
                     //   // '/assets/glimpse-list/temp-glimpse-list-img.jpg'
