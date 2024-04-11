@@ -80,7 +80,7 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
                   </div>
                   <Avatar
                     src={
-                      data.user.image
+                      data?.user?.image
                         ? data.user.image // 유저 이미지
                         : '/icons/profile_image.svg' // 대체 이미지
                     }
