@@ -53,7 +53,6 @@ export default function InputArea() {
   const [showModal, setShowModal] = useState<Boolean>(false);
   const [errorState, setErrorState] = useState(['']);
   const [validState, setValidState] = useState('');
-  const [scrolling, setScrolling] = useState(false);
 
   // time logic
   function isDateEqual(date1: Date, date2: Date) {
@@ -133,22 +132,35 @@ export default function InputArea() {
   const scrollToElement = function (
     target: RefObject<HTMLInputElement> | RefObject<HTMLTextAreaElement>
   ) {
-    if (!scrolling) {
-      if (target.current) {
-        target.current.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-          inline: 'center',
-        });
-      }
-      setScrolling(true);
+    if (target.current) {
+      target.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center',
+      });
     }
   };
 
   const onClickCreateEvent = async function () {
-    if (!title) {
-      scrollToElement(titleRef);
-      handleErrorState('title');
+    if (!description) {
+      scrollToElement(descriptionRef);
+      handleErrorState('description');
+    }
+    if (!handle) {
+      scrollToElement(handleRef);
+      handleErrorState('handle');
+    }
+    if (type === 'Online' && !externalLink) {
+      scrollToElement(externalLinkRef);
+      handleErrorState('externalLink');
+    }
+    if (type === 'Offline' && !detailAddress) {
+      scrollToElement(detailAddressRef);
+      handleErrorState('detailAddress');
+    }
+    if (type === 'Offline' && !region) {
+      scrollToElement(regionRef);
+      handleErrorState('region');
     }
     if (!startAt || !endAt) {
       if (!startAt) {
@@ -157,26 +169,11 @@ export default function InputArea() {
         scrollToElement(endRef);
       }
     }
-    if (type === 'Offline' && !region) {
-      scrollToElement(regionRef);
-      handleErrorState('region');
+    if (!title) {
+      scrollToElement(titleRef);
+      handleErrorState('title');
     }
-    if (type === 'Offline' && !detailAddress) {
-      scrollToElement(detailAddressRef);
-      handleErrorState('detailAddress');
-    }
-    if (type === 'Online' && !externalLink) {
-      scrollToElement(externalLinkRef);
-      handleErrorState('externalLink');
-    }
-    if (!handle) {
-      scrollToElement(handleRef);
-      handleErrorState('handle');
-    }
-    if (!description) {
-      scrollToElement(descriptionRef);
-      handleErrorState('description');
-    }
+
     const params = {
       title: title,
       startAt: startAt,
