@@ -118,15 +118,9 @@ export default function InputArea() {
 
   const handleErrorState = function (state: string) {
     setErrorState(prevState => [...prevState, state]);
-    setTimeout(() => {
-      setErrorState([]);
-    }, 2000);
   };
   const handleValidState = function (state: string) {
     setValidState(state);
-    setTimeout(() => {
-      setValidState('');
-    }, 2000);
   };
 
   const scrollToElement = function (
@@ -142,11 +136,14 @@ export default function InputArea() {
   };
 
   const onClickCreateEvent = async function () {
-    if (!description) {
+    setErrorState(prevState =>
+      prevState.filter(err => err !== 'description' && err !== 'handle')
+    );
+    if (description.length === 1 || description.length > 19) {
       scrollToElement(descriptionRef);
       handleErrorState('description');
     }
-    if (!handle) {
+    if (handle.length === 1 || handle.length > 19) {
       scrollToElement(handleRef);
       handleErrorState('handle');
     }
@@ -241,8 +238,20 @@ export default function InputArea() {
     targetInput: string
   ) {
     if (e.target.value === '') {
-      setErrorState(prevState => [...prevState, targetInput]);
+      setErrorState([targetInput]);
     }
+  };
+
+  const checkInputLength = function (
+    e:
+      | FocusEvent<HTMLInputElement, Element>
+      | FocusEvent<HTMLTextAreaElement, Element>,
+    targetInput: string
+  ) {
+    if (e.target.value.length === 1 || e.target.value.length > 19) {
+      setErrorState([targetInput]);
+    }
+    setValidState('');
   };
 
   const deleteErrorState = function (targetInput: string) {
@@ -596,7 +605,7 @@ export default function InputArea() {
               deleteErrorState('handle');
             }}
             onBlur={e => {
-              checkInputValid(e, 'handle');
+              checkInputLength(e, 'handle');
             }}
             className={clsx([
               {
@@ -666,7 +675,7 @@ export default function InputArea() {
             deleteErrorState('description');
           }}
           onBlur={e => {
-            checkInputValid(e, 'description');
+            checkInputLength(e, 'description');
           }}
         />
         <div
