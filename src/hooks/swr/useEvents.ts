@@ -1,6 +1,6 @@
 import {getFetcher} from '@/services/fetcher';
 import {customAxios} from '@/services/headers';
-import {CreateEventType} from '@/types/eventTypes';
+import {CreateEventType, rsvpDataType} from '@/types/eventTypes';
 import useSWR from 'swr';
 
 const useMyEventList = function (count: number) {
@@ -33,6 +33,12 @@ const createEvent = async function (data: CreateEventType, imgFile: any) {
       'Content-Type': 'multipart/form-data',
     },
   });
+  return res;
+};
+
+// 타입 그냥 임시. 바꿔야됨.
+export const applyEvent = async function (eventId: string, data: rsvpDataType) {
+  const res = await customAxios.post(`events/${eventId}/participants`, data);
   return res;
 };
 

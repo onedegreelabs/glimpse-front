@@ -47,3 +47,9 @@ export interface eventUserDataType {
   updatedAt: string;
   user: {id: number; familyName: string; givenName: string; sns: []};
 }
+
+//
+export interface rsvpDataType {
+  interest: string[];
+  purpose: string;
+}

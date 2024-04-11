@@ -2,6 +2,7 @@
 
 import {useState, FormEvent} from 'react';
 import styles from './index.module.scss';
+import {applyEvent} from '@/hooks/swr/useEvents';
 
 interface InputValid {
   givenName: string;
@@ -10,6 +11,7 @@ interface InputValid {
   belong: string;
   experience: string;
   region: string;
+  purpose: string;
 }
 
 export default function EventRsvpContainer() {
@@ -20,6 +22,7 @@ export default function EventRsvpContainer() {
     belong: '',
     experience: '',
     region: '',
+    purpose: '',
   });
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -55,24 +58,7 @@ export default function EventRsvpContainer() {
 
     console.log(data);
 
-    /* 받아온 데이터 서버에 보내기.
-    async function sendData(data: Record<string, FormDataEntryValue>) {
-      try {
-        const response = await fetch('url', {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-
-        if (!response.ok) {
-          throw new Error('data를 전송하는데 실패하였습니다.');
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    sendData(data); */
+    // applyEvent(data,'eventId');
   }
 
   return (
@@ -89,7 +75,6 @@ export default function EventRsvpContainer() {
           </label>
           <input
             type="text"
-            name="givenName"
             placeholder="Place holder"
             onChange={handleChange}
             className={styles[inputValid.givenName]}
@@ -101,7 +86,6 @@ export default function EventRsvpContainer() {
           </label>
           <input
             type="text"
-            name="familyName"
             placeholder="Place holder"
             onChange={handleChange}
             className={styles[inputValid.familyName]}
@@ -113,7 +97,6 @@ export default function EventRsvpContainer() {
           </label>
           <input
             type="text"
-            name="role"
             placeholder="Place holder"
             onChange={handleChange}
             className={styles[inputValid.role]}
@@ -121,11 +104,10 @@ export default function EventRsvpContainer() {
         </div>
         <div className={styles['rsvp-input']}>
           <label>
-            belong (소속) <span> *</span>
+            Organization (소속) <span> *</span>
           </label>
           <input
             type="text"
-            name="belong"
             placeholder="Place holder"
             onChange={handleChange}
             className={styles[inputValid.belong]}
@@ -137,17 +119,25 @@ export default function EventRsvpContainer() {
           </label>
           <input
             type="text"
-            name="experience"
             placeholder="Place holder"
             onChange={handleChange}
             className={styles[inputValid.experience]}
           />
         </div>
         <div className={styles['rsvp-input']}>
-          <label>region (거주지역)</label>
+          <label>Location (거주지역)</label>
           <input
             type="text"
-            name="region"
+            placeholder="Place holder"
+            onChange={handleChange}
+            className={styles[inputValid.region]}
+          />
+        </div>
+        <div className={styles['rsvp-input']}>
+          <label>Purpose (참여 목적)</label>
+          <input
+            type="text"
+            name="purpose"
             placeholder="Place holder"
             onChange={handleChange}
             className={styles[inputValid.region]}
