@@ -77,7 +77,7 @@ export default function InputArea() {
 
     setStartAt(currentDate);
     const nextDate = new Date();
-    nextDate.setMinutes(roundMinutes + 15);
+    nextDate.setMinutes(roundMinutes + 60);
     setEndAt(nextDate);
 
     const newMaxTime = new Date();
