@@ -12,8 +12,4 @@ export interface userData {
   profileImageUrl: string;
   introSnippet: string;
   cards: cardObj[];
-  // firstName: string;
-  // lastName: string;
-  // location: string;
-  // viewCount: number;
 }

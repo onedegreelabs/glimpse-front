@@ -1,4 +1,4 @@
-import Avatar from '@/containers/events/detail/components/Avatar';
+import Avatar from '@/app/events/[id]/components/Avatar';
 import Chip from '@/components/chip/Chip';
 import styles from './boxView.module.scss';
 import Card from '@/components/card/Card';

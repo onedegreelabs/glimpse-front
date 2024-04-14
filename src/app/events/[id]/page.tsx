@@ -1,12 +1,12 @@
 'use client';
-import EventInfo from './sections/EventInfo';
 import UserList from './sections/UserList';
 import TopBanner from './sections/TopBanner';
-import styles from './index.module.scss';
+import EventInfo from './sections/EventInfo';
+import styles from './page.module.scss';
 import {useEventDetail, useEventUser} from '@/hooks/swr/useEvents';
 import {usePathname} from 'next/navigation';
 import {useEffect, useState} from 'react';
-export default function EventDetailContainer() {
+export default function EventDetailPage() {
   const pathname = usePathname();
   const pathnameList = pathname?.split('/');
   const eventHandle = pathnameList?.[pathnameList.length - 1];

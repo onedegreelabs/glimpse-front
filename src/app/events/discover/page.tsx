@@ -1,6 +1,6 @@
 'use client';
 import {useEffect, useState} from 'react';
-import styles from './index.module.scss';
+import styles from './page.module.scss';
 import DayEvent from './sections/DayEvent';
 import EmptyEvent from './sections/EmptyEvent';
 import {useEventList, useMyEventList} from '@/hooks/swr/useEvents';
@@ -11,7 +11,7 @@ import clsx from 'clsx';
 import {useRouter} from 'next/navigation';
 import {useIsLoginStore} from '@/stores/auth';
 
-export default function EventMyContainer({pageType}: {pageType: string}) {
+export default function EventDiscoverPage({pageType}: {pageType: string}) {
   const [isEmptyEvent, setIsEmptyEvent] = useState(true);
   const needSwrHook = pageType === 'my' ? useMyEventList : useEventList;
   const {data, error, isLoading} = needSwrHook(100);
