@@ -4,7 +4,7 @@ import Card from '@/components/card/Card';
 import styles from './index.module.scss';
 import {useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
-import {sendMailWithCode} from '@/services/api';
+import {sendMailWithCode} from '@/services/signApi';
 import Image from 'next/image';
 import {customAxios} from '@/services/headers';
 
