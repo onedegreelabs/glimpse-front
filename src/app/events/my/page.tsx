@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 import styles from './page.module.scss';
 import DayEvent from './sections/DayEvent';
 import EmptyEvent from './sections/EmptyEvent';
-import {useEventList, useMyEventList} from '@/hooks/swr/useEvents';
+import {useMyEventList} from '@/hooks/swr/useEvents';
 import _ from 'lodash';
 import {DayEventProps} from '@/types/eventTypes';
 import CreateRoundButton from './sections/CreateRoundButton';
@@ -11,17 +11,16 @@ import clsx from 'clsx';
 import {useRouter} from 'next/navigation';
 import {useIsLoginStore} from '@/stores/auth';
 
-export default function EventMyPage({pageType}: {pageType: string}) {
+export default function EventMyPage() {
   const [isEmptyEvent, setIsEmptyEvent] = useState(true);
-  const needSwrHook = pageType === 'my' ? useMyEventList : useEventList;
-  const {data, error, isLoading} = needSwrHook(100);
+  const {data, error, isLoading} = useMyEventList(100);
   const [eventsByDate, setEventsByDate] = useState<DayEventProps[]>([]);
 
   const router = useRouter();
   const isLogin = useIsLoginStore(state => state.isLogin);
 
   useEffect(() => {
-    if (pageType === 'my' && !isLogin) {
+    if (!isLogin) {
       router.push('/sign');
     }
   }, [isLogin]);
@@ -66,19 +65,17 @@ export default function EventMyPage({pageType}: {pageType: string}) {
                   <DayEvent
                     data={event.events}
                     date={event.date}
-                    pageType={pageType}
+                    pageType={'my'}
                   />
                 </div>
               );
             })}
-            {pageType === 'my' && (
-              <div className={styles['create-button']}>
-                <CreateRoundButton />
-              </div>
-            )}
+            <div className={styles['create-button']}>
+              <CreateRoundButton />
+            </div>
           </>
         ) : (
-          <EmptyEvent pageType={pageType} />
+          <EmptyEvent pageType={'my'} />
         )}
       </div>
     );
