@@ -5,10 +5,9 @@ import Button from '@/components/button/Button';
 import {useRouter} from 'next/navigation';
 import {useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
-import {loginWithLinkedin, profileApi, sendMailWithCode} from '@/services/api';
+import {sendMailWithCode} from '@/services/api';
 import Image from 'next/image';
-import {signIn} from 'next-auth/react';
-import _ from 'lodash';
+import {useIsLoginStore} from '@/stores/auth';
 
 interface SignInProps {
   setIsSendMail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,22 +21,12 @@ export default function SignIn({
   setMailAddress,
 }: SignInProps) {
   const router = useRouter();
-  const isAlreadyLogin = async function () {
-    const accessToken = localStorage.getItem('accessToken');
-    if (accessToken) {
-      router.push('/profile');
-      return;
-    }
-    const myUserData = await profileApi.getUserMe();
-    const myUserId = _.get(myUserData, 'id');
-    if (myUserId) {
-      router.replace('/profile');
-    }
-  };
-
+  const isLogin = useIsLoginStore(state => state.isLogin);
   useEffect(() => {
-    isAlreadyLogin();
-  }, []);
+    if (isLogin) {
+      router.push('/events/discover');
+    }
+  }, [isLogin]);
 
   const [isInvalidMail, setIsInvalidMail] = useState<Boolean>(false);
 
@@ -50,18 +39,6 @@ export default function SignIn({
     } else {
       setIsInvalidMail(true);
     }
-  };
-
-  const onClickGoogleButton = async function () {
-    await signIn('google');
-  };
-
-  const onClickLinkedinButton = async function () {
-    await loginWithLinkedin();
-  };
-
-  const onClickAppleButton = async function () {
-    await loginWithLinkedin();
   };
 
   const mailInputRef = useRef<HTMLInputElement | null>(null);
@@ -92,7 +69,7 @@ export default function SignIn({
 
   return (
     <div className={styles['signin-wrapper']}>
-      <Card width={334} height={508}>
+      <Card width={334} height={320}>
         <div className={styles['card-wrapper']}>
           <div className={styles['card-title']}>Welcome to glimpse!</div>
           <div className={styles['card-sub-title']}>
@@ -129,46 +106,6 @@ export default function SignIn({
               text="Continue with email"
               clickEvent={onClickEmailButton}
             />
-            <div className={styles['text-area']}>OR</div>
-            {/* <Button
-              color="ffffff"
-              bgColor="000000"
-              text="Sign in with apple"
-              clickEvent={onClickAppleButton}
-            >
-              <Image
-                alt="icon"
-                src="/icons/apple_icon.svg"
-                width={20}
-                height={20}
-              />
-            </Button> */}
-            <Button
-              color="ffffff"
-              bgColor="0094FF"
-              text="Sign in with google"
-              clickEvent={onClickGoogleButton}
-            >
-              <Image
-                alt="icon"
-                src="/icons/google_icon.svg"
-                width={20}
-                height={20}
-              />
-            </Button>
-            {/* <Button
-              color="ffffff"
-              bgColor="0177B5"
-              text="Sign in with linkedIn"
-              clickEvent={onClickLinkedinButton}
-            >
-              <Image
-                alt="icon"
-                src="/icons/linkedIn_icon.svg"
-                width={20}
-                height={20}
-              />
-            </Button> */}
           </div>
         </div>
       </Card>

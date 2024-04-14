@@ -1,6 +1,5 @@
-import {axiosInstance, customAxios, tokenValidInstance} from './headers';
-
-import {CreateEventType} from '@/containers/events/create/type';
+import {customAxios} from './headers';
+import {CreateEventType} from '@/app/events/new/type';
 export const eventsAPI = {
   create: {
     createEvent: async (imgFile: File | undefined, params: CreateEventType) => {
@@ -10,7 +9,7 @@ export const eventsAPI = {
         formData.append('eventCoverImage', imgFile);
       }
       formData.append('data', JSON.stringify(params));
-      return await tokenValidInstance().post(
+      return await customAxios.post(
         `organizations/${organizationId}/events`,
         formData,
         {
@@ -23,11 +22,11 @@ export const eventsAPI = {
   },
   detail: {
     getEventList: async (eventId: number) => {
-      const res = await axiosInstance().get(`events/${eventId}`);
+      const res = await customAxios.get(`events/${eventId}`);
       return res;
     },
     getEventUserList: async (eventId: number) => {
-      const res = await axiosInstance().get(`events/${eventId}/members`);
+      const res = await customAxios.get(`events/${eventId}/members`);
       return res;
     },
   },

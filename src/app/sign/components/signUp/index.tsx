@@ -1,41 +1,18 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import Card from '@/components/card/Card';
 import styles from './index.module.scss';
 import {useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
-import _ from 'lodash';
-import {verifyEmailCode, sendMailWithCode, profileApi} from '@/services/api';
-import {useRouter} from 'next/navigation';
+import {sendMailWithCode} from '@/services/api';
 import Image from 'next/image';
+import {customAxios} from '@/services/headers';
 
 interface SignUpProps {
   mailAddress: string;
 }
 
 export default function SignUp({mailAddress}: SignUpProps) {
-  const router = useRouter();
-
-  const isAlreadyLogin = async function () {
-    const accessToken = localStorage.getItem('accessToken');
-    if (accessToken) {
-      router.push('/profile');
-      return;
-    }
-
-    const myUserData = await profileApi.getUserMe();
-    const myUserId = _.get(myUserData, 'id');
-    if (myUserId) {
-      router.replace('/profile');
-    }
-  };
-
-  useEffect(() => {
-    isAlreadyLogin();
-  }, []);
-
   const [digitList, setDigitList] = useState<string[]>([]);
   const handleDigitList = function (index: number, num: string) {
     const copyArr: string[] = [...digitList];
@@ -62,19 +39,20 @@ export default function SignUp({mailAddress}: SignUpProps) {
   }, [digitList]);
 
   const [isInvalidDigit, setIsInvalidDigit] = useState<Boolean>(false);
-  const handleAPI = async function (num: string) {
-    const response = await verifyEmailCode(mailAddress, num);
-    if (response.status === 200) {
-      const tokenData = response.data.data;
-      const accessToken = _.get(tokenData, 'accessToken');
-      const refreshToken = _.get(tokenData, 'refreshToken');
-      if (accessToken && refreshToken) {
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
+
+  const handleAPI = async (fullCode: string) => {
+    const credentials = btoa(`${mailAddress}:${fullCode}`);
+    try {
+      const {data} = await customAxios.get('/auth/token', {
+        headers: {
+          Authorization: `Basic ${credentials}`,
+        },
+      });
+      if (data) {
+        window.location.href = '/';
       }
-      router.push('/profile');
-    } else {
-      alert('로그인에 실패하였습니다.');
+    } catch (error) {
+      console.error('Error fetching token:', error);
     }
   };
 
