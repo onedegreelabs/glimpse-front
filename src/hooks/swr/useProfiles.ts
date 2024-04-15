@@ -1,4 +1,4 @@
-import {getFetcher} from '@/services/fetcher';
+import {getFetcher} from '@/apis/fetcher';
 import useSWR from 'swr';
 
 export const useMyProfile = () => {
