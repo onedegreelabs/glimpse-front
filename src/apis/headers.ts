@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Env from '../config/env.json';
+import Env from '@/config/env.json';
 
 export const basicAuthInstance = function (email: string, code: string) {
   const authHeader = `Basic ${btoa(`${email}:${code}`)}`;
