@@ -220,7 +220,7 @@ export default function InputArea() {
           setErrorState(['']);
         }
       }
-    }, 1000),
+    }, 0),
     []
   );
   useEffect(() => {
