@@ -19,7 +19,6 @@ import _ from 'lodash';
 import SuccessModal from '../components/successModal';
 import {useIsLoginStore} from '@/stores/auth';
 import {useRouter} from 'next/navigation';
-
 export default function InputArea() {
   const router = useRouter();
   const isLogin = useIsLoginStore(state => state.isLogin);
@@ -51,7 +50,7 @@ export default function InputArea() {
   const imgFileRef = useRef<HTMLInputElement>(null);
   const [imgUrl, setImgUrl] = useState<string | ArrayBuffer | null>();
   const [showModal, setShowModal] = useState<Boolean>(false);
-  const [errorState, setErrorState] = useState('');
+  const [errorState, setErrorState] = useState(['']);
   const [validState, setValidState] = useState('');
 
   // time logic
@@ -62,7 +61,6 @@ export default function InputArea() {
       date1.getDate() === date2.getDate()
     );
   }
-
   useEffect(() => {
     const currentDate = new Date();
     const hours = currentDate.getHours();
@@ -77,20 +75,18 @@ export default function InputArea() {
 
     setStartAt(currentDate);
     const nextDate = new Date();
-    nextDate.setMinutes(roundMinutes + 15);
+    nextDate.setMinutes(roundMinutes + 60);
     setEndAt(nextDate);
 
     const newMaxTime = new Date();
     newMaxTime.setHours(23);
     newMaxTime.setMinutes(50);
     setMaxTime(newMaxTime);
-
     const newZeroTime = new Date();
     newZeroTime.setHours(0);
     newZeroTime.setMinutes(0);
     setMinZeroTime(newZeroTime);
   }, []);
-
   useEffect(() => {
     if (startAt && endAt) {
       if (startAt > endAt) {
@@ -98,7 +94,6 @@ export default function InputArea() {
       }
     }
   }, [startAt, endAt]);
-
   // image logic
   const handleImageUpload = (event: {target: {files: FileList | null}}) => {
     const selectedFile = event.target.files?.[0];
@@ -117,16 +112,11 @@ export default function InputArea() {
   };
 
   const handleErrorState = function (state: string) {
-    setErrorState(state);
-    setTimeout(() => {
-      setErrorState('');
-    }, 2000);
+    setErrorState(prevState => [...prevState, state]);
+    setValidState('');
   };
   const handleValidState = function (state: string) {
     setValidState(state);
-    setTimeout(() => {
-      setValidState('');
-    }, 2000);
   };
 
   const scrollToElement = function (
@@ -142,38 +132,41 @@ export default function InputArea() {
   };
 
   const onClickCreateEvent = async function () {
-    if (!title) {
-      scrollToElement(titleRef);
-      handleErrorState('title');
-      return;
-    } else if (!startAt || !endAt) {
+    setErrorState(prevState =>
+      prevState.filter(err => err !== 'description' && err !== 'handle')
+    );
+    if (description.length === 1 || description.length > 19) {
+      scrollToElement(descriptionRef);
+      handleErrorState('description');
+    }
+    if (handle.length === 1 || handle.length > 19) {
+      scrollToElement(handleRef);
+      handleErrorState('handle');
+    }
+    if (type === 'Online' && !externalLink) {
+      scrollToElement(externalLinkRef);
+      handleErrorState('externalLink');
+    }
+    if (type === 'Offline' && !detailAddress) {
+      scrollToElement(detailAddressRef);
+      handleErrorState('detailAddress');
+    }
+    if (type === 'Offline' && !region) {
+      scrollToElement(regionRef);
+      handleErrorState('region');
+    }
+    if (!startAt || !endAt) {
       if (!startAt) {
         scrollToElement(startRef);
       } else {
         scrollToElement(endRef);
       }
-      return;
-    } else if (type === 'Offline' && !region) {
-      scrollToElement(regionRef);
-      handleErrorState('region');
-      return;
-    } else if (type === 'Offline' && !detailAddress) {
-      scrollToElement(detailAddressRef);
-      handleErrorState('detailAddress');
-      return;
-    } else if (type === 'Online' && !externalLink) {
-      scrollToElement(externalLinkRef);
-      handleErrorState('externalLink');
-      return;
-    } else if (!handle) {
-      scrollToElement(handleRef);
-      handleErrorState('handle');
-      return;
-    } else if (!description) {
-      scrollToElement(descriptionRef);
-      handleErrorState('description');
-      return;
     }
+    if (!title) {
+      scrollToElement(titleRef);
+      handleErrorState('title');
+    }
+
     const params = {
       title: title,
       startAt: startAt,
@@ -191,7 +184,6 @@ export default function InputArea() {
       setShowModal(true);
     }
   };
-
   // handle logic
   const changeHandle = function (
     e: ChangeEvent<HTMLInputElement>,
@@ -214,25 +206,24 @@ export default function InputArea() {
 
   const checkDuplicate = useCallback(
     _.debounce(async handle => {
-      if (handle.length >= 2 && errorState !== 'handle') {
+      if (handle.length >= 2 && !errorState.includes('handle')) {
         const res = await checkDuplicateHandle(handle);
         const isDuplicate = res.data.data;
         if (isDuplicate) {
           handleErrorState('handleDuplicate');
         } else {
           handleValidState('handle');
+          setErrorState(['']);
         }
       }
     }, 1000),
     []
   );
-
   useEffect(() => {
     if (handle.length >= 2) {
       checkDuplicate(handle);
     }
   }, [handle]);
-
   // check input valid when blur (focus out input)
   const checkInputValid = function (
     e:
@@ -241,13 +232,27 @@ export default function InputArea() {
     targetInput: string
   ) {
     if (e.target.value === '') {
-      setErrorState(targetInput);
+      setErrorState([targetInput]);
     }
   };
 
+  const checkInputLength = function (
+    e:
+      | FocusEvent<HTMLInputElement, Element>
+      | FocusEvent<HTMLTextAreaElement, Element>,
+    targetInput: string
+  ) {
+    if (e.target.value.length === 1 || e.target.value.length > 19) {
+      setErrorState([targetInput]);
+    }
+    setValidState('');
+  };
+
   const deleteErrorState = function (targetInput: string) {
-    if (errorState === targetInput) {
-      setErrorState('');
+    if (errorState.includes(targetInput)) {
+      setErrorState(prevState =>
+        prevState.filter(input => input !== targetInput)
+      );
     }
   };
 
@@ -278,7 +283,8 @@ export default function InputArea() {
           className={clsx([
             {
               [styles['error']]:
-                errorState === 'title' || errorState === 'titleLimit',
+                errorState.includes('title') ||
+                errorState.includes('titleLimit'),
             },
           ])}
         />
@@ -287,7 +293,8 @@ export default function InputArea() {
             styles['error-message'],
             {
               [styles['show-error']]:
-                errorState === 'title' || errorState === 'titleLimit',
+                errorState.includes('title') ||
+                errorState.includes('titleLimit'),
             },
           ])}
         >
@@ -297,7 +304,7 @@ export default function InputArea() {
             width={16}
             height={16}
           />
-          {errorState === 'title'
+          {errorState.includes('title')
             ? 'Please enter the title of your event.'
             : 'Please enter the event title between 1 and 100 characters.'}
         </div>
@@ -450,8 +457,8 @@ export default function InputArea() {
               className={clsx([
                 {
                   [styles['error']]:
-                    errorState === 'externalLink' ||
-                    errorState === 'externalLinkLimit',
+                    errorState.includes('externalLink') ||
+                    errorState.includes('externalLinkLimit'),
                 },
               ])}
             />
@@ -460,8 +467,8 @@ export default function InputArea() {
                 styles['error-message'],
                 {
                   [styles['show-error']]:
-                    errorState === 'externalLink' ||
-                    errorState === 'externalLinkLimit',
+                    errorState.includes('externalLink') ||
+                    errorState.includes('externalLinkLimit'),
                 },
               ])}
             >
@@ -471,7 +478,7 @@ export default function InputArea() {
                 width={16}
                 height={16}
               />
-              {errorState === 'externalLink' ? (
+              {errorState.includes('externalLink') ? (
                 'Please enter the URL of your event.'
               ) : (
                 <div>
@@ -501,7 +508,7 @@ export default function InputArea() {
               }}
               className={clsx([
                 {
-                  [styles['error']]: errorState === 'region',
+                  [styles['error']]: errorState.includes('region'),
                 },
               ])}
             />
@@ -510,7 +517,7 @@ export default function InputArea() {
                 styles['error-message'],
                 styles['for-region'],
                 {
-                  [styles['show-error']]: errorState === 'region',
+                  [styles['show-error']]: errorState.includes('region'),
                 },
               ])}
             >
@@ -546,8 +553,8 @@ export default function InputArea() {
               className={clsx([
                 {
                   [styles['error']]:
-                    errorState === 'detailAddress' ||
-                    errorState === 'detailAddressLimit',
+                    errorState.includes('detailAddress') ||
+                    errorState.includes('detailAddressLimit'),
                 },
               ])}
             />
@@ -556,8 +563,8 @@ export default function InputArea() {
                 styles['error-message'],
                 {
                   [styles['show-error']]:
-                    errorState === 'detailAddress' ||
-                    errorState === 'detailAddressLimit',
+                    errorState.includes('detailAddress') ||
+                    errorState.includes('detailAddressLimit'),
                 },
               ])}
             >
@@ -567,7 +574,7 @@ export default function InputArea() {
                 width={16}
                 height={16}
               />
-              {errorState === 'detailAddress'
+              {errorState.includes('detailAddress')
                 ? 'Please enter the the detailed address.'
                 : 'Please enter the event location between 1 and 1999 characters.'}
             </div>
@@ -592,12 +599,13 @@ export default function InputArea() {
               deleteErrorState('handle');
             }}
             onBlur={e => {
-              checkInputValid(e, 'handle');
+              checkInputLength(e, 'handle');
             }}
             className={clsx([
               {
                 [styles['error']]:
-                  errorState === 'handle' || errorState === 'handleDuplicate',
+                  errorState.includes('handle') ||
+                  errorState.includes('handleDuplicate'),
                 [styles['valid']]: validState === 'handle',
               },
             ])}
@@ -623,7 +631,8 @@ export default function InputArea() {
               styles['error-message'],
               {
                 [styles['show-error']]:
-                  errorState === 'handle' || errorState === 'handleDuplicate',
+                  errorState.includes('handle') ||
+                  errorState.includes('handleDuplicate'),
               },
             ])}
           >
@@ -633,7 +642,7 @@ export default function InputArea() {
               width={16}
               height={16}
             />
-            {errorState === 'handle'
+            {errorState.includes('handle')
               ? 'Please enter the event handle between 2 and 19 characters. Only alphabets and numbers.'
               : 'Already exists. Please try another one.'}
           </div>
@@ -653,21 +662,21 @@ export default function InputArea() {
           placeholder="Description of your event"
           className={clsx([
             {
-              [styles['error']]: errorState === 'description',
+              [styles['error']]: errorState.includes('description'),
             },
           ])}
           onFocus={() => {
             deleteErrorState('description');
           }}
           onBlur={e => {
-            checkInputValid(e, 'description');
+            checkInputLength(e, 'description');
           }}
         />
         <div
           className={clsx([
             styles['error-message'],
             {
-              [styles['show-error']]: errorState === 'description',
+              [styles['show-error']]: errorState.includes('description'),
             },
           ])}
         >
@@ -720,7 +729,6 @@ export default function InputArea() {
                 height={40}
               />
             </label>
-
             <div className={styles['text-area']}>Add Image</div>
           </div>
         </div>
@@ -728,7 +736,7 @@ export default function InputArea() {
           className={clsx([
             styles['error-message'],
             {
-              [styles['show-error']]: errorState === 'imgFile',
+              [styles['show-error']]: errorState.includes('imgFile'),
             },
           ])}
         >
@@ -748,7 +756,6 @@ export default function InputArea() {
       <div className={styles['create-button']} onClick={onClickCreateEvent}>
         Create Event
       </div>
-
       {/* modal */}
       {showModal && <SuccessModal handle={handle} />}
     </div>
