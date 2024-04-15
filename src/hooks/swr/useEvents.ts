@@ -1,6 +1,6 @@
 import {getFetcher} from '@/apis/fetcher';
 import {customAxios} from '@/apis/headers';
-import {CreateEventType, rsvpDataType} from '@/types/eventTypes';
+import {CreateEventType} from '@/types/eventTypes';
 import useSWR from 'swr';
 
 const useMyEventList = function (count: number) {
