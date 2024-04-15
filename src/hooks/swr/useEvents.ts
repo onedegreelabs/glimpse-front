@@ -38,12 +38,6 @@ const createEvent = async function (data: CreateEventType, imgFile: any) {
 
 export {createEvent};
 
-// 타입 그냥 임시. 바꿔야됨.
-export const applyEvent = async function (eventId: string, data: rsvpDataType) {
-  const res = await customAxios.post(`events/${eventId}/participants`, data);
-  return res;
-};
-
 const checkDuplicateHandle = async function (handle: string) {
   const res = await customAxios.get(`events/check-duplicate?handle=${handle}`);
   return res;

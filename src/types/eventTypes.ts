@@ -53,9 +53,3 @@ export interface eventUserDataType {
     sns: [];
   };
 }
-
-//
-export interface rsvpDataType {
-  interest: string[];
-  purpose: string;
-}
