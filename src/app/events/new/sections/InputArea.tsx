@@ -195,6 +195,7 @@ export default function InputArea() {
   ) {
     const value = e.target.value;
     const newValue = value.replace(/[^a-zA-Z0-9]/g, '');
+    const loweredNewValue = newValue.toLocaleLowerCase();
     if (value !== newValue) {
       switch (targetInput) {
         case 'handle':
@@ -203,11 +204,12 @@ export default function InputArea() {
         default:
           null;
       }
+      setHandle(prevhandle => prevhandle);
+    } else {
+      setHandle(loweredNewValue);
     }
-    const loweredNewValue = newValue.toLocaleLowerCase();
-    setHandle(loweredNewValue);
   };
-
+  console.log(handle);
   const checkDuplicate = useCallback(
     _.debounce(async handle => {
       if (handle.length >= 2 && !errorState.includes('handle')) {
