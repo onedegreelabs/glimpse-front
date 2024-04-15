@@ -53,7 +53,8 @@ export default function InputArea() {
   const [showModal, setShowModal] = useState<Boolean>(false);
   const [errorState, setErrorState] = useState(['']);
   const [validState, setValidState] = useState('');
-
+  console.log('error : ' + errorState);
+  console.log('valid : ' + validState);
   // time logic
   function isDateEqual(date1: Date, date2: Date) {
     return (
@@ -118,6 +119,7 @@ export default function InputArea() {
 
   const handleErrorState = function (state: string) {
     setErrorState(prevState => [...prevState, state]);
+    setValidState('');
   };
   const handleValidState = function (state: string) {
     setValidState(state);
@@ -218,6 +220,7 @@ export default function InputArea() {
           handleErrorState('handleDuplicate');
         } else {
           handleValidState('handle');
+          setErrorState(['']);
         }
       }
     }, 1000),
