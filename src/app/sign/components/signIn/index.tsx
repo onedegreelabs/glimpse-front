@@ -5,7 +5,7 @@ import Button from '@/components/button/Button';
 import {useRouter} from 'next/navigation';
 import {useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
-import {sendMailWithCode} from '@/services/signApi';
+import {sendMailWithCode} from '@/apis/signApi';
 import Image from 'next/image';
 import {useIsLoginStore} from '@/stores/auth';
 

@@ -1,5 +1,5 @@
-import {getFetcher} from '@/services/fetcher';
-import {customAxios} from '@/services/headers';
+import {getFetcher} from '@/apis/fetcher';
+import {customAxios} from '@/apis/headers';
 import {CreateEventType} from '@/types/eventTypes';
 import useSWR from 'swr';
 

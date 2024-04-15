@@ -4,9 +4,9 @@ import Card from '@/components/card/Card';
 import styles from './index.module.scss';
 import {useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
-import {sendMailWithCode} from '@/services/signApi';
+import {sendMailWithCode} from '@/apis/signApi';
 import Image from 'next/image';
-import {customAxios} from '@/services/headers';
+import {customAxios} from '@/apis/headers';
 
 interface SignUpProps {
   mailAddress: string;
