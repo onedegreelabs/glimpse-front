@@ -15,32 +15,17 @@
     "posttest": "npm run lint"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.3.4",
-    "@radix-ui/react-label": "^2.0.2",
-    "@radix-ui/react-select": "^2.0.0",
-    "@radix-ui/react-separator": "^1.0.3",
-    "@radix-ui/react-slot": "^1.0.2",
     "axios": "^1.6.2",
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.1.0",
-    "cookies-next": "^4.1.1",
-    "i": "^0.3.7",
-    "jwt-decode": "^4.0.0",
+    "clsx": "^2.0.0",
     "lodash": "^4.17.21",
-    "lucide-react": "^0.330.0",
     "next": "14.0.1",
     "next-auth": "^4.24.5",
-    "npm": "^10.5.0",
     "react": "^18",
     "react-datepicker": "^4.24.0",
     "react-dom": "^18",
-    "react-hook-form": "^7.50.1",
     "sass": "^1.69.5",
     "swr": "^2.2.5",
-    "tailwind-merge": "^2.2.1",
-    "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.22.4",
-    "zustand": "^4.5.1"
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.202",
@@ -48,13 +33,9 @@
     "@types/react": "^18",
     "@types/react-datepicker": "^4.19.4",
     "@types/react-dom": "^18",
-    "autoprefixer": "^10.4.17",
     "eslint": "^8",
     "eslint-config-next": "14.0.1",
     "gts": "^5.2.0",
-    "postcss": "^8.4.35",
-    "prettier-plugin-tailwindcss": "^0.5.11",
-    "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
 }

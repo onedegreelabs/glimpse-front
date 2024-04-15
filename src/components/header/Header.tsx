@@ -3,7 +3,7 @@ import {useProfileStore} from '@/stores/profile';
 import styles from './header.module.scss';
 import {useEffect, useState} from 'react';
 import {useMyProfile} from '@/hooks/swr/useProfiles';
-import {getAccessTokenByRefreshToken, logout} from '@/services/api';
+import {getAccessTokenByRefreshToken, logout} from '@/apis/signApi';
 import {useIsLoginStore} from '@/stores/auth';
 import {useRouter} from 'next/navigation';
 export default function Header() {

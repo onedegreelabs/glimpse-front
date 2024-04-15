@@ -1,19 +1,52 @@
 import {create} from 'zustand';
+import {TProfile, UpdateUserDtoRequest} from '@/types/profileType';
 
-import {
-  TProfile,
-  UpdateProfileCardDto,
-  UpdateUserDtoRequest,
-} from '@/types/profileType';
-import {
-  initialProfile,
-  initialUpdateProfile,
-} from '@/containers/my/profile/constans/profile';
+const initialProfile: TProfile = {
+  createdAt: '',
+  updatedAt: '',
+  id: 1,
+  familyName: '',
+  givenName: '',
+  image: '',
+  introduction: '',
+  department: '',
+  regionId: '',
+  belong: '',
+  email: '',
+  role: '',
+  sns: [
+    {
+      createdAt: '',
+      updatedAt: '',
+      id: 1,
+      type: '',
+      account: '',
+    },
+  ],
+  authentication: {},
+  profileCard: [],
+  userTag: [],
+  isChangeProfile: false,
+  isOtherProfile: false,
+};
+
+const initialUpdateProfile: UpdateUserDtoRequest = {
+  familyName: '',
+  givenName: '',
+  introduction: '',
+  department: '',
+  region: '',
+  belong: '',
+  role: '',
+  sns: [],
+  profileCard: [],
+  userTag: [],
+};
 
 interface ProfileStore {
-  profile: TProfile;
-  updateProfile: UpdateUserDtoRequest;
-  setProfile: (profile: TProfile) => void;
+  profile: any;
+  updateProfile: any;
+  setProfile: (profile: any) => void;
   setProfileImage: (profileImage: File) => void;
   setChangeProfile: (targetElement: {name: string; value: string}) => void;
   // setChangeProfileCard: (cards: UpdateProfileCardDto[]) => void;
@@ -22,7 +55,7 @@ interface ProfileStore {
 export const useProfileStore = create<ProfileStore>(set => ({
   profile: initialProfile,
   updateProfile: initialUpdateProfile,
-  setProfile: (profile: TProfile) =>
+  setProfile: (profile: any) =>
     set(state => ({
       ...state.profile,
       profile,
@@ -43,12 +76,4 @@ export const useProfileStore = create<ProfileStore>(set => ({
         [updateTarget.name]: updateTarget.value,
       },
     })),
-  // setChangeProfileCard: (cards: UpdateProfileCardDto[]) =>
-  //   set(state => ({
-  //     updateProfile: {
-  //       ...state.updateProfile,
-  //       isChangeProfile: true,
-  //       profileCard: cards,
-  //     },
-  //   })),
 }));
