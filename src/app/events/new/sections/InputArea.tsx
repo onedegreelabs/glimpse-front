@@ -97,8 +97,12 @@ export default function InputArea() {
   // image logic
   const handleImageUpload = (event: {target: {files: FileList | null}}) => {
     const selectedFile = event.target.files?.[0];
+    const maxSize = 10 * 1024 * 1024;
+
     if (selectedFile) {
-      if (selectedFile.type.startsWith('image/')) {
+      if (selectedFile.size > maxSize) {
+        setErrorState(['imgFile']);
+      } else if (selectedFile.type.startsWith('image/')) {
         const reader = new FileReader();
         reader.readAsDataURL(selectedFile);
         reader.onload = () => {
