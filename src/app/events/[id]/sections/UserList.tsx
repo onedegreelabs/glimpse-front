@@ -5,7 +5,6 @@ import {useEffect, useState} from 'react';
 import BoxView from '../components/BoxView';
 import SearchWrapper from '../components/SearchWrapper';
 import FilteringWrapper from '../components/FilteringWrapper';
-import {useWindowWidth} from '@/hooks/useWindowWidth';
 import {eventUserDataType} from '@/types/eventTypes';
 
 export default function UserList({
@@ -22,19 +21,10 @@ export default function UserList({
   const [userListForRender, setUserListForRender] = useState<
     eventUserDataType[]
   >([]);
-  const [toggleView, setToggleVIew] = useState('box');
 
   useEffect(() => {
     setUserListForRender(userList);
   }, [userList]);
-
-  const windowWidth = useWindowWidth();
-
-  useEffect(() => {
-    if (windowWidth > 768 && toggleView === 'list') {
-      setToggleVIew('box');
-    }
-  }, [windowWidth]);
 
   const [searchWord, setSerachWord] = useState('');
 

@@ -1,10 +1,3 @@
-import {type ClassValue, clsx} from 'clsx';
-import {twMerge} from 'tailwind-merge';
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
-
 export function getDateTextFromDateObj(dateObj: Date) {
   const kstDdateObj = new Date(dateObj.getTime() - 9 * 60 * 60 * 1000);
   const year = kstDdateObj.getFullYear();
