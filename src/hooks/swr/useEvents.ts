@@ -1,6 +1,6 @@
 import {getFetcher} from '@/apis/fetcher';
 import {customAxios} from '@/apis/headers';
-import {CreateEventType} from '@/types/eventTypes';
+import {CreateEventType, rsvpDataType} from '@/types/eventTypes';
 import useSWR from 'swr';
 
 const useMyEventList = function (count: number) {
@@ -37,6 +37,12 @@ const createEvent = async function (data: CreateEventType, imgFile: any) {
 };
 
 export {createEvent};
+
+// 타입 그냥 임시. 바꿔야됨.
+export const applyEvent = async function (eventId: string, data: rsvpDataType) {
+  const res = await customAxios.post(`events/${eventId}/participants`, data);
+  return res;
+};
 
 const checkDuplicateHandle = async function (handle: string) {
   const res = await customAxios.get(`events/check-duplicate?handle=${handle}`);
