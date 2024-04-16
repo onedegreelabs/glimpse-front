@@ -6,6 +6,7 @@
   justify-content: space-between;
   height: 60px;
   background: #fff;
+  position: relative;
 
   .text-area {
     font-size: 20px;
@@ -13,13 +14,14 @@
     font-weight: 500;
   }
 
-  .btn-area {
-    font-size: 12px;
-    font-weight: 500;
-    padding: 2px 12px;
-    background-color: #7E51FD;
-    border-radius: 100px;
-    cursor: pointer;
-    color: #fff;
+  .stretched-wrapper {
+    width: 100vw;
+    position: fixed;
+    margin: auto;
+    height: 100%;
+    top: 60px;
+    left: 0;
+    background-color: red;
+    z-index: 1;
   }
 }

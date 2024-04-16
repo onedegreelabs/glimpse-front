@@ -1,7 +1,7 @@
 'use client';
 import {useProfileStore} from '@/stores/profile';
 import styles from './header.module.scss';
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {useMyProfile} from '@/hooks/swr/useProfiles';
 import {getAccessTokenByRefreshToken, logout} from '@/apis/signApi';
 import {useIsLoginStore} from '@/stores/auth';
@@ -88,24 +88,34 @@ export default function Header() {
     setIsLogin(false);
   };
 
-  const onLogin = () => {
-    router.push('/sign');
+  const [isStretched, setIsStretched] = useState(true);
+
+  const bodyRef = useRef<HTMLBodyElement | null>(null);
+  useEffect(() => {
+    const bodyEl = document.querySelector('body');
+    bodyRef.current = bodyEl;
+  }, []);
+
+  const onClickHamburger = () => {
+    const bodyEl = bodyRef.current;
+    if (isStretched && bodyEl) {
+      setIsStretched(false);
+      bodyEl.style.overflowY = 'auto';
+      console.log(bodyEl.style);
+    } else if (bodyEl) {
+      setIsStretched(true);
+      bodyEl.style.overflowY = 'hidden';
+      console.log(bodyEl.style);
+    }
   };
 
   return (
     <div className={styles['header-wrapper']}>
       <div className={styles['text-area']}>{userName && `Hi ${userName}`}</div>
-
-      {userName && (
-        <div
-          className={styles['btn-area']}
-          onClick={() => {
-            isLogin ? onLogout() : onLogin();
-          }}
-        >
-          {isLogin ? '로그아웃' : '로그인'}
-        </div>
-      )}
+      <div>
+        <button onClick={onClickHamburger}>임시버튼</button>
+      </div>
+      {isStretched && <div className={styles['stretched-wrapper']}></div>}
     </div>
   );
 }
