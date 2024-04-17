@@ -19,6 +19,9 @@ import _ from 'lodash';
 import SuccessModal from '../components/successModal';
 import {useIsLoginStore} from '@/stores/auth';
 import {useRouter} from 'next/navigation';
+
+const IMAGE_MAXSIZE = 10 * 1024 * 1024;
+
 export default function InputArea() {
   const router = useRouter();
   const isLogin = useIsLoginStore(state => state.isLogin);
@@ -97,21 +100,22 @@ export default function InputArea() {
   // image logic
   const handleImageUpload = (event: {target: {files: FileList | null}}) => {
     const selectedFile = event.target.files?.[0];
-    const maxSize = 10 * 1024 * 1024;
 
-    if (selectedFile) {
-      if (selectedFile.size > maxSize) {
-        setErrorState(['imgFile']);
-      } else if (selectedFile.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.readAsDataURL(selectedFile);
-        reader.onload = () => {
-          setImgUrl(reader.result);
-        };
-        setImgFile(selectedFile);
-      } else {
-        alert('이미지 파일을 선택해주세요.');
-      }
+    if (!selectedFile) {
+      return;
+    }
+
+    if (selectedFile.size > IMAGE_MAXSIZE) {
+      setErrorState(['imgFile']);
+    } else if (selectedFile.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.readAsDataURL(selectedFile);
+      reader.onload = () => {
+        setImgUrl(reader.result);
+      };
+      setImgFile(selectedFile);
+    } else {
+      alert('이미지 파일을 선택해주세요.');
     }
   };
 
@@ -136,40 +140,48 @@ export default function InputArea() {
   };
 
   const onClickCreateEvent = async function () {
+    // 버튼 클릭 시 description과 handle은 에러 표시 제외.
     setErrorState(prevState =>
       prevState.filter(err => err !== 'description' && err !== 'handle')
     );
-    if (description.length === 1 || description.length > 19) {
-      scrollToElement(descriptionRef);
-      handleErrorState('description');
-    }
-    if (handle.length === 1 || handle.length > 19) {
-      scrollToElement(handleRef);
-      handleErrorState('handle');
-    }
-    if (type === 'Online' && !externalLink) {
-      scrollToElement(externalLinkRef);
-      handleErrorState('externalLink');
-    }
-    if (type === 'Offline' && !detailAddress) {
-      scrollToElement(detailAddressRef);
-      handleErrorState('detailAddress');
-    }
-    if (type === 'Offline' && !region) {
-      scrollToElement(regionRef);
-      handleErrorState('region');
-    }
-    if (!startAt || !endAt) {
-      if (!startAt) {
-        scrollToElement(startRef);
-      } else {
-        scrollToElement(endRef);
+
+    // 검증 조건과 참조를 매핑
+    const validations = [
+      {
+        condition: description.length === 1 || description.length > 19,
+        ref: descriptionRef,
+        error: 'description',
+      },
+      {
+        condition: handle.length === 1 || handle.length > 19,
+        ref: handleRef,
+        error: 'handle',
+      },
+      {
+        condition: type === 'Online' && !externalLink,
+        ref: externalLinkRef,
+        error: 'externalLink',
+      },
+      {
+        condition: type === 'Offline' && !detailAddress,
+        ref: detailAddressRef,
+        error: 'detailAddress',
+      },
+      {
+        condition: type === 'Offline' && !region,
+        ref: regionRef,
+        error: 'region',
+      },
+      {condition: !title, ref: titleRef, error: 'title'},
+    ];
+
+    // 각 조건을 순회하며 검증 및 에러 처리
+    validations.forEach(({condition, ref, error}) => {
+      if (condition) {
+        scrollToElement(ref);
+        handleErrorState(error);
       }
-    }
-    if (!title) {
-      scrollToElement(titleRef);
-      handleErrorState('title');
-    }
+    });
 
     const params = {
       title: title,
