@@ -3,6 +3,7 @@
 import {useState, FormEvent} from 'react';
 import styles from './EventRsvpContainer.module.scss';
 import {applyEvent} from '@/hooks/swr/useEvents';
+import {useMyProfile} from '@/hooks/swr/useProfiles';
 
 interface InputValid {
   givenName: string;
@@ -15,6 +16,7 @@ interface InputValid {
 }
 
 export default function EventRsvpContainer() {
+  const {data, error, isLoading} = useMyProfile();
   const [inputValid, setInputValid] = useState<InputValid>({
     givenName: '',
     familyName: '',
@@ -58,7 +60,7 @@ export default function EventRsvpContainer() {
 
     console.log(data);
 
-    // applyEvent(data,'eventId');
+    // applyEvent(eventId, data);
   }
 
   return (
@@ -75,6 +77,7 @@ export default function EventRsvpContainer() {
           </label>
           <input
             type="text"
+            value={data?.data?.givenName}
             placeholder="Place holder"
             onChange={handleChange}
             className={styles[inputValid.givenName]}
@@ -86,6 +89,7 @@ export default function EventRsvpContainer() {
           </label>
           <input
             type="text"
+            value={data?.data?.familyName}
             placeholder="Place holder"
             onChange={handleChange}
             className={styles[inputValid.familyName]}
@@ -93,7 +97,20 @@ export default function EventRsvpContainer() {
         </div>
         <div className={styles['rsvp-input']}>
           <label>
-            Role (직군) <span> *</span>
+            Email (이메일) <span> *</span>
+          </label>
+          <input
+            type="text"
+            value={data?.data?.email}
+            placeholder="Place holder"
+            onChange={handleChange}
+            className={styles[inputValid.belong]}
+            disabled
+          />
+        </div>
+        <div className={styles['rsvp-input']}>
+          <label>
+            Industry (산업군) <span> *</span>
           </label>
           <input
             type="text"
@@ -104,19 +121,29 @@ export default function EventRsvpContainer() {
         </div>
         <div className={styles['rsvp-input']}>
           <label>
-            Organization (소속) <span> *</span>
+            Role (직군) <span> *</span>
           </label>
           <input
             type="text"
+            value={data?.data?.role}
+            placeholder="Place holder"
+            onChange={handleChange}
+            className={styles[inputValid.role]}
+            disabled
+          />
+        </div>
+        <div className={styles['rsvp-input']}>
+          <label>Organization (소속)</label>
+          <input
+            type="text"
+            value={data?.data?.belong}
             placeholder="Place holder"
             onChange={handleChange}
             className={styles[inputValid.belong]}
           />
         </div>
         <div className={styles['rsvp-input']}>
-          <label>
-            Experience (경력) <span> *</span>
-          </label>
+          <label>Experience (경력)</label>
           <input
             type="text"
             placeholder="Place holder"
@@ -128,13 +155,14 @@ export default function EventRsvpContainer() {
           <label>Location (거주지역)</label>
           <input
             type="text"
+            value={data?.data?.region}
             placeholder="Place holder"
             onChange={handleChange}
             className={styles[inputValid.region]}
           />
         </div>
         <div className={styles['rsvp-input']}>
-          <label>Purpose (참여 목적)</label>
+          <label>Purpose of Participation (참가 목적)</label>
           <input
             type="text"
             name="purpose"
