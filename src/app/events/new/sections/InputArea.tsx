@@ -56,6 +56,31 @@ export default function InputArea() {
   const [errorState, setErrorState] = useState(['']);
   const [validState, setValidState] = useState('');
 
+  // 검증 조건과 참조를 매핑
+  const validations = [
+    {
+      condition: handle.length === 1 || handle.length > 19,
+      ref: handleRef,
+      error: 'handle',
+    },
+    {
+      condition: type === 'Online' && !externalLink,
+      ref: externalLinkRef,
+      error: 'externalLink',
+    },
+    {
+      condition: type === 'Offline' && !detailAddress,
+      ref: detailAddressRef,
+      error: 'detailAddress',
+    },
+    {
+      condition: type === 'Offline' && !region,
+      ref: regionRef,
+      error: 'region',
+    },
+    {condition: !title, ref: titleRef, error: 'title'},
+  ];
+
   // time logic
   function isDateEqual(date1: Date, date2: Date) {
     return (
@@ -140,40 +165,8 @@ export default function InputArea() {
   };
 
   const onClickCreateEvent = async function () {
-    // 버튼 클릭 시 description과 handle은 에러 표시 제외.
-    setErrorState(prevState =>
-      prevState.filter(err => err !== 'description' && err !== 'handle')
-    );
-
-    // 검증 조건과 참조를 매핑
-    const validations = [
-      {
-        condition: description.length === 1 || description.length > 19,
-        ref: descriptionRef,
-        error: 'description',
-      },
-      {
-        condition: handle.length === 1 || handle.length > 19,
-        ref: handleRef,
-        error: 'handle',
-      },
-      {
-        condition: type === 'Online' && !externalLink,
-        ref: externalLinkRef,
-        error: 'externalLink',
-      },
-      {
-        condition: type === 'Offline' && !detailAddress,
-        ref: detailAddressRef,
-        error: 'detailAddress',
-      },
-      {
-        condition: type === 'Offline' && !region,
-        ref: regionRef,
-        error: 'region',
-      },
-      {condition: !title, ref: titleRef, error: 'title'},
-    ];
+    // 버튼 클릭 시 handle은 에러 표시 제외.
+    setErrorState(prevState => prevState.filter(err => err !== 'handle'));
 
     // 각 조건을 순회하며 검증 및 에러 처리
     validations.forEach(({condition, ref, error}) => {
@@ -221,7 +214,7 @@ export default function InputArea() {
       setHandle(loweredNewValue);
     }
   };
-  console.log(handle);
+
   const checkDuplicate = useCallback(
     _.debounce(async handle => {
       if (handle.length >= 2 && !errorState.includes('handle')) {
@@ -231,17 +224,20 @@ export default function InputArea() {
           handleErrorState('handleDuplicate');
         } else {
           handleValidState('handle');
-          setErrorState(['']);
+          setErrorState(prevState => prevState.filter(err => err !== 'handle'));
         }
       }
     }, 0),
     []
   );
   useEffect(() => {
-    if (handle.length >= 2) {
+    if (handle.length >= 2 || handle.length < 20) {
       checkDuplicate(handle);
+    } else {
+      handleErrorState('handle');
     }
   }, [handle]);
+
   // check input valid when blur (focus out input)
   const checkInputValid = function (
     e:
@@ -678,37 +674,7 @@ export default function InputArea() {
             }
           }}
           placeholder="Description of your event"
-          className={clsx([
-            {
-              [styles['error']]: errorState.includes('description'),
-            },
-          ])}
-          onFocus={() => {
-            deleteErrorState('description');
-          }}
-          onBlur={e => {
-            checkInputLength(e, 'description');
-          }}
         />
-        <div
-          className={clsx([
-            styles['error-message'],
-            {
-              [styles['show-error']]: errorState.includes('description'),
-            },
-          ])}
-        >
-          <Image
-            src={'/assets/events/Warning.svg'}
-            alt="warning"
-            width={16}
-            height={16}
-          />
-          <div>
-            <div>Please enter the event handle between</div>
-            <div>2 and 19 characters. Only alphabets and numbers.</div>
-          </div>
-        </div>
         <div
           className={styles['limit-text']}
         >{`${description.length}/3000`}</div>
