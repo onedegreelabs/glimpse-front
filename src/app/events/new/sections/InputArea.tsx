@@ -20,6 +20,8 @@ import SuccessModal from '../components/successModal';
 import {useIsLoginStore} from '@/stores/auth';
 import {useRouter} from 'next/navigation';
 
+const IMAGE_MAXSIZE = 10 * 1024 * 1024;
+
 export default function InputArea() {
   const router = useRouter();
   const isLogin = useIsLoginStore(state => state.isLogin);
@@ -51,8 +53,33 @@ export default function InputArea() {
   const imgFileRef = useRef<HTMLInputElement>(null);
   const [imgUrl, setImgUrl] = useState<string | ArrayBuffer | null>();
   const [showModal, setShowModal] = useState<Boolean>(false);
-  const [errorState, setErrorState] = useState('');
+  const [errorState, setErrorState] = useState(['']);
   const [validState, setValidState] = useState('');
+
+  // 검증 조건과 참조를 매핑
+  const validations = [
+    {
+      condition: handle.length === 1 || handle.length > 19,
+      ref: handleRef,
+      error: 'handle',
+    },
+    {
+      condition: type === 'Online' && !externalLink,
+      ref: externalLinkRef,
+      error: 'externalLink',
+    },
+    {
+      condition: type === 'Offline' && !detailAddress,
+      ref: detailAddressRef,
+      error: 'detailAddress',
+    },
+    {
+      condition: type === 'Offline' && !region,
+      ref: regionRef,
+      error: 'region',
+    },
+    {condition: !title, ref: titleRef, error: 'title'},
+  ];
 
   // time logic
   function isDateEqual(date1: Date, date2: Date) {
@@ -62,7 +89,6 @@ export default function InputArea() {
       date1.getDate() === date2.getDate()
     );
   }
-
   useEffect(() => {
     const currentDate = new Date();
     const hours = currentDate.getHours();
@@ -77,20 +103,18 @@ export default function InputArea() {
 
     setStartAt(currentDate);
     const nextDate = new Date();
-    nextDate.setMinutes(roundMinutes + 15);
+    nextDate.setMinutes(roundMinutes + 60);
     setEndAt(nextDate);
 
     const newMaxTime = new Date();
     newMaxTime.setHours(23);
     newMaxTime.setMinutes(50);
     setMaxTime(newMaxTime);
-
     const newZeroTime = new Date();
     newZeroTime.setHours(0);
     newZeroTime.setMinutes(0);
     setMinZeroTime(newZeroTime);
   }, []);
-
   useEffect(() => {
     if (startAt && endAt) {
       if (startAt > endAt) {
@@ -98,35 +122,34 @@ export default function InputArea() {
       }
     }
   }, [startAt, endAt]);
-
   // image logic
   const handleImageUpload = (event: {target: {files: FileList | null}}) => {
     const selectedFile = event.target.files?.[0];
-    if (selectedFile) {
-      if (selectedFile.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.readAsDataURL(selectedFile);
-        reader.onload = () => {
-          setImgUrl(reader.result);
-        };
-        setImgFile(selectedFile);
-      } else {
-        alert('이미지 파일을 선택해주세요.');
-      }
+
+    if (!selectedFile) {
+      return;
+    }
+
+    if (selectedFile.size > IMAGE_MAXSIZE) {
+      setErrorState(['imgFile']);
+    } else if (selectedFile.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.readAsDataURL(selectedFile);
+      reader.onload = () => {
+        setImgUrl(reader.result);
+      };
+      setImgFile(selectedFile);
+    } else {
+      alert('이미지 파일을 선택해주세요.');
     }
   };
 
   const handleErrorState = function (state: string) {
-    setErrorState(state);
-    setTimeout(() => {
-      setErrorState('');
-    }, 2000);
+    setErrorState(prevState => [...prevState, state]);
+    setValidState('');
   };
   const handleValidState = function (state: string) {
     setValidState(state);
-    setTimeout(() => {
-      setValidState('');
-    }, 2000);
   };
 
   const scrollToElement = function (
@@ -142,38 +165,17 @@ export default function InputArea() {
   };
 
   const onClickCreateEvent = async function () {
-    if (!title) {
-      scrollToElement(titleRef);
-      handleErrorState('title');
-      return;
-    } else if (!startAt || !endAt) {
-      if (!startAt) {
-        scrollToElement(startRef);
-      } else {
-        scrollToElement(endRef);
+    // 버튼 클릭 시 handle은 에러 표시 제외.
+    setErrorState(prevState => prevState.filter(err => err !== 'handle'));
+
+    // 각 조건을 순회하며 검증 및 에러 처리
+    validations.forEach(({condition, ref, error}) => {
+      if (condition) {
+        scrollToElement(ref);
+        handleErrorState(error);
       }
-      return;
-    } else if (type === 'Offline' && !region) {
-      scrollToElement(regionRef);
-      handleErrorState('region');
-      return;
-    } else if (type === 'Offline' && !detailAddress) {
-      scrollToElement(detailAddressRef);
-      handleErrorState('detailAddress');
-      return;
-    } else if (type === 'Online' && !externalLink) {
-      scrollToElement(externalLinkRef);
-      handleErrorState('externalLink');
-      return;
-    } else if (!handle) {
-      scrollToElement(handleRef);
-      handleErrorState('handle');
-      return;
-    } else if (!description) {
-      scrollToElement(descriptionRef);
-      handleErrorState('description');
-      return;
-    }
+    });
+
     const params = {
       title: title,
       startAt: startAt,
@@ -191,7 +193,6 @@ export default function InputArea() {
       setShowModal(true);
     }
   };
-
   // handle logic
   const changeHandle = function (
     e: ChangeEvent<HTMLInputElement>,
@@ -199,6 +200,7 @@ export default function InputArea() {
   ) {
     const value = e.target.value;
     const newValue = value.replace(/[^a-zA-Z0-9]/g, '');
+    const loweredNewValue = newValue.toLocaleLowerCase();
     if (value !== newValue) {
       switch (targetInput) {
         case 'handle':
@@ -207,29 +209,32 @@ export default function InputArea() {
         default:
           null;
       }
+      setHandle(prevhandle => prevhandle);
+    } else {
+      setHandle(loweredNewValue);
     }
-    const loweredNewValue = newValue.toLocaleLowerCase();
-    setHandle(loweredNewValue);
   };
 
   const checkDuplicate = useCallback(
     _.debounce(async handle => {
-      if (handle.length >= 2 && errorState !== 'handle') {
+      if (handle.length >= 2 && !errorState.includes('handle')) {
         const res = await checkDuplicateHandle(handle);
         const isDuplicate = res.data.data;
         if (isDuplicate) {
           handleErrorState('handleDuplicate');
         } else {
           handleValidState('handle');
+          setErrorState(prevState => prevState.filter(err => err !== 'handle'));
         }
       }
-    }, 1000),
+    }, 0),
     []
   );
-
   useEffect(() => {
-    if (handle.length >= 2) {
+    if (handle.length >= 2 || handle.length < 20) {
       checkDuplicate(handle);
+    } else {
+      handleErrorState('handle');
     }
   }, [handle]);
 
@@ -241,13 +246,27 @@ export default function InputArea() {
     targetInput: string
   ) {
     if (e.target.value === '') {
-      setErrorState(targetInput);
+      setErrorState([targetInput]);
     }
   };
 
+  const checkInputLength = function (
+    e:
+      | FocusEvent<HTMLInputElement, Element>
+      | FocusEvent<HTMLTextAreaElement, Element>,
+    targetInput: string
+  ) {
+    if (e.target.value.length === 1 || e.target.value.length > 19) {
+      setErrorState([targetInput]);
+    }
+    setValidState('');
+  };
+
   const deleteErrorState = function (targetInput: string) {
-    if (errorState === targetInput) {
-      setErrorState('');
+    if (errorState.includes(targetInput)) {
+      setErrorState(prevState =>
+        prevState.filter(input => input !== targetInput)
+      );
     }
   };
 
@@ -278,7 +297,8 @@ export default function InputArea() {
           className={clsx([
             {
               [styles['error']]:
-                errorState === 'title' || errorState === 'titleLimit',
+                errorState.includes('title') ||
+                errorState.includes('titleLimit'),
             },
           ])}
         />
@@ -287,7 +307,8 @@ export default function InputArea() {
             styles['error-message'],
             {
               [styles['show-error']]:
-                errorState === 'title' || errorState === 'titleLimit',
+                errorState.includes('title') ||
+                errorState.includes('titleLimit'),
             },
           ])}
         >
@@ -297,7 +318,7 @@ export default function InputArea() {
             width={16}
             height={16}
           />
-          {errorState === 'title'
+          {errorState.includes('title')
             ? 'Please enter the title of your event.'
             : 'Please enter the event title between 1 and 100 characters.'}
         </div>
@@ -450,8 +471,8 @@ export default function InputArea() {
               className={clsx([
                 {
                   [styles['error']]:
-                    errorState === 'externalLink' ||
-                    errorState === 'externalLinkLimit',
+                    errorState.includes('externalLink') ||
+                    errorState.includes('externalLinkLimit'),
                 },
               ])}
             />
@@ -460,8 +481,8 @@ export default function InputArea() {
                 styles['error-message'],
                 {
                   [styles['show-error']]:
-                    errorState === 'externalLink' ||
-                    errorState === 'externalLinkLimit',
+                    errorState.includes('externalLink') ||
+                    errorState.includes('externalLinkLimit'),
                 },
               ])}
             >
@@ -471,7 +492,7 @@ export default function InputArea() {
                 width={16}
                 height={16}
               />
-              {errorState === 'externalLink' ? (
+              {errorState.includes('externalLink') ? (
                 'Please enter the URL of your event.'
               ) : (
                 <div>
@@ -501,7 +522,7 @@ export default function InputArea() {
               }}
               className={clsx([
                 {
-                  [styles['error']]: errorState === 'region',
+                  [styles['error']]: errorState.includes('region'),
                 },
               ])}
             />
@@ -510,7 +531,7 @@ export default function InputArea() {
                 styles['error-message'],
                 styles['for-region'],
                 {
-                  [styles['show-error']]: errorState === 'region',
+                  [styles['show-error']]: errorState.includes('region'),
                 },
               ])}
             >
@@ -546,8 +567,8 @@ export default function InputArea() {
               className={clsx([
                 {
                   [styles['error']]:
-                    errorState === 'detailAddress' ||
-                    errorState === 'detailAddressLimit',
+                    errorState.includes('detailAddress') ||
+                    errorState.includes('detailAddressLimit'),
                 },
               ])}
             />
@@ -556,8 +577,8 @@ export default function InputArea() {
                 styles['error-message'],
                 {
                   [styles['show-error']]:
-                    errorState === 'detailAddress' ||
-                    errorState === 'detailAddressLimit',
+                    errorState.includes('detailAddress') ||
+                    errorState.includes('detailAddressLimit'),
                 },
               ])}
             >
@@ -567,7 +588,7 @@ export default function InputArea() {
                 width={16}
                 height={16}
               />
-              {errorState === 'detailAddress'
+              {errorState.includes('detailAddress')
                 ? 'Please enter the the detailed address.'
                 : 'Please enter the event location between 1 and 1999 characters.'}
             </div>
@@ -592,12 +613,13 @@ export default function InputArea() {
               deleteErrorState('handle');
             }}
             onBlur={e => {
-              checkInputValid(e, 'handle');
+              checkInputLength(e, 'handle');
             }}
             className={clsx([
               {
                 [styles['error']]:
-                  errorState === 'handle' || errorState === 'handleDuplicate',
+                  errorState.includes('handle') ||
+                  errorState.includes('handleDuplicate'),
                 [styles['valid']]: validState === 'handle',
               },
             ])}
@@ -623,7 +645,8 @@ export default function InputArea() {
               styles['error-message'],
               {
                 [styles['show-error']]:
-                  errorState === 'handle' || errorState === 'handleDuplicate',
+                  errorState.includes('handle') ||
+                  errorState.includes('handleDuplicate'),
               },
             ])}
           >
@@ -633,7 +656,7 @@ export default function InputArea() {
               width={16}
               height={16}
             />
-            {errorState === 'handle'
+            {errorState.includes('handle')
               ? 'Please enter the event handle between 2 and 19 characters. Only alphabets and numbers.'
               : 'Already exists. Please try another one.'}
           </div>
@@ -651,37 +674,7 @@ export default function InputArea() {
             }
           }}
           placeholder="Description of your event"
-          className={clsx([
-            {
-              [styles['error']]: errorState === 'description',
-            },
-          ])}
-          onFocus={() => {
-            deleteErrorState('description');
-          }}
-          onBlur={e => {
-            checkInputValid(e, 'description');
-          }}
         />
-        <div
-          className={clsx([
-            styles['error-message'],
-            {
-              [styles['show-error']]: errorState === 'description',
-            },
-          ])}
-        >
-          <Image
-            src={'/assets/events/Warning.svg'}
-            alt="warning"
-            width={16}
-            height={16}
-          />
-          <div>
-            <div>Please enter the event handle between</div>
-            <div>2 and 19 characters. Only alphabets and numbers.</div>
-          </div>
-        </div>
         <div
           className={styles['limit-text']}
         >{`${description.length}/3000`}</div>
@@ -720,7 +713,6 @@ export default function InputArea() {
                 height={40}
               />
             </label>
-
             <div className={styles['text-area']}>Add Image</div>
           </div>
         </div>
@@ -728,7 +720,7 @@ export default function InputArea() {
           className={clsx([
             styles['error-message'],
             {
-              [styles['show-error']]: errorState === 'imgFile',
+              [styles['show-error']]: errorState.includes('imgFile'),
             },
           ])}
         >
@@ -748,7 +740,6 @@ export default function InputArea() {
       <div className={styles['create-button']} onClick={onClickCreateEvent}>
         Create Event
       </div>
-
       {/* modal */}
       {showModal && <SuccessModal handle={handle} />}
     </div>
