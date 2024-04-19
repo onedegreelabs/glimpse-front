@@ -1,6 +1,7 @@
 .event-create-wrapper {
   margin: 0 auto;
-  width: 375px;
+  width: 750px;
+  background-color: white;
 
   .header {
     padding: 10px 16px;
@@ -24,3 +25,26 @@
     }
   }
 }
+/* 반응형 웹 만들기*/
+
+/* 모바일 기기에 대한 스타일 */
+@media screen and (max-width: 767px) {
+  /* 여기에 모바일 기기에 대한 스타일을 추가합니다. */
+    .event-create-wrapper {
+      width: 375px;    
+    }
+}
+
+// /* 태블릿 기기에 대한 스타일 */
+// @media screen and (min-width: 768px) and (max-width: 1023px) {
+//   /* 여기에 태블릿 기기에 대한 스타일을 추가합니다. */
+
+
+// }
+
+// /* 데스크탑 기기에 대한 스타일 */
+// @media screen and (min-width: 1024px) {
+//   /* 여기에 데스크탑 기기에 대한 스타일을 추가합니다. */
+
+
+// }
