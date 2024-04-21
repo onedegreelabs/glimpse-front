@@ -1,9 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import styles from './createRoundButton.module.scss';
+import styles from './roundPlusButton.module.scss';
 import {useRouter} from 'next/navigation';
-export default function CreateRoundButton() {
+export default function RoundPlustButton() {
   const router = useRouter();
   const resUrl = window.location.href;
   const eventCreateUrl = resUrl.replace(/\/my$/, '/new');

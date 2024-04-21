@@ -1,7 +1,104 @@
+'use client';
+import {useProfileStore} from '@/stores/profile';
+import styles from './page.module.scss';
+import {useEffect} from 'react';
+import Image from 'next/image';
+import Card from '@/components/card/Card';
+import clsx from 'clsx';
+import RoundPlustButton from './components/RoundPlustButton';
+
 export default function MyProfilePage() {
+  const profile = useProfileStore(state => state.profile);
+  useEffect(() => {
+    console.log(profile);
+  }, [profile]);
   return (
-    <div>
-      <div>마이프로필페이지</div>
+    <div className={styles['my-profile-wrapper']}>
+      <div className={styles['profile-image-wrapper']}>
+        {profile?.image ? <div /> : <div className={styles['empty-image']} />}
+        <div className={styles['add-image-btn']}>
+          <Image
+            src="/icons/picture.png"
+            width={16}
+            height={12}
+            alt="picutre"
+          />
+        </div>
+      </div>
+      <div className={styles['name-area']}>
+        <input placeholder="Last Name" />
+        <input placeholder="First Name" />
+      </div>
+      <div className={styles['career-area-wrapper']}>
+        <select>
+          <option>department</option>
+        </select>
+        <div className={styles['devidor']} />
+        <input placeholder="company" maxLength={15} />
+      </div>
+      <div className={styles['region-area']}>
+        <Image
+          src="/icons/Location.svg"
+          width={16}
+          height={16}
+          alt="location"
+        />
+        <input value={'Seoul, Korea'} />
+        <div className=""></div>
+      </div>
+
+      <div className={styles['box-wrapper']}>
+        <div className={styles['title-text']}>Intro</div>
+        <div className={styles['card-wrapper']}>
+          <Card height={160}>
+            <div className={styles['card-inner']}>
+              <textarea placeholder="add title..." />
+            </div>
+          </Card>
+          <Card height={160}>
+            <div className={styles['card-inner']}>
+              <textarea placeholder="add career..." />
+            </div>
+          </Card>
+        </div>
+      </div>
+      <div className={styles['box-wrapper']}>
+        <div className={styles['title-text']}>About me</div>
+        <div className={clsx([styles['card-wrapper'], styles['single-card']])}>
+          <Card height={168}>
+            <div className={styles['card-inner']}>
+              <textarea placeholder="Write down what you want to say..." />
+            </div>
+          </Card>
+        </div>
+      </div>
+      <div className={styles['box-wrapper']}>
+        <div className={styles['title-text']}>Connect</div>
+        <div className={clsx([styles['card-wrapper'], styles['single-card']])}>
+          <Card height={64}>
+            <div className={styles['card-inner']}>
+              <div className={styles['link-wrapper']}>
+                <div className={styles['empty-link']} />
+                <input placeholder="link add..." />
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
+      <div className={styles['box-wrapper']}>
+        <div className={styles['title-text']}>Hashtag of interest</div>
+        <div className={clsx([styles['card-wrapper'], styles['single-card']])}>
+          <Card height={384}>
+            <div className={styles['card-inner']}>
+              <textarea placeholder="Add your interests..." />
+            </div>
+          </Card>
+        </div>
+      </div>
+
+      <div className={styles['round-plus-button']}>
+        <RoundPlustButton />
+      </div>
     </div>
   );
 }
