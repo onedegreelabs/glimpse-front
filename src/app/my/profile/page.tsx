@@ -1,7 +1,7 @@
 'use client';
 import {useProfileStore} from '@/stores/profile';
 import styles from './page.module.scss';
-import {useEffect} from 'react';
+import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import Image from 'next/image';
 import Card from '@/components/card/Card';
 import clsx from 'clsx';
@@ -12,6 +12,24 @@ export default function MyProfilePage() {
   useEffect(() => {
     console.log(profile);
   }, [profile]);
+
+  const [aboutMeList, setAboutMeList] = useState(['']);
+  const [linkList, setLinkList] = useState(['']);
+
+  let setter: Dispatch<SetStateAction<string[]>> | null;
+
+  const onChangeTargetRef = () => {
+    if (setter) {
+      setter(prev => [...prev, '']);
+    }
+  };
+
+  const resetSetter = () => {
+    setTimeout(() => {
+      setter = null;
+    }, 100);
+  };
+
   return (
     <div className={styles['my-profile-wrapper']}>
       <div className={styles['profile-image-wrapper']}>
@@ -26,8 +44,11 @@ export default function MyProfilePage() {
         </div>
       </div>
       <div className={styles['name-area']}>
-        <input placeholder="Last Name" />
-        <input placeholder="First Name" />
+        <input maxLength={10} placeholder="Last Name" />
+        <input maxLength={10} placeholder="First Name" />
+      </div>
+      <div className={styles['simple-introduce']}>
+        <input placeholder="add bio..." />
       </div>
       <div className={styles['career-area-wrapper']}>
         <select>
@@ -52,12 +73,12 @@ export default function MyProfilePage() {
         <div className={styles['card-wrapper']}>
           <Card height={160}>
             <div className={styles['card-inner']}>
-              <textarea placeholder="add title..." />
+              <textarea maxLength={100} placeholder="add title..." />
             </div>
           </Card>
           <Card height={160}>
             <div className={styles['card-inner']}>
-              <textarea placeholder="add career..." />
+              <textarea maxLength={100} placeholder="add career..." />
             </div>
           </Card>
         </div>
@@ -65,24 +86,45 @@ export default function MyProfilePage() {
       <div className={styles['box-wrapper']}>
         <div className={styles['title-text']}>About me</div>
         <div className={clsx([styles['card-wrapper'], styles['single-card']])}>
-          <Card height={168}>
-            <div className={styles['card-inner']}>
-              <textarea placeholder="Write down what you want to say..." />
-            </div>
-          </Card>
+          {aboutMeList.map((_, idx) => {
+            return (
+              <Card height={168} key={idx}>
+                <div className={styles['card-inner']}>
+                  <textarea
+                    onFocus={() => {
+                      setter = setAboutMeList;
+                    }}
+                    onBlur={resetSetter}
+                    maxLength={260}
+                    placeholder="Write down what you want to say..."
+                  />
+                </div>
+              </Card>
+            );
+          })}
         </div>
       </div>
       <div className={styles['box-wrapper']}>
         <div className={styles['title-text']}>Connect</div>
         <div className={clsx([styles['card-wrapper'], styles['single-card']])}>
-          <Card height={64}>
-            <div className={styles['card-inner']}>
-              <div className={styles['link-wrapper']}>
-                <div className={styles['empty-link']} />
-                <input placeholder="link add..." />
-              </div>
-            </div>
-          </Card>
+          {linkList.map((_, idx) => {
+            return (
+              <Card height={64} key={idx}>
+                <div className={styles['card-inner']}>
+                  <div className={styles['link-wrapper']}>
+                    <div className={styles['empty-link']} />
+                    <input
+                      onFocus={() => {
+                        setter = setLinkList;
+                      }}
+                      onBlur={resetSetter}
+                      placeholder="link add..."
+                    />
+                  </div>
+                </div>
+              </Card>
+            );
+          })}
         </div>
       </div>
       <div className={styles['box-wrapper']}>
@@ -97,7 +139,7 @@ export default function MyProfilePage() {
       </div>
 
       <div className={styles['round-plus-button']}>
-        <RoundPlustButton />
+        <RoundPlustButton onClickBtn={onChangeTargetRef} />
       </div>
     </div>
   );
