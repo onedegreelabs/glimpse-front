@@ -17,6 +17,7 @@ export default function CustomQuestionModal({
   // mode 바뀔 때마다 input 개수 초기화
   useEffect(() => {
     setOptionInputLength(2);
+    setToggle(false);
   }, [mode]);
 
   // input 추가 버튼
@@ -158,8 +159,17 @@ export default function CustomQuestionModal({
                 />
               </div>
               <div className={styles['necessary']}>
-                <div className={styles['toggle-button']}>
-                  <div className={styles['toggle']} />
+                <div
+                  className={`${styles['toggle-button']} ${
+                    toggle ? styles['active'] : ''
+                  }`}
+                  onClick={() => setToggle(prev => !prev)}
+                >
+                  <div
+                    className={`${styles['toggle']} ${
+                      toggle ? styles['active'] : ''
+                    }`}
+                  />
                 </div>
                 Necessary
               </div>
