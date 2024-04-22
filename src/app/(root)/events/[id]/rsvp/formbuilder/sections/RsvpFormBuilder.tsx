@@ -7,6 +7,7 @@ import CustomQuestionModal from '../components/CustomQuestionModal';
 
 export default function RsvpFormBuilder() {
   const [showModal, setShowModal] = useState(false);
+  const [toggle, setToggle] = useState(false);
 
   function closeModal() {
     setShowModal(false);
@@ -21,8 +22,17 @@ export default function RsvpFormBuilder() {
       <div className={styles['container']}>
         <div className={styles['approval-required']}>
           <div>Approval required</div>
-          <div className={styles['toggle-button']}>
-            <div className={styles['toggle']} />
+          <div
+            className={`${styles['toggle-button']} ${
+              toggle ? styles['active'] : ''
+            }`}
+            onClick={() => setToggle(prev => !prev)}
+          >
+            <div
+              className={`${styles['toggle']} ${
+                toggle ? styles['active'] : ''
+              }`}
+            />
           </div>
         </div>
         <p>

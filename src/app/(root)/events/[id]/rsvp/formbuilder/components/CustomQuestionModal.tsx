@@ -11,6 +11,7 @@ export default function CustomQuestionModal({
   onClose,
 }: CustomQuestionModalProps) {
   const [mode, setmode] = useState('');
+  const [toggle, setToggle] = useState(false);
   const [optionInputLength, setOptionInputLength] = useState(2);
 
   // mode 바뀔 때마다 input 개수 초기화
@@ -71,8 +72,17 @@ export default function CustomQuestionModal({
               Question
               <input type="text" placeholder="Input" />
               <div className={styles['necessary']}>
-                <div className={styles['toggle-button']}>
-                  <div className={styles['toggle']} />
+                <div
+                  className={`${styles['toggle-button']} ${
+                    toggle ? styles['active'] : ''
+                  }`}
+                  onClick={() => setToggle(prev => !prev)}
+                >
+                  <div
+                    className={`${styles['toggle']} ${
+                      toggle ? styles['active'] : ''
+                    }`}
+                  />
                 </div>
                 Necessary
               </div>
@@ -105,8 +115,17 @@ export default function CustomQuestionModal({
                 />
               </div>
               <div className={styles['necessary']}>
-                <div className={styles['toggle-button']}>
-                  <div className={styles['toggle']} />
+                <div
+                  className={`${styles['toggle-button']} ${
+                    toggle ? styles['active'] : ''
+                  }`}
+                  onClick={() => setToggle(prev => !prev)}
+                >
+                  <div
+                    className={`${styles['toggle']} ${
+                      toggle ? styles['active'] : ''
+                    }`}
+                  />
                 </div>
                 Necessary
               </div>
