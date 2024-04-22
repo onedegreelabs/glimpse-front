@@ -1,7 +1,17 @@
+'use client';
+import {useState} from 'react';
+
 import Image from 'next/image';
 import styles from './RsvpFormBulder.module.scss';
+import CustomQuestionModal from '../components/CustomQuestionModal';
 
 export default function RsvpFormBuilder() {
+  const [showModal, setShowModal] = useState(false);
+
+  function closeModal() {
+    setShowModal(false);
+  }
+
   return (
     <div className={styles['builder-container']}>
       <div className={styles['quest-list']}>
@@ -55,7 +65,7 @@ export default function RsvpFormBuilder() {
         <div className={styles['registration-question']}>
           <div>Registration Questions</div>
           <div className={styles['profile-card-question']}>
-            profile card Question
+            profile card Questions
             <div className={styles['necessary']}>Necessary</div>
           </div>
           <ol>
@@ -73,7 +83,7 @@ export default function RsvpFormBuilder() {
           </p>
           <div className={styles['custom-question']}>
             <div>Custom Question</div>
-            <button>
+            <button onClick={() => setShowModal(true)}>
               <Image
                 src={'/assets/events/rsvp/plus.svg'}
                 alt="plus"
@@ -89,6 +99,7 @@ export default function RsvpFormBuilder() {
           </div>
         </div>
       </div>
+      {showModal && <CustomQuestionModal onClose={closeModal} />}
     </div>
   );
 }
