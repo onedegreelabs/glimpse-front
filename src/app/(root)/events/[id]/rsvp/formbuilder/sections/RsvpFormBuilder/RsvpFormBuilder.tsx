@@ -4,14 +4,9 @@ import Image from 'next/image';
 
 import styles from './RsvpFormBulder.module.scss';
 import CustomQuestionModal from '../../components/CustomQuestionModal/CustomQuestionModal';
+import Link from 'next/link';
 
-type PageType = 'default' | 'pending' | 'approve' | 'reject';
-
-interface Props {
-  setPage: React.Dispatch<React.SetStateAction<PageType>>;
-}
-
-export default function RsvpFormBuilder({setPage}: Props) {
+export default function RsvpFormBuilder() {
   const [showModal, setShowModal] = useState(false);
   const [toggle, setToggle] = useState(false);
 
@@ -49,10 +44,7 @@ export default function RsvpFormBuilder({setPage}: Props) {
           <div>Guest registration</div>
           <ul>
             <li>
-              <div
-                className={styles['pending-approval-card']}
-                onClick={() => setPage('pending')}
-              >
+              <Link href="pending" className={styles['pending-approval-card']}>
                 0
                 <span className={styles['pending-approval']}>
                   <Image
@@ -63,13 +55,10 @@ export default function RsvpFormBuilder({setPage}: Props) {
                   />
                   Pending approval
                 </span>
-              </div>
+              </Link>
             </li>
             <li>
-              <div
-                className={styles['pending-approval-card']}
-                onClick={() => setPage('approve')}
-              >
+              <Link href="approved" className={styles['pending-approval-card']}>
                 0
                 <div className={styles['pending-approval']}>
                   <Image
@@ -80,13 +69,10 @@ export default function RsvpFormBuilder({setPage}: Props) {
                   />
                   Approved
                 </div>
-              </div>
+              </Link>
             </li>
             <li>
-              <div
-                className={styles['pending-approval-card']}
-                onClick={() => setPage('reject')}
-              >
+              <Link href="rejected" className={styles['pending-approval-card']}>
                 0
                 <div className={styles['pending-approval']}>
                   <Image
@@ -97,7 +83,7 @@ export default function RsvpFormBuilder({setPage}: Props) {
                   />
                   Rejected
                 </div>
-              </div>
+              </Link>
             </li>
           </ul>
         </div>
