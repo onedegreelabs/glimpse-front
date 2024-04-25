@@ -6,7 +6,7 @@
 
   input {
     padding: 0 12px;
-    width: 686px;
+    width: 343px;
     height: 40px;
     border: 1px solid #dadada;
     border-radius: 8px;
@@ -66,9 +66,9 @@
 
   textarea {
     padding: 12px;
-    width: 686px;
+    width: 343px;
     height: 40px;
-    min-height: 240px;
+    min-height: 120px;
     border: 1px solid #dadada;
     border-radius: 8px;
     font-size: 14px;
@@ -138,7 +138,7 @@
 
         .date-wrapper {
           display: grid;
-          grid-template-columns: repeat(2, 250px);
+          grid-template-columns: repeat(2, 125px);
           gap: 8px;
 
           .first-picker {
@@ -147,11 +147,11 @@
 
           .second-picker {
             position: absolute;
-            left: 305px;
+            left: 180px;
           }
 
           input {
-            width: 250px;
+            width: 125px;
             text-align: center;
             height: 40px;
             border-radius: 8px;
@@ -178,7 +178,7 @@
         align-items: center;
         grid-template-columns: auto 1fr;
         gap: 4px;
-        width: 292px;
+        width: 146px;
         cursor: pointer;
 
         .custom-radio {
@@ -211,8 +211,8 @@
     }
 
     .add-box {
-      height: 240px;
-      width: 686px;
+      height: 120px;
+      width: 343px;
       border: 1px dashed #b497ff;
       border-radius: 8px;
       display: flex;
@@ -253,7 +253,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 686px;
+    width: 343px;
     height: 48px;
     background-color: #7e51fd;
     color: #fff;
@@ -262,275 +262,4 @@
     margin-bottom: 48px;
     cursor: pointer;
   }
-}
-
-/* 모바일 기기에 대한 스타일 */
-@media screen and (max-width: 767px) {
-  /* 여기에 모바일 기기에 대한 스타일을 추가합니다. */
-  .input-area {
-    display: grid;
-    justify-content: center;
-    gap: 44px;
-    padding: 0 16px;
-  
-    input {
-      padding: 0 12px;
-      width: 343px;
-      height: 40px;
-      border: 1px solid #dadada;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 400;
-  
-      &:focus {
-        outline: none;
-        border: 1px solid #7E51FD;
-        box-shadow: 2px 2px 8px 0px rgba(126, 81, 253, 0.30);
-      }
-  
-      &.error {
-        border: 1px solid #ff5f5f;
-        box-shadow: 2px 2px 8px 0px rgba(255, 0, 0, 0.3);
-      }
-  
-      &.valid {
-        border: 1px solid #00B21C;
-        box-shadow: 2px 2px 8px 0px rgba(0, 178, 28, 0.70)
-      }
-    }
-  
-    .error-message {
-      position: absolute;
-      align-items: start;
-      gap: 2px;
-      font-size: 12px;
-      font-weight: 400;
-      color: #f00;
-      top: calc(100% + 6px);
-      display: none;
-  
-      &.show-error {
-        display: flex;
-      }
-  
-      &.for-region {
-        bottom: 38px;
-      }
-    }
-  
-    .valid-message {
-      position: absolute;
-      align-items: start;
-      gap: 2px;
-      font-size: 12px;
-      font-weight: 400;
-      color: #00B21C;
-      top: calc(100% + 6px);
-      display: none;
-  
-      &.show-valid {
-        display: flex;
-      }
-    }
-  
-    textarea {
-      padding: 12px;
-      width: 343px;
-      height: 40px;
-      min-height: 120px;
-      border: 1px solid #dadada;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 400;
-      resize: none;
-  
-      &:focus {
-        outline: none;
-        border: 1px solid #7E51FD;
-        box-shadow: 2px 2px 8px 0px rgba(126, 81, 253, 0.70);
-      }
-  
-      &.error {
-        border: 1px solid #f00;
-        box-shadow: 2px 2px 8px 0px rgba(255, 0, 0, 0.7);
-      }
-    }
-  
-    .row-area {
-      display: grid;
-      gap: 12px;
-      position: relative;
-  
-      .limit-text {
-        position: absolute;
-        right: 4px;
-        bottom: -20px;
-        font-size: 12px;
-        color: #9c9c9c;
-        font-weight: 400;
-      }
-  
-      .title-area {
-        height: 24px;
-        font-size: 16px;
-        font-weight: 500;
-        line-height: 24px;
-  
-        &.required {
-          position: relative;
-  
-          &::after {
-            position: absolute;
-            content: '*';
-            color: #764be5;
-            padding-left: 4px;
-          }
-        }
-      }
-  
-      .date-row-wrapper {
-        display: grid;
-        grid-template-rows: 37px;
-        gap: 8px;
-  
-        .date-row {
-          display: grid;
-          grid-template-columns: 34px 258px;
-          align-items: center;
-          gap: 12px;
-  
-          .text-area {
-            color: #767676;
-            font-size: 14px;
-            font-weight: 500;
-          }
-  
-          .date-wrapper {
-            display: grid;
-            grid-template-columns: repeat(2, 125px);
-            gap: 8px;
-  
-            .first-picker {
-              position: relative;
-            }
-  
-            .second-picker {
-              position: absolute;
-              left: 180px;
-            }
-  
-            input {
-              width: 125px;
-              text-align: center;
-              height: 40px;
-              border-radius: 8px;
-              font-size: 14px;
-              color: #9c9c9c;
-              border: 1px solid #dadada;
-            }
-          }
-        }
-      }
-  
-      .global-time {
-        display: flex;
-        gap: 4px;
-        font-size: 12px;
-        color: #9c9c9c;
-      }
-  
-      .type-wrapper {
-        display: flex;
-  
-        .radio-item {
-          display: grid;
-          align-items: center;
-          grid-template-columns: auto 1fr;
-          gap: 4px;
-          width: 146px;
-          cursor: pointer;
-  
-          .custom-radio {
-            width: 14px;
-            height: 14px;
-            border: 3px solid #d6d6d6;
-            border-radius: 50%;
-  
-            &.checked {
-              border: 3px solid #7e51fd;
-            }
-          }
-  
-          .text-area {
-            font-size: 16px;
-            font-weight: 500;
-          }
-        }
-      }
-  
-      .handle-wrapper {
-        display: grid;
-        gap: 8px;
-  
-        .base-handle {
-          font-size: 14px;
-          font-weight: 400;
-          color: #5c5c5c;
-        }
-      }
-  
-      .add-box {
-        height: 120px;
-        width: 343px;
-        border: 1px dashed #b497ff;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-  
-        &:hover {
-          background-color: #f2edff;
-        }
-  
-        .icon-text {
-          display: grid;
-          justify-content: center;
-          gap: 8px;
-          width: 84px;
-          height: 64px;
-  
-          .label-button {
-            cursor: pointer;
-            display: flex;
-          }
-  
-          img {
-            margin: 0 auto;
-          }
-  
-          .text-area {
-            color: #7e51fd;
-            font-weight: 500;
-            font-size: 16px;
-          }
-        }
-      }
-    }
-  
-    .create-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 343px;
-      height: 48px;
-      background-color: #7e51fd;
-      color: #fff;
-      font-weight: 600;
-      border-radius: 4px;
-      margin-bottom: 48px;
-      cursor: pointer;
-    }
-  }
-
 }
