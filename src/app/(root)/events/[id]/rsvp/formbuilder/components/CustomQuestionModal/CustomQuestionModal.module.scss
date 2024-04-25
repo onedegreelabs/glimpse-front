@@ -79,20 +79,39 @@
         .question {
             display: flex;
             flex-direction: column;
+            gap: 4px;
         }
 
         .option {
-            position: relative;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-        }
+            gap: 4px;
 
-        img {
-            position: absolute;
-            right: 13px;
-            bottom: 13px;
-            cursor: pointer;
+            .option-scroll {
+                max-height: 120px;
+                overflow: scroll;
+                div {
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                    
+                    input {
+                        width: 295px;
+                    }
+
+                    img {
+                        position: absolute;
+                        right: 13px;
+                        bottom: 13px;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .option-scroll::-webkit-scrollbar {
+                display: none;
+            }
         }
 
         .necessary {

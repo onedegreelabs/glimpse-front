@@ -180,22 +180,30 @@ export default function CustomQuestionModal({
               </div>
               <div className={styles['option']}>
                 Option
-                {question.options.map((input, index) => (
-                  <input
-                    key={index}
-                    type="text"
-                    value={input}
-                    placeholder="Input"
-                    onChange={event => changeInput(index, event.target.value)}
-                  />
-                ))}
-                <Image
-                  src={'/assets/events/rsvp/add-circle.svg'}
-                  alt="add"
-                  width={13}
-                  height={13}
-                  onClick={addOptionInput}
-                />
+                <div className={styles['option-scroll']}>
+                  <div>
+                    {question.options.map((input, index) => (
+                      <input
+                        key={index}
+                        type="text"
+                        value={input}
+                        placeholder="Input"
+                        onChange={event =>
+                          changeInput(index, event.target.value)
+                        }
+                      />
+                    ))}
+                    {question.options.length < 5 && (
+                      <Image
+                        src={'/assets/events/rsvp/add-circle.svg'}
+                        alt="add"
+                        width={13}
+                        height={13}
+                        onClick={addOptionInput}
+                      />
+                    )}
+                  </div>
+                </div>
               </div>
               <div className={styles['necessary']}>
                 <div
@@ -233,22 +241,30 @@ export default function CustomQuestionModal({
               </div>
               <div className={styles['option']}>
                 Option
-                {question.options.map((input, index) => (
-                  <input
-                    key={index}
-                    type="text"
-                    value={input}
-                    placeholder="Input"
-                    onChange={event => changeInput(index, event.target.value)}
-                  />
-                ))}
-                <Image
-                  src={'/assets/events/rsvp/add-circle.svg'}
-                  alt="add"
-                  width={13}
-                  height={13}
-                  onClick={addOptionInput}
-                />
+                <div className={styles['option-scroll']}>
+                  <div>
+                    {question.options.map((input, index) => (
+                      <input
+                        key={index}
+                        type="text"
+                        value={input}
+                        placeholder="Input"
+                        onChange={event =>
+                          changeInput(index, event.target.value)
+                        }
+                      />
+                    ))}
+                    {question.options.length < 5 && (
+                      <Image
+                        src={'/assets/events/rsvp/add-circle.svg'}
+                        alt="add"
+                        width={13}
+                        height={13}
+                        onClick={addOptionInput}
+                      />
+                    )}
+                  </div>
+                </div>
               </div>
               <div className={styles['necessary']}>
                 <div
