@@ -1,6 +1,7 @@
 .event-create-wrapper {
   margin: 0 auto;
-  width: 375px;  
+  min-width: 320px;
+  max-width: 768px;
   background-color: white;
 
   .header {
