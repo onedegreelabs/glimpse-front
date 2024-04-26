@@ -7,18 +7,21 @@ import Card from '@/components/card/Card';
 import clsx from 'clsx';
 import RoundPlustButton from './components/RoundPlustButton';
 
+// RGL css
+import './rglStyle.css';
+
 export default function MyProfilePage() {
   const profile = useProfileStore(state => state.profile);
   useEffect(() => {
     console.log(profile);
   }, [profile]);
 
-  const [aboutMeList, setAboutMeList] = useState(['']);
+  const [cardList, setCardList] = useState(['']);
   const [linkList, setLinkList] = useState(['']);
 
   let setter: Dispatch<SetStateAction<string[]>> | null;
 
-  const onChangeTargetRef = () => {
+  const createCard = () => {
     if (setter) {
       setter(prev => [...prev, '']);
     }
@@ -86,13 +89,13 @@ export default function MyProfilePage() {
       <div className={styles['box-wrapper']}>
         <div className={styles['title-text']}>About me</div>
         <div className={clsx([styles['card-wrapper'], styles['single-card']])}>
-          {aboutMeList.map((_, idx) => {
+          {cardList.map((_, idx) => {
             return (
               <Card height={168} key={idx}>
                 <div className={styles['card-inner']}>
                   <textarea
                     onFocus={() => {
-                      setter = setAboutMeList;
+                      setter = setCardList;
                     }}
                     onBlur={resetSetter}
                     maxLength={260}
@@ -139,7 +142,7 @@ export default function MyProfilePage() {
       </div>
 
       <div className={styles['round-plus-button']}>
-        <RoundPlustButton onClickBtn={onChangeTargetRef} />
+        <RoundPlustButton onClickBtn={createCard} />
       </div>
     </div>
   );
