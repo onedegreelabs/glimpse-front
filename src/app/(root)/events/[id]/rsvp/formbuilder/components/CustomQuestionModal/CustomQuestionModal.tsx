@@ -2,36 +2,46 @@ import {useEffect, useState, Dispatch, SetStateAction} from 'react';
 
 import Image from 'next/image';
 import styles from './CustomQuestionModal.module.scss';
+import {saveQuestion} from '@/hooks/swr/useEvents';
 
 interface CustomQuestionModalProps {
+  eventId: number;
   onClose: () => void;
   setCustomQuestions: Dispatch<
     SetStateAction<
-      {type: string; question: string; options: string[]; necessary: boolean}[]
+      {
+        type: string;
+        question: string;
+        isRequired: boolean;
+        maxCount: number;
+        options: string[];
+      }[]
     >
   >;
 }
 
 export default function CustomQuestionModal({
+  eventId,
   onClose,
   setCustomQuestions,
 }: CustomQuestionModalProps) {
   const [question, setQuestion] = useState({
     type: 'default',
     question: '',
-    options: ['', ''],
-    necessary: false,
+    isRequired: false,
+    maxCount: 0,
+    options: [''],
   });
 
-  // type이 바뀔 때마다 input 개수, necessary 초기화
+  // type이 바뀔 때마다 input 개수, isRequired 초기화
   useEffect(() => {
-    const updatedQuestion = {...question, necessary: false, options: ['', '']};
+    const updatedQuestion = {...question, isRequired: false, options: ['']};
     setQuestion(updatedQuestion);
   }, [question.type]);
 
-  // 현재 type 설정
-  function setType(curType: string) {
-    const updatedQuestion = {...question, type: curType};
+  // 현재 type, maxCount 설정
+  function setType(curType: string, maxCount: number) {
+    const updatedQuestion = {...question, type: curType, maxCount};
     setQuestion(updatedQuestion);
   }
 
@@ -55,40 +65,19 @@ export default function CustomQuestionModal({
     setQuestion(updatedQuestion);
   }
 
-  // 현재 necessary 설정
-  function setNecessary() {
-    const updatedQuestion = {...question, necessary: !question.necessary};
+  // 현재 isRequired 설정
+  function setIsRequired() {
+    const updatedQuestion = {...question, isRequired: !question.isRequired};
     setQuestion(updatedQuestion);
   }
 
   // 작성한 CustomQuestion 제출
-  function addQuestion() {
-    switch (question.type) {
-      case 'text':
-        if (question.question === '') {
-          alert('question을 입력하세요.');
-        } else {
-          setCustomQuestions(prev => [...prev, question]);
-          onClose();
-        }
-        break;
-      case 'single':
-        if (question.question === '') {
-          alert('question을 입력하세요.');
-        } else {
-          setCustomQuestions(prev => [...prev, question]);
-          onClose();
-        }
-        break;
-      case 'multiple':
-        if (question.question === '') {
-          alert('question을 입력하세요.');
-        } else {
-          setCustomQuestions(prev => [...prev, question]);
-          onClose();
-        }
-        break;
-    }
+  async function addQuestion() {
+    setCustomQuestions(prev => [...prev, question]);
+
+    await saveQuestion(eventId, question);
+
+    onClose();
   }
 
   return (
@@ -102,7 +91,7 @@ export default function CustomQuestionModal({
               alt="back"
               width={24}
               height={24}
-              onClick={() => setType('default')}
+              onClick={() => setType('default', 0)}
             />
           )}
           {question.type === 'default' && (
@@ -126,12 +115,12 @@ export default function CustomQuestionModal({
               </p>
             </div>
 
-            <button onClick={() => setType('text')}>Text</button>
-            <button onClick={() => setType('single')}>Single Choice</button>
-            <button onClick={() => setType('multiple')}>Mutiple Choice</button>
+            <button onClick={() => setType('Text', 0)}>Text</button>
+            <button onClick={() => setType('Choice', 1)}>Single Choice</button>
+            <button onClick={() => setType('Choice', 5)}>Mutiple Choice</button>
           </>
         )}
-        {question.type === 'text' && (
+        {question.type === 'Text' && (
           <>
             <div className={styles['title']}>
               <div>TEXT</div>
@@ -147,13 +136,13 @@ export default function CustomQuestionModal({
               <div className={styles['necessary']}>
                 <div
                   className={`${styles['toggle-button']} ${
-                    question.necessary ? styles['active'] : ''
+                    question.isRequired ? styles['active'] : ''
                   }`}
-                  onClick={setNecessary}
+                  onClick={setIsRequired}
                 >
                   <div
                     className={`${styles['toggle']} ${
-                      question.necessary ? styles['active'] : ''
+                      question.isRequired ? styles['active'] : ''
                     }`}
                   />
                 </div>
@@ -163,7 +152,7 @@ export default function CustomQuestionModal({
             </div>
           </>
         )}
-        {question.type === 'single' && (
+        {question.type === 'Choice' && question.maxCount === 1 && (
           <>
             <div className={styles['title']}>
               <div>Single Choice</div>
@@ -208,13 +197,13 @@ export default function CustomQuestionModal({
               <div className={styles['necessary']}>
                 <div
                   className={`${styles['toggle-button']} ${
-                    question.necessary ? styles['active'] : ''
+                    question.isRequired ? styles['active'] : ''
                   }`}
-                  onClick={setNecessary}
+                  onClick={setIsRequired}
                 >
                   <div
                     className={`${styles['toggle']} ${
-                      question.necessary ? styles['active'] : ''
+                      question.isRequired ? styles['active'] : ''
                     }`}
                   />
                 </div>
@@ -224,7 +213,7 @@ export default function CustomQuestionModal({
             </div>
           </>
         )}
-        {question.type === 'multiple' && (
+        {question.type === 'Choice' && question.maxCount === 5 && (
           <>
             <div className={styles['title']}>
               <div>Single Choice</div>
@@ -269,13 +258,13 @@ export default function CustomQuestionModal({
               <div className={styles['necessary']}>
                 <div
                   className={`${styles['toggle-button']} ${
-                    question.necessary ? styles['active'] : ''
+                    question.isRequired ? styles['active'] : ''
                   }`}
-                  onClick={setNecessary}
+                  onClick={setIsRequired}
                 >
                   <div
                     className={`${styles['toggle']} ${
-                      question.necessary ? styles['active'] : ''
+                      question.isRequired ? styles['active'] : ''
                     }`}
                   />
                 </div>

@@ -54,6 +54,21 @@ export interface eventUserDataType {
   };
 }
 
+export interface RequirementType {
+  locationRequired: boolean;
+  specializationRequired: boolean;
+  companyRequired: boolean;
+  interestRequired: boolean;
+}
+
+export interface QuestionType {
+  type: string;
+  question: string;
+  isRequired: boolean;
+  maxCount: number;
+  options: string[];
+}
+
 //
 export interface rsvpDataType {
   interest: string[];

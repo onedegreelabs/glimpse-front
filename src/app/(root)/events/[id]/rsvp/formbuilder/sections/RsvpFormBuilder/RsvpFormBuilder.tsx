@@ -1,43 +1,98 @@
 'use client';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import Image from 'next/image';
 
 import styles from './RsvpFormBulder.module.scss';
 import CustomQuestionModal from '../../components/CustomQuestionModal/CustomQuestionModal';
 import Link from 'next/link';
+import {QuestionType} from '@/types/eventTypes';
+import {saveRequirement, useEventQuestion} from '@/hooks/swr/useEvents';
 
-const DUMMYDATA = [
-  {type: 'text', question: 'Location', options: [], necessary: false},
-  {type: 'text', question: 'Specialization', options: [], necessary: false},
-  {type: 'text', question: 'Company', options: [], necessary: false},
+interface BuilderType {
+  eventId: number;
+}
+
+const presetData = [
   {
-    type: 'single',
+    type: 'Text',
+    question: 'Location',
+    isRequired: false,
+    maxCount: 0,
+    options: [],
+  },
+  {
+    type: 'Text',
+    question: 'Specialization',
+    isRequired: false,
+    maxCount: 0,
+    options: [],
+  },
+  {
+    type: 'Text',
+    question: 'Company',
+    isRequired: false,
+    maxCount: 0,
+    options: [],
+  },
+  {
+    type: 'Choice',
     question: 'Interest',
-    options: ['exercise', 'movie'],
-    necessary: false,
+    isRequired: false,
+    maxCount: 0,
+    options: ['책읽기', '운동하기'],
   },
 ];
 
-export default function RsvpFormBuilder() {
+export default function RsvpFormBuilder({eventId}: BuilderType) {
   const [showModal, setShowModal] = useState(false);
   const [approvalReqired, setApprovalRequired] = useState(false);
-  const [customQuestions, setCustomQuestions] = useState(DUMMYDATA);
+  const [presetQuestions, setPresetQuestions] = useState(presetData);
+  const [customQuestions, setCustomQuestions] = useState<QuestionType[]>([]);
+  const {data} = useEventQuestion(eventId);
+
+  console.log(data);
+
+  useEffect(() => {
+    const sendRequirement = async () => {
+      const requirement = {
+        locationRequired: presetQuestions[0].isRequired,
+        specializationRequired: presetQuestions[1].isRequired,
+        companyRequired: presetQuestions[2].isRequired,
+        interestRequired: presetQuestions[3].isRequired,
+      };
+
+      await saveRequirement(eventId, requirement);
+    };
+
+    sendRequirement();
+  }, [presetQuestions]);
 
   // CustomQuestionModal 닫기
   function closeModal() {
     setShowModal(false);
   }
 
-  // question의 necessary 변경
-  function changeNecessary(itemIndex: number) {
-    setCustomQuestions(prev => [
-      ...prev.map((question, index) => {
-        if (index === itemIndex) {
-          return {...question, necessary: !question.necessary};
-        }
-        return question;
-      }),
-    ]);
+  // question의 isRequired 변경
+  function changeIsRequired(id: string, itemIndex: number) {
+    if (id === 'preset') {
+      setPresetQuestions(prev => [
+        ...prev.map((question, index) => {
+          if (index === itemIndex) {
+            return {...question, isRequired: !question.isRequired};
+          }
+          return question;
+        }),
+      ]);
+    } else {
+      setCustomQuestions(prev => [
+        ...prev.map((question, index) => {
+          if (index === itemIndex) {
+            return {...question, isRequired: !question.isRequired};
+          }
+          return question;
+        }),
+      ]);
+    }
   }
 
   return (
@@ -114,44 +169,65 @@ export default function RsvpFormBuilder() {
           </ul>
         </div>
         <div className={styles['registration-question']}>
-          <div>Registration Questions</div>
-          <div className={styles['profile-question']}>Profile Questions</div>
-          <ol>
-            <li>
-              Full Name<div className={styles['necessary']}>Necessary</div>
-            </li>
-            <li>
-              Nickname/Preferred Name
-              <div className={styles['necessary']}>Necessary</div>
-            </li>
-            <li>
-              Email (registered with Glimpse)
-              <div className={styles['necessary']}>Necessary</div>
-            </li>
-            <li>
-              Purpose of Participation
-              <div className={styles['necessary']}>Necessary</div>
-            </li>
-            {customQuestions.map((item, index) => (
-              <li key={index}>
-                {`${item.question} ${item.type !== 'text' ? ' (tag)' : ''}`}
-                <div
-                  className={`${styles['toggle-button']} ${
-                    item.necessary ? styles['active'] : ''
-                  }`}
-                  onClick={() => changeNecessary(index)}
-                >
-                  <div
-                    className={`${styles['toggle']} ${
-                      item.necessary ? styles['active'] : ''
-                    }`}
-                  />
-                </div>
+          <div>
+            <div>Registration Questions</div>
+            <div className={styles['profile-question']}>Profile Questions</div>
+            <ol>
+              <li>
+                Full Name<div className={styles['necessary']}>Necessary</div>
               </li>
-            ))}
-          </ol>
-          <div className={styles['custom-question']}>
+              <li>
+                Nickname/Preferred Name
+                <div className={styles['necessary']}>Necessary</div>
+              </li>
+              <li>
+                Email (registered with Glimpse)
+                <div className={styles['necessary']}>Necessary</div>
+              </li>
+              <li>
+                Purpose of Participation
+                <div className={styles['necessary']}>Necessary</div>
+              </li>
+              {presetQuestions.map((item, index) => (
+                <li key={index}>
+                  {`${item.question} ${item.type !== 'text' ? ' (tag)' : ''}`}
+                  <div
+                    className={`${styles['toggle-button']} ${
+                      item.isRequired ? styles['active'] : ''
+                    }`}
+                    onClick={() => changeIsRequired('preset', index)}
+                  >
+                    <div
+                      className={`${styles['toggle']} ${
+                        item.isRequired ? styles['active'] : ''
+                      }`}
+                    />
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <div>
             <div>Custom Question</div>
+            <ol>
+              {customQuestions.map((item, index) => (
+                <li key={index}>
+                  {`${item.question} ${item.type !== 'text' ? ' (tag)' : ''}`}
+                  <div
+                    className={`${styles['toggle-button']} ${
+                      item.isRequired ? styles['active'] : ''
+                    }`}
+                    onClick={() => changeIsRequired('custom', index)}
+                  >
+                    <div
+                      className={`${styles['toggle']} ${
+                        item.isRequired ? styles['active'] : ''
+                      }`}
+                    />
+                  </div>
+                </li>
+              ))}
+            </ol>
             <button onClick={() => setShowModal(true)}>
               <Image
                 src={'/assets/events/rsvp/plus.svg'}
@@ -166,6 +242,7 @@ export default function RsvpFormBuilder() {
       </div>
       {showModal && (
         <CustomQuestionModal
+          eventId={eventId}
           onClose={closeModal}
           setCustomQuestions={setCustomQuestions}
         />

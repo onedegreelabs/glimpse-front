@@ -1,6 +1,11 @@
 import {getFetcher} from '@/apis/fetcher';
 import {customAxios} from '@/apis/headers';
-import {CreateEventType, rsvpDataType} from '@/types/eventTypes';
+import {
+  QuestionType,
+  CreateEventType,
+  rsvpDataType,
+  RequirementType,
+} from '@/types/eventTypes';
 import useSWR from 'swr';
 
 const useMyEventList = function (count: number) {
@@ -38,12 +43,6 @@ const createEvent = async function (data: CreateEventType, imgFile: any) {
 
 export {createEvent};
 
-// 타입 그냥 임시. 바꿔야됨.
-export const applyEvent = async function (eventId: string, data: rsvpDataType) {
-  const res = await customAxios.post(`events/${eventId}/participants`, data);
-  return res;
-};
-
 const checkDuplicateHandle = async function (handle: string) {
   const res = await customAxios.get(`events/check-duplicate?handle=${handle}`);
   return res;
@@ -72,3 +71,42 @@ const useEventUser = function (eventId: number) {
 };
 
 export {useEventUser};
+
+// rsvp question 가져오기
+export const useEventQuestion = function (eventId: number) {
+  const {data, error, isLoading} = useSWR(`events/${eventId}/rsvp`, getFetcher);
+
+  return {data, error, isLoading};
+};
+
+export const saveRequirement = async function (
+  eventId: number,
+  data: RequirementType
+) {
+  const res = await customAxios.post(`events/${eventId}/requirements`, data);
+  return res;
+};
+
+// rsvp builder 저장
+export const saveQuestion = async function (
+  eventId: number,
+  data: QuestionType
+) {
+  let res;
+  if (data.maxCount === 0) {
+    res = await customAxios.post(`events/${eventId}/question`, {
+      type: 'Text',
+      question: data.question,
+      isRequired: data.isRequired,
+    });
+  } else {
+    res = await customAxios.post(`events/${eventId}/question`, data);
+  }
+  return res;
+};
+
+// rsvp 신청 타입 그냥 임시. 바꿔야됨.
+export const applyEvent = async function (eventId: number, data: rsvpDataType) {
+  const res = await customAxios.post(`events/${eventId}/participants`, data);
+  return res;
+};
