@@ -1,7 +1,7 @@
 'use client';
 import {useProfileStore} from '@/stores/profile';
 import styles from './page.module.scss';
-import {useEffect, useState} from 'react';
+import {ChangeEvent, useEffect, useState} from 'react';
 import Image from 'next/image';
 import Card from '@/components/card/Card';
 import clsx from 'clsx';
@@ -29,10 +29,15 @@ export default function MyProfilePage() {
   const [introduction, setIntroduction] = useState('');
   const [role, setRole] = useState('');
   const [department, setDepartment] = useState('');
-  const [regionId, setRegionId] = useState('');
-  const [snsList, setSnsList] = useState(['']);
+  const [region, setRegion] = useState('');
+  const [snsList, setSnsList] = useState([]);
+  const onChangeSnsList = (e: ChangeEvent<HTMLInputElement>, idx: number) => {
+    const copySnsList = [...snsList];
+    copySnsList[idx].account = e.target.value;
+    setSnsList(() => copySnsList);
+  };
   const [profileCardList, setProfileCardList] = useState([]);
-  const [cardPositionList, setCardPositionList] = useState<any>();
+  const [cardPositionList, setCardPositionList] = useState<any>([]);
   const [userTag, setUserTag] = useState([]);
 
   useEffect(() => {
@@ -42,7 +47,7 @@ export default function MyProfilePage() {
       givenName,
       introduction,
       profileCard,
-      regionId,
+      region,
       role,
       sns,
       userTag,
@@ -53,38 +58,47 @@ export default function MyProfilePage() {
     setIntroduction(introduction);
     setRole(role);
     setProfileCardList(profileCard);
-    setRegionId(regionId);
+    setRegion(region);
     setSnsList(sns);
     setUserTag(userTag);
-    console.log(profile);
   }, [profile]);
 
-  const updateMyProfile = () => {
+  useEffect(() => {
+    const parsedCardPositionList = profileCardList.map(data => {
+      return JSON.parse(data.position);
+    });
+    setCardPositionList(parsedCardPositionList);
+    console.log('cardPositionList: ', parsedCardPositionList);
+  }, [profileCardList]);
+
+  const onUpdateMyProfile = () => {
     const params = {
-      region: 'string',
-      department: 'string',
-      familyName: 'string',
-      givenName: 'string',
-      introduction: 'string',
-      belong: 'string',
-      role: 'string',
+      userId: userId,
+      region: 'Seoul, Korea',
+      department: '부서',
+      familyName: firstName,
+      givenName: lastName,
+      introduction: introduction,
+      belong: 'Glimpse',
+      role: role,
       sns: [
         {
           type: 'Github',
-          account: 'string',
+          account: 'jodie9596@gmail.com',
         },
       ],
       profileCard: [
         {
           id: 0,
           type: 'string',
-          content: 'string',
-          sectionTitle: 'string',
-          position: 'string',
+          content: '내용이야',
+          sectionTitle: '첫 타이틀',
+          position: JSON.stringify({i: 'second', x: 1, y: 0, w: 1, h: 1}),
         },
       ],
-      userTag: ['string'],
+      userTag: ['관심사'],
     };
+    // updateMyProfile(params);
   };
 
   useEffect(() => {
@@ -92,13 +106,6 @@ export default function MyProfilePage() {
       router.push('/sign');
     }
   }, [isLogin]);
-
-  useEffect(() => {
-    const parsedCardPositionList = cardListData.map(data => {
-      return data.position;
-    });
-    setCardPositionList(parsedCardPositionList);
-  }, []);
 
   const windowWitdh = useWindowWidth();
 
@@ -108,7 +115,7 @@ export default function MyProfilePage() {
         {profile?.image ? <div /> : <div className={styles['empty-image']} />}
         <div className={styles['add-image-btn']}>
           <Image
-            src="/icons/picture.png"
+            src="/icons/picture.svg"
             width={16}
             height={12}
             alt="picutre"
@@ -116,18 +123,45 @@ export default function MyProfilePage() {
         </div>
       </div>
       <div className={styles['name-area']}>
-        <input maxLength={10} placeholder="Last Name" />
-        <input maxLength={10} placeholder="First Name" />
+        <input
+          maxLength={10}
+          placeholder="Last Name"
+          value={lastName}
+          onChange={e => {
+            setLastName(e.target.value);
+          }}
+        />
+        <input
+          maxLength={10}
+          placeholder="First Name"
+          value={firstName}
+          onChange={e => {
+            setFirstName(e.target.value);
+          }}
+        />
       </div>
       <div className={styles['simple-introduce']}>
-        <input placeholder="add bio..." />
+        <input
+          placeholder="add bio..."
+          value={introduction}
+          onChange={e => {
+            setIntroduction(e.target.value);
+          }}
+        />
       </div>
       <div className={styles['career-area-wrapper']}>
         <select>
           <option>department</option>
         </select>
         <div className={styles['devidor']} />
-        <input placeholder="company" maxLength={15} />
+        <input
+          placeholder="company"
+          maxLength={15}
+          value={role}
+          onChange={e => {
+            setRole(e.target.value);
+          }}
+        />
       </div>
       <div className={styles['region-area']}>
         <Image
@@ -137,7 +171,6 @@ export default function MyProfilePage() {
           alt="location"
         />
         <input value={'Seoul, Korea'} />
-        <div className=""></div>
       </div>
 
       <GridLayout
@@ -147,14 +180,14 @@ export default function MyProfilePage() {
         rowHeight={120}
         width={windowWitdh - 60}
         onLayoutChange={e => {
-          console.log(e);
+          setCardPositionList(e);
         }}
       >
-        {cardListData.map(card => {
+        {cardPositionList.map(card => {
           return (
-            <div key={card.position.i} className={styles['grid-item-wrapper']}>
-              <div className={styles['title-text']}>{card.sectionTitle}</div>
-              <Card height={card.position.h * 120 - 24}>
+            <div key={card.i} className={styles['grid-item-wrapper']}>
+              <div className={styles['title-text']}>{card.i}</div>
+              <Card height={card.h * 120 - 24}>
                 <div className={styles['card-inner']}>
                   <textarea />
                 </div>
@@ -165,13 +198,19 @@ export default function MyProfilePage() {
       </GridLayout>
       <div className={styles['box-wrapper']}>
         <div className={styles['title-text']}>Connect</div>
-        {snsList.map((_, idx) => {
+        {snsList.map((snsData, idx) => {
           return (
             <Card height={64} key={idx}>
               <div className={styles['card-inner']}>
                 <div className={styles['link-wrapper']}>
                   <div className={styles['empty-link']} />
-                  <input placeholder="link add..." />
+                  <input
+                    placeholder="link add..."
+                    value={snsData.account}
+                    onChange={e => {
+                      onChangeSnsList(e, idx);
+                    }}
+                  />
                 </div>
               </div>
             </Card>
