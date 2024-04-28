@@ -83,7 +83,7 @@ export const saveRequirement = async function (
   eventId: number,
   data: RequirementType
 ) {
-  const res = await customAxios.post(`events/${eventId}/requirements`, data);
+  const res = await customAxios.patch(`events/${eventId}/requirements`, data);
   return res;
 };
 

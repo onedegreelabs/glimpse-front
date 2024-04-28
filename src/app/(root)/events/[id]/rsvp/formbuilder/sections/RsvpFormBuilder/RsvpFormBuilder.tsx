@@ -7,12 +7,13 @@ import CustomQuestionModal from '../../components/CustomQuestionModal/CustomQues
 import Link from 'next/link';
 import {QuestionType} from '@/types/eventTypes';
 import {saveRequirement, useEventQuestion} from '@/hooks/swr/useEvents';
+import {saveQuestion} from '@/hooks/swr/useEvents';
 
 interface BuilderType {
   eventId: number;
 }
 
-const presetData = [
+const PRESETDATA = [
   {
     type: 'Text',
     question: 'Location',
@@ -43,14 +44,36 @@ const presetData = [
   },
 ];
 
+const REQUIREMENTSKEY = [
+  'locationRequired',
+  'specializationRequired',
+  'companyRequired',
+  'interestRequired',
+];
+
 export default function RsvpFormBuilder({eventId}: BuilderType) {
+  const {data} = useEventQuestion(eventId);
   const [showModal, setShowModal] = useState(false);
   const [approvalReqired, setApprovalRequired] = useState(false);
-  const [presetQuestions, setPresetQuestions] = useState(presetData);
+  const [presetQuestions, setPresetQuestions] = useState(PRESETDATA);
   const [customQuestions, setCustomQuestions] = useState<QuestionType[]>([]);
-  const {data} = useEventQuestion(eventId);
 
-  console.log(data);
+  console.log(data?.data?.customQuestions?.questions);
+
+  // 서버에 저장된 question 데이터 불러오기
+  useEffect(() => {
+    if (data?.data?.requirements) {
+      setPresetQuestions(prev =>
+        prev.map((question, index) => ({
+          ...question,
+          isRequired: data.data.requirements[REQUIREMENTSKEY[index]],
+        }))
+      );
+    }
+    if (data?.data?.customQuestions?.questions) {
+      setCustomQuestions(data.data.customQuestions.questions);
+    }
+  }, [data]);
 
   useEffect(() => {
     const sendRequirement = async () => {
@@ -73,7 +96,7 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
   }
 
   // question의 isRequired 변경
-  function changeIsRequired(id: string, itemIndex: number) {
+  async function changeIsRequired(id: string, itemIndex: number) {
     if (id === 'preset') {
       setPresetQuestions(prev => [
         ...prev.map((question, index) => {
@@ -92,6 +115,8 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
           return question;
         }),
       ]);
+
+      await saveQuestion(eventId, customQuestions[itemIndex]);
     }
   }
 
@@ -190,7 +215,7 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
               </li>
               {presetQuestions.map((item, index) => (
                 <li key={index}>
-                  {`${item.question} ${item.type !== 'text' ? ' (tag)' : ''}`}
+                  {`${item.question} ${item.type !== 'Text' ? ' (tag)' : ''}`}
                   <div
                     className={`${styles['toggle-button']} ${
                       item.isRequired ? styles['active'] : ''
@@ -212,7 +237,7 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
             <ol>
               {customQuestions.map((item, index) => (
                 <li key={index}>
-                  {`${item.question} ${item.type !== 'text' ? ' (tag)' : ''}`}
+                  {`${item.question} ${item.type !== 'Text' ? ' (tag)' : ''}`}
                   <div
                     className={`${styles['toggle-button']} ${
                       item.isRequired ? styles['active'] : ''
