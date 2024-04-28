@@ -7,7 +7,9 @@ import Card from '@/components/card/Card';
 import clsx from 'clsx';
 import RoundPlustButton from './components/RoundPlustButton';
 import {useWindowWidth} from '@/hooks/useWindowWidth';
-import {ReactGridPositionType} from '@/types/profileType';
+import {useIsLoginStore} from '@/stores/auth';
+import {useRouter} from 'next/navigation';
+import {updateMyProfile} from '@/hooks/swr/useProfiles';
 
 // RGL
 import GridLayout from 'react-grid-layout';
@@ -15,10 +17,81 @@ import './rglStyle.css';
 import {cardList as cardListData} from './tmpData';
 
 export default function MyProfilePage() {
+  // 로그인 유무 판단
+  const router = useRouter();
+  const isLogin = useIsLoginStore(state => state.isLogin);
   const profile = useProfileStore(state => state.profile);
 
-  const [linkList, setLinkList] = useState(['']);
+  // profile 정보 할당
+  const [userId, setUserId] = useState(0);
+  const [lastName, setLastName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [introduction, setIntroduction] = useState('');
+  const [role, setRole] = useState('');
+  const [department, setDepartment] = useState('');
+  const [regionId, setRegionId] = useState('');
+  const [snsList, setSnsList] = useState(['']);
+  const [profileCardList, setProfileCardList] = useState([]);
   const [cardPositionList, setCardPositionList] = useState<any>();
+  const [userTag, setUserTag] = useState([]);
+
+  useEffect(() => {
+    const {
+      id,
+      familyName,
+      givenName,
+      introduction,
+      profileCard,
+      regionId,
+      role,
+      sns,
+      userTag,
+    } = profile;
+    setUserId(id);
+    setLastName(givenName);
+    setFirstName(familyName);
+    setIntroduction(introduction);
+    setRole(role);
+    setProfileCardList(profileCard);
+    setRegionId(regionId);
+    setSnsList(sns);
+    setUserTag(userTag);
+    console.log(profile);
+  }, [profile]);
+
+  const updateMyProfile = () => {
+    const params = {
+      region: 'string',
+      department: 'string',
+      familyName: 'string',
+      givenName: 'string',
+      introduction: 'string',
+      belong: 'string',
+      role: 'string',
+      sns: [
+        {
+          type: 'Github',
+          account: 'string',
+        },
+      ],
+      profileCard: [
+        {
+          id: 0,
+          type: 'string',
+          content: 'string',
+          sectionTitle: 'string',
+          position: 'string',
+        },
+      ],
+      userTag: ['string'],
+    };
+  };
+
+  useEffect(() => {
+    if (!isLogin) {
+      router.push('/sign');
+    }
+  }, [isLogin]);
 
   useEffect(() => {
     const parsedCardPositionList = cardListData.map(data => {
@@ -92,7 +165,7 @@ export default function MyProfilePage() {
       </GridLayout>
       <div className={styles['box-wrapper']}>
         <div className={styles['title-text']}>Connect</div>
-        {linkList.map((_, idx) => {
+        {snsList.map((_, idx) => {
           return (
             <Card height={64} key={idx}>
               <div className={styles['card-inner']}>

@@ -7,7 +7,7 @@ export function useWindowWidth(): number {
 
   useEffect(() => {
     if (windowWidth === 0 && window) {
-      setWindowWidth(window.innerWidth);
+      setWindowWidth(Math.min(window.innerWidth, 768));
     }
 
     if (typeof window !== 'undefined') {
