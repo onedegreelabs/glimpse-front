@@ -6,10 +6,10 @@
   input {
     padding: 0 12px;
     width: 343px;
+    height: 40px;
     border: 1px solid #dadada;
     border-radius: 8px;
     font-size: 14px;
-    height: 40px;
     font-weight: 400;
 
     &:focus {
@@ -66,11 +66,11 @@
   textarea {
     padding: 12px;
     width: 343px;
+    height: 40px;
     min-height: 120px;
     border: 1px solid #dadada;
     border-radius: 8px;
     font-size: 14px;
-    height: 40px;
     font-weight: 400;
     resize: none;
 
@@ -232,6 +232,7 @@
 
         .label-button {
           cursor: pointer;
+          display: flex;
         }
 
         img {
