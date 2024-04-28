@@ -3,9 +3,13 @@
 import {useState, useEffect} from 'react';
 
 export function useWindowWidth(): number {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(0);
 
   useEffect(() => {
+    if (windowWidth === 0 && window) {
+      setWindowWidth(window.innerWidth);
+    }
+
     if (typeof window !== 'undefined') {
       const handleResize = () => {
         setWindowWidth(window.innerWidth);
