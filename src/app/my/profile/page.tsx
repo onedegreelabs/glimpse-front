@@ -1,37 +1,33 @@
 'use client';
 import {useProfileStore} from '@/stores/profile';
 import styles from './page.module.scss';
-import {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import Image from 'next/image';
 import Card from '@/components/card/Card';
 import clsx from 'clsx';
 import RoundPlustButton from './components/RoundPlustButton';
+import {useWindowWidth} from '@/hooks/useWindowWidth';
+import {ReactGridPositionType} from '@/types/profileType';
 
-// RGL css
+// RGL
+import GridLayout from 'react-grid-layout';
 import './rglStyle.css';
+import {cardList as cardListData} from './tmpData';
 
 export default function MyProfilePage() {
   const profile = useProfileStore(state => state.profile);
-  useEffect(() => {
-    console.log(profile);
-  }, [profile]);
 
-  const [cardList, setCardList] = useState(['']);
   const [linkList, setLinkList] = useState(['']);
+  const [cardPositionList, setCardPositionList] = useState<any>();
 
-  let setter: Dispatch<SetStateAction<string[]>> | null;
+  useEffect(() => {
+    const parsedCardPositionList = cardListData.map(data => {
+      return data.position;
+    });
+    setCardPositionList(parsedCardPositionList);
+  }, []);
 
-  const createCard = () => {
-    if (setter) {
-      setter(prev => [...prev, '']);
-    }
-  };
-
-  const resetSetter = () => {
-    setTimeout(() => {
-      setter = null;
-    }, 100);
-  };
+  const windowWitdh = useWindowWidth();
 
   return (
     <div className={styles['my-profile-wrapper']}>
@@ -71,78 +67,55 @@ export default function MyProfilePage() {
         <div className=""></div>
       </div>
 
-      <div className={styles['box-wrapper']}>
-        <div className={styles['title-text']}>Intro</div>
-        <div className={styles['card-wrapper']}>
-          <Card height={160}>
-            <div className={styles['card-inner']}>
-              <textarea maxLength={100} placeholder="add title..." />
-            </div>
-          </Card>
-          <Card height={160}>
-            <div className={styles['card-inner']}>
-              <textarea maxLength={100} placeholder="add career..." />
-            </div>
-          </Card>
-        </div>
-      </div>
-      <div className={styles['box-wrapper']}>
-        <div className={styles['title-text']}>About me</div>
-        <div className={clsx([styles['card-wrapper'], styles['single-card']])}>
-          {cardList.map((_, idx) => {
-            return (
-              <Card height={168} key={idx}>
+      <GridLayout
+        layout={cardPositionList}
+        className={clsx([styles['box-wrapper'], styles['grid-wrapper']])}
+        cols={2}
+        rowHeight={120}
+        width={windowWitdh - 60}
+        onLayoutChange={e => {
+          console.log(e);
+        }}
+      >
+        {cardListData.map(card => {
+          return (
+            <div key={card.position.i} className={styles['grid-item-wrapper']}>
+              <div className={styles['title-text']}>{card.sectionTitle}</div>
+              <Card height={card.position.h * 120 - 24}>
                 <div className={styles['card-inner']}>
-                  <textarea
-                    onFocus={() => {
-                      setter = setCardList;
-                    }}
-                    onBlur={resetSetter}
-                    maxLength={260}
-                    placeholder="Write down what you want to say..."
-                  />
+                  <textarea />
                 </div>
               </Card>
-            );
-          })}
-        </div>
-      </div>
+            </div>
+          );
+        })}
+      </GridLayout>
       <div className={styles['box-wrapper']}>
         <div className={styles['title-text']}>Connect</div>
-        <div className={clsx([styles['card-wrapper'], styles['single-card']])}>
-          {linkList.map((_, idx) => {
-            return (
-              <Card height={64} key={idx}>
-                <div className={styles['card-inner']}>
-                  <div className={styles['link-wrapper']}>
-                    <div className={styles['empty-link']} />
-                    <input
-                      onFocus={() => {
-                        setter = setLinkList;
-                      }}
-                      onBlur={resetSetter}
-                      placeholder="link add..."
-                    />
-                  </div>
+        {linkList.map((_, idx) => {
+          return (
+            <Card height={64} key={idx}>
+              <div className={styles['card-inner']}>
+                <div className={styles['link-wrapper']}>
+                  <div className={styles['empty-link']} />
+                  <input placeholder="link add..." />
                 </div>
-              </Card>
-            );
-          })}
-        </div>
+              </div>
+            </Card>
+          );
+        })}
       </div>
       <div className={styles['box-wrapper']}>
         <div className={styles['title-text']}>Hashtag of interest</div>
-        <div className={clsx([styles['card-wrapper'], styles['single-card']])}>
-          <Card height={384}>
-            <div className={styles['card-inner']}>
-              <textarea placeholder="Add your interests..." />
-            </div>
-          </Card>
-        </div>
+        <Card height={384}>
+          <div className={styles['card-inner']}>
+            <textarea placeholder="Add your interests..." />
+          </div>
+        </Card>
       </div>
 
       <div className={styles['round-plus-button']}>
-        <RoundPlustButton onClickBtn={createCard} />
+        <RoundPlustButton onClickBtn={() => {}} />
       </div>
     </div>
   );
