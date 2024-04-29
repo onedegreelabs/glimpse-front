@@ -11,6 +11,13 @@ import {useIsLoginStore} from '@/stores/auth';
 import {useRouter} from 'next/navigation';
 import {updateMyProfile} from '@/hooks/swr/useProfiles';
 
+// type
+import {
+  SnsType,
+  ProfileCardType,
+  ReactGridPositionType,
+} from '@/types/profileType';
+
 // RGL
 import GridLayout from 'react-grid-layout';
 import './rglStyle.css';
@@ -30,14 +37,19 @@ export default function MyProfilePage() {
   const [role, setRole] = useState('');
   const [department, setDepartment] = useState('');
   const [region, setRegion] = useState('');
-  const [snsList, setSnsList] = useState([]);
+  const [snsList, setSnsList] = useState<SnsType[]>();
   const onChangeSnsList = (e: ChangeEvent<HTMLInputElement>, idx: number) => {
-    const copySnsList = [...snsList];
-    copySnsList[idx].account = e.target.value;
-    setSnsList(() => copySnsList);
+    if (snsList && snsList.length > 0) {
+      const copySnsList = [...snsList];
+      copySnsList[idx].account = e.target.value;
+      setSnsList(() => copySnsList);
+    }
   };
-  const [profileCardList, setProfileCardList] = useState([]);
-  const [cardPositionList, setCardPositionList] = useState<any>([]);
+  const [profileCardList, setProfileCardList] = useState<ProfileCardType[]>([]);
+  const [cardPositionList, setCardPositionList] = useState<any[]>([]);
+  // const [cardPositionList, setCardPositionList] = useState<
+  //   ReactGridPositionType[]
+  // >([]);
   const [userTag, setUserTag] = useState([]);
 
   useEffect(() => {
@@ -198,24 +210,25 @@ export default function MyProfilePage() {
       </GridLayout>
       <div className={styles['box-wrapper']}>
         <div className={styles['title-text']}>Connect</div>
-        {snsList.map((snsData, idx) => {
-          return (
-            <Card height={64} key={idx}>
-              <div className={styles['card-inner']}>
-                <div className={styles['link-wrapper']}>
-                  <div className={styles['empty-link']} />
-                  <input
-                    placeholder="link add..."
-                    value={snsData.account}
-                    onChange={e => {
-                      onChangeSnsList(e, idx);
-                    }}
-                  />
+        {snsList &&
+          snsList.map((snsData, idx) => {
+            return (
+              <Card height={64} key={idx}>
+                <div className={styles['card-inner']}>
+                  <div className={styles['link-wrapper']}>
+                    <div className={styles['empty-link']} />
+                    <input
+                      placeholder="link add..."
+                      value={snsData.account}
+                      onChange={e => {
+                        onChangeSnsList(e, idx);
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
-            </Card>
-          );
-        })}
+              </Card>
+            );
+          })}
       </div>
       <div className={styles['box-wrapper']}>
         <div className={styles['title-text']}>Hashtag of interest</div>
