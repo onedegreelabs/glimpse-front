@@ -15,3 +15,19 @@ export interface ReactGridPositionType {
   resizeHandles?: boolean;
   static?: boolean;
 }
+
+export interface SnsType {
+  type: string;
+  account: string;
+}
+
+export interface ProfileCardType {
+  createdAt?: Date;
+  updatedAt?: Date;
+  id?: number;
+  userId?: number;
+  type: string;
+  content: string;
+  sectionTitle: string;
+  position: string;
+}

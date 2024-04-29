@@ -6,15 +6,10 @@ import {Dispatch, SetStateAction} from 'react';
 export default function RoundPlustButton({
   onClickBtn,
 }: {
-  onClickBtn: Dispatch<SetStateAction<string[]>> | null;
+  onClickBtn: () => void;
 }) {
   return (
-    <div
-      className={styles['button-wrapper']}
-      onClick={() => {
-        onClickBtn ?? onClickBtn;
-      }}
-    >
+    <div className={styles['button-wrapper']} onClick={onClickBtn}>
       <Image
         src="/assets/profile/plus.svg"
         alt="plus button"
