@@ -22,10 +22,10 @@ export interface SnsType {
 }
 
 export interface ProfileCardType {
-  createdAt: Date;
-  updatedAt: Date;
-  id: number;
-  userId: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  id?: number;
+  userId?: number;
   type: string;
   content: string;
   sectionTitle: string;

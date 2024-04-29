@@ -1,14 +1,7 @@
 'use client';
 import {useProfileStore} from '@/stores/profile';
 import styles from './page.module.scss';
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import {ChangeEvent, useEffect, useRef, useState} from 'react';
 import Image from 'next/image';
 import Card from '@/components/card/Card';
 import clsx from 'clsx';
@@ -19,11 +12,7 @@ import {useRouter} from 'next/navigation';
 import {updateMyProfile} from '@/hooks/swr/useProfiles';
 
 // type
-import {
-  SnsType,
-  ProfileCardType,
-  ReactGridPositionType,
-} from '@/types/profileType';
+import {SnsType, ProfileCardType} from '@/types/profileType';
 
 // RGL
 import GridLayout from 'react-grid-layout';
@@ -54,10 +43,50 @@ export default function MyProfilePage() {
   const [cardPositionList, setCardPositionList] = useState<any[]>([]); //type 설정 필요
   const [userTag, setUserTag] = useState<string[]>([]);
 
-  let setter: Dispatch<SetStateAction<string[]>> | null;
+  const [newCardNum, setNewCardNum] = useState(0);
+
+  let setter: any;
   const onCreateCard = () => {
-    if (setter) {
-      setter(prev => [...prev, '']);
+    if (setter === setSnsList) {
+      setter((prev: any) => [...prev, {type: '', account: ''}]);
+    } else if (setter === setProfileCardList) {
+      const nextCardPosition = {
+        i: `new Title${newCardNum ?? newCardNum}`,
+        x: 0,
+        y: 0,
+        w: 1,
+        h: 1,
+      };
+      setNewCardNum(newCardNum + 1);
+      const nextCardItem = {
+        content: '',
+        position: JSON.stringify(nextCardPosition),
+        sectionTitle: nextCardPosition.i,
+        type: 'string',
+      };
+      setter((prev: any) => [...prev, nextCardItem]);
+      const newCardPositionList = getCardPositionList([
+        ...profileCardList,
+        nextCardItem,
+      ]);
+      setCardPositionList(newCardPositionList);
+    }
+  };
+
+  const resetSetter = () => {
+    setTimeout(() => {
+      setter = null;
+    }, 100);
+  };
+
+  const onChangeCardList = (
+    e: ChangeEvent<HTMLTextAreaElement>,
+    idx: number
+  ) => {
+    if (profileCardList && profileCardList.length > 0) {
+      const copyCardList = [...profileCardList];
+      copyCardList[idx].content = e.target.value;
+      setProfileCardList(() => copyCardList);
     }
   };
 
@@ -67,6 +96,13 @@ export default function MyProfilePage() {
       copySnsList[idx].account = e.target.value;
       setSnsList(() => copySnsList);
     }
+  };
+
+  const getCardPositionList = (cardListData: ProfileCardType[]) => {
+    const parsedCardPositionList = cardListData.map((data: ProfileCardType) => {
+      return JSON.parse(data.position);
+    });
+    return parsedCardPositionList;
   };
 
   useEffect(() => {
@@ -90,44 +126,34 @@ export default function MyProfilePage() {
     setRegion(region);
     setSnsList(sns);
     setUserTag(userTag);
+    const parsedCardPositionList = getCardPositionList(profileCard);
+    setCardPositionList(parsedCardPositionList);
   }, [profile]);
 
   useEffect(() => {
-    const parsedCardPositionList = profileCardList.map(data => {
-      return JSON.parse(data.position);
-    });
-    setCardPositionList(parsedCardPositionList);
-    console.log('cardPositionList: ', parsedCardPositionList);
-  }, [profileCardList]);
+    if (cardPositionList.length > 0) {
+      const newProfileCardList = profileCardList.map((card, idx) => {
+        const newCard = JSON.parse(JSON.stringify(card));
+        newCard.position = JSON.stringify(cardPositionList[idx]);
+        newCard.sectionTitle = cardPositionList[idx].i;
+        return newCard;
+      });
 
-  const onUpdateMyProfile = () => {
-    const params = {
-      userId: userId,
-      region: 'Seoul, Korea',
-      department: '부서',
-      familyName: firstName,
-      givenName: lastName,
-      introduction: introduction,
-      belong: 'Glimpse',
-      role: role,
-      sns: snsList,
-      profileCard: profileCardList,
-      userTag: userTag,
-    };
-    console.log(params);
-    // updateMyProfile(params);
-  };
+      setProfileCardList(newProfileCardList);
+    }
+  }, [cardPositionList]);
 
   // card 넓이 반응형으로 조정 위해 현재 윈도우 값 필요
   const windowWitdh = useWindowWidth();
 
   const tagInputRef = useRef<HTMLInputElement | null>(null);
-  const addTagItem = async e => {
+  const addTagItem = async (e: any) => {
     await setUserTag(prev => [...prev, e.target.value]);
     if (tagInputRef.current) {
       tagInputRef.current.value = '';
     }
   };
+
   useEffect(() => {
     if (tagInputRef.current) {
       const tagInputEl = tagInputRef.current;
@@ -148,6 +174,16 @@ export default function MyProfilePage() {
     return;
   }, []);
 
+  const onDeleteSnsItem = (idx: number) => {
+    if (snsList && snsList.length > 1) {
+      const copySnsList = [...snsList];
+      const deletedSnsList = copySnsList.filter((item, i) => {
+        return i !== idx;
+      });
+      setSnsList(deletedSnsList);
+    }
+  };
+
   const onDeleteTagItem = (idx: number) => {
     const copyUserTag = [...userTag];
     const deletedUserTag = copyUserTag.filter((item, i) => {
@@ -155,6 +191,52 @@ export default function MyProfilePage() {
     });
     setUserTag(deletedUserTag);
   };
+
+  // 현재 프로필 정보 변화함에 따라 업데이트 api 보내는 로직에 따라
+  // 초기 렌더링 때 변화인지 사용자 입력에 의한 변화인지 구분하기 위해 id값이 할당됐는지를 가지고 판단
+  // 좀 더 안전하게 동작 위해 setTimeout추가
+  // 썩 좋은 로직은 아닌것처럼 보여서 후에 로직 생각 필요
+  const [isWatchingChange, setIsWatchingChange] = useState<Boolean>(false);
+  useEffect(() => {
+    if (userId !== 0) {
+      setTimeout(() => {
+        setIsWatchingChange(true);
+      }, 1000);
+    }
+  }, [userId]);
+
+  const onUpdateMyProfile = () => {
+    const params = {
+      userId: userId,
+      region: 'Seoul, Korea',
+      department: '부서',
+      familyName: firstName,
+      givenName: lastName,
+      introduction: introduction,
+      belong: 'Glimpse',
+      role: role,
+      sns: snsList,
+      profileCard: profileCardList,
+      userTag: userTag,
+    };
+
+    updateMyProfile(params);
+  };
+
+  // useEffect(() => {
+  //   if (isWatchingChange) {
+  //     onUpdateMyProfile();
+  //   }
+  // }, [
+  //   userId,
+  //   firstName,
+  //   lastName,
+  //   introduction,
+  //   role,
+  //   snsList,
+  //   profileCardList,
+  //   userTag,
+  // ]);
 
   return (
     <div className={styles['my-profile-wrapper']}>
@@ -217,7 +299,7 @@ export default function MyProfilePage() {
           height={16}
           alt="location"
         />
-        <input value={'Seoul, Korea'} />
+        <input value={'Seoul, Korea'} onChange={() => {}} />
       </div>
 
       <GridLayout
@@ -230,13 +312,21 @@ export default function MyProfilePage() {
           setCardPositionList(e);
         }}
       >
-        {cardPositionList.map(card => {
+        {cardPositionList.map((card, idx) => {
           return (
             <div key={card.i} className={styles['grid-item-wrapper']}>
               <div className={styles['title-text']}>{card.i}</div>
               <Card height={card.h * 120 - 24}>
                 <div className={styles['card-inner']}>
-                  <textarea />
+                  <textarea
+                    onChange={e => {
+                      onChangeCardList(e, idx);
+                    }}
+                    onFocus={() => {
+                      setter = setProfileCardList;
+                    }}
+                    onBlur={resetSetter}
+                  />
                 </div>
               </Card>
             </div>
@@ -245,25 +335,41 @@ export default function MyProfilePage() {
       </GridLayout>
       <div className={styles['box-wrapper']}>
         <div className={styles['title-text']}>Connect</div>
-        {snsList &&
-          snsList.map((snsData, idx) => {
-            return (
-              <Card height={64} key={idx}>
-                <div className={styles['card-inner']}>
-                  <div className={styles['link-wrapper']}>
-                    <div className={styles['empty-link']} />
-                    <input
-                      placeholder="link add..."
-                      value={snsData.account}
-                      onChange={e => {
-                        onChangeSnsList(e, idx);
+        <div className={styles['sns-wrapper']}>
+          {snsList &&
+            snsList.map((snsData, idx) => {
+              return (
+                <Card height={64} key={idx}>
+                  <div className={styles['card-inner']}>
+                    <div className={styles['link-wrapper']}>
+                      <div className={styles['empty-link']} />
+                      <input
+                        placeholder="link add..."
+                        value={snsData.account}
+                        onChange={e => {
+                          onChangeSnsList(e, idx);
+                        }}
+                        onFocus={() => {
+                          setter = setSnsList;
+                        }}
+                        onBlur={resetSetter}
+                      />
+                    </div>
+                    <Image
+                      src="/icons/delete.svg"
+                      width={48}
+                      height={48}
+                      alt="delete-button"
+                      className={styles['close-btn']}
+                      onClick={() => {
+                        onDeleteSnsItem(idx);
                       }}
                     />
                   </div>
-                </div>
-              </Card>
-            );
-          })}
+                </Card>
+              );
+            })}
+        </div>
       </div>
       <div className={styles['box-wrapper']}>
         <div className={styles['title-text']}>Hashtag of interest</div>
@@ -292,9 +398,12 @@ export default function MyProfilePage() {
           </div>
         </Card>
       </div>
+      <div className={styles['update-button']} onClick={onUpdateMyProfile}>
+        Update
+      </div>
 
       <div className={styles['round-plus-button']}>
-        <RoundPlustButton onClickBtn={() => {}} />
+        <RoundPlustButton onClickBtn={onCreateCard} />
       </div>
     </div>
   );

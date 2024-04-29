@@ -138,6 +138,13 @@
       display: flex;
       align-items: center;
       padding: 20px;
+      position: relative;
+
+      .close-btn {
+        position: absolute;
+        left: calc(100% - 48px);
+        cursor: pointer;
+      }
 
       &.for-tag {
         display: block;
@@ -210,6 +217,26 @@
         }
       }
     }
+
+    .sns-wrapper {
+      display: grid;
+      gap: 12px;
+    }
+  }
+
+  .update-button {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 343px;
+    height: 48px;
+    background-color: #7e51fd;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 4px;
+    margin-bottom: 48px;
+    cursor: pointer;
   }
 
   .round-plus-button {
