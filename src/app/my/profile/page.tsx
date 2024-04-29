@@ -1,7 +1,14 @@
 'use client';
 import {useProfileStore} from '@/stores/profile';
 import styles from './page.module.scss';
-import {ChangeEvent, useEffect, useState} from 'react';
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import Image from 'next/image';
 import Card from '@/components/card/Card';
 import clsx from 'clsx';
@@ -21,13 +28,18 @@ import {
 // RGL
 import GridLayout from 'react-grid-layout';
 import './rglStyle.css';
-import {cardList as cardListData} from './tmpData';
 
 export default function MyProfilePage() {
   // 로그인 유무 판단
   const router = useRouter();
   const isLogin = useIsLoginStore(state => state.isLogin);
   const profile = useProfileStore(state => state.profile);
+
+  useEffect(() => {
+    if (!isLogin) {
+      router.push('/sign');
+    }
+  }, [isLogin]);
 
   // profile 정보 할당
   const [userId, setUserId] = useState(0);
@@ -38,6 +50,17 @@ export default function MyProfilePage() {
   const [department, setDepartment] = useState('');
   const [region, setRegion] = useState('');
   const [snsList, setSnsList] = useState<SnsType[]>();
+  const [profileCardList, setProfileCardList] = useState<ProfileCardType[]>([]);
+  const [cardPositionList, setCardPositionList] = useState<any[]>([]); //type 설정 필요
+  const [userTag, setUserTag] = useState<string[]>([]);
+
+  let setter: Dispatch<SetStateAction<string[]>> | null;
+  const onCreateCard = () => {
+    if (setter) {
+      setter(prev => [...prev, '']);
+    }
+  };
+
   const onChangeSnsList = (e: ChangeEvent<HTMLInputElement>, idx: number) => {
     if (snsList && snsList.length > 0) {
       const copySnsList = [...snsList];
@@ -45,12 +68,6 @@ export default function MyProfilePage() {
       setSnsList(() => copySnsList);
     }
   };
-  const [profileCardList, setProfileCardList] = useState<ProfileCardType[]>([]);
-  const [cardPositionList, setCardPositionList] = useState<any[]>([]);
-  // const [cardPositionList, setCardPositionList] = useState<
-  //   ReactGridPositionType[]
-  // >([]);
-  const [userTag, setUserTag] = useState([]);
 
   useEffect(() => {
     const {
@@ -93,33 +110,51 @@ export default function MyProfilePage() {
       introduction: introduction,
       belong: 'Glimpse',
       role: role,
-      sns: [
-        {
-          type: 'Github',
-          account: 'jodie9596@gmail.com',
-        },
-      ],
-      profileCard: [
-        {
-          id: 0,
-          type: 'string',
-          content: '내용이야',
-          sectionTitle: '첫 타이틀',
-          position: JSON.stringify({i: 'second', x: 1, y: 0, w: 1, h: 1}),
-        },
-      ],
-      userTag: ['관심사'],
+      sns: snsList,
+      profileCard: profileCardList,
+      userTag: userTag,
     };
+    console.log(params);
     // updateMyProfile(params);
   };
 
-  useEffect(() => {
-    if (!isLogin) {
-      router.push('/sign');
-    }
-  }, [isLogin]);
-
+  // card 넓이 반응형으로 조정 위해 현재 윈도우 값 필요
   const windowWitdh = useWindowWidth();
+
+  const tagInputRef = useRef<HTMLInputElement | null>(null);
+  const addTagItem = async e => {
+    await setUserTag(prev => [...prev, e.target.value]);
+    if (tagInputRef.current) {
+      tagInputRef.current.value = '';
+    }
+  };
+  useEffect(() => {
+    if (tagInputRef.current) {
+      const tagInputEl = tagInputRef.current;
+      const handleKeyDown = function (e: {
+        key: string;
+        preventDefault: () => void;
+      }) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          addTagItem(e);
+        }
+      };
+      tagInputEl.addEventListener('keydown', handleKeyDown);
+      return () => {
+        tagInputEl.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+    return;
+  }, []);
+
+  const onDeleteTagItem = (idx: number) => {
+    const copyUserTag = [...userTag];
+    const deletedUserTag = copyUserTag.filter((item, i) => {
+      return i !== idx;
+    });
+    setUserTag(deletedUserTag);
+  };
 
   return (
     <div className={styles['my-profile-wrapper']}>
@@ -233,8 +268,27 @@ export default function MyProfilePage() {
       <div className={styles['box-wrapper']}>
         <div className={styles['title-text']}>Hashtag of interest</div>
         <Card height={384}>
-          <div className={styles['card-inner']}>
-            <textarea placeholder="Add your interests..." />
+          <div className={clsx([styles['card-inner'], styles['for-tag']])}>
+            <input placeholder="Add your interests..." ref={tagInputRef} />
+            <div className={styles['tag-item-wrapper']}>
+              {userTag.map((tag, i) => {
+                return (
+                  <div className={styles['tag-item']} key={i}>
+                    {tag}
+                    <Image
+                      src="/icons/delete.svg"
+                      width={24}
+                      height={24}
+                      alt="delete-button"
+                      className={styles['close-btn']}
+                      onClick={() => {
+                        onDeleteTagItem(i);
+                      }}
+                    />
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </Card>
       </div>
