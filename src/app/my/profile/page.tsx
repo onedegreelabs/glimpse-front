@@ -319,6 +319,7 @@ export default function MyProfilePage() {
               <Card height={card.h * 120 - 24}>
                 <div className={styles['card-inner']}>
                   <textarea
+                    value={profileCardList[idx].content}
                     onChange={e => {
                       onChangeCardList(e, idx);
                     }}
