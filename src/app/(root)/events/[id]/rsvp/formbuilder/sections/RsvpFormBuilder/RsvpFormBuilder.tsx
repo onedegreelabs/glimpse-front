@@ -58,8 +58,6 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
   const [presetQuestions, setPresetQuestions] = useState(PRESETDATA);
   const [customQuestions, setCustomQuestions] = useState<QuestionType[]>([]);
 
-  console.log(data?.data?.customQuestions?.questions);
-
   // 서버에 저장된 question 데이터 불러오기
   useEffect(() => {
     if (data?.data?.requirements) {
