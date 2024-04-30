@@ -3,8 +3,8 @@ import {useEffect, useState} from 'react';
 import {usePathname} from 'next/navigation';
 import {useEventDetail, useMyEventList} from '@/hooks/swr/useEvents';
 
-import RsvpFormBuilder from './sections/RsvpFormBuilder/RsvpFormBuilder';
-import NotHostPage from './components/NotHostPage/NotHostPage';
+import RsvpFormBuilder from './sections/rsvpFormBuilder/RsvpFormBuilder';
+import NotHostPage from './components/notHostPage/NotHostPage';
 
 export default function RsvpFormBuilderPage() {
   const pathname = usePathname();
@@ -19,8 +19,7 @@ export default function RsvpFormBuilderPage() {
       setEventId(data.data.id);
     }
   }, [data]);
-  const isHost =
-    myEvents.data?.data?.filter(item => item.handle === eventHandle).length > 0;
+  const isHost = myEvents.data?.data?.find(item => item.handle === eventHandle);
 
   return (
     <>

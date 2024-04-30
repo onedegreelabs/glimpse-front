@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react';
 import Image from 'next/image';
 
 import styles from './RsvpFormBulder.module.scss';
-import CustomQuestionModal from '../../components/CustomQuestionModal/CustomQuestionModal';
+import CustomQuestionModal from '../../components/customQuestionModal/CustomQuestionModal';
 import Link from 'next/link';
 import {saveRequirement, useEventQuestion} from '@/hooks/swr/useEvents';
 import {saveQuestion} from '@/hooks/swr/useEvents';
