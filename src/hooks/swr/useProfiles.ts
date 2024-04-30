@@ -11,3 +11,8 @@ export const updateMyProfile = async function (params: any) {
   const res = await customAxios.patch(`users/${params.userId}`, params);
   return res;
 };
+
+export const useUserProfile = (userId: number) => {
+  const {data, error, isLoading} = useSWR(`/users/${userId}`, getFetcher);
+  return {data, error, isLoading};
+};
