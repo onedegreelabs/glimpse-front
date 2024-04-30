@@ -60,7 +60,7 @@ export default function InputArea() {
   // 검증 조건과 참조를 매핑
   const validations = [
     {
-      condition: handle.length <= 1 || handle.length > 19 || !isUniqueHandle,
+      condition: handle.length === 1 || handle.length > 19 || !isUniqueHandle,
       ref: handleRef,
       error: 'handle',
     },
@@ -168,6 +168,14 @@ export default function InputArea() {
     }
   };
 
+  // random handle 생성 함수
+  const createNewHandle = async () => {
+    const isUnique = false;
+    while (!isUnique) {
+      const randomHandle = '';
+    }
+  };
+
   // api호출
   const onClickCreateEvent = async function () {
     // 버튼 클릭 시 handle은 에러 표시 제외.
@@ -199,6 +207,10 @@ export default function InputArea() {
       externalLink: externalLink,
       description: description,
     };
+
+    if (handle.length === 0) {
+      const randomHandle = createNewHandle();
+    }
 
     const res = await createEvent(params, imgFile);
     if (res.status === 201) {
@@ -238,7 +250,11 @@ export default function InputArea() {
         } else {
           handleValidState('handle');
           setIsUniqueHandle(true);
-          setErrorState(prevState => prevState.filter(err => err !== 'handle'));
+          setErrorState(prevState =>
+            prevState.filter(err => {
+              err !== 'handle' && err !== 'handleDuplicate';
+            })
+          );
         }
       }
     }, 0),
