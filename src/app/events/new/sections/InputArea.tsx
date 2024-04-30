@@ -55,7 +55,7 @@ export default function InputArea() {
   const [showModal, setShowModal] = useState<Boolean>(false);
   const [errorState, setErrorState] = useState(['']);
   const [validState, setValidState] = useState('');
-  const [isUniqueHandle, setIsUniqueHandle] = useState(false);
+  const [isUniqueHandle, setIsUniqueHandle] = useState(true);
 
   // 검증 조건과 참조를 매핑
   const validations = [
@@ -168,12 +168,32 @@ export default function InputArea() {
     }
   };
 
+  // 알파벳 소문자 + 숫자 19자리 랜덤 string 생성
+  const getRandomHandle = () => {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let randomHandle = '';
+    for (let i = 0; i < 19; i++) {
+      const randomIndex = Math.floor(Math.random() * chars.length);
+      randomHandle += chars[randomIndex];
+    }
+    return randomHandle;
+  };
+
   // random handle 생성 함수
   const createNewHandle = async () => {
-    const isUnique = false;
+    let isUnique = false;
+    let uniqueRandomHandle = '';
     while (!isUnique) {
-      const randomHandle = '';
+      const randomHandle = getRandomHandle();
+      const res = await checkDuplicateHandle(randomHandle);
+      const isDuplicate = res.data.data;
+      isUnique = !isDuplicate;
+
+      if (isUnique) {
+        uniqueRandomHandle = randomHandle;
+      }
     }
+    return uniqueRandomHandle;
   };
 
   // api호출
@@ -209,7 +229,10 @@ export default function InputArea() {
     };
 
     if (handle.length === 0) {
-      const randomHandle = createNewHandle();
+      await createNewHandle().then(res => {
+        setHandle(res);
+        params.handle = res;
+      });
     }
 
     const res = await createEvent(params, imgFile);
