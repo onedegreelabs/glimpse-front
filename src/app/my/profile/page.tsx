@@ -238,6 +238,13 @@ export default function MyProfilePage() {
   //   userTag,
   // ]);
 
+  // 데이터 변경 가능한 엘리먼트 클릭 시 input으로 변경되는 로직
+  type FocusedEl = 'lastName' | 'firstName' | 'introduction';
+  const [focusedEl, setFocusedEl] = useState<null | FocusedEl>(null);
+  const resetFocusedEl = () => {
+    setFocusedEl(null);
+  };
+
   return (
     <div className={styles['my-profile-wrapper']}>
       <div className={styles['profile-image-wrapper']}>
@@ -252,14 +259,25 @@ export default function MyProfilePage() {
         </div>
       </div>
       <div className={styles['name-area']}>
-        <input
-          maxLength={10}
-          placeholder="Last Name"
-          value={lastName}
-          onChange={e => {
-            setLastName(e.target.value);
-          }}
-        />
+        {focusedEl === 'lastName' ? (
+          <input
+            maxLength={10}
+            placeholder="Last Name"
+            value={lastName}
+            onChange={e => {
+              setLastName(e.target.value);
+            }}
+            onBlur={resetFocusedEl}
+          />
+        ) : (
+          <p
+            onClick={() => {
+              setFocusedEl('lastName');
+            }}
+          >
+            {lastName}
+          </p>
+        )}
         <input
           maxLength={10}
           placeholder="First Name"
