@@ -69,7 +69,7 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
                     <div className={styles['position-wrapper']}>
                       <Chip
                         key={index}
-                        label={data.role}
+                        label={data.user.belong}
                         height={28}
                         backgroundColor={'#C1AEF6'}
                         borderRadius={4}
