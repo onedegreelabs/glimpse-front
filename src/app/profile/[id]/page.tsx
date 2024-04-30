@@ -7,10 +7,16 @@ import clsx from 'clsx';
 
 // type
 import {SnsType, ProfileCardType} from '@/types/profileType';
+import {usePathname} from 'next/navigation';
+import {useUserProfile} from '@/hooks/swr/useProfiles';
 
 export default function ProfilePage() {
+  const pathname = usePathname();
+  const pathnameList = pathname?.split('/');
+  const userId = Number(pathnameList?.[pathnameList.length - 1]);
+  const userProfile = useUserProfile(userId);
+
   // profile 정보 할당
-  const [userId, setUserId] = useState(0);
   const [lastName, setLastName] = useState('');
   const [firstName, setFirstName] = useState('');
   const [introduction, setIntroduction] = useState('');
@@ -22,37 +28,29 @@ export default function ProfilePage() {
   const [userTag, setUserTag] = useState<string[]>([]);
   const [profileImage, setProfileImage] = useState();
 
-  const getCardPositionList = (cardListData: ProfileCardType[]) => {
-    const parsedCardPositionList = cardListData.map((data: ProfileCardType) => {
-      return JSON.parse(data.position);
-    });
-    return parsedCardPositionList;
-  };
-
-  // useEffect(() => {
-  //   const {
-  //     id,
-  //     familyName,
-  //     givenName,
-  //     introduction,
-  //     profileCard,
-  //     region,
-  //     role,
-  //     sns,
-  //     userTag,
-  //   } = profile;
-  //   setUserId(id);
-  //   setLastName(givenName);
-  //   setFirstName(familyName);
-  //   setIntroduction(introduction);
-  //   setRole(role);
-  //   setProfileCardList(profileCard);
-  //   setRegion(region);
-  //   setSnsList(sns);
-  //   setUserTag(userTag);
-  //   const parsedCardPositionList = getCardPositionList(profileCard);
-  //   setCardPositionList(parsedCardPositionList);
-  // }, [profile]);
+  useEffect(() => {
+    if (userProfile?.data?.data) {
+      const profileData = userProfile.data.data;
+      const {
+        familyName,
+        givenName,
+        introduction,
+        profileCard,
+        region,
+        role,
+        sns,
+        userTag,
+      } = profileData;
+      setLastName(givenName);
+      setFirstName(familyName);
+      setIntroduction(introduction);
+      setRole(role);
+      setProfileCardList(profileCard);
+      setRegion(region);
+      setSnsList(sns);
+      setUserTag(userTag);
+    }
+  }, [userProfile]);
 
   return (
     <div className={styles['my-profile-wrapper']}>
