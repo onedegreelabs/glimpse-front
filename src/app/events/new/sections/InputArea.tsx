@@ -55,12 +55,12 @@ export default function InputArea() {
   const [showModal, setShowModal] = useState<Boolean>(false);
   const [errorState, setErrorState] = useState(['']);
   const [validState, setValidState] = useState('');
-  const [isUniqueHandle, setIsUniqueHandle] = useState(false);
+  const [isUniqueHandle, setIsUniqueHandle] = useState(true);
 
   // 검증 조건과 참조를 매핑
   const validations = [
     {
-      condition: handle.length <= 1 || handle.length > 19 || !isUniqueHandle,
+      condition: handle.length === 1 || handle.length > 19 || !isUniqueHandle,
       ref: handleRef,
       error: 'handle',
     },
@@ -168,6 +168,34 @@ export default function InputArea() {
     }
   };
 
+  // 알파벳 소문자 + 숫자 19자리 랜덤 string 생성
+  const getRandomHandle = () => {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let randomHandle = '';
+    for (let i = 0; i < 19; i++) {
+      const randomIndex = Math.floor(Math.random() * chars.length);
+      randomHandle += chars[randomIndex];
+    }
+    return randomHandle;
+  };
+
+  // random handle 생성 함수
+  const createNewHandle = async () => {
+    let isUnique = false;
+    let uniqueRandomHandle = '';
+    while (!isUnique) {
+      const randomHandle = getRandomHandle();
+      const res = await checkDuplicateHandle(randomHandle);
+      const isDuplicate = res.data.data;
+      isUnique = !isDuplicate;
+
+      if (isUnique) {
+        uniqueRandomHandle = randomHandle;
+      }
+    }
+    return uniqueRandomHandle;
+  };
+
   // api호출
   const onClickCreateEvent = async function () {
     // 버튼 클릭 시 handle은 에러 표시 제외.
@@ -199,6 +227,13 @@ export default function InputArea() {
       externalLink: externalLink,
       description: description,
     };
+
+    if (handle.length === 0) {
+      await createNewHandle().then(res => {
+        setHandle(res);
+        params.handle = res;
+      });
+    }
 
     const res = await createEvent(params, imgFile);
     if (res.status === 201) {
@@ -238,7 +273,11 @@ export default function InputArea() {
         } else {
           handleValidState('handle');
           setIsUniqueHandle(true);
-          setErrorState(prevState => prevState.filter(err => err !== 'handle'));
+          setErrorState(prevState =>
+            prevState.filter(err => {
+              err !== 'handle' && err !== 'handleDuplicate';
+            })
+          );
         }
       }
     }, 0),
