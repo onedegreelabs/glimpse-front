@@ -47,6 +47,7 @@ export interface eventUserDataType {
   updatedAt: string;
   user: {
     id: number;
+    belong: string;
     familyName: string;
     givenName: string;
     image: string;

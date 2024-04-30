@@ -69,7 +69,7 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
                     <div className={styles['position-wrapper']}>
                       <Chip
                         key={index}
-                        label={data.role}
+                        label={data.user.belong}
                         height={28}
                         backgroundColor={'#C1AEF6'}
                         borderRadius={4}
@@ -78,21 +78,32 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
                       />
                     </div>
                   </div>
-                  <Avatar
-                    src={
-                      data?.user?.image
-                        ? data.user.image // 유저 이미지
-                        : '/icons/profile_image.svg' // 대체 이미지
-                    }
-                    // src={
-                    //   data.profileImageUrl ??
-                    //   // '/assets/glimpse-list/temp-glimpse-list-img.jpg'
-                    //   '/assets/glimpse-list/location-icon.svg'
-                    // }
-                    alt="프로필이미지"
-                    height={70}
-                    width={70}
-                  />
+                  <div className={styles['avatar-wrapper']}>
+                    <Avatar
+                      src={
+                        data?.user?.image
+                          ? data.user.image // 유저 이미지
+                          : '/icons/profile_image.svg' // 대체 이미지
+                      }
+                      // src={
+                      //   data.profileImageUrl ??
+                      //   // '/assets/glimpse-list/temp-glimpse-list-img.jpg'
+                      //   '/assets/glimpse-list/location-icon.svg'
+                      // }
+                      alt="프로필이미지"
+                      height={70}
+                      width={70}
+                    />
+                    {data?.role === 'Organizer' && (
+                      <Image
+                        className={styles['host-badge']}
+                        src={'/icons/crown.svg'}
+                        width={16}
+                        height={16}
+                        alt="host-badge"
+                      />
+                    )}
+                  </div>
                 </div>
                 <div className={styles['intro-snippet']}>
                   <p>{data.purpose}</p>
