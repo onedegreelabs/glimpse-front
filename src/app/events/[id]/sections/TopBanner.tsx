@@ -15,14 +15,10 @@ export default function TopBanner({
   coverImage: string;
 }) {
   const router = useRouter();
-  const formBuilderUrl = `${window.location.href}/rsvp/formbuilder`;
   const goBack = () => {
     router.back();
   };
 
-  const goFormBuilder = () => {
-    router.push(formBuilderUrl);
-  };
   return (
     <div className={styles['event-thumbnail-wrapper']}>
       {coverImage && (
@@ -65,18 +61,11 @@ export default function TopBanner({
             </div>
           </div>
           <div className={styles['share-btn-wrapper']}>
-            {/* <Image
+            <Image
               alt="share-icon"
               src="/icons/shareBox.svg"
               width={16}
               height={16}
-            /> */}
-            <Image
-              alt="toRsvp-icon"
-              src="/assets/events/toRsvp.svg"
-              width={16}
-              height={16}
-              onClick={goFormBuilder}
             />
           </div>
         </div>
