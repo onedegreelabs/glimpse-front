@@ -55,11 +55,12 @@ export default function InputArea() {
   const [showModal, setShowModal] = useState<Boolean>(false);
   const [errorState, setErrorState] = useState(['']);
   const [validState, setValidState] = useState('');
+  const [isUniqueHandle, setIsUniqueHandle] = useState(true);
 
   // 검증 조건과 참조를 매핑
   const validations = [
     {
-      condition: handle.length === 1 || handle.length > 19,
+      condition: handle.length === 1 || handle.length > 19 || !isUniqueHandle,
       ref: handleRef,
       error: 'handle',
     },
@@ -122,6 +123,7 @@ export default function InputArea() {
       }
     }
   }, [startAt, endAt]);
+
   // image logic
   const handleImageUpload = (event: {target: {files: FileList | null}}) => {
     const selectedFile = event.target.files?.[0];
@@ -144,6 +146,7 @@ export default function InputArea() {
     }
   };
 
+  // 유효검사
   const handleErrorState = function (state: string) {
     setErrorState(prevState => [...prevState, state]);
     setValidState('');
@@ -152,6 +155,7 @@ export default function InputArea() {
     setValidState(state);
   };
 
+  // 유효검사 실패시 스크롤 이동
   const scrollToElement = function (
     target: RefObject<HTMLInputElement> | RefObject<HTMLTextAreaElement>
   ) {
@@ -164,17 +168,52 @@ export default function InputArea() {
     }
   };
 
+  // 알파벳 소문자 + 숫자 19자리 랜덤 string 생성
+  const getRandomHandle = () => {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let randomHandle = '';
+    for (let i = 0; i < 19; i++) {
+      const randomIndex = Math.floor(Math.random() * chars.length);
+      randomHandle += chars[randomIndex];
+    }
+    return randomHandle;
+  };
+
+  // random handle 생성 함수
+  const createNewHandle = async () => {
+    let isUnique = false;
+    let uniqueRandomHandle = '';
+    while (!isUnique) {
+      const randomHandle = getRandomHandle();
+      const res = await checkDuplicateHandle(randomHandle);
+      const isDuplicate = res.data.data;
+      isUnique = !isDuplicate;
+
+      if (isUnique) {
+        uniqueRandomHandle = randomHandle;
+      }
+    }
+    return uniqueRandomHandle;
+  };
+
+  // api호출
   const onClickCreateEvent = async function () {
     // 버튼 클릭 시 handle은 에러 표시 제외.
     setErrorState(prevState => prevState.filter(err => err !== 'handle'));
 
     // 각 조건을 순회하며 검증 및 에러 처리
+    let isValid = true;
     validations.forEach(({condition, ref, error}) => {
       if (condition) {
         scrollToElement(ref);
         handleErrorState(error);
+        isValid = false;
       }
     });
+
+    if (!isValid) {
+      return;
+    }
 
     const params = {
       title: title,
@@ -188,6 +227,14 @@ export default function InputArea() {
       externalLink: externalLink,
       description: description,
     };
+
+    if (handle.length === 0) {
+      await createNewHandle().then(res => {
+        setHandle(res);
+        params.handle = res;
+      });
+    }
+
     const res = await createEvent(params, imgFile);
     if (res.status === 201) {
       setShowModal(true);
@@ -222,9 +269,15 @@ export default function InputArea() {
         const isDuplicate = res.data.data;
         if (isDuplicate) {
           handleErrorState('handleDuplicate');
+          setIsUniqueHandle(false);
         } else {
           handleValidState('handle');
-          setErrorState(prevState => prevState.filter(err => err !== 'handle'));
+          setIsUniqueHandle(true);
+          setErrorState(prevState =>
+            prevState.filter(err => {
+              err !== 'handle' && err !== 'handleDuplicate';
+            })
+          );
         }
       }
     }, 0),

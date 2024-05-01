@@ -14,7 +14,7 @@ export default function CreateRoundButton() {
     <div className={styles['button-wrapper']} onClick={onClickButton}>
       <Image
         src="/assets/profile/plus.svg"
-        alt="닫기버튼"
+        alt="plus button"
         width={40}
         height={40}
       />

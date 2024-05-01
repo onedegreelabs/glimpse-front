@@ -6,6 +6,7 @@ import BoxView from '../components/BoxView';
 import SearchWrapper from '../components/SearchWrapper';
 import FilteringWrapper from '../components/FilteringWrapper';
 import {eventUserDataType} from '@/types/eventTypes';
+import {useRouter} from 'next/navigation';
 
 export default function UserList({
   eventUserData,
@@ -42,9 +43,18 @@ export default function UserList({
     setSerachWord(keyword);
   };
 
+  const router = useRouter();
+  const rsvpUrl = `${window.location.href}/rsvp`;
+  const moveToRsvp = () => {
+    router.push(rsvpUrl);
+  };
+
   return (
     <>
       <div className={styles['control-section-wrapper']}>
+        <div className={styles['rsvp-button']} onClick={moveToRsvp}>
+          RSVP
+        </div>
         <section className={styles['search-area']}>
           <p className={styles['list-title']}>
             Participants <span>{userListForRender.length}</span>

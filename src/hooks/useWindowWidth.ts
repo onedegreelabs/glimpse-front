@@ -6,6 +6,10 @@ export function useWindowWidth(): number {
   const [windowWidth, setWindowWidth] = useState(0);
 
   useEffect(() => {
+    if (windowWidth === 0 && window) {
+      setWindowWidth(Math.min(window.innerWidth, 768));
+    }
+
     if (typeof window !== 'undefined') {
       const handleResize = () => {
         setWindowWidth(window.innerWidth);
