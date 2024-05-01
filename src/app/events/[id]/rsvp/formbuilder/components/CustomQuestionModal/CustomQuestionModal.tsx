@@ -2,10 +2,8 @@ import {useEffect, useState, Dispatch, SetStateAction} from 'react';
 
 import Image from 'next/image';
 import styles from './CustomQuestionModal.module.scss';
-import {saveQuestion} from '@/hooks/swr/useEvents';
 
 interface CustomQuestionModalProps {
-  eventId: number;
   onClose: () => void;
   setCustomQuestions: Dispatch<
     SetStateAction<
@@ -14,14 +12,13 @@ interface CustomQuestionModalProps {
         question: string;
         isRequired: boolean;
         maxCount: number;
-        options: string[];
+        options: {text: string}[];
       }[]
     >
   >;
 }
 
 export default function CustomQuestionModal({
-  eventId,
   onClose,
   setCustomQuestions,
 }: CustomQuestionModalProps) {
@@ -30,12 +27,16 @@ export default function CustomQuestionModal({
     question: '',
     isRequired: false,
     maxCount: 0,
-    options: [''],
+    options: [{text: ''}],
   });
 
   // type이 바뀔 때마다 input 개수, isRequired 초기화
   useEffect(() => {
-    const updatedQuestion = {...question, isRequired: false, options: ['']};
+    const updatedQuestion = {
+      ...question,
+      isRequired: false,
+      options: [{text: ''}],
+    };
     setQuestion(updatedQuestion);
   }, [question.type]);
 
@@ -54,14 +55,17 @@ export default function CustomQuestionModal({
   // 작성한 현재 option 값 설정
   const changeInput = (index: number, value: string) => {
     const newInputs = [...question.options];
-    newInputs[index] = value;
+    newInputs[index].text = value;
     const updatedQuestion = {...question, options: newInputs};
     setQuestion(updatedQuestion);
   };
 
   // input 추가 버튼
   function addOptionInput() {
-    const updatedQuestion = {...question, options: [...question.options, '']};
+    const updatedQuestion = {
+      ...question,
+      options: [...question.options, {text: ''}],
+    };
     setQuestion(updatedQuestion);
   }
 
@@ -74,9 +78,6 @@ export default function CustomQuestionModal({
   // 작성한 CustomQuestion 제출
   async function addQuestion() {
     setCustomQuestions(prev => [...prev, question]);
-
-    await saveQuestion(eventId, question);
-
     onClose();
   }
 
@@ -171,11 +172,11 @@ export default function CustomQuestionModal({
                 Option
                 <div className={styles['option-scroll']}>
                   <div>
-                    {question.options.map((input, index) => (
+                    {question.options.map((option, index) => (
                       <input
                         key={index}
                         type="text"
-                        value={input}
+                        value={option.text}
                         placeholder="Input"
                         onChange={event =>
                           changeInput(index, event.target.value)
@@ -232,11 +233,11 @@ export default function CustomQuestionModal({
                 Option
                 <div className={styles['option-scroll']}>
                   <div>
-                    {question.options.map((input, index) => (
+                    {question.options.map((option, index) => (
                       <input
                         key={index}
                         type="text"
-                        value={input}
+                        value={option.text}
                         placeholder="Input"
                         onChange={event =>
                           changeInput(index, event.target.value)

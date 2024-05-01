@@ -5,9 +5,16 @@ import Image from 'next/image';
 import styles from './RsvpFormBulder.module.scss';
 import CustomQuestionModal from '../../components/CustomQuestionModal/CustomQuestionModal';
 import Link from 'next/link';
-import {QuestionType} from '@/types/eventTypes';
 import {saveRequirement, useEventQuestion} from '@/hooks/swr/useEvents';
 import {saveQuestion} from '@/hooks/swr/useEvents';
+
+type CustomQuestionType = {
+  type: string;
+  question: string;
+  isRequired: boolean;
+  maxCount: number;
+  options: {text: string}[];
+};
 
 interface BuilderType {
   eventId: number;
@@ -56,7 +63,9 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
   const [showModal, setShowModal] = useState(false);
   const [approvalReqired, setApprovalRequired] = useState(false);
   const [presetQuestions, setPresetQuestions] = useState(PRESETDATA);
-  const [customQuestions, setCustomQuestions] = useState<QuestionType[]>([]);
+  const [customQuestions, setCustomQuestions] = useState<CustomQuestionType[]>(
+    []
+  );
 
   // 서버에 저장된 question 데이터 불러오기
   useEffect(() => {
@@ -73,7 +82,30 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
     }
   }, [data]);
 
+  // 추가한 custom question 서버에 전송
   useEffect(() => {
+    if (eventId === 0 || customQuestions.length === 0) return;
+
+    const curIndex = customQuestions.length - 1;
+    const customQuestion = {
+      type: customQuestions[curIndex].type,
+      question: customQuestions[curIndex].question,
+      isRequired: customQuestions[curIndex].isRequired,
+      maxCount: customQuestions[curIndex].maxCount,
+      options: customQuestions[curIndex].options.map(option => option.text),
+    };
+
+    const sendCustom = async () => {
+      await saveQuestion(eventId, customQuestion);
+    };
+
+    sendCustom();
+  }, [customQuestions]);
+
+  // preset question isRequired 변경사항 전송
+  useEffect(() => {
+    if (eventId === 0) return;
+
     const sendRequirement = async () => {
       const requirement = {
         locationRequired: presetQuestions[0].isRequired,
@@ -104,29 +136,31 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
           return question;
         }),
       ]);
-    } else {
-      setCustomQuestions(prev => [
-        ...prev.map((question, index) => {
-          if (index === itemIndex) {
-            return {...question, isRequired: !question.isRequired};
-          }
-          return question;
-        }),
-      ]);
-
-      await saveQuestion(eventId, customQuestions[itemIndex]);
     }
+    // custom isRequired를 manage 페이지에서 toggle로 변경할 때 필요
+    // else {
+    //   setCustomQuestions(prev => [
+    //     ...prev.map((question, index) => {
+    //       if (index === itemIndex) {
+    //         return {...question, isRequired: !question.isRequired};
+    //       }
+    //       return question;
+    //     }),
+    //   ]);
+
+    //   await saveQuestion(eventId, customQuestions[itemIndex]);
+    // }
   }
 
   return (
     <div className={styles['builder-container']}>
       <div className={styles['quest-list']}>
         <div>Guest list</div>
-        <div className={styles['purple-font']}>RSVP Form Builder</div>
+        <div className={styles['purple-font']}>RSVP Management</div>
       </div>
       <div className={styles['container']}>
         <div className={styles['approval-required']}>
-          <div>Approval required</div>
+          <div>Approval Required</div>
           <div
             className={`${styles['toggle-button']} ${
               approvalReqired ? styles['active'] : ''
@@ -145,7 +179,7 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
         'Approval required off'`}
         </p>
         <div className={styles['guest-registration']}>
-          <div>Guest registration</div>
+          <div>Guest Rgistration Status</div>
           <ul>
             <li>
               <Link href="pending" className={styles['pending-approval-card']}>
@@ -232,25 +266,6 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
           </div>
           <div>
             <div>Custom Question</div>
-            <ol>
-              {customQuestions.map((item, index) => (
-                <li key={index}>
-                  {`${item.question} ${item.type !== 'Text' ? ' (tag)' : ''}`}
-                  <div
-                    className={`${styles['toggle-button']} ${
-                      item.isRequired ? styles['active'] : ''
-                    }`}
-                    onClick={() => changeIsRequired('custom', index)}
-                  >
-                    <div
-                      className={`${styles['toggle']} ${
-                        item.isRequired ? styles['active'] : ''
-                      }`}
-                    />
-                  </div>
-                </li>
-              ))}
-            </ol>
             <button onClick={() => setShowModal(true)}>
               <Image
                 src={'/assets/events/rsvp/plus.svg'}
@@ -260,12 +275,35 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
               />
               Add Question
             </button>
+            <ol>
+              {customQuestions.map((item, index) => (
+                <li key={index}>
+                  <div className={styles['column']}>
+                    <div className={styles['row']}>
+                      {item.question}
+                      <button className={styles['delete']}>Delete</button>
+                    </div>
+                    <div className={styles['options']}>
+                      {item.options.map((option, index) => (
+                        <div key={index}>{option.text}</div>
+                      ))}
+                      <p className={styles['type']}>
+                        {item.type === 'Text'
+                          ? 'Text'
+                          : item.maxCount === 1
+                          ? 'Single Choice'
+                          : 'Multiple Choice'}
+                      </p>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ol>
           </div>
         </div>
       </div>
       {showModal && (
         <CustomQuestionModal
-          eventId={eventId}
           onClose={closeModal}
           setCustomQuestions={setCustomQuestions}
         />

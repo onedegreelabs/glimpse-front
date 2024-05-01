@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 import {usePathname} from 'next/navigation';
 import {useEventDetail} from '@/hooks/swr/useEvents';
 
-import RsvpFormBuilder from './sections/RsvpFormBuilder/RsvpFormBuilder';
+import RsvpFormBuilder from './sections/rsvpFormBuilder/RsvpFormBuilder';
 
 export default function RsvpFormBuilderPage() {
   const pathname = usePathname();

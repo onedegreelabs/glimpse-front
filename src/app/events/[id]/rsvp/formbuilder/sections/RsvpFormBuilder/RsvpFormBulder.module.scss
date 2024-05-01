@@ -144,6 +144,7 @@
                         position: relative;
                         display: flex;
                         justify-content: space-between;
+                        line-height: 24px;
     
                         .necessary {
                             width: 86px;
@@ -187,20 +188,46 @@
                                 right: 2px;
                             }
                         }
+                        
+                        .column { 
+                            width: 100%;
+                            .row {
+                                display: flex;
+                                justify-content: space-between;
+                                line-height: 24px;
+
+                                .delete {
+                                    width: 58px;
+                                    height: 24px;
+                                    margin: 0;
+                                    background-color: #ECECEC;
+                                    border: none;
+                                }
+                            }
+
+                            .options {
+                                .type{
+                                    margin: 0;
+                                }
+                            }
+                        }
                     }
     
                     li::before {
-                        content: '•'; 
                         position: absolute;
-                        left: -22px;
-                      }
+                        content: '•'; 
+                        height: 24px;
+                        line-height: 24px;
+                        font-size: 9px;
+                        left: -13px;
+                    }
                 }
     
                 button {
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    margin-top: 8px;
+                    margin: 8px 0;
                     gap: 8px;
                     width: 343px;
                     height: 36px;
