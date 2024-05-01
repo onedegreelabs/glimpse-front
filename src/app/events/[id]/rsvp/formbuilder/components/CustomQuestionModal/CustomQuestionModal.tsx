@@ -1,4 +1,4 @@
-import {useEffect, useState, Dispatch, SetStateAction} from 'react';
+import {useEffect, useState, Dispatch, SetStateAction, useRef} from 'react';
 
 import Image from 'next/image';
 import styles from './CustomQuestionModal.module.scss';
@@ -22,6 +22,7 @@ export default function CustomQuestionModal({
   onClose,
   setCustomQuestions,
 }: CustomQuestionModalProps) {
+  const scroll = useRef<HTMLImageElement>(null);
   const [question, setQuestion] = useState({
     type: 'default',
     question: '',
@@ -67,6 +68,10 @@ export default function CustomQuestionModal({
       options: [...question.options, {text: ''}],
     };
     setQuestion(updatedQuestion);
+
+    setTimeout(() => {
+      scrollHandler();
+    }, 0);
   }
 
   // 현재 isRequired 설정
@@ -79,6 +84,12 @@ export default function CustomQuestionModal({
   async function addQuestion() {
     setCustomQuestions(prev => [...prev, question]);
     onClose();
+  }
+
+  function scrollHandler() {
+    if (scroll.current) {
+      scroll.current.scrollIntoView({behavior: 'smooth'});
+    }
   }
 
   return (
@@ -185,6 +196,7 @@ export default function CustomQuestionModal({
                     ))}
                     {question.options.length < 5 && (
                       <Image
+                        ref={scroll}
                         src={'/assets/events/rsvp/add-circle.svg'}
                         alt="add"
                         width={13}
@@ -246,6 +258,7 @@ export default function CustomQuestionModal({
                     ))}
                     {question.options.length < 5 && (
                       <Image
+                        ref={scroll}
                         src={'/assets/events/rsvp/add-circle.svg'}
                         alt="add"
                         width={13}
