@@ -19,7 +19,9 @@ export default function RsvpFormBuilderPage() {
       setEventId(data.data.id);
     }
   }, [data]);
-  const isHost = myEvents.data?.data?.find(item => item.handle === eventHandle);
+  const isHost = myEvents.data?.data?.find(
+    (item: {handle: string}) => item.handle === eventHandle
+  );
 
   return (
     <>
