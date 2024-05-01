@@ -26,7 +26,7 @@ export default function RsvpFormBuilderPage() {
   return (
     <>
       {isHost && <RsvpFormBuilder eventId={eventId} />}
-      {!isHost && <NotHostPage />}
+      {isHost !== undefined && !isHost && <NotHostPage />}
     </>
   );
 }
