@@ -10,7 +10,7 @@ export default function RsvpFormBuilderPage() {
   const pathname = usePathname();
   const pathnameList = pathname?.split('/');
   const eventHandle = pathnameList?.[pathnameList.length - 3];
-  const myEvents = useMyEventList(100); // {data, error, isLoading}
+  const myEvents = useMyEventList(100); // // host 판별 임시 API(API 나오기 전)
   const {data} = useEventDetail(eventHandle); // {data, error, isLoading}
   const [eventId, setEventId] = useState(0);
 
@@ -19,6 +19,8 @@ export default function RsvpFormBuilderPage() {
       setEventId(data.data.id);
     }
   }, [data]);
+
+  // host 판별 임시 로직 (API 나오기 전)
   const isHost = myEvents.data?.data?.find(
     (item: {handle: string}) => item.handle === eventHandle
   );
