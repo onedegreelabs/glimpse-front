@@ -54,6 +54,16 @@
       display: flex;
       gap: 10px;
     }
+
+    .avatar-wrapper {
+      position: relative;
+
+      .host-badge {
+        position: absolute;
+        top: 0;
+        left: 90%;
+      }
+    }
   }
 
   .intro-snippet {

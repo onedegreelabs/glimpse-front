@@ -1,7 +1,6 @@
 import {create} from 'zustand';
-import {TProfile, UpdateUserDtoRequest} from '@/types/profileType';
 
-const initialProfile: TProfile = {
+const initialProfile = {
   createdAt: '',
   updatedAt: '',
   id: 1,
@@ -30,7 +29,7 @@ const initialProfile: TProfile = {
   isOtherProfile: false,
 };
 
-const initialUpdateProfile: UpdateUserDtoRequest = {
+const initialUpdateProfile = {
   familyName: '',
   givenName: '',
   introduction: '',
@@ -49,7 +48,6 @@ interface ProfileStore {
   setProfile: (profile: any) => void;
   setProfileImage: (profileImage: File) => void;
   setChangeProfile: (targetElement: {name: string; value: string}) => void;
-  // setChangeProfileCard: (cards: UpdateProfileCardDto[]) => void;
 }
 
 export const useProfileStore = create<ProfileStore>(set => ({

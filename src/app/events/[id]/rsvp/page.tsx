@@ -58,8 +58,6 @@ export default function EventRsvpContainer() {
       }
     }
 
-    console.log(data);
-
     // applyEvent(eventId, data);
   }
 
