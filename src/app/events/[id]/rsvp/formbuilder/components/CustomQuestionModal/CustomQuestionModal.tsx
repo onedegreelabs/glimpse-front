@@ -22,7 +22,7 @@ export default function CustomQuestionModal({
   onClose,
   setCustomQuestions,
 }: CustomQuestionModalProps) {
-  const scroll = useRef<HTMLImageElement>(null);
+  const addBtn = useRef<HTMLImageElement>(null);
   const [question, setQuestion] = useState({
     type: 'default',
     question: '',
@@ -87,8 +87,8 @@ export default function CustomQuestionModal({
   }
 
   function scrollHandler() {
-    if (scroll.current) {
-      scroll.current.scrollIntoView({behavior: 'smooth'});
+    if (addBtn.current) {
+      addBtn.current.scrollIntoView({behavior: 'smooth'});
     }
   }
 
@@ -196,7 +196,7 @@ export default function CustomQuestionModal({
                     ))}
                     {question.options.length < 5 && (
                       <Image
-                        ref={scroll}
+                        ref={addBtn}
                         src={'/assets/events/rsvp/add-circle.svg'}
                         alt="add"
                         width={13}
@@ -258,7 +258,7 @@ export default function CustomQuestionModal({
                     ))}
                     {question.options.length < 5 && (
                       <Image
-                        ref={scroll}
+                        ref={addBtn}
                         src={'/assets/events/rsvp/add-circle.svg'}
                         alt="add"
                         width={13}
