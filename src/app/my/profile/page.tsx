@@ -105,19 +105,10 @@ export default function MyProfilePage() {
   };
 
   useEffect(() => {
-    const {
-      id,
-      familyName,
-      givenName,
-      introduction,
-      profileCard,
-      region,
-      role,
-      sns,
-      userTag,
-    } = profile;
+    const {id, name, introduction, profileCard, region, role, sns, userTag} =
+      profile;
     setUserId(id);
-    setUserName(familyName);
+    setUserName(name);
     setIntroduction(introduction);
     setRole(role);
     setProfileCardList(profileCard);
@@ -208,7 +199,7 @@ export default function MyProfilePage() {
       userId: userId,
       region: 'Seoul, Korea',
       department: '부서',
-      userName: userName,
+      name: userName,
       introduction: introduction,
       belong: 'Glimpse',
       role: role,
