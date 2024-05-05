@@ -32,8 +32,7 @@ export default function MyProfilePage() {
 
   // profile 정보 할당
   const [userId, setUserId] = useState(0);
-  const [lastName, setLastName] = useState('');
-  const [firstName, setFirstName] = useState('');
+  const [userName, setUserName] = useState('');
   const [introduction, setIntroduction] = useState('');
   const [role, setRole] = useState('');
   const [department, setDepartment] = useState('');
@@ -118,8 +117,7 @@ export default function MyProfilePage() {
       userTag,
     } = profile;
     setUserId(id);
-    setLastName(givenName);
-    setFirstName(familyName);
+    setUserName(familyName);
     setIntroduction(introduction);
     setRole(role);
     setProfileCardList(profileCard);
@@ -210,8 +208,7 @@ export default function MyProfilePage() {
       userId: userId,
       region: 'Seoul, Korea',
       department: '부서',
-      familyName: firstName,
-      givenName: lastName,
+      userName: userName,
       introduction: introduction,
       belong: 'Glimpse',
       role: role,
@@ -239,7 +236,7 @@ export default function MyProfilePage() {
   // ]);
 
   // 데이터 변경 가능한 엘리먼트 클릭 시 input으로 변경되는 로직
-  type FocusedEl = 'lastName' | 'firstName' | 'introduction';
+  type FocusedEl = 'userName' | 'introduction';
   const [focusedEl, setFocusedEl] = useState<null | FocusedEl>(null);
   const resetFocusedEl = () => {
     setFocusedEl(null);
@@ -259,31 +256,12 @@ export default function MyProfilePage() {
         </div>
       </div>
       <div className={styles['name-area']}>
-        {focusedEl === 'lastName' ? (
-          <input
-            maxLength={10}
-            placeholder="Last Name"
-            value={lastName}
-            onChange={e => {
-              setLastName(e.target.value);
-            }}
-            onBlur={resetFocusedEl}
-          />
-        ) : (
-          <p
-            onClick={() => {
-              setFocusedEl('lastName');
-            }}
-          >
-            {lastName}
-          </p>
-        )}
         <input
           maxLength={10}
-          placeholder="First Name"
-          value={firstName}
+          placeholder="user Name"
+          value={userName}
           onChange={e => {
-            setFirstName(e.target.value);
+            setUserName(e.target.value);
           }}
         />
       </div>
