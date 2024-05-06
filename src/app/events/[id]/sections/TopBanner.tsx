@@ -47,9 +47,15 @@ export default function TopBanner({
             </div>
           </div>
           <div className={styles['share-btn-wrapper']}>
-            <Image
+            {/* <Image
               alt="share-icon"
               src="/icons/shareBox.svg"
+              width={16}
+              height={16}
+            /> */}
+            <Image
+              alt="toRsvp-icon"
+              src="/assets/events/toRsvp.svg"
               width={16}
               height={16}
             />
