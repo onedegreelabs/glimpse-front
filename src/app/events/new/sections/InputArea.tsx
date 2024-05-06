@@ -658,6 +658,7 @@ export default function InputArea() {
           <input
             ref={handleRef}
             placeholder="Unique ID of your event"
+            maxLength={19}
             value={handle}
             onChange={e => {
               changeHandle(e, 'handle');
