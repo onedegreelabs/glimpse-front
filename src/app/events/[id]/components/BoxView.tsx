@@ -12,7 +12,7 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
   const router = useRouter();
 
   const onClickCard = function (userId: number) {
-    router.push(`/profiles/${userId}`);
+    router.push(`/profile/${userId}`);
   };
   if (userList.length > 0) {
     return (
@@ -22,7 +22,7 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
             key={`profile-card-${index}`}
             className={styles['card-wrapper']}
             onClick={() => {
-              onClickCard(data.id);
+              onClickCard(data.user.id);
             }}
           >
             <Card key={data.id} height={340}>
