@@ -226,6 +226,25 @@ export default function MyProfilePage() {
   //   userTag,
   // ]);
 
+  const [focusedCardTitleIdx, setFocusedCardTitleIdx] = useState<null | number>(
+    null
+  );
+
+  const changeCardTitleValue = (idx: number) => {
+    setFocusedCardTitleIdx(idx);
+    setFocusedCardTitle(cardPositionList[idx].i);
+  };
+
+  const [focusedCardTitle, setFocusedCardTitle] = useState('');
+
+  const updateCardTitle = (idx: number) => {
+    const copyCardPositionList = [...cardPositionList];
+    copyCardPositionList[idx].i = focusedCardTitle;
+    setCardPositionList(() => copyCardPositionList);
+    setFocusedCardTitle('');
+    setFocusedCardTitleIdx(null);
+  };
+
   // 데이터 변경 가능한 엘리먼트 클릭 시 input으로 변경되는 로직
   type FocusedEl = 'userName' | 'introduction';
   const [focusedEl, setFocusedEl] = useState<null | FocusedEl>(null);
@@ -250,7 +269,7 @@ export default function MyProfilePage() {
         <input
           maxLength={10}
           placeholder="user Name"
-          value={userName}
+          value={userName || ''}
           onChange={e => {
             setUserName(e.target.value);
           }}
@@ -302,7 +321,19 @@ export default function MyProfilePage() {
         {cardPositionList.map((card, idx) => {
           return (
             <div key={card.i} className={styles['grid-item-wrapper']}>
-              <div className={styles['title-text']}>{card.i}</div>
+              <input
+                className={styles['title-text']}
+                value={focusedCardTitleIdx === idx ? focusedCardTitle : card.i}
+                onFocus={() => {
+                  changeCardTitleValue(idx);
+                }}
+                onChange={e => {
+                  setFocusedCardTitle(e.target.value);
+                }}
+                onBlur={() => {
+                  updateCardTitle(idx);
+                }}
+              />
               <Card height={card.h * 120 - 24}>
                 <div className={styles['card-inner']}>
                   <textarea
