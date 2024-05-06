@@ -1,7 +1,6 @@
 import Chip from '@/components/chip/Chip';
 import styles from './topBanner.module.scss';
 import Image from 'next/image';
-import {useRouter} from 'next/navigation';
 
 export default function TopBanner({
   viewCount,
@@ -14,11 +13,6 @@ export default function TopBanner({
   eventTitle: string;
   coverImage: string;
 }) {
-  const router = useRouter();
-  const goBack = () => {
-    router.back();
-  };
-
   return (
     <div className={styles['event-thumbnail-wrapper']}>
       {coverImage && (
@@ -33,14 +27,6 @@ export default function TopBanner({
       <div className={styles['event-info-wrapper']}>
         <div className={styles['info-header']}>
           <div className={styles['flex-area']}>
-            <div className={styles['back-button']} onClick={goBack}>
-              <Image
-                src={'/assets/events/back_arrow.svg'}
-                alt="back-button"
-                width={24}
-                height={24}
-              />
-            </div>
             <div className={styles['info-type']}>
               <Chip
                 label={eventType}

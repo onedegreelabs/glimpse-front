@@ -32,8 +32,7 @@ export default function MyProfilePage() {
 
   // profile 정보 할당
   const [userId, setUserId] = useState(0);
-  const [lastName, setLastName] = useState('');
-  const [firstName, setFirstName] = useState('');
+  const [userName, setUserName] = useState('');
   const [introduction, setIntroduction] = useState('');
   const [role, setRole] = useState('');
   const [department, setDepartment] = useState('');
@@ -106,20 +105,10 @@ export default function MyProfilePage() {
   };
 
   useEffect(() => {
-    const {
-      id,
-      familyName,
-      givenName,
-      introduction,
-      profileCard,
-      region,
-      role,
-      sns,
-      userTag,
-    } = profile;
+    const {id, name, introduction, profileCard, region, role, sns, userTag} =
+      profile;
     setUserId(id);
-    setLastName(givenName);
-    setFirstName(familyName);
+    setUserName(name);
     setIntroduction(introduction);
     setRole(role);
     setProfileCardList(profileCard);
@@ -210,8 +199,7 @@ export default function MyProfilePage() {
       userId: userId,
       region: 'Seoul, Korea',
       department: '부서',
-      familyName: firstName,
-      givenName: lastName,
+      name: userName,
       introduction: introduction,
       belong: 'Glimpse',
       role: role,
@@ -238,6 +226,32 @@ export default function MyProfilePage() {
   //   userTag,
   // ]);
 
+  const [focusedCardTitleIdx, setFocusedCardTitleIdx] = useState<null | number>(
+    null
+  );
+
+  const changeCardTitleValue = (idx: number) => {
+    setFocusedCardTitleIdx(idx);
+    setFocusedCardTitle(cardPositionList[idx].i);
+  };
+
+  const [focusedCardTitle, setFocusedCardTitle] = useState('');
+
+  const updateCardTitle = (idx: number) => {
+    const copyCardPositionList = [...cardPositionList];
+    copyCardPositionList[idx].i = focusedCardTitle;
+    setCardPositionList(() => copyCardPositionList);
+    setFocusedCardTitle('');
+    setFocusedCardTitleIdx(null);
+  };
+
+  // 데이터 변경 가능한 엘리먼트 클릭 시 input으로 변경되는 로직
+  type FocusedEl = 'userName' | 'introduction';
+  const [focusedEl, setFocusedEl] = useState<null | FocusedEl>(null);
+  const resetFocusedEl = () => {
+    setFocusedEl(null);
+  };
+
   return (
     <div className={styles['my-profile-wrapper']}>
       <div className={styles['profile-image-wrapper']}>
@@ -254,18 +268,10 @@ export default function MyProfilePage() {
       <div className={styles['name-area']}>
         <input
           maxLength={10}
-          placeholder="Last Name"
-          value={lastName}
+          placeholder="user Name"
+          value={userName || ''}
           onChange={e => {
-            setLastName(e.target.value);
-          }}
-        />
-        <input
-          maxLength={10}
-          placeholder="First Name"
-          value={firstName}
-          onChange={e => {
-            setFirstName(e.target.value);
+            setUserName(e.target.value);
           }}
         />
       </div>
@@ -315,7 +321,19 @@ export default function MyProfilePage() {
         {cardPositionList.map((card, idx) => {
           return (
             <div key={card.i} className={styles['grid-item-wrapper']}>
-              <div className={styles['title-text']}>{card.i}</div>
+              <input
+                className={styles['title-text']}
+                value={focusedCardTitleIdx === idx ? focusedCardTitle : card.i}
+                onFocus={() => {
+                  changeCardTitleValue(idx);
+                }}
+                onChange={e => {
+                  setFocusedCardTitle(e.target.value);
+                }}
+                onBlur={() => {
+                  updateCardTitle(idx);
+                }}
+              />
               <Card height={card.h * 120 - 24}>
                 <div className={styles['card-inner']}>
                   <textarea

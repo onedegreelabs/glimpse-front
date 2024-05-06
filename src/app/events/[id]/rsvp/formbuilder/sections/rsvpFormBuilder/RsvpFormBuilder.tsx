@@ -1,12 +1,12 @@
 'use client';
 import {useState, useEffect} from 'react';
 import Image from 'next/image';
-
-import styles from './RsvpFormBulder.module.scss';
-import CustomQuestionModal from '../../components/customQuestionModal/CustomQuestionModal';
 import Link from 'next/link';
 import {saveRequirement, useEventQuestion} from '@/hooks/swr/useEvents';
 import {saveQuestion} from '@/hooks/swr/useEvents';
+import CustomQuestionModal from '../../components/customQuestionModal/CustomQuestionModal';
+
+import styles from './RsvpFormBulder.module.scss';
 
 type CustomQuestionType = {
   type: string;
