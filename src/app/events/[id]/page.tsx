@@ -22,8 +22,6 @@ export default function EventDetailPage() {
   const isHost = myEvents.data?.data?.find(
     (item: {handle: string}) => item.handle === eventHandle
   );
-  console.log(myEvents);
-  console.log(isHost);
 
   useEffect(() => {
     if (data?.data?.id) {
