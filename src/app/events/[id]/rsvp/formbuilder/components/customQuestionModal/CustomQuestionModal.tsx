@@ -1,4 +1,4 @@
-import {useEffect, useState, Dispatch, SetStateAction} from 'react';
+import {useEffect, useState, Dispatch, SetStateAction, useRef} from 'react';
 
 import Image from 'next/image';
 import styles from './CustomQuestionModal.module.scss';
@@ -22,6 +22,7 @@ export default function CustomQuestionModal({
   onClose,
   setCustomQuestions,
 }: CustomQuestionModalProps) {
+  const lastInput = useRef<HTMLInputElement>(null);
   const [question, setQuestion] = useState({
     type: 'default',
     question: '',
@@ -67,6 +68,10 @@ export default function CustomQuestionModal({
       options: [...question.options, {text: ''}],
     };
     setQuestion(updatedQuestion);
+
+    setTimeout(() => {
+      scrollHandler();
+    }, 0);
   }
 
   // 현재 isRequired 설정
@@ -79,6 +84,12 @@ export default function CustomQuestionModal({
   async function addQuestion() {
     setCustomQuestions(prev => [...prev, question]);
     onClose();
+  }
+
+  function scrollHandler() {
+    if (lastInput.current) {
+      lastInput.current.scrollIntoView({behavior: 'smooth'});
+    }
   }
 
   return (
@@ -172,17 +183,35 @@ export default function CustomQuestionModal({
                 Option
                 <div className={styles['option-scroll']}>
                   <div>
-                    {question.options.map((option, index) => (
-                      <input
-                        key={index}
-                        type="text"
-                        value={option.text}
-                        placeholder="Input"
-                        onChange={event =>
-                          changeInput(index, event.target.value)
-                        }
-                      />
-                    ))}
+                    {question.options.map((option, index) => {
+                      // last input에 참조 추가
+                      if (index !== question.options.length - 1) {
+                        return (
+                          <input
+                            key={index}
+                            type="text"
+                            value={option.text}
+                            placeholder="Input"
+                            onChange={event =>
+                              changeInput(index, event.target.value)
+                            }
+                          />
+                        );
+                      } else {
+                        return (
+                          <input
+                            ref={lastInput}
+                            key={index}
+                            type="text"
+                            value={option.text}
+                            placeholder="Input"
+                            onChange={event =>
+                              changeInput(index, event.target.value)
+                            }
+                          />
+                        );
+                      }
+                    })}
                     {question.options.length < 5 && (
                       <Image
                         src={'/assets/events/rsvp/add-circle.svg'}
@@ -233,17 +262,35 @@ export default function CustomQuestionModal({
                 Option
                 <div className={styles['option-scroll']}>
                   <div>
-                    {question.options.map((option, index) => (
-                      <input
-                        key={index}
-                        type="text"
-                        value={option.text}
-                        placeholder="Input"
-                        onChange={event =>
-                          changeInput(index, event.target.value)
-                        }
-                      />
-                    ))}
+                    {question.options.map((option, index) => {
+                      // last input에 참조 추가
+                      if (index !== question.options.length - 1) {
+                        return (
+                          <input
+                            key={index}
+                            type="text"
+                            value={option.text}
+                            placeholder="Input"
+                            onChange={event =>
+                              changeInput(index, event.target.value)
+                            }
+                          />
+                        );
+                      } else {
+                        return (
+                          <input
+                            ref={lastInput}
+                            key={index}
+                            type="text"
+                            value={option.text}
+                            placeholder="Input"
+                            onChange={event =>
+                              changeInput(index, event.target.value)
+                            }
+                          />
+                        );
+                      }
+                    })}
                     {question.options.length < 5 && (
                       <Image
                         src={'/assets/events/rsvp/add-circle.svg'}

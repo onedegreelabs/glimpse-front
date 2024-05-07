@@ -10,8 +10,10 @@ import {useRouter} from 'next/navigation';
 
 export default function UserList({
   eventUserData,
+  isHost,
 }: {
   eventUserData: eventUserDataType[];
+  isHost: boolean;
 }) {
   const [userList, setUserList] = useState<eventUserDataType[]>([]);
   useEffect(() => {
@@ -44,7 +46,9 @@ export default function UserList({
   };
 
   const router = useRouter();
-  const rsvpUrl = `${window.location.href}/rsvp`;
+  const rsvpUrl = isHost
+    ? `${window.location.href}/rsvp/formbuilder`
+    : `${window.location.href}/rsvp`;
   const moveToRsvp = () => {
     router.push(rsvpUrl);
   };
@@ -53,7 +57,7 @@ export default function UserList({
     <>
       <div className={styles['control-section-wrapper']}>
         <div className={styles['rsvp-button']} onClick={moveToRsvp}>
-          RSVP
+          {isHost ? 'Go to Event Management' : 'RSVP Now'}
         </div>
         <section className={styles['search-area']}>
           <p className={styles['list-title']}>

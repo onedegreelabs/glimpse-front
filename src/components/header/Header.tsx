@@ -6,6 +6,7 @@ import {useMyProfile} from '@/hooks/swr/useProfiles';
 import {getAccessTokenByRefreshToken, logout} from '@/apis/signApi';
 import {useIsLoginStore} from '@/stores/auth';
 import {useRouter} from 'next/navigation';
+import Image from 'next/image';
 export default function Header() {
   const setProfile = useProfileStore(state => state.setProfile);
   const profile = useProfileStore(state => state.profile);
@@ -92,18 +93,102 @@ export default function Header() {
     router.push('/sign');
   };
 
+  const moveToPage = (page: string) => {
+    router.push(`/${page}`);
+    setShowSetting(false);
+  };
+
+  const [showSetting, setShowSetting] = useState<boolean>(false);
+
   return (
     <div className={styles['header-wrapper']}>
-      <div className={styles['text-area']}>{userName && `Hi ${userName}`}</div>
-
-      {userName && (
-        <div
-          className={styles['btn-area']}
+      <div className={styles['header-top']}>
+        <div className={styles['text-area']}>Title</div>
+        <Image
+          alt="open-menu-icon"
+          src={'/icons/burger.svg'}
+          width={24}
+          height={24}
           onClick={() => {
-            isLogin ? onLogout() : onLogin();
+            setShowSetting(!showSetting);
           }}
-        >
-          {isLogin ? '로그아웃' : '로그인'}
+        />
+      </div>
+      {showSetting && (
+        <div className={styles['setting-wrapper']}>
+          <div className={styles['row-wrapper']}>
+            <Image
+              alt="language"
+              src={'/icons/header/language.svg'}
+              width={20}
+              height={20}
+            />
+            <p>Language</p>
+          </div>
+          <div className={styles['devidor']} />
+          <div className={styles['row-wrapper']}>
+            <Image
+              alt="my-profile"
+              src={'/icons/header/my-profile.svg'}
+              width={20}
+              height={20}
+              onClick={() => {
+                moveToPage('my/profile');
+              }}
+            />
+            <p>My profile</p>
+          </div>
+          <div className={styles['row-wrapper']}>
+            <Image
+              alt="bookmark"
+              src={'/icons/header/bookmark-icon.svg'}
+              width={20}
+              height={20}
+            />
+            <p>Bookmark</p>
+          </div>
+          <div className={styles['row-wrapper']}>
+            <Image
+              alt="host-page"
+              src={'/icons/header/host-page.svg'}
+              width={20}
+              height={20}
+            />
+            <p>Host page</p>
+          </div>
+          <div className={styles['devidor']} />
+          <div className={styles['row-wrapper']}>
+            <Image
+              alt="setting"
+              src={'/icons/header/setting.svg'}
+              width={20}
+              height={20}
+            />
+            <p>Setting</p>
+          </div>
+          <div className={styles['row-wrapper']}>
+            <Image
+              alt="share-feedback"
+              src={'/icons/header/share-feedback.svg'}
+              width={20}
+              height={20}
+            />
+            <p>Share feedback</p>
+          </div>
+          <div className={styles['row-wrapper']}>
+            <Image
+              alt="customer-service"
+              src={'/icons/header/customer-service.svg'}
+              width={20}
+              height={20}
+            />
+            <p>Customer service</p>
+          </div>
+          <div className={styles['devidor']} />
+          <div className={styles['sign-row']}>
+            <p>Sign info</p>
+            <p className={styles['user-mail']}>{profile?.email}</p>
+          </div>
         </div>
       )}
     </div>
