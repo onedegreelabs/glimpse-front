@@ -48,8 +48,7 @@ export interface eventUserDataType {
   user: {
     id: number;
     belong: string;
-    familyName: string;
-    givenName: string;
+    name: string;
     image: string;
     sns: [];
   };

@@ -35,8 +35,8 @@ export default function UserList({
     const keyword = e.target.value;
     if (keyword !== '') {
       const filtered = userList.filter(data => {
-        const fullName = data?.user?.familyName + ' ' + data?.user?.givenName;
-        return fullName.includes(keyword);
+        const name = data?.user?.name;
+        return name.includes(keyword);
       });
       setUserListForRender(filtered);
     } else {

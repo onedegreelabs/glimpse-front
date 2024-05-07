@@ -52,11 +52,7 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
                 </div>
                 <div className={styles['profile-wrapper']}>
                   <div>
-                    <p className={styles['profile-name']}>{`${
-                      data?.user?.givenName ? data.user.givenName : ''
-                    } ${
-                      data?.user?.familyName ? data.user.familyName : ''
-                    }`}</p>
+                    <p className={styles['profile-name']}>{data?.user?.name}</p>
                     <IconText
                       src={'/assets/glimpse-list/Location.svg'}
                       alt={'위치 아이콘'}
