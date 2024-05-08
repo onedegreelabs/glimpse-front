@@ -1,7 +1,14 @@
 'use client';
 import {useProfileStore} from '@/stores/profile';
 import styles from './page.module.scss';
-import {ChangeEvent, useEffect, useRef, useState} from 'react';
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import Image from 'next/image';
 import Card from '@/components/card/Card';
 import clsx from 'clsx';
@@ -35,19 +42,37 @@ export default function MyProfilePage() {
   const [userName, setUserName] = useState('');
   const [introduction, setIntroduction] = useState('');
   const [role, setRole] = useState('');
-  const [department, setDepartment] = useState('');
-  const [region, setRegion] = useState('');
-  const [snsList, setSnsList] = useState<SnsType[]>();
+  const [snsList, setSnsList] = useState<SnsType[]>([]);
   const [profileCardList, setProfileCardList] = useState<ProfileCardType[]>([]);
   const [cardPositionList, setCardPositionList] = useState<any[]>([]); //type 설정 필요
   const [userTag, setUserTag] = useState<string[]>([]);
-
   const [newCardNum, setNewCardNum] = useState(0);
 
-  let setter: any;
+  useEffect(() => {
+    const {id, name, introduction, profileCard, role, sns, userTag} = profile;
+    setUserId(id);
+    setUserName(name);
+    setIntroduction(introduction);
+    setRole(role);
+    setProfileCardList(profileCard);
+    setSnsList(sns);
+    setUserTag(userTag);
+    const parsedCardPositionList = getCardPositionList(profileCard);
+    setCardPositionList(parsedCardPositionList);
+  }, [profile]);
+
+  type SetterType =
+    | Dispatch<SetStateAction<SnsType[]>>
+    | Dispatch<SetStateAction<ProfileCardType[]>>
+    | null;
+
+  let setter: SetterType = null;
+
+  // 카드 로직
   const onCreateCard = () => {
     if (setter === setSnsList) {
-      setter((prev: any) => [...prev, {type: '', account: ''}]);
+      const newValue: SnsType = {type: '', account: ''};
+      setter(prev => [...prev, newValue]);
     } else if (setter === setProfileCardList) {
       const nextCardPosition = {
         i: `new Title${newCardNum ?? newCardNum}`,
@@ -63,7 +88,7 @@ export default function MyProfilePage() {
         sectionTitle: nextCardPosition.i,
         type: 'string',
       };
-      setter((prev: any) => [...prev, nextCardItem]);
+      setter((prev: ProfileCardType[]) => [...prev, nextCardItem]);
       const newCardPositionList = getCardPositionList([
         ...profileCardList,
         nextCardItem,
@@ -103,21 +128,6 @@ export default function MyProfilePage() {
     });
     return parsedCardPositionList;
   };
-
-  useEffect(() => {
-    const {id, name, introduction, profileCard, region, role, sns, userTag} =
-      profile;
-    setUserId(id);
-    setUserName(name);
-    setIntroduction(introduction);
-    setRole(role);
-    setProfileCardList(profileCard);
-    setRegion(region);
-    setSnsList(sns);
-    setUserTag(userTag);
-    const parsedCardPositionList = getCardPositionList(profileCard);
-    setCardPositionList(parsedCardPositionList);
-  }, [profile]);
 
   useEffect(() => {
     if (cardPositionList.length > 0) {
@@ -181,19 +191,6 @@ export default function MyProfilePage() {
     setUserTag(deletedUserTag);
   };
 
-  // 현재 프로필 정보 변화함에 따라 업데이트 api 보내는 로직에 따라
-  // 초기 렌더링 때 변화인지 사용자 입력에 의한 변화인지 구분하기 위해 id값이 할당됐는지를 가지고 판단
-  // 좀 더 안전하게 동작 위해 setTimeout추가
-  // 썩 좋은 로직은 아닌것처럼 보여서 후에 로직 생각 필요
-  const [isWatchingChange, setIsWatchingChange] = useState<Boolean>(false);
-  useEffect(() => {
-    if (userId !== 0) {
-      setTimeout(() => {
-        setIsWatchingChange(true);
-      }, 1000);
-    }
-  }, [userId]);
-
   const onUpdateMyProfile = () => {
     const params = {
       userId: userId,
@@ -210,21 +207,6 @@ export default function MyProfilePage() {
 
     updateMyProfile(params);
   };
-
-  // useEffect(() => {
-  //   if (isWatchingChange) {
-  //     onUpdateMyProfile();
-  //   }
-  // }, [
-  //   userId,
-  //   firstName,
-  //   lastName,
-  //   introduction,
-  //   role,
-  //   snsList,
-  //   profileCardList,
-  //   userTag,
-  // ]);
 
   const [focusedCardTitleIdx, setFocusedCardTitleIdx] = useState<null | number>(
     null
@@ -243,13 +225,6 @@ export default function MyProfilePage() {
     setCardPositionList(() => copyCardPositionList);
     setFocusedCardTitle('');
     setFocusedCardTitleIdx(null);
-  };
-
-  // 데이터 변경 가능한 엘리먼트 클릭 시 input으로 변경되는 로직
-  type FocusedEl = 'userName' | 'introduction';
-  const [focusedEl, setFocusedEl] = useState<null | FocusedEl>(null);
-  const resetFocusedEl = () => {
-    setFocusedEl(null);
   };
 
   return (
