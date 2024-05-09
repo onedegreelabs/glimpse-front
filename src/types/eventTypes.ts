@@ -1,3 +1,5 @@
+import {SnsType} from './profileType';
+
 export interface CreateEventType {
   title: string;
   startAt: Date;
@@ -50,7 +52,7 @@ export interface eventUserDataType {
     belong: string;
     name: string;
     image: string;
-    sns: [];
+    sns: SnsType[];
   };
 }
 

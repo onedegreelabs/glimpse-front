@@ -16,9 +16,19 @@ export interface ReactGridPositionType {
   static?: boolean;
 }
 
+type SnsTypeString =
+  | 'Github'
+  | 'Medium'
+  | 'Figma'
+  | 'Linkedin'
+  | 'Dribble'
+  | 'Instagram'
+  | 'Facebook'
+  | 'Web_etc';
 export interface SnsType {
-  type: string;
+  type: SnsTypeString;
   account: string;
+  id: number;
 }
 
 export interface ProfileCardType {
