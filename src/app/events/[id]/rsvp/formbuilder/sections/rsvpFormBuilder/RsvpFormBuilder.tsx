@@ -7,6 +7,7 @@ import {saveQuestion} from '@/hooks/swr/useEvents';
 import CustomQuestionModal from '../../components/customQuestionModal/CustomQuestionModal';
 
 import styles from './RsvpFormBulder.module.scss';
+import NotHostPage from '../../components/notHostPage/NotHostPage';
 
 type CustomQuestionType = {
   type: string;
@@ -59,7 +60,7 @@ const REQUIREMENTSKEY = [
 ];
 
 export default function RsvpFormBuilder({eventId}: BuilderType) {
-  const {data} = useEventQuestion(eventId);
+  const {data, error, isLoading} = useEventQuestion(eventId);
   const [showModal, setShowModal] = useState(false);
   const [approvalReqired, setApprovalRequired] = useState(false);
   const [presetQuestions, setPresetQuestions] = useState(PRESETDATA);
@@ -152,6 +153,14 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
     // }
   }
 
+  if (isLoading) {
+    return <h1>로딩중..</h1>;
+  }
+
+  if (eventId !== 0 && error) {
+    return <NotHostPage />;
+  }
+
   return (
     <div className={styles['builder-container']}>
       <div className={styles['quest-list']}>
@@ -231,7 +240,8 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
             <div className={styles['profile-question']}>Profile Questions</div>
             <ol>
               <li>
-                Full Name<div className={styles['necessary']}>Necessary</div>
+                Full Name
+                <div className={styles['necessary']}>Necessary</div>
               </li>
               <li>
                 Nickname/Preferred Name

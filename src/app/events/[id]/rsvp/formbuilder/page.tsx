@@ -1,16 +1,14 @@
 'use client';
 import {useEffect, useState} from 'react';
 import {usePathname} from 'next/navigation';
-import {useEventDetail, useMyEventList} from '@/hooks/swr/useEvents';
+import {useEventDetail} from '@/hooks/swr/useEvents';
 
 import RsvpFormBuilder from './sections/rsvpFormBuilder/RsvpFormBuilder';
-import NotHostPage from './components/notHostPage/NotHostPage';
 
 export default function RsvpFormBuilderPage() {
   const pathname = usePathname();
   const pathnameList = pathname?.split('/');
   const eventHandle = pathnameList?.[pathnameList.length - 3];
-  const myEvents = useMyEventList(100); // // host 판별 임시 API(API 나오기 전)
   const {data} = useEventDetail(eventHandle); // {data, error, isLoading}
   const [eventId, setEventId] = useState(0);
 
@@ -20,17 +18,5 @@ export default function RsvpFormBuilderPage() {
     }
   }, [data]);
 
-  // host 판별 임시 로직 (API 나오기 전)
-  const isHost = myEvents.data?.data?.find(
-    (item: {handle: string}) => item.handle === eventHandle
-  );
-
-  return (
-    <>
-      {(isHost === undefined || isHost) && (
-        <RsvpFormBuilder eventId={eventId} />
-      )}
-      {(isHost !== undefined || !isHost) && <NotHostPage />}
-    </>
-  );
+  return <RsvpFormBuilder eventId={eventId} />;
 }
