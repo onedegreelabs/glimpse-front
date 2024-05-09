@@ -33,9 +33,10 @@ export default function UserList({
 
   const onSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const keyword = e.target.value;
+    console.log(keyword);
     if (keyword !== '') {
       const filtered = userList.filter(data => {
-        const name = data?.user?.name;
+        const name = data?.user?.name || '';
         return name.includes(keyword);
       });
       setUserListForRender(filtered);
@@ -65,8 +66,8 @@ export default function UserList({
           </p>
           <SearchWrapper onSearch={onSearch} searchWord={searchWord} />
         </section>
-        <div className={styles['divider']} />
-        <FilteringWrapper />
+        {/* <div className={styles['divider']} />
+        <FilteringWrapper /> */}
       </div>
       <div className={styles['user-list-wrapper']}>
         <section className={styles['view-area']}>
