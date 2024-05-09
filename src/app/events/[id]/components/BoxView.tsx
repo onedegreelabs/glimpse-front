@@ -14,6 +14,53 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
   const onClickCard = function (userId: number) {
     router.push(`/profile/${userId}`);
   };
+
+  const SNS_IMAGE_SRC = [
+    {
+      type: 'Github',
+      src: '/assets/sns-link/github.jpg',
+    },
+    {
+      type: 'Medium',
+      src: '/assets/sns-link/medium.jpg',
+    },
+    // {
+    //   type: 'Figma',
+    //   src: '/assets/sns-link/figma.jpg',
+    // },
+    {
+      type: 'Linkedin',
+      src: '/assets/sns-link/linkedin.jpg',
+    },
+    {
+      type: 'Dribble',
+      src: '/assets/sns-link/dribble.jpg',
+    },
+    {
+      type: 'Instagram',
+      src: '/assets/sns-link/instagram.jpg',
+    },
+    {
+      type: 'Facebook',
+      src: '/assets/sns-link/facebook.jpg',
+    },
+    {
+      type: 'Web_etc',
+      src: '/assets/sns-link/web_etc.svg',
+    },
+  ];
+
+  const getImageSrcFromSnsLink = (snsLink: string) => {
+    const matchedItem = SNS_IMAGE_SRC.find(item => {
+      return snsLink === item.type;
+    });
+    const imgSrc: string = matchedItem
+      ? matchedItem.src
+      : '/assets/sns-link/web_etc.svg';
+
+    return imgSrc;
+  };
+
   if (userList.length > 0) {
     return (
       <>
@@ -81,11 +128,6 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
                           ? data.user.image // 유저 이미지
                           : '/icons/profile_image.svg' // 대체 이미지
                       }
-                      // src={
-                      //   data.profileImageUrl ??
-                      //   // '/assets/glimpse-list/temp-glimpse-list-img.jpg'
-                      //   '/assets/glimpse-list/location-icon.svg'
-                      // }
                       alt="프로필이미지"
                       height={70}
                       width={70}
@@ -119,17 +161,17 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
                     )
                   )}
                 </div>
-                {/* <div className={styles['link-wrapper']}>
-                  {data.cards[3].content.map((_, index: number) => (
+                <div className={styles['link-wrapper']}>
+                  {data.user.sns.map((snsItem, index: number) => (
                     <Image
                       key={`link_${index}`}
-                      src={srcList[Math.floor(Math.random() * 7)]}
+                      src={getImageSrcFromSnsLink(snsItem.type)}
                       alt={'img'}
                       width={32}
                       height={32}
                     />
                   ))}
-                </div> */}
+                </div>
               </div>
             </Card>
           </div>
