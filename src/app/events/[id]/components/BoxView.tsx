@@ -16,7 +16,7 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
   };
 
   const onClickSnsIcon = (url: string) => {
-    console.log(url);
+    window.open(url, '_blank');
   };
 
   const SNS_IMAGE_SRC = [
