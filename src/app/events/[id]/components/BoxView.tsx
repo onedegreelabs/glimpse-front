@@ -15,6 +15,10 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
     router.push(`/profile/${userId}`);
   };
 
+  const onClickSnsIcon = (url: string) => {
+    window.open(url, '_blank');
+  };
+
   const SNS_IMAGE_SRC = [
     {
       type: 'Github',
@@ -169,6 +173,10 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
                       alt={'img'}
                       width={32}
                       height={32}
+                      onClick={e => {
+                        e.stopPropagation();
+                        onClickSnsIcon(snsItem.account);
+                      }}
                     />
                   ))}
                 </div>
