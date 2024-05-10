@@ -46,25 +46,6 @@ export default function TopBanner({
             /> */}
             </div>
           </div>
-          <div className={styles['share-btn-wrapper']}>
-            {/* <Image
-              alt="share-icon"
-              src="/icons/shareBox.svg"
-              width={16}
-              height={16}
-            /> */}
-            <Image
-              alt="toRsvp-icon"
-              src="/assets/events/toRsvp.svg"
-              width={16}
-              height={16}
-            />
-          </div>
-        </div>
-        <div className={styles['info-middle']}>
-          <p>{eventTitle}</p>
-        </div>
-        <div className={styles['info-bottom']}>
           <Chip
             label={`total view ${viewCount}`}
             height={24}
@@ -72,6 +53,9 @@ export default function TopBanner({
             borderRadius={4}
             fontSize={12}
           />
+        </div>
+        <div className={styles['info-middle']}>
+          {!coverImage && <p>{eventTitle}</p>}
         </div>
       </div>
     </div>
