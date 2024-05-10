@@ -114,7 +114,7 @@ export default function Header() {
         />
         <Image
           alt="open-menu-icon"
-          src={'/icons/header/profile.svg'}
+          src={'/icons/burger.svg'}
           width={24}
           height={24}
           onClick={() => {
@@ -124,16 +124,7 @@ export default function Header() {
       </div>
       {showSetting && (
         <div className={styles['setting-wrapper']}>
-          <div className={styles['row-wrapper']}>
-            <Image
-              alt="language"
-              src={'/icons/header/language.svg'}
-              width={20}
-              height={20}
-            />
-            <p>Language</p>
-          </div>
-          <div className={styles['devidor']} />
+          {/* <div className={styles['devidor']} /> */}
           <div
             className={styles['row-wrapper']}
             onClick={() => {
@@ -166,6 +157,15 @@ export default function Header() {
             />
             <p>Host page</p>
           </div>
+          <div className={styles['row-wrapper']}>
+            <Image
+              alt="language"
+              src={'/icons/header/language.svg'}
+              width={20}
+              height={20}
+            />
+            <p>Language</p>
+          </div>
           <div className={styles['devidor']} />
           {/* 아래 주석은 아직 개발이 안된 페이지라 주석처리 */}
           {/* <div className={styles['row-wrapper']}>
@@ -197,7 +197,6 @@ export default function Header() {
           </div>
           <div className={styles['devidor']} /> */}
           <div className={styles['sign-row']}>
-            <p>Sign info</p>
             <p className={styles['user-mail']}>{profile?.email}</p>
           </div>
         </div>

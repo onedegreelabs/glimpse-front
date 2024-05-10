@@ -21,6 +21,7 @@
       background-color: #f3f3f3;
       border-radius: 4px;
       width: 100%;
+      max-width: max-content;
       padding: 0 4px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -41,7 +42,7 @@
 
       .event-date-reactive-wrapper {
         display: flex;
-        justify-content: space-between;
+        gap: 8px;
       }
 
       .event-date-wrapper {
