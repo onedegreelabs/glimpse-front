@@ -7,6 +7,7 @@ import Image from 'next/image';
 import {useRouter} from 'next/navigation';
 import {eventUserDataType} from '@/types/eventTypes';
 import EmptyUser from './EpmtyUser';
+import {useEffect, useState} from 'react';
 
 export default function BoxView({userList}: {userList: eventUserDataType[]}) {
   const router = useRouter();
@@ -65,6 +66,22 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
     return imgSrc;
   };
 
+  // Eric요청으로 북마크 기능동작 필요없이 클릭 시 북마크 이미지 변경 기능만 되는 로직
+  const [tmpBookmarkList, setTmpBookmarkList] = useState<boolean[]>([]);
+
+  useEffect(() => {
+    if (userList.length > 0) {
+      const tmpList = new Array(userList.length).fill(false);
+      setTmpBookmarkList(tmpList);
+    }
+  }, [userList]);
+
+  const clickBookmark = (idx: number) => {
+    const copyList = [...tmpBookmarkList];
+    copyList[idx] = !copyList[idx];
+    setTmpBookmarkList(copyList);
+  };
+
   if (userList.length > 0) {
     return (
       <>
@@ -80,12 +97,29 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
               <div className={styles['glimpse-list-wrapper']}>
                 <div className={styles['card-header']}>
                   <div className={styles['icon-wrapper']}>
-                    <Image
-                      alt="bookmark-icon"
-                      src={'/icons/bookmark-icon.svg'}
-                      width={24}
-                      height={24}
-                    />
+                    {tmpBookmarkList[index] ? (
+                      <Image
+                        alt="bookmark-icon"
+                        src={'/icons/bookmark_filled.svg'}
+                        width={24}
+                        height={24}
+                        onClick={e => {
+                          e.stopPropagation();
+                          clickBookmark(index);
+                        }}
+                      />
+                    ) : (
+                      <Image
+                        alt="bookmark-icon"
+                        src={'/icons/bookmark-icon.svg'}
+                        width={24}
+                        height={24}
+                        onClick={e => {
+                          e.stopPropagation();
+                          clickBookmark(index);
+                        }}
+                      />
+                    )}
                   </div>
                   {/* <div
                     className={clsx(
