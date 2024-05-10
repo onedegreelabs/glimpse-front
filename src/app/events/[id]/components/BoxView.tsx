@@ -28,10 +28,10 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
       type: 'Medium',
       src: '/assets/sns-link/medium.jpg',
     },
-    // {
-    //   type: 'Figma',
-    //   src: '/assets/sns-link/figma.jpg',
-    // },
+    {
+      type: 'Figma',
+      src: '/assets/sns-link/figma.svg',
+    },
     {
       type: 'Linkedin',
       src: '/assets/sns-link/linkedin.jpg',
