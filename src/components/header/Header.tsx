@@ -166,7 +166,7 @@ export default function Header() {
             />
             <p>Language</p>
           </div>
-          <div className={styles['devidor']} />
+          {/* <div className={styles['devidor']} /> */}
           {/* 아래 주석은 아직 개발이 안된 페이지라 주석처리 */}
           {/* <div className={styles['row-wrapper']}>
             <Image
@@ -196,9 +196,9 @@ export default function Header() {
             <p>Customer service</p>
           </div>
           <div className={styles['devidor']} /> */}
-          <div className={styles['sign-row']}>
+          {/* <div className={styles['sign-row']}>
             <p className={styles['user-mail']}>{profile?.email}</p>
-          </div>
+          </div> */}
         </div>
       )}
     </div>
