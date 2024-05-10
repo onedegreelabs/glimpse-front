@@ -9,6 +9,12 @@
     flex-direction: column;
     gap: 16px;
 
+    .event-title-text {
+      font-size: 28px;
+      font-weight: 400;
+      line-height: 130%;
+    }
+
     .external-link-box {
       cursor: pointer;
       border: 1px solid #e5e5e5;
@@ -32,6 +38,11 @@
     .event-info-top-wrapper {
       display: grid;
       gap: 8px;
+
+      .event-date-reactive-wrapper {
+        display: flex;
+        justify-content: space-between;
+      }
 
       .event-date-wrapper {
         display: flex;
@@ -67,19 +78,25 @@
       }
     }
 
-    .tag-wrapper {
-      display: flex;
-      gap: 10px;
+    .devent-description-wrapper {
+      display: grid;
+      gap: 4px;
 
-      .tag-item {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 24px;
-        padding: 0 10px;
-        border-radius: 30px;
-        background-color: #f3f3f3;
-        font-size: 12px;
+      .about-text {
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 425px) {
+  .header-content-area {
+    .event-info-area {
+      .event-info-top-wrapper {
+        .event-date-reactive-wrapper {
+          display: grid;
+          gap: 8px;
+        }
       }
     }
   }

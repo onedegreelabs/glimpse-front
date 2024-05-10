@@ -62,7 +62,7 @@ export default function TopBanner({
           </div>
         </div>
         <div className={styles['info-middle']}>
-          <p>{eventTitle}</p>
+          {!coverImage && <p>{eventTitle}</p>}
         </div>
         <div className={styles['info-bottom']}>
           <Chip

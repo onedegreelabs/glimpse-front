@@ -50,7 +50,6 @@
 
     .info-middle {
       p {
-        text-align: center;
         font-size: 28px;
         font-weight: 400;
         line-height: 130%;
@@ -58,6 +57,8 @@
     }
 
     .info-bottom {
+      margin-top: auto;
+      margin-bottom: 4px;
       display: flex;
       justify-content: end;
     }
