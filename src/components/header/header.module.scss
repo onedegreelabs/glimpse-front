@@ -38,17 +38,14 @@
 
     .row-wrapper {
       height: 56px;
-      width: 100%;
+      width: max-content;
       display: grid;
       align-items: center;
       grid-template-columns: 24px 1fr;
       gap: 12px;
       font-size: 16px;
       font-weight: 600;
-
-      img {
-        cursor: pointer;
-      }
+      cursor: pointer;
     }
 
     .sign-row {

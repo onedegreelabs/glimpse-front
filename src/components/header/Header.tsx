@@ -134,15 +134,17 @@ export default function Header() {
             <p>Language</p>
           </div>
           <div className={styles['devidor']} />
-          <div className={styles['row-wrapper']}>
+          <div
+            className={styles['row-wrapper']}
+            onClick={() => {
+              moveToPage('my/profile');
+            }}
+          >
             <Image
               alt="my-profile"
               src={'/icons/header/my-profile.svg'}
               width={20}
               height={20}
-              onClick={() => {
-                moveToPage('my/profile');
-              }}
             />
             <p>My profile</p>
           </div>
