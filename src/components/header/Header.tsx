@@ -103,7 +103,15 @@ export default function Header() {
   return (
     <div className={styles['header-wrapper']}>
       <div className={styles['header-top']}>
-        <div className={styles['text-area']}>Title</div>
+        <Image
+          alt="glimpse-logo"
+          src={'/icons/header/glimpse_logo.svg'}
+          width={124}
+          height={24}
+          onClick={() => {
+            moveToPage('/');
+          }}
+        />
         <Image
           alt="open-menu-icon"
           src={'/icons/burger.svg'}
@@ -157,7 +165,8 @@ export default function Header() {
             <p>Host page</p>
           </div>
           <div className={styles['devidor']} />
-          <div className={styles['row-wrapper']}>
+          {/* 아래 주석은 아직 개발이 안된 페이지라 주석처리 */}
+          {/* <div className={styles['row-wrapper']}>
             <Image
               alt="setting"
               src={'/icons/header/setting.svg'}
@@ -184,7 +193,7 @@ export default function Header() {
             />
             <p>Customer service</p>
           </div>
-          <div className={styles['devidor']} />
+          <div className={styles['devidor']} /> */}
           <div className={styles['sign-row']}>
             <p>Sign info</p>
             <p className={styles['user-mail']}>{profile?.email}</p>
