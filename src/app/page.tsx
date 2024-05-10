@@ -5,7 +5,7 @@ import {useEffect} from 'react';
 export default function HomePage() {
   const router = useRouter();
   useEffect(() => {
-    router.push('events/discover');
+    router.replace('events/discover');
   }, []);
   return <div>준비중 입니다...🙇‍♀️</div>;
 }

@@ -11,10 +11,13 @@
     height: 60px;
     background: #fff;
 
-    .text-area {
+    .logo-area {
+      display: flex;
+      gap: 8px;
       font-size: 20px;
       text-align: center;
       font-weight: 500;
+      color: #7e51fd;
     }
 
     img {
