@@ -114,7 +114,7 @@ export default function Header() {
         />
         <Image
           alt="open-menu-icon"
-          src={'/icons/burger.svg'}
+          src={'/icons/header/profile.svg'}
           width={24}
           height={24}
           onClick={() => {
