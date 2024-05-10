@@ -86,10 +86,11 @@
   padding: 0 16px;
 
   .view-area {
-    display: grid;
-    // grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     padding: 16px 0px;
+    gap: 16px;
 
     &.grid-view {
       grid-template-columns: repeat(5, 1fr);
