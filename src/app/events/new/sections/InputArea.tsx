@@ -19,7 +19,8 @@ import _ from 'lodash';
 import SuccessModal from '../components/successModal';
 import {useIsLoginStore} from '@/stores/auth';
 import {useRouter} from 'next/navigation';
-
+import ReactGoogleAutocomplete from 'react-google-autocomplete';
+import {GOOGLE_MAPS_API_KEY} from '@/config/env.json';
 const IMAGE_MAXSIZE = 10 * 1024 * 1024;
 
 export default function InputArea() {
@@ -558,14 +559,16 @@ export default function InputArea() {
         )}
         {type === 'Offline' && (
           <div style={{position: 'relative', marginBottom: '12px'}}>
-            <input
+            <ReactGoogleAutocomplete
+              apiKey={GOOGLE_MAPS_API_KEY}
+              onPlaceSelected={place => {
+                console.log(place);
+              }}
               ref={regionRef}
               placeholder="Offline address"
               value={region}
-              onChange={e => {
-                if (e.target.value.length < 2000) {
-                  setRegion(e.target.value);
-                }
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setRegion(e.target.value);
               }}
               onFocus={() => {
                 deleteErrorState('region');
