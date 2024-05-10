@@ -38,13 +38,7 @@
         gap: 10px;
       }
 
-      .share-btn-wrapper {
-        display: flex;
-        align-items: center;
-
-        img {
-          cursor: pointer;
-        }
+      .total-view {
       }
     }
 
@@ -53,35 +47,6 @@
         font-size: 28px;
         font-weight: 400;
         line-height: 130%;
-      }
-    }
-
-    .info-bottom {
-      margin-top: auto;
-      margin-bottom: 4px;
-      display: flex;
-      justify-content: end;
-    }
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  .event-thumbnail-wrapper {
-    .event-info-wrapper {
-      .info-header {
-        .share-btn-wrapper {
-          display: flex;
-          justify-self: center;
-          align-items: center;
-          width: 32px;
-          height: 32px;
-          background: rgba(255, 255, 255, 0.5);
-          border-radius: 50%;
-
-          img {
-            margin: auto;
-          }
-        }
       }
     }
   }
