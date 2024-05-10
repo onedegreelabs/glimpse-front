@@ -76,7 +76,7 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
               onClickCard(data.user.id);
             }}
           >
-            <Card key={data.id} height={340}>
+            <Card key={data.id} height={340} width={340}>
               <div className={styles['glimpse-list-wrapper']}>
                 <div className={styles['card-header']}>
                   <div className={styles['icon-wrapper']}>
