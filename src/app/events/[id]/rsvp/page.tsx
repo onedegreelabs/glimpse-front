@@ -5,6 +5,7 @@ import styles from './EventRsvpContainer.module.scss';
 import {applyEvent, useEventDetail, useEventQuestion} from '@/hooks/swr/useEvents';
 import {useMyProfile} from '@/hooks/swr/useProfiles';
 import Image from 'next/image';
+import {useRouter} from 'next/navigation';
 
 interface QuestionType {
   id: number;
@@ -48,12 +49,18 @@ export default function EventRsvpContainer() {
     region: '',
     purpose: '',
   });
+  const router = useRouter();
+
   useEffect(() => {
     console.log('effect start')
     if (detailData?.data?.id) {
       setEventId(detailData.data.id);
     }
   }, [detailData]);
+
+  function toProfile() {
+    router.push(`/my/profile`);
+  }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -90,7 +97,7 @@ export default function EventRsvpContainer() {
           <p>Please answer this survey.</p>
         </div>
         <div className={styles['rsvp-required']}>Required *</div>
-        <div className={styles['to-profile']}>
+        <div className={styles['profile-info-container']}>
           <h4>Profile Info</h4>
           <Image
             src={'/icons/info_icon.svg'}
@@ -99,16 +106,19 @@ export default function EventRsvpContainer() {
             height={14}
           />
           <div className={styles['edit']}>
-          <div/>
-            <h4>Edit</h4>
-            <Image
-            src={'/icons/arrow_icon.svg'}
-            alt="info"
-            width={6.11}
-            height={10.56}
-            />
+          <p/>
+            <div className={styles['to-profile']} onClick={toProfile}>
+              <h4>Edit</h4>
+              <Image
+              src={'/icons/arrow_icon.svg'}
+              alt="info"
+              width={6.11}
+              height={10.56}
+              />
+            </div>
           </div>
         </div>
+        {/* profile-info*/}
         <div className={styles['profile-info']}>
           <label>
             Name (이름) <span> *</span>
@@ -133,7 +143,7 @@ export default function EventRsvpContainer() {
           <label>Company</label>
           <div>{profileData?.data?.belong}</div>
         </div>
-        
+        {/* registration-question*/}
         <div className={styles['registration-question-label']}>
           <h4>Registration Questions</h4>
         </div>

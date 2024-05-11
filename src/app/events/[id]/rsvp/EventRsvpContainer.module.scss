@@ -34,7 +34,7 @@
       margin-bottom: 12px;
     }
 
-    .to-profile {
+    .profile-info-container {
       height: 33px;
       display: flex;
       align-items: center;
@@ -51,7 +51,7 @@
       display: flex;
       align-items: center;
 
-        div {
+        p {
           width: 1.3px;
           height: 16px;
           background-color: #E3DAFF;
@@ -62,6 +62,12 @@
           margin-left: 16px;
           margin-right: 8px;
         }
+      }
+
+      .to-profile {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
       }
     }
 
