@@ -4,6 +4,7 @@ import {useState, FormEvent} from 'react';
 import styles from './EventRsvpContainer.module.scss';
 import {applyEvent} from '@/hooks/swr/useEvents';
 import {useMyProfile} from '@/hooks/swr/useProfiles';
+import Image from 'next/image';
 
 interface InputValid {
   givenName: string;
@@ -26,13 +27,6 @@ export default function EventRsvpContainer() {
     region: '',
     purpose: '',
   });
-
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const {name, value} = event.target;
-    if (value) {
-      setInputValid(prevInputValid => ({...prevInputValid, [name]: 'valid'}));
-    }
-  }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -69,152 +63,74 @@ export default function EventRsvpContainer() {
           <p>Please answer this survey.</p>
         </div>
         <div className={styles['rsvp-required']}>Required *</div>
-        <div className={styles['rsvp-input']}>
-          <label>
-            First Name (이름) <span> *</span>
-          </label>
-          <input
-            type="text"
-            value={data?.data?.givenName}
-            placeholder="Place holder"
-            onChange={handleChange}
-            className={styles[inputValid.givenName]}
+        <div className={styles['to-profile']}>
+          <h4>Profile Info</h4>
+          <Image
+            src={'/icons/info_icon.svg'}
+            alt="info"
+            width={14}
+            height={14}
           />
-        </div>
-        <div className={styles['rsvp-input']}>
-          <label>
-            Last Name (성) <span> *</span>
-          </label>
-          <input
-            type="text"
-            value={data?.data?.familyName}
-            placeholder="Place holder"
-            onChange={handleChange}
-            className={styles[inputValid.familyName]}
-          />
-        </div>
-        <div className={styles['rsvp-input']}>
-          <label>
-            Email (이메일) <span> *</span>
-          </label>
-          <input
-            type="text"
-            value={data?.data?.email}
-            placeholder="Place holder"
-            onChange={handleChange}
-            className={styles[inputValid.belong]}
-            disabled
-          />
-        </div>
-        <div className={styles['rsvp-input']}>
-          <label>
-            Industry (산업군) <span> *</span>
-          </label>
-          <input
-            type="text"
-            placeholder="Place holder"
-            onChange={handleChange}
-            className={styles[inputValid.role]}
-          />
-        </div>
-        <div className={styles['rsvp-input']}>
-          <label>
-            Role (직군) <span> *</span>
-          </label>
-          <input
-            type="text"
-            value={data?.data?.role}
-            placeholder="Place holder"
-            onChange={handleChange}
-            className={styles[inputValid.role]}
-            disabled
-          />
-        </div>
-        <div className={styles['rsvp-input']}>
-          <label>Organization (소속)</label>
-          <input
-            type="text"
-            value={data?.data?.belong}
-            placeholder="Place holder"
-            onChange={handleChange}
-            className={styles[inputValid.belong]}
-          />
-        </div>
-        <div className={styles['rsvp-input']}>
-          <label>Experience (경력)</label>
-          <input
-            type="text"
-            placeholder="Place holder"
-            onChange={handleChange}
-            className={styles[inputValid.experience]}
-          />
-        </div>
-        <div className={styles['rsvp-input']}>
-          <label>Location (거주지역)</label>
-          <input
-            type="text"
-            value={data?.data?.region}
-            placeholder="Place holder"
-            onChange={handleChange}
-            className={styles[inputValid.region]}
-          />
-        </div>
-        <div className={styles['rsvp-input']}>
-          <label>Purpose of Participation (참가 목적)</label>
-          <input
-            type="text"
-            name="purpose"
-            placeholder="Place holder"
-            onChange={handleChange}
-            className={styles[inputValid.region]}
-          />
-        </div>
-        <div className={styles['rsvp-interest']}>
-          <h2>Interest (관심사)</h2>
-          <div className={styles['rsvp-checkbox-container']}>
-            <div className={styles['rsvp-checkbox']}>
-              <input type="checkbox" id="industry" name="industry-check" />
-              <label htmlFor="industry">Industry</label>
-            </div>
-            <div className={styles['rsvp-checkbox']}>
-              <input type="checkbox" id="role" name="role-check" />
-              <label htmlFor="role">Role</label>
-            </div>
-            <div className={styles['rsvp-checkbox']}>
-              <input type="checkbox" id="self-development" name="self-check" />
-              <label htmlFor="self-development">Self-Development</label>
-            </div>
-            <div className={styles['rsvp-checkbox']}>
-              <input type="checkbox" id="hobby" name="hobby-check" />
-              <label htmlFor="hobby">Hobby</label>
-            </div>
-            <div className={styles['rsvp-checkbox']}>
-              <input type="checkbox" id="networking" name="networking-check" />
-              <label htmlFor="networking">Networking</label>
-            </div>
-            <div className={styles['rsvp-checkbox']}>
-              <input type="checkbox" id="career" name="career-check" />
-              <label htmlFor="career">Career</label>
-            </div>
-            <div className={styles['rsvp-checkbox']}>
-              <input type="checkbox" id="skill" name="skill-check" />
-              <label htmlFor="skill">Skill</label>
-            </div>
-            <div className={styles['rsvp-checkbox']}>
-              <input type="checkbox" id="leadership" name="leadership-check" />
-              <label htmlFor="leadership">Leadership</label>
-            </div>
-            <div className={styles['rsvp-checkbox']}>
-              <input
-                type="checkbox"
-                id="problem-solving"
-                name="problem-check"
-              />
-              <label htmlFor="problem-solving">Problem Solving</label>
-            </div>
+          <div className={styles['edit']}>
+          <div/>
+            <h4>Edit</h4>
+            <Image
+            src={'/icons/arrow_icon.svg'}
+            alt="info"
+            width={6.11}
+            height={10.56}
+            />
           </div>
-          <button>Submit</button>
         </div>
+        <div className={styles['profile-info']}>
+          <label>
+            Name (이름) <span> *</span>
+          </label>
+          <div>{data?.data?.name}</div>
+        </div>
+        <div className={styles['profile-info']}>
+          <label>
+            Email (registered with Glimpse)<span> *</span>
+          </label>
+          <div>{data?.data?.email}</div>
+        </div>
+        <div className={styles['profile-info']}>
+          <label>Location</label>
+          <div>{data?.data?.region}</div>
+        </div>
+        <div className={styles['profile-info']}>
+          <label>Specialization</label>
+          <div>{data?.data?.role}</div>
+        </div>
+        <div className={styles['profile-info']}>
+          <label>Company</label>
+          <div>{data?.data?.belong}</div>
+        </div>
+        
+        <div className={styles['to-profile']}>
+          <h4>Registration Questions</h4>
+        </div>
+        <div className={styles['registration-question']}>
+          <label>Purpose of Participation <span> *</span></label>
+          <textarea
+          placeholder="Place holder"
+          name='purpose'
+        />
+          <div className={styles['text-length']}>
+            0/300
+          </div>
+        </div>
+        <div className={styles['registration-question']}>
+          <label>{'Interest (Tag)'}</label>
+          <input
+          placeholder="Place holder"
+          name='purpose'
+        />
+          <div className={styles['text-length']}>
+            0/10
+          </div>
+        </div>
+        <button>Submit</button> 
       </div>
     </form>
   );
