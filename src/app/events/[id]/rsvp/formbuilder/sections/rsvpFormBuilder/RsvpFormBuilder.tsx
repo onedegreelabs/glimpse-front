@@ -44,8 +44,8 @@ const PRESETDATA = [
     options: [],
   },
   {
-    type: 'Choice',
-    question: 'Interest',
+    type: 'Text',
+    question: 'Hashtag',
     isRequired: false,
     maxCount: 0,
     options: ['책읽기', '운동하기'],
@@ -240,11 +240,7 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
             <div className={styles['profile-question']}>Profile Questions</div>
             <ol>
               <li>
-                Full Name
-                <div className={styles['necessary']}>Necessary</div>
-              </li>
-              <li>
-                Nickname/Preferred Name
+                Name
                 <div className={styles['necessary']}>Necessary</div>
               </li>
               <li>
@@ -257,7 +253,7 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
               </li>
               {presetQuestions.map((item, index) => (
                 <li key={index}>
-                  {`${item.question} ${item.type !== 'Text' ? ' (tag)' : ''}`}
+                  {item.question}
                   <div
                     className={`${styles['toggle-button']} ${
                       item.isRequired ? styles['active'] : ''
