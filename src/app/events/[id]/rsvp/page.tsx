@@ -1,10 +1,25 @@
 'use client';
-
-import {useState, FormEvent} from 'react';
+import {usePathname} from 'next/navigation';
+import {useState, FormEvent, useEffect} from 'react';
 import styles from './EventRsvpContainer.module.scss';
-import {applyEvent} from '@/hooks/swr/useEvents';
+import {applyEvent, useEventDetail, useEventQuestion} from '@/hooks/swr/useEvents';
 import {useMyProfile} from '@/hooks/swr/useProfiles';
 import Image from 'next/image';
+
+interface QuestionType {
+  id: number;
+  question: string;
+  type: string;
+  isRequired: true,
+  maxCount: number;
+  sequence: number;
+  options: [
+    {
+      id: number;
+      text: string;
+    }
+  ]
+}
 
 interface InputValid {
   givenName: string;
@@ -17,7 +32,13 @@ interface InputValid {
 }
 
 export default function EventRsvpContainer() {
-  const {data, error, isLoading} = useMyProfile();
+  const pathname = usePathname();
+  const pathnameList = pathname?.split('/');
+  const eventHandle = pathnameList?.[pathnameList.length - 2];
+  const {data:detailData} = useEventDetail(eventHandle);
+  const [eventId, setEventId] = useState(0);
+  const {data:questionsData} = useEventQuestion(eventId)
+  const {data:profileData} = useMyProfile();
   const [inputValid, setInputValid] = useState<InputValid>({
     givenName: '',
     familyName: '',
@@ -27,6 +48,12 @@ export default function EventRsvpContainer() {
     region: '',
     purpose: '',
   });
+  useEffect(() => {
+    console.log('effect start')
+    if (detailData?.data?.id) {
+      setEventId(detailData.data.id);
+    }
+  }, [detailData]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -86,25 +113,25 @@ export default function EventRsvpContainer() {
           <label>
             Name (이름) <span> *</span>
           </label>
-          <div>{data?.data?.name}</div>
+          <div>{profileData?.data?.name}</div>
         </div>
         <div className={styles['profile-info']}>
           <label>
             Email (registered with Glimpse)<span> *</span>
           </label>
-          <div>{data?.data?.email}</div>
+          <div>{profileData?.data?.email}</div>
         </div>
         <div className={styles['profile-info']}>
           <label>Location</label>
-          <div>{data?.data?.region}</div>
+          <div>{profileData?.data?.region}</div>
         </div>
         <div className={styles['profile-info']}>
           <label>Specialization</label>
-          <div>{data?.data?.role}</div>
+          <div>{profileData?.data?.role}</div>
         </div>
         <div className={styles['profile-info']}>
           <label>Company</label>
-          <div>{data?.data?.belong}</div>
+          <div>{profileData?.data?.belong}</div>
         </div>
         
         <div className={styles['to-profile']}>
@@ -130,6 +157,28 @@ export default function EventRsvpContainer() {
             0/10
           </div>
         </div>
+        {questionsData?.data?.customQuestions.questions.map((question:QuestionType) =>(
+          <div key={question.id} className={styles['registration-question']}>
+            <label>{question.question}</label>
+            {question.type==='Text' && <>
+            <input
+                placeholder="Place holder"
+                name='purpose'
+              />
+            <div className={styles['text-length']}>
+              0/10
+            </div>
+            </>}
+            {question.type==='Choice' && question.maxCount === 1 && <>
+              {question.options.map((option) => (
+                <label key={option.id}><input type='checkbox'/>{option.text}</label>
+              ))}
+              <div className={styles['guide-phrase']}>
+                You can only choose one.
+              </div>
+            </>}
+          </div>
+        ))}
         <button>Submit</button> 
       </div>
     </form>
