@@ -6,13 +6,18 @@ import {useMyProfile} from '@/hooks/swr/useProfiles';
 import {getAccessTokenByRefreshToken, logout} from '@/apis/signApi';
 import {useIsLoginStore} from '@/stores/auth';
 import {useRouter} from 'next/navigation';
+import {useSession, signIn, signOut } from 'next-auth/react';
+import {customAxios} from '@/apis/headers';
 import Image from 'next/image';
+
 export default function Header() {
   const setProfile = useProfileStore(state => state.setProfile);
   const profile = useProfileStore(state => state.profile);
   const {data, error} = useMyProfile();
   const setIsLogin = useIsLoginStore(state => state.setIsLogin);
   const isLogin = useIsLoginStore(state => state.isLogin);
+  const { data: session } = useSession(); //login에 필요
+  console.log(session);
   useEffect(() => {
     if (data?.statusCode === 200) {
       setProfile(data.data);
@@ -100,10 +105,28 @@ export default function Header() {
 
   const [showSetting, setShowSetting] = useState<boolean>(false);
 
+  const handleAPI = async () => {
+    try {
+      const {data} = await customAxios.get('/auth/token', {
+        headers: {
+          Authorization: `Basic ${session}`,
+        },
+      });
+      if (data) {
+        window.location.href = '/';
+      }
+    } catch (error) {
+      console.error('Error fetching token:', error);
+    }
+  };
+
   return (
     <div className={styles['header-wrapper']}>
       <div className={styles['header-top']}>
         <div className={styles['text-area']}>Title</div>
+        <div>
+          <button onClick={() => {signIn("google", { callbackUrl: "/" }); handleAPI();}}>Login</button>
+        </div>
         <Image
           alt="open-menu-icon"
           src={'/icons/burger.svg'}
