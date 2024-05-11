@@ -134,51 +134,68 @@ export default function EventRsvpContainer() {
           <div>{profileData?.data?.belong}</div>
         </div>
         
-        <div className={styles['to-profile']}>
+        <div className={styles['registration-question-label']}>
           <h4>Registration Questions</h4>
         </div>
-        <div className={styles['registration-question']}>
-          <label>Purpose of Participation <span> *</span></label>
-          <textarea
-          placeholder="Place holder"
-          name='purpose'
-        />
-          <div className={styles['text-length']}>
-            0/300
+        <div className={styles['registration-question-container']}>
+          <div className={styles['registration-question']}>
+            <label>Purpose of Participation <span> *</span></label>
+            <textarea
+            placeholder="Place holder"
+            name='purpose'
+          />
+            <div className={styles['text-length']}>
+              0/300
+            </div>
           </div>
-        </div>
-        <div className={styles['registration-question']}>
-          <label>{'Interest (Tag)'}</label>
-          <input
-          placeholder="Place holder"
-          name='purpose'
-        />
-          <div className={styles['text-length']}>
-            0/10
-          </div>
-        </div>
-        {questionsData?.data?.customQuestions.questions.map((question:QuestionType) =>(
-          <div key={question.id} className={styles['registration-question']}>
-            <label>{question.question}</label>
-            {question.type==='Text' && <>
+          <div className={styles['registration-question']}>
+            <label>{'Interest (Tag)'}</label>
             <input
-                placeholder="Place holder"
-                name='purpose'
-              />
+            placeholder="Place holder"
+            name='purpose'
+          />
             <div className={styles['text-length']}>
               0/10
             </div>
-            </>}
-            {question.type==='Choice' && question.maxCount === 1 && <>
-              {question.options.map((option) => (
-                <label key={option.id}><input type='checkbox'/>{option.text}</label>
-              ))}
-              <div className={styles['guide-phrase']}>
-                You can only choose one.
-              </div>
-            </>}
           </div>
-        ))}
+          {questionsData?.data?.customQuestions.questions.map((question:QuestionType) =>(
+            <div key={question.id} className={styles['registration-question']}>
+              <label>{question.question}</label>
+              {question.type==='Text' && <>
+                <input
+                  placeholder="Place holder"
+                  name='purpose'
+                />
+                <div className={styles['text-length']}>
+                  {question.type=== 'Text' ? '0/20' : '0/10'}
+                </div>
+              </>}
+              {question.type==='Choice' && (question.maxCount === 1 ? <>
+                <div className={styles['checkbox']}>
+                  {question.options.map((option) => (<div className={styles['row']}>
+                    <input key={option.id} className={styles['single']} type='checkbox' id={option.id + ''}/><label htmlFor={option.id + ''}></label>
+                    {option.text}
+                  </div>))}
+                </div>
+                <div className={styles['guide-phrase']}>
+                  You can only choose one.
+                </div>
+              </>
+              : //  question.maxCount가 1이 아닐 때
+              <>
+              <div className={styles['checkbox']}>
+                {question.options.map((option) => (<div className={styles['row']}>
+                    <input key={option.id} className={styles['multiple']} type='checkbox' id={option.id + ''}/><label htmlFor={option.id + ''}></label>
+                    {option.text}
+                  </div>))}
+              </div>
+              <div className={styles['guide-phrase']}>
+                You can choose several.
+              </div>
+            </>)}
+            </div>
+          ))}
+        </div>
         <button>Submit</button> 
       </div>
     </form>
