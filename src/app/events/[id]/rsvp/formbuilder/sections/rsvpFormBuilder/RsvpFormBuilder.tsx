@@ -2,14 +2,15 @@
 import {useState, useEffect} from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import {saveRequirement, useEventQuestion} from '@/hooks/swr/useEvents';
-import {saveQuestion} from '@/hooks/swr/useEvents';
+import {deleteQuestion, saveRequirement, useEventQuestion} from '@/hooks/swr/useEvents';
 import CustomQuestionModal from '../../components/customQuestionModal/CustomQuestionModal';
 
 import styles from './RsvpFormBulder.module.scss';
 import NotHostPage from '../../components/notHostPage/NotHostPage';
 
 type CustomQuestionType = {
+  id: number;
+  surveyId: number;
   type: string;
   question: string;
   isRequired: boolean;
@@ -83,26 +84,6 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
     }
   }, [data]);
 
-  // 추가한 custom question 서버에 전송
-  useEffect(() => {
-    if (eventId === 0 || customQuestions.length === 0) return;
-
-    const curIndex = customQuestions.length - 1;
-    const customQuestion = {
-      type: customQuestions[curIndex].type,
-      question: customQuestions[curIndex].question,
-      isRequired: customQuestions[curIndex].isRequired,
-      maxCount: customQuestions[curIndex].maxCount,
-      options: customQuestions[curIndex].options.map(option => option.text),
-    };
-
-    const sendCustom = async () => {
-      await saveQuestion(eventId, customQuestion);
-    };
-
-    sendCustom();
-  }, [customQuestions]);
-
   // preset question isRequired 변경사항 전송
   useEffect(() => {
     if (eventId === 0) return;
@@ -124,6 +105,15 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
   // CustomQuestionModal 닫기
   function closeModal() {
     setShowModal(false);
+  }
+
+  async function deleteCustomQuestion(surveyId: number,questionId: number) {
+    const data = await deleteQuestion(surveyId,questionId);
+    
+    console.log(data)
+    setCustomQuestions(prevQuestions =>
+      prevQuestions.filter(question => question.id !== questionId)
+    );
   }
 
   // question의 isRequired 변경
@@ -160,7 +150,7 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
   if (eventId !== 0 && error) {
     return <NotHostPage />;
   }
-
+console.log(data)
   return (
     <div className={styles['builder-container']}>
       <div className={styles['quest-list']}>
@@ -287,7 +277,7 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
                   <div className={styles['column']}>
                     <div className={styles['row']}>
                       {item.question}
-                      <button className={styles['delete']}>Delete</button>
+                      <button className={styles['delete']} onClick={()=>deleteCustomQuestion(item.surveyId,item.id)}>Delete</button>
                     </div>
                     <div className={styles['options']}>
                       {item.options.map((option, index) => (
@@ -310,6 +300,7 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
       </div>
       {showModal && (
         <CustomQuestionModal
+          eventId={eventId}
           onClose={closeModal}
           setCustomQuestions={setCustomQuestions}
         />
