@@ -96,7 +96,6 @@ export default function CustomQuestionModal({
       maxCount: question.maxCount,
       options: question.options.map(option => option.text),
     };
-
     await saveQuestion(eventId, customQuestion);
 
     setTimeout(() => {

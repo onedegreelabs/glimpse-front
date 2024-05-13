@@ -154,7 +154,6 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
   if (eventId !== 0 && error) {
     return <NotHostPage />;
   }
-  console.log(data);
   return (
     <div className={styles['builder-container']}>
       <div className={styles['quest-list']}>
