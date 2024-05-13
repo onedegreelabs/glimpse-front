@@ -29,7 +29,7 @@ export default function EventDetailPage() {
     }
   }, [data]);
 
-  const {data: eventUserData} = useEventUser(eventId);
+  const {data: eventUserData} = useEventUser(eventId, 100);
   return (
     <div className={styles['page-wrapper']}>
       <TopBanner

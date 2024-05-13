@@ -61,9 +61,9 @@ const useEventDetail = function (handle: string) {
 
 export {useEventDetail};
 
-const useEventUser = function (eventId: number) {
+const useEventUser = function (eventId: number, take: number) {
   const {data, error, isLoading} = useSWR(
-    eventId ? `events/${eventId}/participants` : null,
+    eventId ? `events/${eventId}/participants?take=${take}` : null,
     getFetcher
   );
 
