@@ -1,13 +1,17 @@
 import {useEffect, useState, Dispatch, SetStateAction, useRef} from 'react';
 
+import {saveQuestion} from '@/hooks/swr/useEvents';
 import Image from 'next/image';
 import styles from './CustomQuestionModal.module.scss';
 
 interface CustomQuestionModalProps {
+  eventId: number;
   onClose: () => void;
   setCustomQuestions: Dispatch<
     SetStateAction<
       {
+        id: number;
+        surveyId: number;
         type: string;
         question: string;
         isRequired: boolean;
@@ -19,11 +23,14 @@ interface CustomQuestionModalProps {
 }
 
 export default function CustomQuestionModal({
+  eventId,
   onClose,
   setCustomQuestions,
 }: CustomQuestionModalProps) {
   const lastInput = useRef<HTMLInputElement>(null);
   const [question, setQuestion] = useState({
+    id: 0,
+    surveyId: 0,
     type: 'default',
     question: '',
     isRequired: false,
@@ -82,8 +89,21 @@ export default function CustomQuestionModal({
 
   // 작성한 CustomQuestion 제출
   async function addQuestion() {
-    setCustomQuestions(prev => [...prev, question]);
-    onClose();
+    const customQuestion = {
+      type: question.type,
+      question: question.question,
+      isRequired: question.isRequired,
+      maxCount: question.maxCount,
+      options: question.options.map(option => option.text),
+    };
+
+    await saveQuestion(eventId, customQuestion);
+
+    setTimeout(() => {
+      setCustomQuestions(prev => [...prev, question]);
+    }, 1000);
+
+    window.location.reload();
   }
 
   function scrollHandler() {
