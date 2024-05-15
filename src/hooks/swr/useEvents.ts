@@ -61,9 +61,9 @@ const useEventDetail = function (handle: string) {
 
 export {useEventDetail};
 
-const useEventUser = function (eventId: number) {
+const useEventUser = function (eventId: number, take: number) {
   const {data, error, isLoading} = useSWR(
-    eventId ? `events/${eventId}/participants` : null,
+    eventId ? `events/${eventId}/participants?take=${take}` : null,
     getFetcher
   );
 
@@ -93,7 +93,7 @@ export const saveQuestion = async function (
   data: QuestionType
 ) {
   let res;
-  if (data.maxCount === 0) {
+  if (data.type === 'Text') {
     res = await customAxios.post(`events/${eventId}/question`, {
       type: 'Text',
       question: data.question,
@@ -102,6 +102,17 @@ export const saveQuestion = async function (
   } else {
     res = await customAxios.post(`events/${eventId}/question`, data);
   }
+  return res;
+};
+
+// custom Question 삭제
+export const deleteQuestion = async function (
+  surveyId: number,
+  questionId: number
+) {
+  const res = await customAxios.delete(
+    `surveys/${surveyId}/questions/${questionId}`
+  );
   return res;
 };
 

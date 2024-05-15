@@ -37,35 +37,31 @@ export default function EventInfo({
   return (
     <section className={styles['header-content-area']}>
       <section className={styles['event-info-area']}>
+        {eventDetailData?.coverImage && (
+          <p className={styles['event-title-text']}>{eventDetailData?.title}</p>
+        )}
+
         <div className={styles['event-info-top-wrapper']}>
-          {eventDetailData?.externalLink && (
-            <div
-              className={styles['external-link-box']}
-              onClick={() => {
-                window.open(eventDetailData.externalLink);
-              }}
-            >
-              {eventDetailData.externalLink}
+          <div className={styles['event-date-reactive-wrapper']}>
+            <div className={styles['event-date-wrapper']}>
+              <Image
+                src={'/assets/glimpse-list/calendar-icon.svg'}
+                alt={'달력 아이콘'}
+                width={16}
+                height={16}
+              />
+              <div>{dateText}</div>
             </div>
-          )}
-          <div className={styles['event-date-wrapper']}>
-            <Image
-              src={'/assets/glimpse-list/calendar-icon.svg'}
-              alt={'달력 아이콘'}
-              width={16}
-              height={16}
-            />
-            <div>{dateText}</div>
-          </div>
-          <div className={styles['event-date-wrapper']}>
-            <Image
-              src={'/assets/glimpse-list/Clock.svg'}
-              alt={'시계 아이콘'}
-              width={16}
-              height={16}
-            />
-            <div>
-              {startTimeText} - {endTimeText} (KST)
+            <div className={styles['event-date-wrapper']}>
+              <Image
+                src={'/assets/glimpse-list/Clock.svg'}
+                alt={'시계 아이콘'}
+                width={16}
+                height={16}
+              />
+              <div>
+                {startTimeText} - {endTimeText} (KST)
+              </div>
             </div>
           </div>
           <div className={styles['event-date-wrapper']}>
@@ -103,8 +99,21 @@ export default function EventInfo({
               </>
             )}
           </div>
+          {eventDetailData?.externalLink && (
+            <div
+              className={styles['external-link-box']}
+              onClick={() => {
+                window.open(eventDetailData.externalLink);
+              }}
+            >
+              {eventDetailData.externalLink}
+            </div>
+          )}
         </div>
-        <EventDescription description={description} />
+        <div className={styles['devent-description-wrapper']}>
+          <p className={styles['about-text']}>About</p>
+          <EventDescription description={description} />
+        </div>
       </section>
     </section>
   );

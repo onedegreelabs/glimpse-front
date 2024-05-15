@@ -6,7 +6,7 @@ import {useMyProfile} from '@/hooks/swr/useProfiles';
 import {getAccessTokenByRefreshToken, logout} from '@/apis/signApi';
 import {useIsLoginStore} from '@/stores/auth';
 import {useRouter} from 'next/navigation';
-import {useSession, signIn, signOut } from 'next-auth/react';
+import {useSession, signIn, signOut} from 'next-auth/react';
 import {customAxios} from '@/apis/headers';
 import Image from 'next/image';
 
@@ -16,7 +16,7 @@ export default function Header() {
   const {data, error} = useMyProfile();
   const setIsLogin = useIsLoginStore(state => state.setIsLogin);
   const isLogin = useIsLoginStore(state => state.isLogin);
-  const { data: session } = useSession(); //login에 필요
+  const {data: session} = useSession(); //login에 필요
   console.log(session);
   useEffect(() => {
     if (data?.statusCode === 200) {
@@ -123,10 +123,23 @@ export default function Header() {
   return (
     <div className={styles['header-wrapper']}>
       <div className={styles['header-top']}>
-        <div className={styles['text-area']}>Title</div>
-        <div>
-          <button onClick={() => {signIn("google", { callbackUrl: "/" }); handleAPI();}}>Login</button>
-        </div>
+        <Image
+          alt="glimpse-logo"
+          src={'/icons/header/glimpse_logo.svg'}
+          width={124}
+          height={24}
+          onClick={() => {
+            moveToPage('/');
+          }}
+        />
+        <button
+          onClick={() => {
+            signIn('google', {callbackUrl: '/'});
+            handleAPI();
+          }}
+        >
+          Google Login
+        </button>
         <Image
           alt="open-menu-icon"
           src={'/icons/burger.svg'}
@@ -139,25 +152,18 @@ export default function Header() {
       </div>
       {showSetting && (
         <div className={styles['setting-wrapper']}>
-          <div className={styles['row-wrapper']}>
-            <Image
-              alt="language"
-              src={'/icons/header/language.svg'}
-              width={20}
-              height={20}
-            />
-            <p>Language</p>
-          </div>
-          <div className={styles['devidor']} />
-          <div className={styles['row-wrapper']}>
+          {/* <div className={styles['devidor']} /> */}
+          <div
+            className={styles['row-wrapper']}
+            onClick={() => {
+              moveToPage('my/profile');
+            }}
+          >
             <Image
               alt="my-profile"
               src={'/icons/header/my-profile.svg'}
               width={20}
               height={20}
-              onClick={() => {
-                moveToPage('my/profile');
-              }}
             />
             <p>My profile</p>
           </div>
@@ -179,8 +185,18 @@ export default function Header() {
             />
             <p>Host page</p>
           </div>
-          <div className={styles['devidor']} />
           <div className={styles['row-wrapper']}>
+            <Image
+              alt="language"
+              src={'/icons/header/language.svg'}
+              width={20}
+              height={20}
+            />
+            <p>Language</p>
+          </div>
+          {/* <div className={styles['devidor']} /> */}
+          {/* 아래 주석은 아직 개발이 안된 페이지라 주석처리 */}
+          {/* <div className={styles['row-wrapper']}>
             <Image
               alt="setting"
               src={'/icons/header/setting.svg'}
@@ -207,11 +223,10 @@ export default function Header() {
             />
             <p>Customer service</p>
           </div>
-          <div className={styles['devidor']} />
-          <div className={styles['sign-row']}>
-            <p>Sign info</p>
+          <div className={styles['devidor']} /> */}
+          {/* <div className={styles['sign-row']}>
             <p className={styles['user-mail']}>{profile?.email}</p>
-          </div>
+          </div> */}
         </div>
       )}
     </div>
