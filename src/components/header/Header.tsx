@@ -6,9 +6,9 @@ import {useMyProfile} from '@/hooks/swr/useProfiles';
 import {getAccessTokenByRefreshToken, logout} from '@/apis/signApi';
 import {useIsLoginStore} from '@/stores/auth';
 import {useRouter} from 'next/navigation';
-import {useSession, signIn, signOut} from 'next-auth/react';
-import {customAxios} from '@/apis/headers';
+import {useSession} from 'next-auth/react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Header() {
   const setProfile = useProfileStore(state => state.setProfile);
@@ -16,8 +16,8 @@ export default function Header() {
   const {data, error} = useMyProfile();
   const setIsLogin = useIsLoginStore(state => state.setIsLogin);
   const isLogin = useIsLoginStore(state => state.isLogin);
-  const {data: session} = useSession(); //login에 필요
-  console.log(session);
+  const {status, data: session} = useSession(); // 구글 로그인
+
   useEffect(() => {
     if (data?.statusCode === 200) {
       setProfile(data.data);
@@ -105,21 +105,6 @@ export default function Header() {
 
   const [showSetting, setShowSetting] = useState<boolean>(false);
 
-  const handleAPI = async () => {
-    try {
-      const {data} = await customAxios.get('/auth/token', {
-        headers: {
-          Authorization: `Basic ${session}`,
-        },
-      });
-      if (data) {
-        window.location.href = '/';
-      }
-    } catch (error) {
-      console.error('Error fetching token:', error);
-    }
-  };
-
   return (
     <div className={styles['header-wrapper']}>
       <div className={styles['header-top']}>
@@ -132,14 +117,16 @@ export default function Header() {
             moveToPage('/');
           }}
         />
-        <button
-          onClick={() => {
-            signIn('google', {callbackUrl: '/'});
-            handleAPI();
-          }}
-        >
-          Google Login
-        </button>
+        {/* 인증 된 경우 */}
+        {status === 'authenticated' && (
+          <div>
+            Hello !<Link href="/api/auth/signout">Sign Out</Link>
+          </div>
+        )}
+        {/* 인증 되지 않은 경우 */}
+        {status === 'unauthenticated' && (
+          <Link href="/api/auth/signin">Google Login</Link>
+        )}
         <Image
           alt="open-menu-icon"
           src={'/icons/burger.svg'}
