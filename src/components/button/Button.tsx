@@ -9,6 +9,7 @@ interface ButtonProps {
   children?: React.ReactNode;
   clickEvent: any;
   borderColor?: string;
+  borderRadius?: string;
 }
 export default function Button({
   color,
@@ -19,6 +20,7 @@ export default function Button({
   children,
   clickEvent,
   borderColor,
+  borderRadius,
 }: ButtonProps) {
   return (
     <div
@@ -29,6 +31,7 @@ export default function Button({
         ...(color && {color: `#${color}`}),
         ...(bgColor && {backgroundColor: `#${bgColor}`}),
         ...(borderColor && {border: `1px solid #${borderColor}`}),
+        ...(borderRadius && {borderRadius: `${borderRadius}px`}),
       }}
       onClick={() => clickEvent()}
     >
