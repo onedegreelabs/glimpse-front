@@ -6,7 +6,8 @@ import {useMyProfile} from '@/hooks/swr/useProfiles';
 import {getAccessTokenByRefreshToken, logout} from '@/apis/signApi';
 import {useIsLoginStore} from '@/stores/auth';
 import {useRouter} from 'next/navigation';
-import {useSession} from 'next-auth/react';
+import {useSession, signIn, signOut} from 'next-auth/react';
+import {customAxios} from '@/apis/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -105,6 +106,28 @@ export default function Header() {
 
   const [showSetting, setShowSetting] = useState<boolean>(false);
 
+  //
+  useEffect(() => {
+    if (session?.idToken) {
+      const fetchToken = async () => {
+        try {
+          const {data} = await customAxios.get('/auth/token', {
+            headers: {
+              Authorization: `Bearer ${session.idToken}`,
+            },
+          });
+          if (data) {
+            window.location.href = '/';
+          }
+        } catch (error) {
+          console.error('Error fetching token:', error);
+        }
+      };
+      fetchToken();
+    }
+  }, [session]);
+  //
+  console.log(session);
   return (
     <div className={styles['header-wrapper']}>
       <div className={styles['header-top']}>
@@ -120,12 +143,14 @@ export default function Header() {
         {/* 인증 된 경우 */}
         {status === 'authenticated' && (
           <div>
-            Hello !<Link href="/api/auth/signout">Sign Out</Link>
+            {/* Hello !<Link href="/api/auth/signout">Sign Out</Link> */}
+            <button onClick={() => signOut()}>SignOut</button>
           </div>
         )}
         {/* 인증 되지 않은 경우 */}
         {status === 'unauthenticated' && (
-          <Link href="/api/auth/signin">Google Login</Link>
+          // <Link href="/api/auth/signin">Google Login</Link>
+          <button onClick={() => signIn()}>SignIn</button>
         )}
         <Image
           alt="open-menu-icon"

@@ -32,6 +32,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@types/gapi.auth2": "^0.0.60",
     "@types/lodash": "^4.14.202",
     "@types/node": "^20",
     "@types/react": "^18",
