@@ -4,6 +4,7 @@ import styles from './page.module.scss';
 import SignUp from './components/signUp';
 import SignIn from './components/signIn';
 import {useState} from 'react';
+import {SessionProvider} from 'next-auth/react';
 
 export default function Sign() {
   const [isSendMail, setIsSendMail] = useState(false);
@@ -16,11 +17,13 @@ export default function Sign() {
         </div>
       </div>
       {!isSendMail ? (
-        <SignIn
-          setIsSendMail={setIsSendMail}
-          mailAddress={mailAddress}
-          setMailAddress={setMailAddress}
-        />
+        <SessionProvider>
+          <SignIn
+            setIsSendMail={setIsSendMail}
+            mailAddress={mailAddress}
+            setMailAddress={setMailAddress}
+          />
+        </SessionProvider>
       ) : (
         <SignUp mailAddress={mailAddress} />
       )}
