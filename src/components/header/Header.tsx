@@ -7,12 +7,14 @@ import {getAccessTokenByRefreshToken, logout} from '@/apis/signApi';
 import {useIsLoginStore} from '@/stores/auth';
 import {useRouter} from 'next/navigation';
 import Image from 'next/image';
+
 export default function Header() {
   const setProfile = useProfileStore(state => state.setProfile);
   const profile = useProfileStore(state => state.profile);
   const {data, error} = useMyProfile();
   const setIsLogin = useIsLoginStore(state => state.setIsLogin);
   const isLogin = useIsLoginStore(state => state.isLogin);
+
   useEffect(() => {
     if (data?.statusCode === 200) {
       setProfile(data.data);

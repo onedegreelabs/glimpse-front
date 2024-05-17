@@ -2,12 +2,14 @@
 import Card from '@/components/card/Card';
 import styles from './index.module.scss';
 import Button from '@/components/button/Button';
+import Image from 'next/image';
 import {useRouter} from 'next/navigation';
 import {useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
 import {sendMailWithCode} from '@/apis/signApi';
-import Image from 'next/image';
 import {useIsLoginStore} from '@/stores/auth';
+import {useSession, signIn, signOut} from 'next-auth/react';
+import {customAxios} from '@/apis/headers';
 
 interface SignInProps {
   setIsSendMail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,6 +24,8 @@ export default function SignIn({
 }: SignInProps) {
   const router = useRouter();
   const isLogin = useIsLoginStore(state => state.isLogin);
+  const {status, data: session} = useSession(); // 구글 로그인
+
   useEffect(() => {
     if (isLogin) {
       router.push('/events/discover');
@@ -67,6 +71,28 @@ export default function SignIn({
     return;
   }, [mailAddress]);
 
+  // google login
+  useEffect(() => {
+    if (session?.idToken) {
+      const fetchToken = async () => {
+        try {
+          const {data} = await customAxios.get('/auth/token?p=google', {
+            headers: {
+              Authorization: `Bearer ${session.idToken}`,
+            },
+          });
+          if (data) {
+            window.location.href = '/';
+          }
+        } catch (error) {
+          console.error('Error fetching token:', error);
+        }
+      };
+      fetchToken();
+    }
+  }, [session]);
+  //
+
   return (
     <div className={styles['signin-wrapper']}>
       <Card width={334} height={320}>
@@ -106,6 +132,21 @@ export default function SignIn({
               text="Continue with email"
               clickEvent={onClickEmailButton}
             />
+            <Button
+              color="3D3F43"
+              bgColor="ffffff"
+              borderColor="D9D9D9"
+              borderRadius="4"
+              text="Sign in  with google"
+              clickEvent={() => signIn('google')}
+            >
+              <Image
+                src={'/icons/google_icon.svg'}
+                alt="google"
+                width={18}
+                height={18}
+              />
+            </Button>
           </div>
         </div>
       </Card>
