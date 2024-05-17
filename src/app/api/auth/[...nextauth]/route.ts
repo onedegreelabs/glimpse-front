@@ -9,10 +9,17 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
+    async jwt({token, account}) {
+      if (account) {
+        token.idToken = account.id_token;
+      }
+      return token;
+    },
     async session({session, token}) {
       if (token.idToken) {
         session.idToken = token.idToken as string;
       }
+      console.log(token);
       return session;
     },
   },

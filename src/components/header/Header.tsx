@@ -9,7 +9,6 @@ import {useRouter} from 'next/navigation';
 import {useSession, signIn, signOut} from 'next-auth/react';
 import {customAxios} from '@/apis/headers';
 import Image from 'next/image';
-import Link from 'next/link';
 
 export default function Header() {
   const setProfile = useProfileStore(state => state.setProfile);
@@ -111,7 +110,7 @@ export default function Header() {
     if (session?.idToken) {
       const fetchToken = async () => {
         try {
-          const {data} = await customAxios.get('/auth/token', {
+          const {data} = await customAxios.get('/auth/token?p=google', {
             headers: {
               Authorization: `Bearer ${session.idToken}`,
             },
