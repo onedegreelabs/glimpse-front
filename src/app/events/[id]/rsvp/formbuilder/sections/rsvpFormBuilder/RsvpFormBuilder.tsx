@@ -113,8 +113,6 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
 
   async function deleteCustomQuestion(surveyId: number, questionId: number) {
     const data = await deleteQuestion(surveyId, questionId);
-
-    console.log(data);
     setCustomQuestions(prevQuestions =>
       prevQuestions.filter(question => question.id !== questionId)
     );
