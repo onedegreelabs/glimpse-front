@@ -130,19 +130,6 @@ export default function RsvpFormBuilder({eventId}: BuilderType) {
         }),
       ]);
     }
-    // custom isRequired를 manage 페이지에서 toggle로 변경할 때 필요
-    // else {
-    //   setCustomQuestions(prev => [
-    //     ...prev.map((question, index) => {
-    //       if (index === itemIndex) {
-    //         return {...question, isRequired: !question.isRequired};
-    //       }
-    //       return question;
-    //     }),
-    //   ]);
-
-    //   await saveQuestion(eventId, customQuestions[itemIndex]);
-    // }
   }
 
   if (isLoading) {
