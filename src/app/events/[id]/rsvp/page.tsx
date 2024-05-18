@@ -1,6 +1,6 @@
 'use client';
 import {usePathname} from 'next/navigation';
-import {useState, FormEvent, useEffect} from 'react';
+import {useState, FormEvent, useEffect, ChangeEvent} from 'react';
 import styles from './EventRsvpContainer.module.scss';
 import {
   applyEvent,
@@ -10,6 +10,7 @@ import {
 import {useMyProfile} from '@/hooks/swr/useProfiles';
 import Image from 'next/image';
 import {useRouter} from 'next/navigation';
+import {values} from 'lodash';
 
 interface QuestionType {
   id: number;
@@ -34,6 +35,11 @@ interface InputValid {
   purpose: string;
 }
 
+interface TextAnwerType {
+  id: number;
+  value: string;
+}
+
 export default function EventRsvpContainer() {
   const pathname = usePathname();
   const pathnameList = pathname?.split('/');
@@ -42,6 +48,9 @@ export default function EventRsvpContainer() {
   const [eventId, setEventId] = useState(0);
   const {data: questionsData} = useEventQuestion(eventId);
   const {data: profileData} = useMyProfile();
+  const [interests, setInterests] = useState([]);
+  const [purpose, setPurpose] = useState('');
+  const [textAnswers, setTextAnswers] = useState<TextAnwerType[]>([]);
   const [inputValid, setInputValid] = useState<InputValid>({
     givenName: '',
     familyName: '',
@@ -54,16 +63,34 @@ export default function EventRsvpContainer() {
   const router = useRouter();
 
   useEffect(() => {
-    console.log('effect start');
     if (detailData?.data?.id) {
       setEventId(detailData.data.id);
     }
   }, [detailData]);
-
+  // 프로필 페이지로 이동
   function toProfile() {
     router.push('/my/profile');
   }
+  // Text custom question change Event
+  function changeTextAnswer(
+    event: ChangeEvent<HTMLInputElement>,
+    curId: number
+  ) {
+    setTextAnswers(prev => {
+      const curTextAnswer = prev.find(textAnswer => textAnswer.id === curId);
 
+      if (curTextAnswer) {
+        return prev.map(textAnswer =>
+          textAnswer.id === curId
+            ? {...textAnswer, value: event.target.value}
+            : textAnswer
+        );
+      } else {
+        return [...prev, {id: curId, value: event.target.value}];
+      }
+    });
+  }
+  // 참가 신청
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -154,12 +181,23 @@ export default function EventRsvpContainer() {
             <label>
               Purpose of Participation <span> *</span>
             </label>
-            <textarea placeholder="Place holder" name="purpose" />
-            <div className={styles['text-length']}>0/300</div>
+            <textarea
+              placeholder="Place holder"
+              name="purpose"
+              value={purpose}
+              onChange={e => {
+                if (e.target.value.length < 300) {
+                  setPurpose(e.target.value);
+                }
+              }}
+            />
+            <div
+              className={styles['text-length']}
+            >{`${purpose.length}/300`}</div>
           </div>
           <div className={styles['registration-question']}>
             <label>{'Interest (Tag)'}</label>
-            <input placeholder="Place holder" name="purpose" />
+            <input placeholder="Place holder" name="interest" />
             <div className={styles['text-length']}>0/10</div>
           </div>
           {questionsData?.data?.customQuestions.questions.map(
@@ -171,9 +209,25 @@ export default function EventRsvpContainer() {
                 <label>{question.question}</label>
                 {question.type === 'Text' && (
                   <>
-                    <input placeholder="Place holder" name="purpose" />
+                    <input
+                      placeholder="Place holder"
+                      name={question.id.toString()}
+                      value={
+                        textAnswers.find(
+                          textAnswer => textAnswer.id === question.id
+                        )?.value
+                      }
+                      onChange={e => {
+                        if (e.target.value.length < 21)
+                          changeTextAnswer(e, question.id);
+                      }}
+                    />
                     <div className={styles['text-length']}>
-                      {question.type === 'Text' ? '0/20' : '0/10'}
+                      {`${
+                        textAnswers.find(
+                          textAnswer => textAnswer.id === question.id
+                        )?.value.length ?? 0
+                      }/20`}
                     </div>
                   </>
                 )}
@@ -185,7 +239,8 @@ export default function EventRsvpContainer() {
                           <div key={option.id} className={styles['row']}>
                             <input
                               className={styles['single']}
-                              type="checkbox"
+                              name="single"
+                              type="radio"
                               id={option.id + ''}
                             />
                             <label htmlFor={option.id + ''}></label>
