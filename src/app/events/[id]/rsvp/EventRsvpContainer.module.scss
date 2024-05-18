@@ -146,6 +146,11 @@
           font-size: 14px;
           line-height: 21px;
           resize: none;
+          outline: none;
+        }
+
+        textarea:focus {
+          border-color: #7E51FD
         }
   
         input {
@@ -156,6 +161,11 @@
           font-weight: 400;
           font-size: 14px;
           line-height: 21px;
+          outline: none;
+        }
+
+        input:focus {
+          border-color: #7E51FD
         }
   
         .text-length {
@@ -211,6 +221,10 @@
                background-image: url('/assets/events/rsvp/multiple-checked.svg'); 
             }
           }
+        }
+
+        .checkbox:hover {
+          border-color: #7E51FD;
         }
       }
     }
