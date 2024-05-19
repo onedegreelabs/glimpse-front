@@ -8,8 +8,7 @@ import {useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
 import {sendMailWithCode} from '@/apis/signApi';
 import {useIsLoginStore} from '@/stores/auth';
-import {useSession, signIn, signOut} from 'next-auth/react';
-import {customAxios} from '@/apis/headers';
+import {signIn} from 'next-auth/react';
 
 interface SignInProps {
   setIsSendMail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,7 +23,6 @@ export default function SignIn({
 }: SignInProps) {
   const router = useRouter();
   const isLogin = useIsLoginStore(state => state.isLogin);
-  const {status, data: session} = useSession(); // 구글 로그인
 
   useEffect(() => {
     if (isLogin) {
@@ -70,28 +68,6 @@ export default function SignIn({
     }
     return;
   }, [mailAddress]);
-
-  // google login
-  useEffect(() => {
-    if (session?.idToken) {
-      const fetchToken = async () => {
-        try {
-          const {data} = await customAxios.get('/auth/token?p=google', {
-            headers: {
-              Authorization: `Bearer ${session.idToken}`,
-            },
-          });
-          if (data) {
-            window.location.href = '/';
-          }
-        } catch (error) {
-          console.error('Error fetching token:', error);
-        }
-      };
-      fetchToken();
-    }
-  }, [session]);
-  //
 
   return (
     <div className={styles['signin-wrapper']}>
