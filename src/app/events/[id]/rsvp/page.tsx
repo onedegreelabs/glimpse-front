@@ -37,7 +37,7 @@ interface InputValid {
 export default function EventRsvpContainer() {
   const pathname = usePathname();
   const pathnameList = pathname?.split('/');
-  const eventHandle = pathnameList?.[pathnameList.length - 2];
+  const eventHandle = pathnameList?.[pathnameList.length - 2] || '';
   const {data: detailData} = useEventDetail(eventHandle);
   const [eventId, setEventId] = useState(0);
   const {data: questionsData} = useEventQuestion(eventId);

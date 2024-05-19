@@ -13,7 +13,7 @@ import {useEffect, useState} from 'react';
 export default function EventDetailPage() {
   const pathname = usePathname();
   const pathnameList = pathname?.split('/');
-  const eventHandle = pathnameList?.[pathnameList.length - 1];
+  const eventHandle = pathnameList?.[pathnameList.length - 1] || '';
   const {data} = useEventDetail(eventHandle);
   const [eventId, setEventId] = useState(0);
   const myEvents = useMyEventList(100); // // host 판별 임시 API(API 나오기 전)

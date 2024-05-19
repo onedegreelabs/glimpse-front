@@ -8,7 +8,7 @@ import RsvpFormBuilder from './sections/rsvpFormBuilder/RsvpFormBuilder';
 export default function RsvpFormBuilderPage() {
   const pathname = usePathname();
   const pathnameList = pathname?.split('/');
-  const eventHandle = pathnameList?.[pathnameList.length - 3];
+  const eventHandle = pathnameList?.[pathnameList.length - 3] || '';
   const {data} = useEventDetail(eventHandle); // {data, error, isLoading}
   const [eventId, setEventId] = useState(0);
 
