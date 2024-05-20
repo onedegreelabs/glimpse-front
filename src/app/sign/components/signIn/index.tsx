@@ -108,7 +108,7 @@ export default function SignIn({
               text="Continue with email"
               clickEvent={onClickEmailButton}
             />
-            <Button
+            {/*<Button
               color="3D3F43"
               bgColor="ffffff"
               borderColor="D9D9D9"
@@ -122,7 +122,7 @@ export default function SignIn({
                 width={18}
                 height={18}
               />
-            </Button>
+            </Button>*/}
           </div>
         </div>
       </Card>
