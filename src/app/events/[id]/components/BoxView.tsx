@@ -96,7 +96,7 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
             <Card key={data.id} height={340} width={340}>
               <div className={styles['glimpse-list-wrapper']}>
                 <div className={styles['card-header']}>
-                  <div className={styles['icon-wrapper']}>
+                  {/* <div className={styles['icon-wrapper']}>
                     {tmpBookmarkList[index] ? (
                       <Image
                         alt="bookmark-icon"
@@ -120,7 +120,7 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
                         }}
                       />
                     )}
-                  </div>
+                  </div> */}
                   {/* <div
                     className={clsx(
                       styles['icon-wrapper'],
