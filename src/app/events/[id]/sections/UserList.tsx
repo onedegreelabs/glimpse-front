@@ -16,9 +16,18 @@ export default function UserList({
   isHost: boolean;
 }) {
   const [userList, setUserList] = useState<eventUserDataType[]>([]);
+  console.log(userList);
+
   useEffect(() => {
     if (eventUserData) {
-      setUserList(eventUserData);
+      const tempList = [...eventUserData];
+      const hostIndex = tempList.findIndex(item => item.role === 'Organizer');
+      // host를 리스트 가장 앞으로 배치
+      if (hostIndex !== -1) {
+        const [item] = tempList.splice(hostIndex, 1);
+        tempList.unshift(item);
+      }
+      setUserList(tempList);
     }
   }, [eventUserData]);
   const [userListForRender, setUserListForRender] = useState<
