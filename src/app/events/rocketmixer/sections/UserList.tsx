@@ -65,8 +65,11 @@ export default function UserList({
     ? `${window.location.href}/rsvp/formbuilder`
     : `${window.location.href}/rsvp`;
   const moveToRsvp = () => {
-    router.push(rsvpUrl);
+    if (typeof window !== 'undefined') {
+      router.push(rsvpUrl);
+    }
   };
+
   return (
     <>
       <div className={styles['control-section-wrapper']}>
