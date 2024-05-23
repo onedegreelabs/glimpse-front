@@ -1,0 +1,11 @@
+.filtering-area {
+  padding: 10px 0px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.filtering-area::-webkit-scrollbar {
+  display: none;
+}

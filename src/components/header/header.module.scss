@@ -40,7 +40,7 @@
 
     .row-wrapper {
       height: 56px;
-      width: max-content;
+      // width: max-content;
       display: grid;
       align-items: center;
       margin-left: auto;
@@ -49,6 +49,12 @@
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
+      transition: transform 0.3s ease;
+
+      &:hover {
+          // background-color: rgba(0, 0, 0, 0.1);
+          transform: scale(1.1);
+      }
     }
 
     .sign-row {

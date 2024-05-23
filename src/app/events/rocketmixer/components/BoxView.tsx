@@ -4,16 +4,33 @@ import styles from './boxView.module.scss';
 import Card from '@/components/card/Card';
 import IconText from '@/components/iconText/IconText';
 import Image from 'next/image';
-import {useRouter} from 'next/navigation';
+// import {useRouter} from 'next/navigation';
 import {eventUserDataType} from '@/types/eventTypes';
 import EmptyUser from './EpmtyUser';
 import {useEffect, useState} from 'react';
 
-export default function BoxView({userList}: {userList: eventUserDataType[]}) {
-  const router = useRouter();
+export default function BoxView({
+  userList,
+  setModal,
+}: {
+  userList: eventUserDataType[];
+  setModal: React.Dispatch<
+    React.SetStateAction<{type: string; id: number; isOpen: boolean}>
+  >;
+}) {
+  // const router = useRouter();
 
   const onClickCard = function (userId: number) {
-    router.push(`/profile/${userId}`);
+    // router.push(`/profile/${userId}`);
+    setModal({type: 'profile', id: userId, isOpen: true});
+  };
+
+  const clickMail = (userId: number) => {
+    setModal({
+      type: 'mail',
+      id: userId,
+      isOpen: true,
+    });
   };
 
   const onClickSnsIcon = (url: string) => {
@@ -81,22 +98,21 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
     copyList[idx] = !copyList[idx];
     setTmpBookmarkList(copyList);
   };
-  console.log(userList);
+
   if (userList.length > 0) {
     return (
       <>
         {userList.map((data, index) => (
-          <div
-            key={`profile-card-${index}`}
-            className={styles['card-wrapper']}
-            onClick={() => {
-              onClickCard(data.user.id);
-            }}
-          >
+          <div key={`profile-card-${index}`} className={styles['card-wrapper']}>
             <Card key={data.id} height={340} width={340}>
-              <div className={styles['glimpse-list-wrapper']}>
+              <div
+                className={styles['glimpse-list-wrapper']}
+                onClick={() => {
+                  onClickCard(data.user.id);
+                }}
+              >
                 <div className={styles['card-header']}>
-                  <div className={styles['icon-wrapper']}>
+                  {/* <div className={styles['icon-wrapper']}>
                     {tmpBookmarkList[index] ? (
                       <Image
                         alt="bookmark-icon"
@@ -120,7 +136,7 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
                         }}
                       />
                     )}
-                  </div>
+                  </div> */}
                   {/* <div
                     className={clsx(
                       styles['icon-wrapper'],
@@ -199,21 +215,40 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
                     )
                   )}
                 </div>
-                <div className={styles['link-wrapper']}>
-                  {data.user.sns.map((snsItem, index: number) => (
-                    <Image
-                      key={`link_${index}`}
-                      src={getImageSrcFromSnsLink(snsItem.type)}
-                      alt={'img'}
-                      width={32}
-                      height={32}
-                      onClick={e => {
-                        e.stopPropagation();
-                        onClickSnsIcon(snsItem.account);
-                      }}
-                    />
-                  ))}
-                </div>
+              </div>
+              <div className={styles['link-wrapper']}>
+                {data.user.sns.map((snsItem, index: number) => (
+                  <Image
+                    key={`link_${index}`}
+                    src={getImageSrcFromSnsLink(snsItem.type)}
+                    alt={'img'}
+                    width={32}
+                    height={32}
+                    onClick={e => {
+                      e.stopPropagation();
+                      onClickSnsIcon(snsItem.account);
+                    }}
+                  />
+                ))}
+                <Image
+                  src={'/icons/home-icon.svg'}
+                  alt={'img'}
+                  width={32}
+                  height={32}
+                />
+                <Image
+                  src={'/icons/mail-icon.svg'}
+                  alt={'img'}
+                  width={32}
+                  height={32}
+                  onClick={() => clickMail(data.user.id)}
+                />
+                <Image
+                  src={'/icons/calendar.svg'}
+                  alt={'img'}
+                  width={32}
+                  height={32}
+                />
               </div>
             </Card>
           </div>
