@@ -5,13 +5,15 @@ import {useEffect, useState} from 'react';
 import BoxView from '../components/BoxView';
 import SearchWrapper from '../components/SearchWrapper';
 import FilteringWrapper from '../components/FilteringWrapper';
-import {eventUserDataType} from '@/types/eventTypes';
+import {eventUserDataType, EventDataType} from '@/types/eventTypes';
 import {useRouter} from 'next/navigation';
 
 export default function UserList({
+  eventDetailData,
   eventUserData,
   isHost,
 }: {
+  eventDetailData: EventDataType;
   eventUserData: eventUserDataType[];
   isHost: boolean;
 }) {
@@ -61,13 +63,27 @@ export default function UserList({
   const moveToRsvp = () => {
     router.push(rsvpUrl);
   };
-
+  console.log(eventDetailData);
   return (
     <>
       <div className={styles['control-section-wrapper']}>
-        <div className={styles['rsvp-button']} onClick={moveToRsvp}>
-          {isHost ? 'Go to Event Management' : 'RSVP Now'}
-        </div>
+        {/* 로켓 믹서 전용 프로필 정보 업데이트 요청 버튼*/}
+        {eventDetailData?.title === 'Rocket Mixer - Seoul' && (
+          <div
+            className={styles['rsvp-button']}
+            onClick={() =>
+              (window.location.href =
+                'https://docs.google.com/forms/d/e/1FAIpQLSeYQGmuBcUXMTE9QHzgnBpyQkbhrimkGw590fJSFVALNbiQ2Q/viewform?usp=sf_link')
+            }
+          >
+            Profile card update request
+          </div>
+        )}
+        {eventDetailData?.title !== 'Rocket Mixer - Seoul' && (
+          <div className={styles['rsvp-button']} onClick={moveToRsvp}>
+            {isHost ? 'Go to Event Management' : 'RSVP Now'}
+          </div>
+        )}
         <section className={styles['search-area']}>
           <p className={styles['list-title']}>
             Participants <span>{userListForRender.length}</span>

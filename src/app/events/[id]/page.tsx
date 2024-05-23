@@ -39,7 +39,11 @@ export default function EventDetailPage() {
         coverImage={data?.data?.coverImage}
       />
       <EventInfo eventDetailData={data?.data} />
-      <UserList eventUserData={eventUserData?.data} isHost={isHost} />
+      <UserList
+        eventDetailData={data?.data}
+        eventUserData={eventUserData?.data}
+        isHost={isHost}
+      />
     </div>
   );
 }
