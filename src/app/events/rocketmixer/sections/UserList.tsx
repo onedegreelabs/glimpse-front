@@ -17,7 +17,9 @@ export default function UserList({
   eventDetailData: EventDataType;
   eventUserData: eventUserDataType[];
   isHost: boolean;
-  setModal: React.Dispatch<React.SetStateAction<{id: number; isOpen: boolean}>>;
+  setModal: React.Dispatch<
+    React.SetStateAction<{type: string; id: number; isOpen: boolean}>
+  >;
 }) {
   const [userList, setUserList] = useState<eventUserDataType[]>([]);
 

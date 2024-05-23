@@ -10,13 +10,14 @@ import {
   useMyEventList,
 } from '@/hooks/swr/useEvents';
 import {useEffect, useState} from 'react';
+import MailModal from './components/MailModal';
 
 export default function EventDetailPage() {
   const eventHandle = 'rocketmixerseoul';
   const {data} = useEventDetail('rocketmixerseoul');
   const [eventId, setEventId] = useState(0);
   const myEvents = useMyEventList(100); // // host 판별 임시 API(API 나오기 전)
-  const [modal, setModal] = useState({id: 0, isOpen: false});
+  const [modal, setModal] = useState({type: '', id: 0, isOpen: false});
 
   // host 판별 임시 로직 (API 나오기 전)
   const isHost = myEvents.data?.data?.find(
@@ -34,6 +35,7 @@ export default function EventDetailPage() {
   function onCloseModal() {
     setModal(prev => ({...prev, isOpen: false}));
   }
+
   return (
     <div className={styles['page-wrapper']}>
       <TopBanner
@@ -49,9 +51,17 @@ export default function EventDetailPage() {
         isHost={isHost}
         setModal={setModal}
       />
-      {modal.isOpen && (
+      {modal.isOpen && modal.type === 'profile' && (
         <CardModal
           userId={modal.id}
+          eventUserData={eventUserData?.data}
+          onCloseModal={onCloseModal}
+        />
+      )}
+      {modal.isOpen && modal.type === 'mail' && (
+        <MailModal
+          userId={modal.id}
+          eventDetailData={data?.data}
           eventUserData={eventUserData?.data}
           onCloseModal={onCloseModal}
         />

@@ -203,7 +203,7 @@ export default function Header() {
           >
             <Image
               alt="manual-icon"
-              src={'/icons/header/contact-icon.svg'}
+              src={'/icons/calendar.svg'}
               width={20}
               height={20}
             />
