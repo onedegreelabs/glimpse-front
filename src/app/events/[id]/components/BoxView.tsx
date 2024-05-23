@@ -81,7 +81,7 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
     copyList[idx] = !copyList[idx];
     setTmpBookmarkList(copyList);
   };
-
+  console.log(userList);
   if (userList.length > 0) {
     return (
       <>
@@ -213,6 +213,24 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
                       }}
                     />
                   ))}
+                  <Image
+                    src={'/icons/home-icon.svg'}
+                    alt={'img'}
+                    width={32}
+                    height={32}
+                  />
+                  <Image
+                    src={'/icons/mail-icon.svg'}
+                    alt={'img'}
+                    width={32}
+                    height={32}
+                  />
+                  <Image
+                    src={'/icons/calendar.svg'}
+                    alt={'img'}
+                    width={32}
+                    height={32}
+                  />
                 </div>
               </div>
             </Card>
