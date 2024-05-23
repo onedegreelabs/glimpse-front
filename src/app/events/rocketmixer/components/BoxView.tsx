@@ -96,7 +96,7 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
             <Card key={data.id} height={340} width={340}>
               <div className={styles['glimpse-list-wrapper']}>
                 <div className={styles['card-header']}>
-                  <div className={styles['icon-wrapper']}>
+                  {/* <div className={styles['icon-wrapper']}>
                     {tmpBookmarkList[index] ? (
                       <Image
                         alt="bookmark-icon"
@@ -120,7 +120,7 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
                         }}
                       />
                     )}
-                  </div>
+                  </div> */}
                   {/* <div
                     className={clsx(
                       styles['icon-wrapper'],
@@ -213,6 +213,24 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
                       }}
                     />
                   ))}
+                  <Image
+                    src={'/icons/home-icon.svg'}
+                    alt={'img'}
+                    width={32}
+                    height={32}
+                  />
+                  <Image
+                    src={'/icons/mail-icon.svg'}
+                    alt={'img'}
+                    width={32}
+                    height={32}
+                  />
+                  <Image
+                    src={'/icons/calendar.svg'}
+                    alt={'img'}
+                    width={32}
+                    height={32}
+                  />
                 </div>
               </div>
             </Card>

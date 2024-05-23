@@ -1,0 +1,23 @@
+.search-wrapper {
+  position: relative;
+  width: 156px;
+  padding-bottom: 8px;
+
+  input {
+    width: 100%;
+    border: 1px solid #d9d9d9;
+    border-radius: 30px;
+    padding: 10px 12px;
+    font-size: 14px;
+    text-indent: 24px;
+    height: 32px;
+  }
+
+  img {
+    position: absolute;
+    width: 24px;
+    top: 4px;
+    left: 12px;
+    margin: 0;
+  }
+}

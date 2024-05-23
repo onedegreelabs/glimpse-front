@@ -1,0 +1,99 @@
+.card-wrapper {
+  cursor: pointer;
+  border-radius: 15px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.glimpse-list-wrapper {
+  display: flex;
+  padding: 16px 20px;
+  gap: 10px;
+  flex-shrink: 0;
+  flex-direction: column;
+  justify-content: center;
+  height: 340px;
+
+  .card-header {
+    display: flex;
+    gap: 4px;
+    justify-content: end;
+
+    .icon-wrapper {
+      padding: 8px;
+      width: 40px;
+      height: 40px;
+
+      &.comment-icon {
+        border-radius: 50%;
+        box-shadow:
+          2px 2px 5px 1px rgba(0, 0, 0, 0.05),
+          -2px -2px 5px 1px rgba(0, 0, 0, 0.05),
+          2px -2px 5px 1px rgba(0, 0, 0, 0.05),
+          -2px 2px 5px 1px rgba(0, 0, 0, 0.05);
+      }
+    }
+  }
+
+  .profile-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .profile-name {
+      max-width: 157px;
+      font-size: 18px;
+      font-weight: 400;
+    }
+
+    .position-wrapper {
+      margin-top: 8px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .avatar-wrapper {
+      position: relative;
+
+      .host-badge {
+        position: absolute;
+        top: 0;
+        left: 90%;
+      }
+    }
+  }
+
+  .intro-snippet {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 4;
+  }
+
+  .hobby-wrapper {
+    margin-top: auto;
+    max-height: 24px;
+    margin-bottom: 16px;
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+    gap: 10px;
+    flex-grow: 1;
+    -ms-overflow-style: none;
+  }
+
+  .hobby-wrapper::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera*/
+  }
+
+  .link-wrapper {
+    display: flex;
+    gap: 10px;
+  }
+}
