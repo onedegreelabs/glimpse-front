@@ -12,10 +12,14 @@ export default function UserList({
   eventDetailData,
   eventUserData,
   isHost,
+  setModal,
 }: {
   eventDetailData: EventDataType;
   eventUserData: eventUserDataType[];
   isHost: boolean;
+  setModal: React.Dispatch<
+    React.SetStateAction<{type: string; id: number; isOpen: boolean}>
+  >;
 }) {
   const [userList, setUserList] = useState<eventUserDataType[]>([]);
 
@@ -61,15 +65,31 @@ export default function UserList({
     ? `${window.location.href}/rsvp/formbuilder`
     : `${window.location.href}/rsvp`;
   const moveToRsvp = () => {
-    router.push(rsvpUrl);
+    if (typeof window !== 'undefined') {
+      router.push(rsvpUrl);
+    }
   };
-  console.log(eventDetailData);
+
   return (
     <>
       <div className={styles['control-section-wrapper']}>
-        <div className={styles['rsvp-button']} onClick={moveToRsvp}>
-          {isHost ? 'Go to Event Management' : 'RSVP Now'}
-        </div>
+        {/* 로켓 믹서 전용 프로필 정보 업데이트 요청 버튼*/}
+        {eventDetailData?.title === 'Rocket Mixer - Seoul' && (
+          <div
+            className={styles['rsvp-button']}
+            onClick={() =>
+              (window.location.href =
+                'https://docs.google.com/forms/d/e/1FAIpQLSeYQGmuBcUXMTE9QHzgnBpyQkbhrimkGw590fJSFVALNbiQ2Q/viewform?usp=sf_link')
+            }
+          >
+            Profile card update request
+          </div>
+        )}
+        {eventDetailData?.title !== 'Rocket Mixer - Seoul' && (
+          <div className={styles['rsvp-button']} onClick={moveToRsvp}>
+            {isHost ? 'Go to Event Management' : 'RSVP Now'}
+          </div>
+        )}
         <section className={styles['search-area']}>
           <p className={styles['list-title']}>
             Participants <span>{userListForRender.length}</span>
@@ -81,7 +101,7 @@ export default function UserList({
       </div>
       <div className={styles['user-list-wrapper']}>
         <section className={styles['view-area']}>
-          <BoxView userList={userListForRender} />
+          <BoxView userList={userListForRender} setModal={setModal} />
         </section>
       </div>
     </>
