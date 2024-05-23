@@ -107,13 +107,22 @@ export default function Header() {
       <div className={styles['header-top']}>
         <Image
           alt="glimpse-logo"
+          src={'/icons/header/rocketmixer-logo.png'}
+          width={124}
+          height={24}
+          onClick={() => {
+            window.location.href = 'https://www.rocketmixer.club/';
+          }}
+        />
+        {/* <Image
+          alt="glimpse-logo"
           src={'/icons/header/glimpse_logo.svg'}
           width={124}
           height={24}
           onClick={() => {
             moveToPage('/');
           }}
-        />
+        /> */}
         <Image
           alt="open-menu-icon"
           src={'/icons/burger.svg'}
