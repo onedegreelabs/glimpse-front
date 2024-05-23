@@ -52,6 +52,7 @@ export default function CardModal({
               <div className={styles['bold']}>{userInfo?.user.name}</div>
             </div>
             <Image
+              className={styles['profile-img']}
               src={'/icons/profile_image.svg'}
               alt="profile"
               width={120}

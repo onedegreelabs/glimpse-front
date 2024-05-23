@@ -27,6 +27,15 @@
             justify-content: flex-end;
             gap: 10px;
             margin-bottom: 5px;
+
+            .profile-btn {
+                transition: transform 0.3s ease;
+
+                &:hover {
+                    // background-color: rgba(0, 0, 0, 0.1);
+                    transform: scale(1.2);
+                }
+            }
         }
 
         .user-info {
@@ -35,7 +44,7 @@
                 display: flex;
                 justify-content: space-between;
                 border-bottom: 1px solid rgb(196, 196, 196);
-    
+                
                 .user-name {
                     display: flex;
                     flex-direction: column;
@@ -45,6 +54,15 @@
                     .bold {
                         font-size: 35px;
                         font-weight: 500;
+                    }
+                }
+
+                .profile-img {
+                    transition: transform 0.3s ease;
+
+                    &:hover {
+                        // background-color: rgba(0, 0, 0, 0.1);
+                        transform: scale(1.1);
                     }
                 }
             }
