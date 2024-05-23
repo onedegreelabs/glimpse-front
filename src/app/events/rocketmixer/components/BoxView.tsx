@@ -9,11 +9,18 @@ import {eventUserDataType} from '@/types/eventTypes';
 import EmptyUser from './EpmtyUser';
 import {useEffect, useState} from 'react';
 
-export default function BoxView({userList}: {userList: eventUserDataType[]}) {
+export default function BoxView({
+  userList,
+  setModal,
+}: {
+  userList: eventUserDataType[];
+  setModal: React.Dispatch<React.SetStateAction<{id: number; isOpen: boolean}>>;
+}) {
   const router = useRouter();
 
   const onClickCard = function (userId: number) {
-    router.push(`/profile/${userId}`);
+    // router.push(`/profile/${userId}`);
+    setModal({id: userId, isOpen: true});
   };
 
   const onClickSnsIcon = (url: string) => {
@@ -81,7 +88,6 @@ export default function BoxView({userList}: {userList: eventUserDataType[]}) {
     copyList[idx] = !copyList[idx];
     setTmpBookmarkList(copyList);
   };
-  console.log(userList);
   if (userList.length > 0) {
     return (
       <>

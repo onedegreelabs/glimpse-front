@@ -20,8 +20,8 @@ export default function TopBanner({
           className={styles['event-thumbnail']}
           src={coverImage}
           alt="이벤트 썸네일"
-          width={100}
-          height={40}
+          width={728}
+          height={80}
         />
       )}
       <div className={styles['event-info-wrapper']}>

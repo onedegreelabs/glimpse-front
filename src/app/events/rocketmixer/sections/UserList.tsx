@@ -12,10 +12,12 @@ export default function UserList({
   eventDetailData,
   eventUserData,
   isHost,
+  setModal,
 }: {
   eventDetailData: EventDataType;
   eventUserData: eventUserDataType[];
   isHost: boolean;
+  setModal: React.Dispatch<React.SetStateAction<{id: number; isOpen: boolean}>>;
 }) {
   const [userList, setUserList] = useState<eventUserDataType[]>([]);
 
@@ -63,7 +65,6 @@ export default function UserList({
   const moveToRsvp = () => {
     router.push(rsvpUrl);
   };
-  console.log(eventDetailData);
   return (
     <>
       <div className={styles['control-section-wrapper']}>
@@ -95,7 +96,7 @@ export default function UserList({
       </div>
       <div className={styles['user-list-wrapper']}>
         <section className={styles['view-area']}>
-          <BoxView userList={userListForRender} />
+          <BoxView userList={userListForRender} setModal={setModal} />
         </section>
       </div>
     </>
