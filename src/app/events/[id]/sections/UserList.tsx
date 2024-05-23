@@ -16,7 +16,6 @@ export default function UserList({
   isHost: boolean;
 }) {
   const [userList, setUserList] = useState<eventUserDataType[]>([]);
-  console.log(userList);
 
   useEffect(() => {
     if (eventUserData) {

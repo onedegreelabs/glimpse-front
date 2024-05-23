@@ -127,7 +127,8 @@ export default function Header() {
       {showSetting && (
         <div className={styles['setting-wrapper']}>
           {/* <div className={styles['devidor']} /> */}
-          <div
+          {/* 로켓 믹서 서비스를 위해 임시 주석처리 */}
+          {/* <div
             className={styles['row-wrapper']}
             onClick={() => {
               moveToPage('my/profile');
@@ -167,6 +168,37 @@ export default function Header() {
               height={20}
             />
             <p>Language</p>
+          </div> */}
+          {/* 로켓 믹서 서비스를 위한 요청 코드 */}
+          <div
+            className={styles['row-wrapper']}
+            onClick={() => {
+              window.location.href =
+                'https://first-cashew-8ec.notion.site/Glimpse-Manual-a809307145ce47838ee21decac8cb48d?pvs=4';
+            }}
+          >
+            <Image
+              alt="manual-icon"
+              src={'/icons/header/manual-icon.svg'}
+              width={20}
+              height={20}
+            />
+            <p>Manual</p>
+          </div>
+          <div
+            className={styles['row-wrapper']}
+            onClick={() => {
+              window.location.href =
+                'https://calendly.com/erickim0212n/chatwitheric?month=2024-05';
+            }}
+          >
+            <Image
+              alt="manual-icon"
+              src={'/icons/header/contact-icon.svg'}
+              width={20}
+              height={20}
+            />
+            <p>Contact</p>
           </div>
           {/* <div className={styles['devidor']} /> */}
           {/* 아래 주석은 아직 개발이 안된 페이지라 주석처리 */}
