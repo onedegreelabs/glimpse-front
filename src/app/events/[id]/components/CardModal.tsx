@@ -72,7 +72,7 @@ export default function CardModal({
           <div className={styles['body']}>
             <div className={styles['row']}>
               <label>Organization</label>
-              <div>{userInfo?.user.belong}</div>
+              <div>{userInfo?.user?.belong}</div>
             </div>
             <div className={styles['row']}>
               <label>Role</label>
@@ -84,7 +84,7 @@ export default function CardModal({
             </div>
             <div className={styles['row']}>
               <label>Company Website</label>
-              <div>{userInfo?.user.sns[0].account}</div>
+              <div>{userInfo?.user?.sns[0]?.account}</div>
             </div>
             <div className={styles['row']}>
               <label>Purpose</label>
@@ -92,7 +92,7 @@ export default function CardModal({
             </div>
             <div className={styles['row']}>
               <label>Company Website</label>
-              <div>{userInfo?.user.sns[0].account}</div>
+              <div>{userInfo?.user?.sns[0]?.account}</div>
             </div>
           </div>
           <div className={styles['']}>데이터 업데이트 되면 작업 예정..</div>
