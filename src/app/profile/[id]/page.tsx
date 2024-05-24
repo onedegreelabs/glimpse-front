@@ -72,7 +72,7 @@ export default function ProfilePage() {
       <div className={styles['section-title']}>Social</div>
       <div className={clsx(styles['gray-box'], styles['link-box'])}>
         <Image
-          src={'/assets/sns-link/linkedin.jpg'}
+          src={'/assets/sns-link/linkedin.svg'}
           width={32}
           height={32}
           alt="dirrble-icon"
@@ -81,7 +81,7 @@ export default function ProfilePage() {
       </div>
       <div className={clsx(styles['gray-box'], styles['link-box'])}>
         <Image
-          src={'/assets/sns-link/dribble.jpg'}
+          src={'/assets/sns-link/dribble.svg'}
           width={32}
           height={32}
           alt="dirrble-icon"
@@ -103,7 +103,7 @@ export default function ProfilePage() {
         <hr />
         <div className={styles['link-item']}>
           <Image
-            src={'/assets/sns-link/github.jpg'}
+            src={'/assets/sns-link/github.svg'}
             width={32}
             height={32}
             alt="dirrble-icon"
@@ -118,7 +118,7 @@ export default function ProfilePage() {
         </div>
         <div className={styles['link-item']}>
           <Image
-            src={'/assets/sns-link/instagram.jpg'}
+            src={'/assets/sns-link/instagram.svg'}
             width={32}
             height={32}
             alt="dirrble-icon"
@@ -133,7 +133,7 @@ export default function ProfilePage() {
         </div>
         <div className={styles['link-item']}>
           <Image
-            src={'/assets/sns-link/facebook.jpg'}
+            src={'/assets/sns-link/facebook.svg'}
             width={32}
             height={32}
             alt="dirrble-icon"
@@ -148,7 +148,7 @@ export default function ProfilePage() {
         </div>
         <div className={styles['link-item']}>
           <Image
-            src={'/assets/sns-link/medium.jpg'}
+            src={'/assets/sns-link/medium.svg'}
             width={32}
             height={32}
             alt="dirrble-icon"

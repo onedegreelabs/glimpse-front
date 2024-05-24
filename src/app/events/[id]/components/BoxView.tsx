@@ -40,11 +40,11 @@ export default function BoxView({
   const SNS_IMAGE_SRC = [
     {
       type: 'Github',
-      src: '/assets/sns-link/github.jpg',
+      src: '/assets/sns-link/github.svg',
     },
     {
       type: 'Medium',
-      src: '/assets/sns-link/medium.jpg',
+      src: '/assets/sns-link/medium.svg',
     },
     {
       type: 'Figma',
@@ -52,19 +52,19 @@ export default function BoxView({
     },
     {
       type: 'Linkedin',
-      src: '/assets/sns-link/linkedin.jpg',
+      src: '/assets/sns-link/linkedin.svg',
     },
     {
       type: 'Dribble',
-      src: '/assets/sns-link/dribble.jpg',
+      src: '/assets/sns-link/dribble.svg',
     },
     {
       type: 'Instagram',
-      src: '/assets/sns-link/instagram.jpg',
+      src: '/assets/sns-link/instagram.svg',
     },
     {
       type: 'Facebook',
-      src: '/assets/sns-link/facebook.jpg',
+      src: '/assets/sns-link/facebook.svg',
     },
     {
       type: 'Web_etc',
