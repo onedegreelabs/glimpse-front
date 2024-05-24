@@ -14,10 +14,6 @@ import {updateMyProfile} from '@/hooks/swr/useProfiles';
 // type
 import {SnsType, ProfileCardType} from '@/types/profileType';
 
-// RGL
-import GridLayout from 'react-grid-layout';
-import './rglStyle.css';
-
 export default function MyProfilePage() {
   // 로그인 유무 판단
   const router = useRouter();
@@ -308,50 +304,6 @@ export default function MyProfilePage() {
         <input value={'Seoul, Korea'} onChange={() => {}} />
       </div>
 
-      <GridLayout
-        layout={cardPositionList}
-        className={clsx([styles['box-wrapper'], styles['grid-wrapper']])}
-        cols={2}
-        rowHeight={120}
-        width={windowWitdh - 60}
-        onLayoutChange={e => {
-          setCardPositionList(e);
-        }}
-      >
-        {cardPositionList.map((card, idx) => {
-          return (
-            <div key={card.i} className={styles['grid-item-wrapper']}>
-              <input
-                className={styles['title-text']}
-                value={focusedCardTitleIdx === idx ? focusedCardTitle : card.i}
-                onFocus={() => {
-                  changeCardTitleValue(idx);
-                }}
-                onChange={e => {
-                  setFocusedCardTitle(e.target.value);
-                }}
-                onBlur={() => {
-                  updateCardTitle(idx);
-                }}
-              />
-              <Card height={card.h * 120 - 24}>
-                <div className={styles['card-inner']}>
-                  <textarea
-                    value={profileCardList[idx].content}
-                    onChange={e => {
-                      onChangeCardList(e, idx);
-                    }}
-                    onFocus={() => {
-                      setter = setProfileCardList;
-                    }}
-                    onBlur={resetSetter}
-                  />
-                </div>
-              </Card>
-            </div>
-          );
-        })}
-      </GridLayout>
       <div className={styles['box-wrapper']}>
         <div className={styles['title-text']}>Connect</div>
         <div className={styles['sns-wrapper']}>
