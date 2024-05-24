@@ -128,7 +128,9 @@ export default function SignUp({mailAddress}: SignUpProps) {
                 className={styles['input-box']}
                 maxLength={1}
                 key={index}
-                ref={el => (refArr.current[index] = el)}
+                ref={el => {
+                  refArr.current[index] = el;
+                }}
                 onChange={e => {
                   handleInputChange(index, e.target.value);
                   handleDigitList(index, e.target.value);
