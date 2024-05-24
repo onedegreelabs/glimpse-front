@@ -61,11 +61,12 @@ export default function UserList({
   };
 
   const router = useRouter();
-  const rsvpUrl = isHost
-    ? `${window.location.href}/rsvp/formbuilder`
-    : `${window.location.href}/rsvp`;
+
   const moveToRsvp = () => {
     if (typeof window !== 'undefined') {
+      const rsvpUrl = isHost
+        ? `${window.location.href}/rsvp/formbuilder`
+        : `${window.location.href}/rsvp`;
       router.push(rsvpUrl);
     }
   };
