@@ -111,7 +111,7 @@ export default function Header() {
           width={124}
           height={24}
           onClick={() => {
-            window.location.href = 'https://www.rocketmixer.club/';
+            window.open('https://www.rocketmixer.club/', '_blank');
           }}
         />
         {/* <Image
@@ -182,8 +182,10 @@ export default function Header() {
           <div
             className={styles['row-wrapper']}
             onClick={() => {
-              window.location.href =
-                'https://first-cashew-8ec.notion.site/Glimpse-Manual-a809307145ce47838ee21decac8cb48d?pvs=4';
+              window.open(
+                'https://first-cashew-8ec.notion.site/Glimpse-Manual-a809307145ce47838ee21decac8cb48d?pvs=4',
+                '_blank'
+              );
             }}
           >
             <Image
@@ -197,8 +199,10 @@ export default function Header() {
           <div
             className={styles['row-wrapper']}
             onClick={() => {
-              window.location.href =
-                'https://calendly.com/erickim0212n/chatwitheric?month=2024-05';
+              window.open(
+                'https://calendly.com/erickim0212n/chatwitheric?month=2024-05',
+                '_blank'
+              );
             }}
           >
             <Image

@@ -79,8 +79,10 @@ export default function UserList({
           <div
             className={styles['rsvp-button']}
             onClick={() =>
-              (window.location.href =
-                'https://docs.google.com/forms/d/e/1FAIpQLSeYQGmuBcUXMTE9QHzgnBpyQkbhrimkGw590fJSFVALNbiQ2Q/viewform?usp=sf_link')
+              window.open(
+                'https://docs.google.com/forms/d/e/1FAIpQLSeYQGmuBcUXMTE9QHzgnBpyQkbhrimkGw590fJSFVALNbiQ2Q/viewform?usp=sf_link',
+                '_blank'
+              )
             }
           >
             Profile card update request
