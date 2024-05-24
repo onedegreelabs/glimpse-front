@@ -107,7 +107,7 @@ export default function Header() {
       <div className={styles['header-top']}>
         <Image
           alt="rocketmixer-logo"
-          src={'/icons/header/rocketmixer-logo.png'}
+          src={'/icons/header/rocketmixer-seoul.png'}
           width={124}
           height={24}
           onClick={() => {
