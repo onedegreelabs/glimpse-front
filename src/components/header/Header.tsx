@@ -106,7 +106,7 @@ export default function Header() {
     <div className={styles['header-wrapper']}>
       <div className={styles['header-top']}>
         <Image
-          alt="glimpse-logo"
+          alt="rocketmixer-logo"
           src={'/icons/header/rocketmixer-logo.png'}
           width={124}
           height={24}

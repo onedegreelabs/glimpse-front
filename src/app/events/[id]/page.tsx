@@ -9,12 +9,15 @@ import {
   useEventUser,
   useMyEventList,
 } from '@/hooks/swr/useEvents';
+import {usePathname} from 'next/navigation';
 import {useEffect, useState} from 'react';
 import MailModal from './components/MailModal';
 
 export default function EventDetailPage() {
-  const eventHandle = 'rocketmixerseoul';
-  const {data} = useEventDetail('rocketmixerseoul');
+  const pathname = usePathname();
+  const pathnameList = pathname?.split('/');
+  const eventHandle = pathnameList?.[pathnameList.length - 1] || '';
+  const {data} = useEventDetail(eventHandle);
   const [eventId, setEventId] = useState(0);
   const myEvents = useMyEventList(100); // // host 판별 임시 API(API 나오기 전)
   const [modal, setModal] = useState({type: '', id: 0, isOpen: false});
