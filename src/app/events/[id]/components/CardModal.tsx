@@ -44,7 +44,7 @@ export default function CardModal({
     // 키보드 이벤트 리스너 등록
     document.addEventListener('keydown', handleKeyDown);
   }, []);
-  console.log(userInfo);
+
   return (
     <div className={styles['backdrop']} onClick={handleBackdropClick}>
       <div className={styles['card-modal']}>
