@@ -15,7 +15,7 @@ export default function EventInfo({
   const [dateText, setDateTimeText] = useState('');
   const [startTimeText, setStartTimeText] = useState('');
   const [endTimeText, setEndTimeText] = useState('');
-
+  console.log(eventDetailData);
   useEffect(() => {
     if (eventDetailData) {
       setDateTimeText(
@@ -67,7 +67,7 @@ export default function EventInfo({
             </div>
           </div>
           <div className={styles['event-date-wrapper']}>
-            {eventDetailData?.type === 'Offline' ? (
+            {/* {eventDetailData?.type === 'Offline' ? (
               <>
                 <Image
                   src={'/assets/glimpse-list/Location.svg'}
@@ -91,7 +91,7 @@ export default function EventInfo({
                   <div className={styles['copy-wrapper']}>
                     <Image
                       src={'/assets/events/Copy.svg'}
-                      alt={'위치 아이콘'}
+                      alt={'복사 아이콘'}
                       width={16}
                       height={16}
                       style={{marginBottom: '3px'}}
@@ -99,7 +99,14 @@ export default function EventInfo({
                   </div>
                 </div>
               </>
-            )}
+            )} */}
+            <Image
+              src={'/assets/glimpse-list/Location.svg'}
+              alt={'위치 아이콘'}
+              width={16}
+              height={16}
+            />
+            <div>{eventDetailData?.location.shortAddress}</div>
           </div>
           {eventDetailData?.externalLink && (
             <div
