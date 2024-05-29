@@ -106,7 +106,7 @@ export default function BoxView({
     copyList[idx] = !copyList[idx];
     setTmpBookmarkList(copyList);
   };
-  console.log(userList);
+
   if (userList.length > 0) {
     return (
       <>
