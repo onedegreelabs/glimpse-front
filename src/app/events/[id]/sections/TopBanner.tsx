@@ -29,7 +29,8 @@ export default function TopBanner({
           <div className={styles['flex-area']}>
             <div className={styles['info-type']}>
               <Chip
-                label={eventType}
+                // label={eventType}
+                label={'offline'}
                 height={28}
                 backgroundColor="#7E51FD"
                 borderRadius={4}

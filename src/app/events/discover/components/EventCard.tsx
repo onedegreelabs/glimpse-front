@@ -4,12 +4,13 @@ import Image from 'next/image';
 import IconText from '@/components/iconText/IconText';
 import {EventDataType} from '@/types/eventTypes';
 import {useRouter} from 'next/navigation';
+import {EventDataType2} from '@/types/rocketTypes';
 
 export default function EventCard({
   eventData,
   pageType,
 }: {
-  eventData: EventDataType;
+  eventData: EventDataType2;
   pageType: string;
 }) {
   const makeTimeText = (dateTimeString: Date) => {
@@ -20,27 +21,30 @@ export default function EventCard({
   };
   const startTime = makeTimeText(eventData?.startAt) || '';
 
-  const makeLocationText = () => {
-    if (eventData.type === 'Online') {
-      return eventData.externalLink;
-    } else {
-      const regionArr = eventData.region;
-      return `${regionArr.twoDepth} ${regionArr.threeDepth} ${eventData.detailAddress}`;
-    }
-  };
-  const locationText = makeLocationText();
+  // const makeLocationText = () => {
+  //   if (eventData.type === 'Online') {
+  //     return eventData.externalLink;
+  //   } else {
+  //     const regionArr = eventData.region;
+  //     return `${regionArr.twoDepth} ${regionArr.threeDepth} ${eventData.detailAddress}`;
+  //   }
+  // };
+  // const locationText = makeLocationText();
 
-  const makeOrganizerText = () => {
-    const organizer = eventData?.organizer;
-    if (organizer.givenName || organizer.familyName) {
-      const organizerName =
-        organizer.givenName &&
-        organizer.givenName + organizer.familyName &&
-        organizer.familyName;
-      return organizerName;
-    } else return 'there is no host';
-  };
-  const organizerText = makeOrganizerText();
+  const locationText = eventData.location.shortAddress;
+
+  // const makeOrganizerText = () => {
+  //   const organizer = eventData?.organizer;
+  //   if (organizer.givenName || organizer.familyName) {
+  //     const organizerName =
+  //       organizer.givenName &&
+  //       organizer.givenName + organizer.familyName &&
+  //       organizer.familyName;
+  //     return organizerName;
+  //   } else return 'there is no host';
+  // };
+  // const organizerText = makeOrganizerText();
+  const organizerText = eventData.organizers[0].name;
 
   const router = useRouter();
   const resUrl = window.location.href;
@@ -62,7 +66,7 @@ export default function EventCard({
       >
         <div className={styles['image-box']}>
           <Image
-            src="/assets/events/test.jpg"
+            src={eventData.coverImage}
             alt={'event-image'}
             width={200}
             height={200}
@@ -99,7 +103,11 @@ export default function EventCard({
             <div className={styles['host-area']}>
               <div className={styles['host-img-box']}>
                 <Image
-                  src={'/icons/profile_image.jpg'}
+                  src={
+                    eventData.organizers[0].profileImage
+                      ? eventData.organizers[0].profileImage
+                      : '/icons/profile_image.svg'
+                  }
                   alt="host-profile-img"
                   width={12}
                   height={12}

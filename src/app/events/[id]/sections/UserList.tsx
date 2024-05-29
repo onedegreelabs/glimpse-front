@@ -7,6 +7,7 @@ import SearchWrapper from '../components/SearchWrapper';
 import FilteringWrapper from '../components/FilteringWrapper';
 import {eventUserDataType, EventDataType} from '@/types/eventTypes';
 import {useRouter} from 'next/navigation';
+import {EventDataType2, eventUserDataType2} from '@/types/rocketTypes';
 
 export default function UserList({
   eventDetailData,
@@ -14,19 +15,22 @@ export default function UserList({
   isHost,
   setModal,
 }: {
-  eventDetailData: EventDataType;
-  eventUserData: eventUserDataType[];
+  eventDetailData: EventDataType2;
+  eventUserData: eventUserDataType2[];
   isHost: boolean;
   setModal: React.Dispatch<
     React.SetStateAction<{type: string; id: number; isOpen: boolean}>
   >;
 }) {
-  const [userList, setUserList] = useState<eventUserDataType[]>([]);
+  // const [userList, setUserList] = useState<eventUserDataType[]>([]);
+  const [userList, setUserList] = useState<eventUserDataType2[]>([]);
 
   useEffect(() => {
     if (eventUserData) {
       const tempList = [...eventUserData];
-      const hostIndex = tempList.findIndex(item => item.role === 'Organizer');
+      const hostIndex = tempList.findIndex(
+        item => item.roleType === 'Organizer'
+      );
       // host를 리스트 가장 앞으로 배치
       if (hostIndex !== -1) {
         const [item] = tempList.splice(hostIndex, 1);
@@ -35,8 +39,11 @@ export default function UserList({
       setUserList(tempList);
     }
   }, [eventUserData]);
+  // const [userListForRender, setUserListForRender] = useState<
+  //   eventUserDataType[]
+  // >([]);
   const [userListForRender, setUserListForRender] = useState<
-    eventUserDataType[]
+    eventUserDataType2[]
   >([]);
 
   useEffect(() => {
@@ -47,10 +54,11 @@ export default function UserList({
 
   const onSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const keyword = e.target.value;
-    console.log(keyword);
+
     if (keyword !== '') {
       const filtered = userList.filter(data => {
-        const name = data?.user?.name || '';
+        // const name = data?.user?.name || '';
+        const name = data?.name || '';
         return name.includes(keyword);
       });
       setUserListForRender(filtered);

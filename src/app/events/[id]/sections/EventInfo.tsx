@@ -4,10 +4,11 @@ import {getDateTextFromDateObj, getTimeTextFromDateObj} from '@/lib/utils';
 import Image from 'next/image';
 import {EventDataType} from '@/types/eventTypes';
 import {useEffect, useState} from 'react';
+import {EventDataType2} from '@/types/rocketTypes';
 export default function EventInfo({
   eventDetailData,
 }: {
-  eventDetailData: EventDataType;
+  eventDetailData: EventDataType2;
 }) {
   const [location, setLocation] = useState('');
   const [description, setDescription] = useState('');
@@ -25,7 +26,8 @@ export default function EventInfo({
       );
       setEndTimeText(getTimeTextFromDateObj(new Date(eventDetailData?.endAt)));
       if (eventDetailData.type === 'Offline') {
-        const location = `${eventDetailData.region.oneDepth} ${eventDetailData.region.twoDepth} ${eventDetailData.region.threeDepth} ${eventDetailData.detailAddress}`;
+        // const location = `${eventDetailData.region.oneDepth} ${eventDetailData.region.twoDepth} ${eventDetailData.region.threeDepth} ${eventDetailData.detailAddress}`;
+        const location = `${eventDetailData?.location?.detailAddress}`;
         setLocation(location);
       } else {
         setLocation(eventDetailData.externalLink);

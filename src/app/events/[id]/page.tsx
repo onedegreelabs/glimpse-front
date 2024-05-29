@@ -12,12 +12,14 @@ import {
 import {usePathname} from 'next/navigation';
 import {useEffect, useState} from 'react';
 import MailModal from './components/MailModal';
+import {useEventDetail2, useEventUser2} from '@/hooks/swr/roketmixerAPI';
 
 export default function EventDetailPage() {
   const pathname = usePathname();
   const pathnameList = pathname?.split('/');
   const eventHandle = pathnameList?.[pathnameList.length - 1] || '';
-  const {data} = useEventDetail(eventHandle);
+  // const {data} = useEventDetail(eventHandle);
+  const {data} = useEventDetail2(eventHandle);
   const [eventId, setEventId] = useState(0);
   const myEvents = useMyEventList(100); // // host 판별 임시 API(API 나오기 전)
   const [modal, setModal] = useState({type: '', id: 0, isOpen: false});
@@ -33,7 +35,8 @@ export default function EventDetailPage() {
     }
   }, [data]);
 
-  const {data: eventUserData} = useEventUser(eventId, 100);
+  // const {data: eventUserData} = useEventUser(eventId, 100);
+  const {data: eventUserData} = useEventUser2(eventId, 100);
 
   function onCloseModal() {
     setModal(prev => ({...prev, isOpen: false}));

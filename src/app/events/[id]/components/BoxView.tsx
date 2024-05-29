@@ -8,12 +8,13 @@ import Image from 'next/image';
 import {eventUserDataType} from '@/types/eventTypes';
 import EmptyUser from './EpmtyUser';
 import {useEffect, useState} from 'react';
+import {eventUserDataType2} from '@/types/rocketTypes';
 
 export default function BoxView({
   userList,
   setModal,
 }: {
-  userList: eventUserDataType[];
+  userList: eventUserDataType2[];
   setModal: React.Dispatch<
     React.SetStateAction<{type: string; id: number; isOpen: boolean}>
   >;
@@ -39,44 +40,50 @@ export default function BoxView({
 
   const SNS_IMAGE_SRC = [
     {
-      type: 'Github',
+      type: 'github',
       src: '/assets/sns-link/github.svg',
     },
     {
-      type: 'Medium',
+      type: 'medium',
       src: '/assets/sns-link/medium.svg',
     },
     {
-      type: 'Figma',
+      type: 'figma',
       src: '/assets/sns-link/figma.svg',
     },
     {
-      type: 'Linkedin',
+      type: 'linkedin',
       src: '/assets/sns-link/linkedin.svg',
     },
     {
-      type: 'Dribble',
+      type: 'dribble',
       src: '/assets/sns-link/dribble.svg',
     },
     {
-      type: 'Instagram',
+      type: 'instagram',
       src: '/assets/sns-link/instagram.svg',
     },
     {
-      type: 'Facebook',
+      type: 'facebook',
       src: '/assets/sns-link/facebook.svg',
     },
     {
-      type: 'Web_etc',
+      type: 'web_etc',
       src: '/assets/sns-link/web_etc.svg',
     },
   ];
 
   const getImageSrcFromSnsLink = (snsLink: string) => {
-    const matchedItem = SNS_IMAGE_SRC.find(item => {
-      return snsLink === item.type;
-    });
-    const imgSrc: string = matchedItem
+    // const matchedItem = SNS_IMAGE_SRC.find(item => {
+    //   return snsLink === item.type;
+    // });
+    // const imgSrc: string = matchedItem
+    //   ? matchedItem.src
+    //   : '/assets/sns-link/web_etc.svg';
+
+    const matchedItem = SNS_IMAGE_SRC.find(sns => snsLink.includes(sns.type));
+
+    const imgSrc = matchedItem
       ? matchedItem.src
       : '/assets/sns-link/web_etc.svg';
 
@@ -108,7 +115,8 @@ export default function BoxView({
               <div
                 className={styles['glimpse-list-wrapper']}
                 onClick={() => {
-                  onClickCard(data.user.id);
+                  // onClickCard(data.user.id);
+                  onClickCard(data.id);
                 }}
               >
                 <div className={styles['card-header']}>
@@ -153,20 +161,24 @@ export default function BoxView({
                 </div>
                 <div className={styles['profile-wrapper']}>
                   <div>
-                    <p className={styles['profile-name']}>{data?.user?.name}</p>
+                    <p className={styles['profile-name']}>
+                      {/* {data?.user?.name} */}
+                      {data?.name}
+                    </p>
                     <IconText
                       src={'/assets/glimpse-list/Location.svg'}
                       alt={'위치 아이콘'}
                       width={16}
                       height={16}
-                      text={'San Fancisco, USA'}
+                      // text={'San Fancisco, USA'}
+                      text={data?.location ? data?.location : '-'}
                       fontsize={12}
                       gap={4}
                     />
                     <div className={styles['position-wrapper']}>
                       <Chip
                         key={index}
-                        label={data.user.belong}
+                        label={data.belong}
                         height={28}
                         backgroundColor={'#C1AEF6'}
                         borderRadius={4}
@@ -178,29 +190,35 @@ export default function BoxView({
                   <div className={styles['avatar-wrapper']}>
                     <Avatar
                       src={
-                        data?.user?.image
-                          ? data.user.image // 유저 이미지
+                        // data?.user?.image
+                        //   ? data.user.image // 유저 이미지
+                        //   : '/icons/profile_image.svg' // 대체 이미지
+                        data?.profileImage
+                          ? data.profileImage // 유저 이미지
                           : '/icons/profile_image.svg' // 대체 이미지
                       }
                       alt="프로필이미지"
                       height={70}
                       width={70}
                     />
-                    {data?.role === 'Organizer' && (
-                      <Image
-                        className={styles['host-badge']}
-                        src={'/icons/crown.svg'}
-                        width={16}
-                        height={16}
-                        alt="host-badge"
-                      />
-                    )}
+                    {
+                      // data?.role === 'Organizer'
+                      data?.roleType === 'Organizer' && (
+                        <Image
+                          className={styles['host-badge']}
+                          src={'/icons/crown.svg'}
+                          width={16}
+                          height={16}
+                          alt="host-badge"
+                        />
+                      )
+                    }
                   </div>
                 </div>
                 <div className={styles['intro-snippet']}>
-                  <p>{data.purpose}</p>
+                  <p>{data.bio}</p>
                 </div>
-                <div className={styles['hobby-wrapper']}>
+                {/* <div className={styles['hobby-wrapper']}>
                   {data.participantInterest.map(
                     (d: string | number, index: number) => (
                       <Chip
@@ -214,41 +232,45 @@ export default function BoxView({
                       />
                     )
                   )}
-                </div>
+                </div> */}
               </div>
               <div className={styles['link-wrapper']}>
-                {data.user.sns.map((snsItem, index: number) => (
-                  <Image
-                    key={`link_${index}`}
-                    src={getImageSrcFromSnsLink(snsItem.type)}
-                    alt={'img'}
-                    width={32}
-                    height={32}
-                    onClick={e => {
-                      e.stopPropagation();
-                      onClickSnsIcon(snsItem.account);
-                    }}
-                  />
-                ))}
-                <Image
+                {
+                  // data.user.sns.map((snsItem, index: number) => (
+                  data.socialLinks.map((snsItem, index: number) => (
+                    <Image
+                      key={`link_${index}`}
+                      // src={getImageSrcFromSnsLink(snsItem.type)}
+                      src={getImageSrcFromSnsLink(snsItem.url)}
+                      alt={'img'}
+                      width={32}
+                      height={32}
+                      onClick={e => {
+                        e.stopPropagation();
+                        onClickSnsIcon(snsItem.url);
+                      }}
+                    />
+                  ))
+                }
+                {/* <Image
                   src={'/icons/home-icon.svg'}
                   alt={'img'}
                   width={32}
                   height={32}
-                />
+                /> */}
                 <Image
                   src={'/icons/mail-icon.svg'}
                   alt={'img'}
                   width={32}
                   height={32}
-                  onClick={() => clickMail(data.user.id)}
+                  onClick={() => clickMail(data.id)}
                 />
-                <Image
+                {/* <Image
                   src={'/icons/calendar.svg'}
                   alt={'img'}
                   width={32}
                   height={32}
-                />
+                /> */}
               </div>
             </Card>
           </div>

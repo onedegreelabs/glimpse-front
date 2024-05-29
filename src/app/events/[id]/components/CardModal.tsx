@@ -3,10 +3,11 @@ import styles from './Cartmodal.module.scss';
 import {useEffect, useState} from 'react';
 import Image from 'next/image';
 import {useRouter} from 'next/navigation';
+import {eventUserDataType2} from '@/types/rocketTypes';
 
 interface CardModalProps {
   userId: number;
-  eventUserData: eventUserDataType[];
+  eventUserData: eventUserDataType2[];
   onCloseModal: () => void;
 }
 
@@ -15,22 +16,35 @@ export default function CardModal({
   eventUserData,
   onCloseModal,
 }: CardModalProps) {
-  const [userInfo, setUserInfo] = useState<eventUserDataType | null>(null);
+  const [userInfo, setUserInfo] = useState<eventUserDataType2 | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    const curUser = eventUserData.find(user => user.user.id === userId) || null;
+    // const curUser = eventUserData.find(user => user.user.id === userId) || null;
+    const curUser = eventUserData.find(user => user.id === userId) || null;
 
     setUserInfo(curUser);
   }, [userId, eventUserData]);
 
+  // 모달 바깥 영역 클릭시 모달 종료
   const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    // 모달 영역 외부를 클릭하면 모달을 닫습니다.
     if (event.target === event.currentTarget) {
       onCloseModal();
     }
   };
 
+  // ESC 눌렀을 때 모달 종료
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' || event.keyCode === 27) {
+        onCloseModal();
+      }
+    };
+
+    // 키보드 이벤트 리스너 등록
+    document.addEventListener('keydown', handleKeyDown);
+  }, []);
+  console.log(userInfo);
   return (
     <div className={styles['backdrop']} onClick={handleBackdropClick}>
       <div className={styles['card-modal']}>
@@ -56,7 +70,8 @@ export default function CardModal({
           <div className={styles['header']}>
             <div className={styles['user-name']}>
               Name
-              <div className={styles['bold']}>{userInfo?.user.name}</div>
+              {/* <div className={styles['bold']}>{userInfo?.user.name}</div> */}
+              <div className={styles['bold']}>{userInfo?.name}</div>
             </div>
             <div className={styles['profile-img']}>
               <Image
@@ -72,30 +87,48 @@ export default function CardModal({
           <div className={styles['body']}>
             <div className={styles['row']}>
               <label>Organization</label>
-              <div>{userInfo?.user?.belong}</div>
+              {/* <div>{userInfo?.user?.belong}</div> */}
+              <div>{userInfo?.location ? userInfo?.location : '-'}</div>
             </div>
             <div className={styles['row']}>
               <label>Role</label>
-              <div>{userInfo?.role}</div>
+              <div>{userInfo?.roleType}</div>
             </div>
             <div className={styles['row']}>
               <label>Purpose</label>
-              <div>{userInfo?.purpose}</div>
+              {/* <div>{userInfo?.purpose}</div> */}
+              <div>{userInfo?.bio}</div>
+            </div>
+            <div className={styles['row']}>
+              <label>Email</label>
+              {/* <div>{userInfo?.user?.sns[0]?.account}</div> */}
+              <div>{userInfo?.email}</div>
+            </div>
+            <div className={styles['row']}>
+              <label>Tags</label>
+              {/* <div>{userInfo?.purpose}</div> */}
+              <div>
+                {userInfo?.tags.map(tag => {
+                  return <p key={tag.id}>{tag.name}</p>;
+                })}
+              </div>
+            </div>
+            <div className={styles['row']}>
+              <label>Specialization</label>
+              {/* <div>{userInfo?.user?.sns[0]?.account}</div> */}
+              <div>{userInfo?.specialization}</div>
             </div>
             <div className={styles['row']}>
               <label>Company Website</label>
-              <div>{userInfo?.user?.sns[0]?.account}</div>
+              {/* <div>{userInfo?.user?.sns[0]?.account}</div> */}
+              <div>{userInfo?.socialLinks[0]?.url}</div>
             </div>
             <div className={styles['row']}>
-              <label>Purpose</label>
-              <div>{userInfo?.purpose}</div>
-            </div>
-            <div className={styles['row']}>
-              <label>Company Website</label>
-              <div>{userInfo?.user?.sns[0]?.account}</div>
+              <label>Position</label>
+              {/* <div>{userInfo?.user?.sns[0]?.account}</div> */}
+              <div>{userInfo?.position}</div>
             </div>
           </div>
-          <div className={styles['']}>데이터 업데이트 되면 작업 예정..</div>
         </div>
       </div>
     </div>

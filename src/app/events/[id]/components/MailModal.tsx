@@ -2,11 +2,12 @@ import {eventUserDataType, EventDataType} from '@/types/eventTypes';
 import styles from './MailModal.module.scss';
 import {useEffect, useState} from 'react';
 import Image from 'next/image';
+import {EventDataType2, eventUserDataType2} from '@/types/rocketTypes';
 
 interface MailModalProps {
   userId: number;
-  eventDetailData: EventDataType;
-  eventUserData: eventUserDataType[];
+  eventDetailData: EventDataType2;
+  eventUserData: eventUserDataType2[];
   onCloseModal: () => void;
 }
 
@@ -16,7 +17,7 @@ export default function MailModal({
   eventUserData,
   onCloseModal,
 }: MailModalProps) {
-  const [userInfo, setUserInfo] = useState<eventUserDataType | null>(null);
+  const [userInfo, setUserInfo] = useState<eventUserDataType2 | null>(null);
 
   const dateString = new Date(eventDetailData.startAt).toLocaleDateString(
     'ko-KR',
@@ -28,7 +29,8 @@ export default function MailModal({
   );
 
   useEffect(() => {
-    const curUser = eventUserData.find(user => user.user.id === userId) || null;
+    // const curUser = eventUserData.find(user => user.user.id === userId) || null;
+    const curUser = eventUserData.find(user => user.id === userId) || null;
 
     setUserInfo(curUser);
   }, [userId, eventUserData]);
@@ -62,7 +64,9 @@ export default function MailModal({
             </p>
           </div>
           <div className={styles['content']}>
+            <p>받는 사람 : {userInfo?.email}</p>
             <p>
+              <br />
               title :<br />
               {dateString} {eventDetailData.title}에서 뵈었던 {'{ 이름 입력 }'}{' '}
               입니다.🙌
@@ -71,7 +75,7 @@ export default function MailModal({
               <br />
               body:
               <br />
-              {`안녕하세요, ${eventDetailData.title} 에서 참가했던 '{ 직접 입력 }'
+              {`안녕하세요, ${eventDetailData.title} 에서 참가했던 { 직접 입력 }
     에 관해 논의해보고 싶어 이메일 드립니다. 이메일 편을 통해서 더
     추가적으로 이야기나눠볼 수 있으면 좋겠습니다.`}
             </p>
@@ -84,7 +88,7 @@ export default function MailModal({
               const body = encodeURIComponent(
                 `안녕하세요, ${eventDetailData.title}에서 참가했던 { 직접 입력 }에 관해 논의해보고 싶어 이메일 드립니다.`
               );
-              window.location.href = `mailto:saasduckwho@gmail.com?subject=${subject}&body=${body}`;
+              window.location.href = `mailto:${userInfo?.email}.com?subject=${subject}&body=${body}`;
             }}
           >
             이메일 작성 후 전송하기
