@@ -69,3 +69,8 @@ export interface eventUserDataType2 {
   tags: Tag[];
   socialLinks: SocialLink[];
 }
+
+export interface DayEventProps2 {
+  date: string;
+  events: EventDataType2[];
+}

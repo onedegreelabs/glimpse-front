@@ -54,7 +54,6 @@ export default function EventRsvpContainer() {
   const router = useRouter();
 
   useEffect(() => {
-    console.log('effect start');
     if (detailData?.data?.id) {
       setEventId(detailData.data.id);
     }

@@ -8,12 +8,14 @@ import _ from 'lodash';
 import {DayEventProps} from '@/types/eventTypes';
 import clsx from 'clsx';
 import {useEventData} from '@/hooks/swr/roketmixerAPI';
+import {DayEventProps2} from '@/types/rocketTypes';
 
 export default function EventDiscoverPage() {
   const [isEmptyEvent, setIsEmptyEvent] = useState(true);
   // const {data, error, isLoading} = useEventList(100);
   const {data, error, isLoading} = useEventData();
-  const [eventsByDate, setEventsByDate] = useState<DayEventProps[]>([]);
+  // const [eventsByDate, setEventsByDate] = useState<DayEventProps[]>([]);
+  const [eventsByDate, setEventsByDate] = useState<DayEventProps2[]>([]);
 
   useEffect(() => {
     if (data?.data) {

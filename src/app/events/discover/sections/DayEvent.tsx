@@ -3,10 +3,11 @@ import styles from './dayEvent.module.scss';
 import EventCard from '../components/EventCard';
 import {EventDataType} from '@/types/eventTypes';
 import {useEffect, useState} from 'react';
+import {EventDataType2} from '@/types/rocketTypes';
 
 interface DayEventProps {
+  data: EventDataType2[];
   date: string;
-  data: EventDataType[];
   pageType: string;
 }
 
@@ -53,6 +54,7 @@ export default function DayEvent({data, date, pageType}: DayEventProps) {
       setDateText(formatDate(date));
     }
   }, [date]);
+
   return (
     <div className={styles['day-event-wrapper']}>
       <div className={styles['date-text']}>{dateText}</div>

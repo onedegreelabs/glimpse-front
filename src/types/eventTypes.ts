@@ -40,6 +40,11 @@ export interface DayEventProps {
   events: EventDataType[];
 }
 
+export interface DayEventProps {
+  date: string;
+  events: EventDataType[];
+}
+
 export interface eventUserDataType {
   createdAt: string;
   eventId: number;
