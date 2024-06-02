@@ -15,7 +15,7 @@ export default function EventInfo({
   const [dateText, setDateTimeText] = useState('');
   const [startTimeText, setStartTimeText] = useState('');
   const [endTimeText, setEndTimeText] = useState('');
-  console.log(eventDetailData);
+
   useEffect(() => {
     if (eventDetailData) {
       setDateTimeText(
@@ -49,8 +49,8 @@ export default function EventInfo({
               <Image
                 src={'/assets/glimpse-list/calendar-icon.svg'}
                 alt={'달력 아이콘'}
-                width={16}
-                height={16}
+                width={19}
+                height={19}
               />
               <div>{dateText}</div>
             </div>
@@ -58,8 +58,8 @@ export default function EventInfo({
               <Image
                 src={'/assets/glimpse-list/Clock.svg'}
                 alt={'시계 아이콘'}
-                width={16}
-                height={16}
+                width={19}
+                height={19}
               />
               <div>
                 {startTimeText} - {endTimeText} (KST)
@@ -103,24 +103,34 @@ export default function EventInfo({
             <Image
               src={'/assets/glimpse-list/Location.svg'}
               alt={'위치 아이콘'}
-              width={16}
-              height={16}
+              width={19}
+              height={19}
             />
-            <div>{eventDetailData?.location.shortAddress}</div>
+            <div>{eventDetailData?.location.detailAddress}</div>
           </div>
-          {eventDetailData?.externalLink && (
-            <div
-              className={styles['external-link-box']}
-              onClick={() => {
-                window.open(eventDetailData.externalLink);
-              }}
-            >
-              {eventDetailData.externalLink}
-            </div>
-          )}
+          <div className={styles['event-date-wrapper']}>
+            <Image
+              src={'/assets/glimpse-list/Link.svg'}
+              alt={'시계 아이콘'}
+              width={19}
+              height={19}
+            />
+            {eventDetailData?.externalLink ? (
+              <div
+                className={styles['external-link-box']}
+                onClick={() => {
+                  window.open(eventDetailData.externalLink, '_blank');
+                }}
+              >
+                {eventDetailData.externalLink}
+              </div>
+            ) : (
+              <div>{'-'}</div>
+            )}
+          </div>
         </div>
         <div className={styles['devent-description-wrapper']}>
-          <p className={styles['about-text']}>About</p>
+          <p className={styles['about-text']}>About Event</p>
           <EventDescription description={description} />
         </div>
       </section>
