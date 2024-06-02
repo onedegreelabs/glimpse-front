@@ -112,7 +112,7 @@ export default function BoxView({
       <>
         {userList.map((data, index) => (
           <div key={`profile-card-${index}`} className={styles['card-wrapper']}>
-            <Card key={data.id} height={340} width={340}>
+            <Card key={data.id} height={250} width={340}>
               <div
                 className={styles['glimpse-list-wrapper']}
                 onClick={() => {
@@ -161,33 +161,6 @@ export default function BoxView({
                   </div> */}
                 </div>
                 <div className={styles['profile-wrapper']}>
-                  <div>
-                    <p className={styles['profile-name']}>
-                      {/* {data?.user?.name} */}
-                      {data?.name}
-                    </p>
-                    <IconText
-                      src={'/assets/glimpse-list/Location.svg'}
-                      alt={'위치 아이콘'}
-                      width={16}
-                      height={16}
-                      // text={'San Fancisco, USA'}
-                      text={data?.location ? data?.location : '-'}
-                      fontsize={12}
-                      gap={4}
-                    />
-                    <div className={styles['position-wrapper']}>
-                      <Chip
-                        key={index}
-                        label={data.belong}
-                        height={28}
-                        backgroundColor={'#C1AEF6'}
-                        borderRadius={4}
-                        fontSize={12}
-                        fontWeight={600}
-                      />
-                    </div>
-                  </div>
                   <div className={styles['avatar-wrapper']}>
                     <Avatar
                       src={
@@ -199,21 +172,49 @@ export default function BoxView({
                           : '/icons/profile_image.svg' // 대체 이미지
                       }
                       alt="프로필이미지"
-                      height={70}
-                      width={70}
+                      height={80}
+                      width={80}
                     />
                     {
                       // data?.role === 'Organizer'
                       data?.roleType === 'Organizer' && (
                         <Image
                           className={styles['host-badge']}
-                          src={'/icons/crown.svg'}
-                          width={16}
-                          height={16}
+                          src={'/icons/profile/hostBadge.svg'}
+                          width={85}
+                          height={85}
                           alt="host-badge"
                         />
                       )
                     }
+                  </div>
+                  <div>
+                    <p className={styles['profile-name']}>
+                      {/* {data?.user?.name} */}
+                      {data?.name}
+                    </p>
+                    {/* <IconText
+                      src={'/assets/glimpse-list/Location.svg'}
+                      alt={'위치 아이콘'}
+                      width={16}
+                      height={16}
+                      // text={'San Fancisco, USA'}
+                      text={data?.location ? data?.location : '-'}
+                      fontsize={12}
+                      gap={4}
+                    /> */}
+                    <div className={styles['position-wrapper']}>
+                      {/* <Chip
+                        key={index}
+                        label={data.belong}
+                        height={28}
+                        backgroundColor={'#C1AEF6'}
+                        borderRadius={4}
+                        fontSize={12}
+                        fontWeight={600}
+                      /> */}
+                      {data.belong}
+                    </div>
                   </div>
                 </div>
                 <div className={styles['intro-snippet']}>
@@ -253,12 +254,6 @@ export default function BoxView({
                     />
                   ))
                 }
-                {/* <Image
-                  src={'/icons/home-icon.svg'}
-                  alt={'img'}
-                  width={32}
-                  height={32}
-                /> */}
                 <Image
                   src={'/icons/mail-icon.svg'}
                   alt={'img'}
