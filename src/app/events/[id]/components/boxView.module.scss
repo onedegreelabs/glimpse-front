@@ -1,7 +1,7 @@
 .card-wrapper {
   position: relative;
   cursor: pointer;
-  border-radius: 15px;
+  border-radius: 48px 20px 20px 20px;
   transition: transform 0.3s ease;
 
   &:hover {
@@ -12,12 +12,12 @@
 
 .glimpse-list-wrapper {
   display: flex;
-  padding: 16px 20px;
-  gap: 10px;
+  padding: 7px 14px;
   flex-shrink: 0;
   flex-direction: column;
+  gap: 7px;
   justify-content: center;
-  height: 340px;
+  // height: 340px;
 
   .card-header {
     display: flex;
@@ -43,19 +43,28 @@
   .profile-wrapper {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    gap: 14px;
     align-items: center;
 
     .profile-name {
       max-width: 157px;
-      font-size: 18px;
-      font-weight: 400;
+      width: 211px;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 23.87px;
+      text-align: left;
     }
 
     .position-wrapper {
-      margin-top: 8px;
+      margin-top: 4px;
       display: flex;
       gap: 10px;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 18px;
+      text-align: left;
+      color: #999999;
+
     }
 
     .avatar-wrapper {
@@ -64,7 +73,7 @@
       .host-badge {
         position: absolute;
         top: 0;
-        left: 90%;
+        left: -2px;
       }
     }
   }
@@ -75,6 +84,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-line-clamp: 4;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 19.6px;
+    text-align: left;
+
   }
 
   .hobby-wrapper {
