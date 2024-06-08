@@ -3,10 +3,9 @@ import styles from './dayEvent.module.scss';
 import EventCard from '../components/EventCard';
 import {EventDataType} from '@/types/eventTypes';
 import {useEffect, useState} from 'react';
-import {EventDataType2} from '@/types/rocketTypes';
 
 interface DayEventProps {
-  data: EventDataType2[];
+  data: EventDataType[];
   date: string;
   pageType: string;
 }

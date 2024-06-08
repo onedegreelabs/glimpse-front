@@ -17,8 +17,3 @@ export const customAxios = axios.create({
   baseURL: Env['glimpse-rsvp'],
   withCredentials: true,
 });
-
-export const customAxios2 = axios.create({
-  baseURL: Env['everythingstudygroup'],
-  withCredentials: true,
-});

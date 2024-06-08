@@ -7,7 +7,6 @@ import SearchWrapper from '../components/SearchWrapper';
 import FilteringWrapper from '../components/FilteringWrapper';
 import {eventUserDataType, EventDataType} from '@/types/eventTypes';
 import {useRouter} from 'next/navigation';
-import {EventDataType2, eventUserDataType2} from '@/types/rocketTypes';
 
 export default function UserList({
   eventDetailData,
@@ -15,22 +14,19 @@ export default function UserList({
   isHost,
   setModal,
 }: {
-  eventDetailData: EventDataType2;
-  eventUserData: eventUserDataType2[];
+  eventDetailData: EventDataType;
+  eventUserData: eventUserDataType[];
   isHost: boolean;
   setModal: React.Dispatch<
     React.SetStateAction<{type: string; id: number; isOpen: boolean}>
   >;
 }) {
-  // const [userList, setUserList] = useState<eventUserDataType[]>([]);
-  const [userList, setUserList] = useState<eventUserDataType2[]>([]);
+  const [userList, setUserList] = useState<eventUserDataType[]>([]);
 
   useEffect(() => {
     if (eventUserData) {
       const tempList = [...eventUserData];
-      const hostIndex = tempList.findIndex(
-        item => item.roleType === 'Organizer'
-      );
+      const hostIndex = tempList.findIndex(item => item.role === 'Organizer');
       // host를 리스트 가장 앞으로 배치
       if (hostIndex !== -1) {
         const [item] = tempList.splice(hostIndex, 1);
@@ -39,11 +35,8 @@ export default function UserList({
       setUserList(tempList);
     }
   }, [eventUserData]);
-  // const [userListForRender, setUserListForRender] = useState<
-  //   eventUserDataType[]
-  // >([]);
   const [userListForRender, setUserListForRender] = useState<
-    eventUserDataType2[]
+    eventUserDataType[]
   >([]);
 
   useEffect(() => {
@@ -57,8 +50,7 @@ export default function UserList({
 
     if (keyword !== '') {
       const filtered = userList.filter(data => {
-        // const name = data?.user?.name || '';
-        const name = data?.name || '';
+        const name = data?.user?.name || '';
         return name.includes(keyword);
       });
       setUserListForRender(filtered);
@@ -82,25 +74,9 @@ export default function UserList({
   return (
     <>
       <div className={styles['control-section-wrapper']}>
-        {/* 로켓 믹서 전용 프로필 정보 업데이트 요청 버튼*/}
-        {eventDetailData?.title === 'Rocket Mixer - Seoul' && (
-          <div
-            className={styles['rsvp-button']}
-            onClick={() =>
-              window.open(
-                'https://docs.google.com/forms/d/e/1FAIpQLSeYQGmuBcUXMTE9QHzgnBpyQkbhrimkGw590fJSFVALNbiQ2Q/viewform?usp=sf_link',
-                '_blank'
-              )
-            }
-          >
-            Profile card update request
-          </div>
-        )}
-        {eventDetailData?.title !== 'Rocket Mixer - Seoul' && (
-          <div className={styles['rsvp-button']} onClick={moveToRsvp}>
-            {isHost ? 'Go to Event Management' : 'RSVP Now'}
-          </div>
-        )}
+        <div className={styles['rsvp-button']} onClick={moveToRsvp}>
+          {isHost ? 'Go to Event Management' : 'RSVP Now'}
+        </div>
         <section className={styles['search-area']}>
           <p className={styles['list-title']}>
             Participants <span>{userListForRender.length}</span>
