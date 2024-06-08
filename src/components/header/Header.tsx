@@ -106,15 +106,6 @@ export default function Header() {
     <div className={styles['header-wrapper']}>
       <div className={styles['header-top']}>
         <Image
-          alt="rocketmixer-logo"
-          src={'/assets/header/rocketmixer-logo.svg'}
-          width={124}
-          height={24}
-          onClick={() => {
-            window.open('https://www.rocketmixer.club/', '_blank');
-          }}
-        />
-        {/* <Image
           alt="glimpse-logo"
           src={'/icons/header/glimpse_logo.svg'}
           width={124}
@@ -122,7 +113,7 @@ export default function Header() {
           onClick={() => {
             moveToPage('/');
           }}
-        /> */}
+        />
         <Image
           alt="open-menu-icon"
           src={'/icons/burger.svg'}
@@ -136,8 +127,7 @@ export default function Header() {
       {showSetting && (
         <div className={styles['setting-wrapper']}>
           {/* <div className={styles['devidor']} /> */}
-          {/* 로켓 믹서 서비스를 위해 임시 주석처리 */}
-          {/* <div
+          <div
             className={styles['row-wrapper']}
             onClick={() => {
               moveToPage('my/profile');
@@ -177,8 +167,7 @@ export default function Header() {
               height={20}
             />
             <p>Language</p>
-          </div> */}
-          {/* 로켓 믹서 서비스를 위한 요청 코드 */}
+          </div>
           <div
             className={styles['row-wrapper']}
             onClick={() => {

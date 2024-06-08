@@ -3,11 +3,10 @@ import styles from './Cartmodal.module.scss';
 import {useEffect, useState} from 'react';
 import Image from 'next/image';
 import {useRouter} from 'next/navigation';
-import {eventUserDataType2} from '@/types/rocketTypes';
 
 interface CardModalProps {
   userId: number;
-  eventUserData: eventUserDataType2[];
+  eventUserData: eventUserDataType[];
   onCloseModal: () => void;
 }
 
@@ -16,12 +15,11 @@ export default function CardModal({
   eventUserData,
   onCloseModal,
 }: CardModalProps) {
-  const [userInfo, setUserInfo] = useState<eventUserDataType2 | null>(null);
+  const [userInfo, setUserInfo] = useState<eventUserDataType | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    // const curUser = eventUserData.find(user => user.user.id === userId) || null;
-    const curUser = eventUserData.find(user => user.id === userId) || null;
+    const curUser = eventUserData.find(user => user.user.id === userId) || null;
 
     setUserInfo(curUser);
   }, [userId, eventUserData]);
@@ -70,8 +68,7 @@ export default function CardModal({
           <div className={styles['header']}>
             <div className={styles['user-name']}>
               Name
-              {/* <div className={styles['bold']}>{userInfo?.user.name}</div> */}
-              <div className={styles['bold']}>{userInfo?.name}</div>
+              <div className={styles['bold']}>{userInfo?.user.name}</div>
             </div>
             <div className={styles['profile-img']}>
               <Image
@@ -87,46 +84,19 @@ export default function CardModal({
           <div className={styles['body']}>
             <div className={styles['row']}>
               <label>Organization</label>
-              {/* <div>{userInfo?.user?.belong}</div> */}
-              <div>{userInfo?.location ? userInfo?.location : '-'}</div>
+              <div>{userInfo?.user?.belong}</div>
             </div>
             <div className={styles['row']}>
               <label>Role</label>
-              <div>{userInfo?.roleType}</div>
+              <div>{userInfo?.role}</div>
             </div>
             <div className={styles['row']}>
               <label>Purpose</label>
-              {/* <div>{userInfo?.purpose}</div> */}
-              <div>{userInfo?.bio}</div>
+              <div>{userInfo?.purpose}</div>
             </div>
             <div className={styles['row']}>
-              <label>Email</label>
-              {/* <div>{userInfo?.user?.sns[0]?.account}</div> */}
-              <div>{userInfo?.email}</div>
-            </div>
-            <div className={styles['row']}>
-              <label>Tags</label>
-              {/* <div>{userInfo?.purpose}</div> */}
-              <div>
-                {userInfo?.tags.map(tag => {
-                  return <p key={tag.id}>{tag.name}</p>;
-                })}
-              </div>
-            </div>
-            <div className={styles['row']}>
-              <label>Specialization</label>
-              {/* <div>{userInfo?.user?.sns[0]?.account}</div> */}
-              <div>{userInfo?.specialization}</div>
-            </div>
-            <div className={styles['row']}>
-              <label>Company Website</label>
-              {/* <div>{userInfo?.user?.sns[0]?.account}</div> */}
-              <div>{userInfo?.socialLinks[0]?.url}</div>
-            </div>
-            <div className={styles['row']}>
-              <label>Position</label>
-              {/* <div>{userInfo?.user?.sns[0]?.account}</div> */}
-              <div>{userInfo?.position}</div>
+              <label>Account</label>
+              <div>{userInfo?.user?.sns[0]?.account ?? '-'}</div>
             </div>
           </div>
         </div>

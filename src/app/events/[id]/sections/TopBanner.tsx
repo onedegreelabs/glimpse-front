@@ -21,7 +21,7 @@ export default function TopBanner({
           src={coverImage}
           alt="이벤트 썸네일"
           width={728}
-          height={80}
+          height={180}
         />
       )}
       <div className={styles['event-info-wrapper']}>
