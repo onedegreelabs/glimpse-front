@@ -13,7 +13,7 @@
       font-size: 35px;
       font-weight: 700;
       line-height: 130%;
-      color: #7E51FD;
+      color: #7e51fd;
     }
 
     .external-link-box {
@@ -52,9 +52,16 @@
         align-items: start;
         font-size: 18.5px;
         font-weight: 500;
+        width: 100%;
 
         img {
           margin-top: 2px;
+        }
+
+        div {
+          text-wrap: wrap;
+          width: 100%;
+          flex-shrink: 0;
         }
       }
 
@@ -94,7 +101,7 @@
         font-weight: 700;
         line-height: 27.43px;
         text-align: left;
-        color: #7E51FD;
+        color: #7e51fd;
       }
     }
   }
