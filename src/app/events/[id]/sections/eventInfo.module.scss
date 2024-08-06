@@ -51,7 +51,8 @@
       }
 
       .event-date-wrapper {
-        display: flex;
+        display: grid;
+        grid-template-columns: auto 1fr;
         gap: 8px;
         align-items: start;
         font-size: 18.5px;
