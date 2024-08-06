@@ -40,10 +40,12 @@
     .event-info-top-wrapper {
       display: grid;
       gap: 21px;
+      width: 100%;
 
       .event-date-reactive-wrapper {
         display: flex;
         gap: 8px;
+        width: 100%;
       }
 
       .event-date-wrapper {
